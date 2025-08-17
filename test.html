@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试页面</title>
+    <style>
+        .hidden { display: none; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay.hidden { display: none; }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试页面</h1>
+    <button onclick="showLogin()">显示登录</button>
+    <button onclick="showRegister()">显示注册</button>
+    
+    <div class="overlay hidden" id="loginSection">
+        <div class="card">
+            <h2>登录页面</h2>
+            <button onclick="closeLogin()">关闭</button>
+        </div>
+    </div>
+    
+    <div class="overlay hidden" id="registerSection">
+        <div class="card">
+            <h2>注册页面</h2>
+            <button onclick="closeRegister()">关闭</button>
+        </div>
+    </div>
+    
+    <script>
+        function showLogin() {
+            console.log('显示登录页面');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+        
+        function showRegister() {
+            console.log('显示注册页面');
+            document.getElementById('registerSection').classList.remove('hidden');
+        }
+        
+        function closeLogin() {
+            document.getElementById('loginSection').classList.add('hidden');
+        }
+        
+        function closeRegister() {
+            document.getElementById('registerSection').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
+
