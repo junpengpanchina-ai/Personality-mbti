@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>直接JavaScript测试</title>
+</head>
+<body>
+    <h1>直接JavaScript测试</h1>
+    
+    <div id="output"></div>
+    
+    <script>
+        // 立即执行的测试
+        (function() {
+            var output = document.getElementById('output');
+            output.innerHTML = '<p style="color: green;">✅ JavaScript立即执行成功！</p>';
+            
+            // 测试DOM操作
+            var newDiv = document.createElement('div');
+            newDiv.innerHTML = '<p style="color: blue;">✅ DOM操作成功！</p>';
+            output.appendChild(newDiv);
+            
+            // 测试事件
+            var testBtn = document.createElement('button');
+            testBtn.textContent = '点击测试事件';
+            testBtn.onclick = function() {
+                alert('事件处理成功！');
+            };
+            output.appendChild(testBtn);
+            
+            // 测试控制台
+            console.log('控制台输出测试');
+            console.error('错误输出测试');
+            
+        })();
+    </script>
+    
+    <p>如果你看到上面的绿色和蓝色文字，说明JavaScript正常工作。</p>
+</body>
+</html>

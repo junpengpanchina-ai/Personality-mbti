@@ -110,7 +110,7 @@ MBTI（Myers-Briggs Type Indicator）是一种基于荣格类型学理论的人�
 - **构建工具**：Vite / Webpack
 
 ### 4.2 后端技术栈
-- **语言**：Node.js + Express / Python + Django
+- **语言**：Java + Spring Boot / Node.js + Express
 - **数据库**：PostgreSQL + Redis
 - **认证**：JWT + OAuth2.0
 - **API**：RESTful API + GraphQL

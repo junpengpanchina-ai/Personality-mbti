@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试关闭按钮功能</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .content {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-body {
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .status {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 MBTI人格测试</h1>
+            <p>测试关闭按钮的返回首页功能</p>
+        </div>
+        
+        <div class="content" id="mainContent">
+            <h2>欢迎来到MBTI测试首页</h2>
+            <p>这是首页内容，点击下面的按钮可以打开测试弹窗。</p>
+            <button class="btn" onclick="openTestModal()">开始测试</button>
+            
+            <div class="status">
+                <strong>状态：</strong>当前显示首页内容
+            </div>
+        </div>
+        
+        <div class="content hidden" id="testContent">
+            <h2>测试进行中...</h2>
+            <p>这是测试内容，点击关闭按钮应该返回首页。</p>
+            <button class="btn" onclick="openTestModal()">重新打开弹窗</button>
+            
+            <div class="status">
+                <strong>状态：</strong>当前显示测试内容
+            </div>
+        </div>
+    </div>
+    
+    <!-- 测试弹窗 -->
+    <div class="modal hidden" id="testModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🌟 星座+MBTI融合测试</h3>
+                <button class="close-btn" onclick="closeTestModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>测试弹窗已打开</h4>
+                <p>点击右上角的 × 按钮应该：</p>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>关闭弹窗</li>
+                    <li>返回首页内容</li>
+                    <li>显示状态更新</li>
+                </ul>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn" onclick="closeTestModal()">关闭弹窗</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openTestModal() {
+            // 显示弹窗
+            document.getElementById('testModal').classList.remove('hidden');
+            
+            // 隐藏首页内容，显示测试内容
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('testContent').classList.remove('hidden');
+            
+            // 更新状态
+            updateStatus('弹窗已打开，显示测试内容');
+        }
+        
+        function closeTestModal() {
+            // 关闭弹窗
+            document.getElementById('testModal').classList.add('hidden');
+            
+            // 返回首页 - 显示首页内容，隐藏测试内容
+            document.getElementById('mainContent').classList.remove('hidden');
+            document.getElementById('testContent').classList.add('hidden');
+            
+            // 更新状态
+            updateStatus('弹窗已关闭，返回首页内容');
+            
+            // 滚动到页面顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function updateStatus(message) {
+            const statusElements = document.querySelectorAll('.status');
+            statusElements.forEach(status => {
+                status.innerHTML = `<strong>状态：</strong>${message}`;
+            });
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('页面已加载，显示首页内容');
+        });
+    </script>
+</body>
+</html>
