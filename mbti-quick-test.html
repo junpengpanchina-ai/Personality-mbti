@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速 MBTI 测试</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1f2937;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+        .card {
+            background: rgba(255,255,255,0.98);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .header { text-align: center; color: #fff; margin: 24px 0; }
+        .header h1 { margin: 0 0 8px; font-size: 32px; }
+        .header p { margin: 0; opacity: 0.9; }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(102,126,234,0.35);
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(102,126,234,0.5); }
+        .btn:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
+        .btn-secondary { background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%); box-shadow: 0 8px 20px rgba(100,116,139,0.35); }
+        .center { text-align: center; }
+        .hidden { display: none; }
+        .progress { height: 8px; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 12px 0 20px; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #34d399, #10b981); transition: width .25s ease; }
+        .q-text { font-size: 20px; color: #111827; margin: 8px 0 12px; }
+        .opt { border: 2px solid #e5e7eb; border-radius: 12px; padding: 14px; margin: 10px 0; cursor: pointer; transition: all .15s ease; background: #fff; }
+        .opt:hover { border-color: #667eea; box-shadow: 0 6px 18px rgba(102,126,234,0.15); transform: translateY(-1px); }
+        .opt.selected { border-color: #667eea; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; box-shadow: 0 10px 24px rgba(102,126,234,0.4); }
+        .nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; }
+        .result-type { font-size: 40px; font-weight: 800; color: #4f46e5; margin: 8px 0 16px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+        .pill { display:inline-block; padding:6px 12px; border-radius:999px; background:#eef2ff; color:#3730a3; font-weight:600; font-size:12px; }
+        .muted { color: #6b7280; font-size: 14px; }
+        a.link { color: #4f46e5; text-decoration: none; font-weight: 600; }
+        a.link:hover { text-decoration: underline; }
+        /* 智能解析 */
+        .insight { margin-top: 10px; padding: 12px 14px; border-left: 4px solid #10b981; background: #ecfdf5; color: #065f46; border-radius: 10px; box-shadow: 0 6px 16px rgba(16,185,129,0.15); transition: all .2s ease; }
+        .insight.fade { opacity: 0; transform: translateY(6px); }
+    </style>
+    <script>
+        // 基础题库（12题，均等覆盖四个维度）
+        const QUESTIONS = [
+            { d: 'EI', t: '遇到新同事时，你会：', a: { text: '主动打招呼，迅速熟络', v: 'E' }, b: { text: '先观察一阵，慢慢熟悉', v: 'I' } },
+            { d: 'SN', t: '做决策时你更看重：', a: { text: '现实细节与可行性', v: 'S' }, b: { text: '可能性与长远愿景', v: 'N' } },
+            { d: 'TF', t: '讨论分歧时你更关注：', a: { text: '逻辑一致与客观对错', v: 'T' }, b: { text: '他人感受与关系和谐', v: 'F' } },
+            { d: 'JP', t: '处理事务时你倾向：', a: { text: '有计划有条理地推进', v: 'J' }, b: { text: '弹性安排随时调整', v: 'P' } },
+            { d: 'EI', t: '周末聚会对你来说：', a: { text: '让我充电，越热闹越好', v: 'E' }, b: { text: '需要恢复，宁静更舒服', v: 'I' } },
+            { d: 'SN', t: '学习新技能时你：', a: { text: '先从步骤/教程开始', v: 'S' }, b: { text: '先理解原理再上手', v: 'N' } },
+            { d: 'TF', t: '评估方案优劣时你：', a: { text: '列标准算利弊', v: 'T' }, b: { text: '体会影响与价值观', v: 'F' } },
+            { d: 'JP', t: '旅行前的准备：', a: { text: '完整行程清单', v: 'J' }, b: { text: '机动随走随看', v: 'P' } },
+            { d: 'EI', t: '开会时你更常：', a: { text: '发言推动气氛', v: 'E' }, b: { text: '倾听凝练观点', v: 'I' } },
+            { d: 'SN', t: '遇到问题你先：', a: { text: '查证事实逐项排查', v: 'S' }, b: { text: '直觉判断定位关键', v: 'N' } },
+            { d: 'TF', t: '收到反馈你希望：', a: { text: '直接具体、可执行', v: 'T' }, b: { text: '委婉鼓励、顾情绪', v: 'F' } },
+            { d: 'JP', t: '面对截止期你通常：', a: { text: '提前完成留余地', v: 'J' }, b: { text: '临近截点效率更高', v: 'P' } }
+        ];
+
+        let currentIndex = -1;
+        let selections = Array(QUESTIONS.length).fill(null);
+
+        const scores = { E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0 };
+        let autoAdvanceTimer = null;
+
+        // 维度智能解析
+        const INSIGHT = {
+            EI: {
+                E: '你偏向外向(E)：从互动中获得能量，主动表达有助于推动协作。',
+                I: '你偏向内向(I)：独立思考更高效，沉淀后表达常更有质量。'
+            },
+            SN: {
+                S: '你偏向感觉(S)：重视事实与细节，执行与落地优势明显。',
+                N: '你偏向直觉(N)：善于抽象与联想，擅长洞察趋势与可能性。'
+            },
+            TF: {
+                T: '你偏向思考(T)：讲求逻辑与标准，决策清晰而一致。',
+                F: '你偏向情感(F)：关注人和关系，擅长营造信任与凝聚力。'
+            },
+            JP: {
+                J: '你偏向判断(J)：计划明确、条理分明，进度可控。',
+                P: '你偏向感知(P)：灵活机动、适应变化，保留探索空间。'
+            }
+        };
+
+        // 星座知识库（基于常见性格画像，作为微弱偏置参与计算）
+        // 说明：以下倾向仅作趣味性增强，非严格科学结论。
+        const ZODIAC_KB = {
+            aries: { key: 'aries', cn: '白羊座', weights: { E: 0.8, I: 0.0, S: 0.0, N: 0.6, T: 0.4, F: 0.0, J: 0.0, P: 0.6 }, traits: '行动力强、直来直往、偏向直觉与探索。' },
+            taurus: { key: 'taurus', cn: '金牛座', weights: { E: 0.0, I: 0.4, S: 0.8, N: 0.0, T: 0.4, F: 0.2, J: 0.8, P: 0.0 }, traits: '务实稳定、重视细节与秩序，行动稳健。' },
+            gemini: { key: 'gemini', cn: '双子座', weights: { E: 0.6, I: 0.0, S: 0.0, N: 0.8, T: 0.3, F: 0.0, J: 0.0, P: 0.8 }, traits: '好奇多变、沟通欲强、偏向开放和灵活。' },
+            cancer: { key: 'cancer', cn: '巨蟹座', weights: { E: 0.0, I: 0.6, S: 0.4, N: 0.0, T: 0.0, F: 0.9, J: 0.5, P: 0.0 }, traits: '共情细腻、重视安全与关系，偏情感与内敛。' },
+            leo: { key: 'leo', cn: '狮子座', weights: { E: 0.9, I: 0.0, S: 0.0, N: 0.6, T: 0.2, F: 0.4, J: 0.5, P: 0.0 }, traits: '自信外放、愿意担当，重视愿景与影响力。' },
+            virgo: { key: 'virgo', cn: '处女座', weights: { E: 0.0, I: 0.5, S: 0.8, N: 0.0, T: 0.7, F: 0.0, J: 0.9, P: 0.0 }, traits: '严谨挑剔、注重标准与细节，追求秩序。' },
+            libra: { key: 'libra', cn: '天秤座', weights: { E: 0.4, I: 0.0, S: 0.0, N: 0.5, T: 0.0, F: 0.7, J: 0.0, P: 0.4 }, traits: '擅长协调、追求平衡，偏人际与美感。' },
+            scorpio: { key: 'scorpio', cn: '天蝎座', weights: { E: 0.0, I: 0.7, S: 0.0, N: 0.8, T: 0.7, F: 0.0, J: 0.6, P: 0.0 }, traits: '洞察深入、目标专注，重逻辑与掌控感。' },
+            sagittarius: { key: 'sagittarius', cn: '射手座', weights: { E: 0.7, I: 0.0, S: 0.0, N: 0.9, T: 0.4, F: 0.0, J: 0.0, P: 0.9 }, traits: '热爱自由、远见乐观，偏探索与开放。' },
+            capricorn: { key: 'capricorn', cn: '摩羯座', weights: { E: 0.0, I: 0.6, S: 0.7, N: 0.0, T: 0.8, F: 0.0, J: 0.9, P: 0.0 }, traits: '务实自律、结果导向，偏理性与结构。' },
+            aquarius: { key: 'aquarius', cn: '水瓶座', weights: { E: 0.0, I: 0.5, S: 0.0, N: 0.9, T: 0.8, F: 0.0, J: 0.0, P: 0.6 }, traits: '独立创新、前瞻反叛，偏理念与自由。' },
+            pisces: { key: 'pisces', cn: '双鱼座', weights: { E: 0.0, I: 0.6, S: 0.0, N: 0.7, T: 0.0, F: 0.9, J: 0.0, P: 0.7 }, traits: '浪漫共情、想象丰富，偏直觉与感受。' }
+        };
+
+        // 占星扩展知识库（元素、模式、守护星、原型），用于星座×MBTI解读
+        const ZODIAC_META = {
+            aries:      { element:'火', modality:'本位', rulers:['火星'], archetype:'战士/开拓者', keywords:['冲劲','直率','领导','冒险'] },
+            taurus:     { element:'土', modality:'固定', rulers:['金星'], archetype:'建造者/感官享受', keywords:['稳定','务实','价值','耐心'] },
+            gemini:     { element:'风', modality:'变动', rulers:['水星'], archetype:'信使/学习者', keywords:['信息','连接','机智','多变'] },
+            cancer:     { element:'水', modality:'本位', rulers:['月亮'], archetype:'守护者/滋养者', keywords:['情感','安全','家庭','记忆'] },
+            leo:        { element:'火', modality:'固定', rulers:['太阳'], archetype:'创造者/王者', keywords:['自我表达','荣誉','舞台','慷慨'] },
+            virgo:      { element:'土', modality:'变动', rulers:['水星'], archetype:'匠人/分析者', keywords:['细节','修正','服务','效率'] },
+            libra:      { element:'风', modality:'本位', rulers:['金星'], archetype:'调和者/审美者', keywords:['关系','平衡','公正','审美'] },
+            scorpio:    { element:'水', modality:'固定', rulers:['火星','冥王星'], archetype:'转化者/侦探', keywords:['深度','控制','沉潜','重生'] },
+            sagittarius:{ element:'火', modality:'变动', rulers:['木星'], archetype:'探求者/哲人', keywords:['远见','自由','真理','旅行'] },
+            capricorn:  { element:'土', modality:'本位', rulers:['土星'], archetype:'攀登者/管理者', keywords:['结构','责任','长期','权威'] },
+            aquarius:   { element:'风', modality:'固定', rulers:['土星','天王星'], archetype:'革新者/异类', keywords:['理念','平等','未来','独立'] },
+            pisces:     { element:'水', modality:'变动', rulers:['木星','海王星'], archetype:'诗人/神秘者', keywords:['想象','共情','灵性','融合'] }
+        };
+
+        function getTemperament(mbti){
+            const s = mbti || '';
+            const hasS = s[1] === 'S';
+            const hasN = s[1] === 'N';
+            const hasT = s[2] === 'T';
+            const hasF = s[2] === 'F';
+            if (hasS && s[3] === 'J') return 'SJ';
+            if (hasS && s[3] === 'P') return 'SP';
+            if (hasN && hasF) return 'NF';
+            if (hasN && hasT) return 'NT';
+            return 'Mixed';
+        }
+
+        function buildZodiacMbtiInsight(mbtiType, signKey){
+            const meta = ZODIAC_META[signKey];
+            if (!meta) return '';
+            const temper = getTemperament(mbtiType);
+            const e = meta.element; // 火土风水
+            const m = meta.modality; // 本位固定变动
+
+            // 元素×气质简评
+            const elementFitMap = {
+                '火': { fit: ['E','N','P'], tip: '行动/愿景/尝新' },
+                '土': { fit: ['S','J','T'], tip: '结构/务实/可持续' },
+                '风': { fit: ['E','N','T','P'], tip: '交流/理念/灵活' },
+                '水': { fit: ['I','N','F'], tip: '情感/共鸣/想象' }
+            };
+            const modalityFitMap = {
+                '本位': { fit: ['J','E'], tip: '启动/带头/定目标' },
+                '固定': { fit: ['J','T','I'], tip: '专注/稳固/抗干扰' },
+                '变动': { fit: ['P','N'], tip: '适应/多变/探索' }
+            };
+            const ef = elementFitMap[e] || { fit: [], tip: '' };
+            const mf = modalityFitMap[m] || { fit: [], tip: '' };
+
+            const matches = (need) => need.filter(ch => mbtiType.includes(ch));
+            const eMatch = matches(ef.fit);
+            const mMatch = matches(mf.fit);
+
+            // 气质描述
+            const temperDesc = {
+                SJ: '秩序与责任（守护者）',
+                SP: '体验与实操（工匠/玩家）',
+                NF: '意义与关系（理想主义者）',
+                NT: '逻辑与系统（理性主义者）',
+                Mixed: '多元取向（混合倾向）'
+            }[temper];
+
+            const ruler = (ZODIAC_META[signKey].rulers || []).join('、');
+            const keywords = (ZODIAC_META[signKey].keywords || []).join('、');
+
+            return `
+                <div class="card">
+                    <div class="pill">星座×MBTI 交叉洞察</div>
+                    <p class="muted" style="margin-top:6px">元素：${e}｜模式：${m}｜守护星：${ruler}</p>
+                    <div class="grid">
+                        <div class="card">
+                            <div class="pill">元素协同</div>
+                            <p class="muted">与你的类型(${mbtiType})的匹配点：${eMatch.join('、') || '—'}。倾向：${ef.tip}</p>
+                        </div>
+                        <div class="card">
+                            <div class="pill">模式协同</div>
+                            <p class="muted">与你的类型(${mbtiType})的匹配点：${mMatch.join('、') || '—'}。倾向：${mf.tip}</p>
+                        </div>
+                        <div class="card">
+                            <div class="pill">气质映射</div>
+                            <p class="muted">你的MBTI气质：${temperDesc}；星座关键词：${keywords || '—'}</p>
+                        </div>
+                    </div>
+                    <p class="muted" style="margin-top:6px">提示：该解读基于占星（元素/模式/守护星）与MBTI气质的启发式映射，供自我探索参考。</p>
+                </div>
+            `;
+        }
+
+        let selectedSign = null;
+
+        function $(sel){ return document.querySelector(sel); }
+
+        function show(section){
+            ['#welcome','#testing','#result'].forEach(id=>$(id).classList.add('hidden'));
+            $(section).classList.remove('hidden');
+        }
+
+        function startTest(){
+            const sel = document.getElementById('signSelect');
+            selectedSign = sel ? sel.value : null;
+            if (!selectedSign) {
+                alert('请先选择你的星座');
+                return;
+            }
+            currentIndex = 0;
+            selections.fill(null);
+            Object.keys(scores).forEach(k => scores[k] = 0);
+            renderQuestion();
+            show('#testing');
+        }
+
+        function renderQuestion(){
+            // 清理自动前进
+            if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+            const q = QUESTIONS[currentIndex];
+            $('#qText').textContent = `${currentIndex+1}. ${q.t}`;
+            const opts = $('#opts');
+            opts.innerHTML = '';
+            [q.a, q.b].forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'opt' + (selections[currentIndex] === opt.v ? ' selected' : '');
+                div.setAttribute('role','button');
+                div.tabIndex = 0;
+                div.innerHTML = `${opt.text}`;
+                div.onclick = () => selectOption(opt.v, q.d);
+                div.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectOption(opt.v); } };
+                opts.appendChild(div);
+            });
+            $('#prevBtn').disabled = currentIndex === 0;
+            $('#nextBtn').textContent = currentIndex === QUESTIONS.length - 1 ? '提交' : '下一题';
+            $('#nextBtn').disabled = selections[currentIndex] == null;
+            const pct = Math.round(((currentIndex) / QUESTIONS.length) * 100);
+            $('#pbar').style.width = `${pct}%`;
+            $('#ptext').textContent = `${currentIndex}/${QUESTIONS.length}`;
+            // 隐藏解析
+            const ins = $('#insight');
+            if (ins) { ins.classList.add('hidden'); ins.textContent=''; }
+        }
+
+        function selectOption(val, dim){
+            selections[currentIndex] = val;
+            // 高亮选项
+            const opts = $('#opts').children;
+            Array.from(opts).forEach(el => el.classList.remove('selected'));
+            const chosen = Array.from(opts).find(el => el.textContent.trim());
+            // 展示智能解析
+            showInsight(dim || QUESTIONS[currentIndex].d, val);
+            // 启用下一题按钮
+            $('#nextBtn').disabled = false;
+            // 自动前进（延迟 600ms）
+            if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
+            autoAdvanceTimer = setTimeout(() => { next(); }, 600);
+        }
+
+        function showInsight(dim, v){
+            const ins = $('#insight');
+            if (!ins) return;
+            const explain = INSIGHT[dim]?.[v] || '';
+            // 当前维度实时对比
+            const mapDim = { EI:['E','I'], SN:['S','N'], TF:['T','F'], JP:['J','P'] };
+            const [a,b] = mapDim[dim] || [];
+            let aCnt = 0, bCnt = 0, aTot=0;
+            QUESTIONS.forEach((q, i) => {
+                if (q.d !== dim) return;
+                aTot++;
+                const sel = selections[i];
+                if (sel === a) aCnt++;
+                else if (sel === b) bCnt++;
+            });
+            const aPct = aTot? Math.round(100*aCnt/aTot):0;
+            const bPct = aTot? Math.round(100*bCnt/aTot):0;
+            const label = {
+                EI: ['外向 E','内向 I'],
+                SN: ['感觉 S','直觉 N'],
+                TF: ['思考 T','情感 F'],
+                JP: ['判断 J','感知 P']
+            }[dim] || [a,b];
+
+            ins.innerHTML = `${explain}<br><span class="muted">当前维度倾向：${label[0]} ${aPct}% · ${label[1]} ${bPct}%</span>`;
+            ins.classList.remove('hidden','fade');
+            // 渐隐效果（不阻碍前进）
+            setTimeout(()=> ins.classList.add('fade'), 1200);
+            setTimeout(()=> { ins.classList.add('hidden'); ins.classList.remove('fade'); }, 1700);
+        }
+
+        function next(){
+            if (selections[currentIndex] == null) return;
+            if (currentIndex === QUESTIONS.length - 1) { submit(); return; }
+            if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+            currentIndex += 1;
+            renderQuestion();
+        }
+
+        function prev(){
+            if (currentIndex === 0) return;
+            if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+            currentIndex -= 1;
+            renderQuestion();
+        }
+
+        function submit(){
+            // 累计分数
+            Object.keys(scores).forEach(k => scores[k] = 0);
+            selections.forEach((val, i) => { if (val) scores[val] += 1; });
+            const getPair = (a,b) => scores[a] >= scores[b] ? a : b;
+            const type = [ getPair('E','I'), getPair('S','N'), getPair('T','F'), getPair('J','P') ].join('');
+
+            // 百分比（相对于该维度题目数量）
+            const countByDim = { EI:0, SN:0, TF:0, JP:0 };
+            QUESTIONS.forEach(q => countByDim[q.d] += 1);
+            const pct = {
+                E: Math.round(100 * scores.E / countByDim.EI),
+                I: Math.round(100 * scores.I / countByDim.EI),
+                S: Math.round(100 * scores.S / countByDim.SN),
+                N: Math.round(100 * scores.N / countByDim.SN),
+                T: Math.round(100 * scores.T / countByDim.TF),
+                F: Math.round(100 * scores.F / countByDim.TF),
+                J: Math.round(100 * scores.J / countByDim.JP),
+                P: Math.round(100 * scores.P / countByDim.JP)
+            };
+
+            // 星座增强：将星座倾向作为微弱权重参与四个维度的最终判定
+            const sign = ZODIAC_KB[selectedSign];
+            const zw = sign ? sign.weights : { E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0 };
+            const weightedWinner = (a, b, dimCount) => {
+                const aScore = scores[a] + (zw[a] || 0);
+                const bScore = scores[b] + (zw[b] || 0);
+                if (aScore === bScore) {
+                    // 平分时以星座权重占优为准；仍相等则回落到原始得分，再仍相等默认前者
+                    if ((zw[a] || 0) !== (zw[b] || 0)) return (zw[a] || 0) > (zw[b] || 0) ? a : b;
+                    return scores[a] >= scores[b] ? a : b;
+                }
+                return aScore > bScore ? a : b;
+            };
+            const zType = [
+                weightedWinner('E','I', countByDim.EI),
+                weightedWinner('S','N', countByDim.SN),
+                weightedWinner('T','F', countByDim.TF),
+                weightedWinner('J','P', countByDim.JP)
+            ].join('');
+
+            // 渲染结果
+            $('#type').textContent = type;
+            $('#ztype').textContent = zType;
+            $('#zsummary').innerHTML = sign ? `${sign.cn} · ${sign.traits}` : '';
+            // 星座×MBTI交叉洞察
+            const zmbtiHtml = selectedSign ? buildZodiacMbtiInsight(zType || type, selectedSign) : '';
+            const zBias = sign ? `
+                <div class="grid">
+                    <div class="card"><div class="pill">星座倾向 · 外向 E / 内向 I</div><p class="muted">E +${(zw.E||0).toFixed(1)} · I +${(zw.I||0).toFixed(1)}</p></div>
+                    <div class="card"><div class="pill">星座倾向 · 感觉 S / 直觉 N</div><p class="muted">S +${(zw.S||0).toFixed(1)} · N +${(zw.N||0).toFixed(1)}</p></div>
+                    <div class="card"><div class="pill">星座倾向 · 思考 T / 情感 F</div><p class="muted">T +${(zw.T||0).toFixed(1)} · F +${(zw.F||0).toFixed(1)}</p></div>
+                    <div class="card"><div class="pill">星座倾向 · 判断 J / 感知 P</div><p class="muted">J +${(zw.J||0).toFixed(1)} · P +${(zw.P||0).toFixed(1)}</p></div>
+                </div>` : '';
+
+            $('#breakdown').innerHTML = `
+                <div class="grid">
+                    <div class="card"><div class="pill">外向 E / 内向 I</div><p class="muted">E ${pct.E}% · I ${pct.I}%</p></div>
+                    <div class="card"><div class="pill">感觉 S / 直觉 N</div><p class="muted">S ${pct.S}% · N ${pct.N}%</p></div>
+                    <div class="card"><div class="pill">思考 T / 情感 F</div><p class="muted">T ${pct.T}% · F ${pct.F}%</p></div>
+                    <div class="card"><div class="pill">判断 J / 感知 P</div><p class="muted">J ${pct.J}% · P ${pct.P}%</p></div>
+                </div>
+                <div style="margin-top:12px"></div>
+                ${zBias}
+                <div style="margin-top:12px"></div>
+                ${zmbtiHtml}
+            `;
+
+            show('#result');
+        }
+
+        function restart(){
+            currentIndex = -1;
+            selections.fill(null);
+            Object.keys(scores).forEach(k => scores[k] = 0);
+            show('#welcome');
+        }
+    </script>
+    <link rel="icon" href="data:,">
+    <meta name="color-scheme" content="light dark">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🧠 快速 MBTI 测试</h1>
+            <p>约 3-5 分钟 · 12 题 · 本地计算，不上传任何数据</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 欢迎页 -->
+        <div id="welcome" class="card">
+            <h2 class="center" style="margin-top:0">开始之前</h2>
+            <p class="muted">
+                根据你的偏好在两项中择一。请凭第一反应作答，没有正确或错误的选项。
+            </p>
+            <div style="margin-top:12px">
+                <label for="signSelect" class="muted">选择你的星座（用于星座增强版 MBTI）：</label>
+                <div>
+                    <select id="signSelect" style="margin-top:6px; width:100%; padding:10px; border-radius:10px; border:1px solid #e5e7eb;">
+                        <option value="">请选择</option>
+                        <option value="aries">白羊座</option>
+                        <option value="taurus">金牛座</option>
+                        <option value="gemini">双子座</option>
+                        <option value="cancer">巨蟹座</option>
+                        <option value="leo">狮子座</option>
+                        <option value="virgo">处女座</option>
+                        <option value="libra">天秤座</option>
+                        <option value="scorpio">天蝎座</option>
+                        <option value="sagittarius">射手座</option>
+                        <option value="capricorn">摩羯座</option>
+                        <option value="aquarius">水瓶座</option>
+                        <option value="pisces">双鱼座</option>
+                    </select>
+                </div>
+                <p class="muted" style="margin-top:6px">说明：星座只作为轻权重参与判定，用于在分数接近时提供偏向与解释。</p>
+            </div>
+            <div class="center" style="margin-top:16px">
+                <button class="btn" type="button" onclick="startTest()">开始测试</button>
+                <a class="link" href="index.html" style="margin-left:12px">返回首页</a>
+            </div>
+        </div>
+
+        <!-- 测试页 -->
+        <div id="testing" class="card hidden">
+            <div class="progress"><div id="pbar" class="progress-bar"></div></div>
+            <div class="muted" id="ptext">0/12</div>
+            <div id="qText" class="q-text">题干</div>
+            <div id="insight" class="insight hidden"></div>
+            <div id="opts"></div>
+            <div class="nav">
+                <button id="prevBtn" class="btn btn-secondary" type="button" onclick="prev()">上一题</button>
+                <button id="nextBtn" class="btn" type="button" onclick="next()">下一题</button>
+            </div>
+        </div>
+
+        <!-- 结果页 -->
+        <div id="result" class="card hidden">
+            <div class="center">
+                <div class="pill">你的 MBTI 类型</div>
+                <div id="type" class="result-type">XXXX</div>
+                <p class="muted">下面是四个维度的分布情况：</p>
+                <div style="margin-top:8px"></div>
+                <div class="pill">星座增强类型</div>
+                <div id="ztype" class="result-type" style="font-size:28px; color:#10b981">XXXX</div>
+                <div id="zsummary" class="muted" style="margin-top:6px"></div>
+            </div>
+            <div id="breakdown" style="margin-top:12px"></div>
+            <div class="center" style="margin-top:16px">
+                <button class="btn" type="button" onclick="restart()">重新测试</button>
+                <a class="link" href="index.html" style="margin-left:12px">返回首页</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+

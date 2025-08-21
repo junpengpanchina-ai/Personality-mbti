@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八字×MBTI 人格深度解析</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+            color: #111827;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+        .header { text-align: center; color: #fff; margin: 24px 0; }
+        .header h1 { margin: 0 0 8px; font-size: 30px; }
+        .card { background: rgba(255,255,255,0.98); border-radius: 16px; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); margin-bottom: 16px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 16px; }
+        .btn { display:inline-block; background: linear-gradient(135deg, #0ea5e9, #6366f1); color:#fff; border:none; padding:10px 18px; border-radius:999px; cursor:pointer; font-weight:600; }
+        .btn:hover { transform: translateY(-1px); }
+        .muted { color:#6b7280; font-size:14px; }
+        label { font-weight:600; display:block; margin:8px 0 6px; }
+        input, select { width:100%; padding:10px; border-radius:10px; border:1px solid #e5e7eb; }
+        .pill { display:inline-block; padding:6px 12px; border-radius:999px; background:#eef2ff; color:#3730a3; font-weight:700; font-size:12px; }
+        .kpi { font-size: 28px; font-weight:800; color:#4f46e5; }
+        .q { border: 1px solid #e5e7eb; border-radius:12px; padding:12px; margin-bottom:12px; }
+        .opt { margin:6px 0; }
+        .opt input { width:auto; margin-right:6px; }
+        .result { margin-top: 10px; padding: 12px 14px; border-left: 4px solid #10b981; background: #ecfdf5; color: #065f46; border-radius: 10px; }
+        a.link { color: #4f46e5; text-decoration: none; font-weight: 600; }
+        .section-title { margin: 0 0 10px; }
+        .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+        .mbti-dimension { background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 4px solid #f59e0b; }
+        .bazi-insight { background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-left: 4px solid #3b82f6; }
+        .integration { background: linear-gradient(135deg, #dcfce7, #bbf7d0); border-left: 4px solid #16a34a; }
+        .hidden { display: none; }
+    </style>
+    
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🧠 八字×MBTI 人格深度解析</h1>
+            <p class="muted">结合传统命理学与MBTI理论，探索你的性格密码与人生格局</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 基础信息输入 -->
+        <div class="card">
+            <div class="grid">
+                <div>
+                    <h3 class="section-title">基础信息</h3>
+                    <label for="bDate">出生日期</label>
+                    <input type="date" id="bDate" />
+                    <label for="bTime">出生时间（24小时制）</label>
+                    <input type="time" id="bTime" value="12:00" />
+                    <label for="tz">时区</label>
+                    <select id="tz">
+                        <option value="8" selected>东八区（中国大陆/港澳台）UTC+8</option>
+                        <option value="7">UTC+7</option>
+                        <option value="9">UTC+9</option>
+                        <option value="0">UTC±0</option>
+                    </select>
+                    <div style="margin-top:12px">
+                        <button class="btn" type="button" onclick="analyzePersonality()">开始分析</button>
+                        <a class="link" href="index.html" style="margin-left:12px">返回首页</a>
+                    </div>
+                    <p class="muted" style="margin-top:8px">基于《渊海子平》《三命通会》等经典命理著作，结合MBTI理论进行人格深度解析。</p>
+                </div>
+                <div>
+                    <h3 class="section-title">八字基础</h3>
+                    <div class="pill">四柱</div>
+                    <div class="kpi mono" id="pillars">— —｜— —｜— —｜— —</div>
+                    <div class="muted" id="stemsBranches"></div>
+                    <div style="height:10px"></div>
+                    <div class="pill">五行统计</div>
+                    <div id="wuxing" class="grid" style="grid-template-columns: repeat(5,1fr); gap:8px; margin-top:8px"></div>
+                    <div id="calcStatus" class="result hidden" style="margin-top:10px"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MBTI维度分析 -->
+        <div class="card hidden" id="mbtiAnalysis">
+            <h3 class="section-title">🧠 MBTI 四维度分析</h3>
+            <div class="grid">
+                <div class="card mbti-dimension">
+                    <div class="pill">外向 E / 内向 I</div>
+                    <div id="eiAnalysis" class="muted"></div>
+                </div>
+                <div class="card mbti-dimension">
+                    <div class="pill">感觉 S / 直觉 N</div>
+                    <div id="snAnalysis" class="muted"></div>
+                </div>
+                <div class="card mbti-dimension">
+                    <div class="pill">思考 T / 情感 F</div>
+                    <div id="tfAnalysis" class="muted"></div>
+                </div>
+                <div class="card mbti-dimension">
+                    <div class="pill">判断 J / 感知 P</div>
+                    <div id="jpAnalysis" class="muted"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 八字命理解析 -->
+        <div class="card hidden" id="baziAnalysis">
+            <h3 class="section-title">📅 八字命理解析</h3>
+            <div class="grid">
+                <div class="card bazi-insight">
+                    <div class="pill">日主强弱</div>
+                    <div id="dayMasterStrength" class="muted"></div>
+                </div>
+                <div class="card bazi-insight">
+                    <div class="pill">十神配置</div>
+                    <div id="tenGods" class="muted"></div>
+                </div>
+                <div class="card bazi-insight">
+                    <div class="pill">五行调候</div>
+                    <div id="regulation" class="muted"></div>
+                </div>
+                <div class="card bazi-insight">
+                    <div class="pill">格局特征</div>
+                    <div id="pattern" class="muted"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 八字×MBTI 融合解析 -->
+        <div class="card hidden" id="integrationAnalysis">
+            <h3 class="section-title">🌟 八字×MBTI 融合解析</h3>
+            <div class="grid">
+                <div class="card integration">
+                    <div class="pill">性格根基</div>
+                    <div id="personalityFoundation" class="muted"></div>
+                </div>
+                <div class="card integration">
+                    <div class="pill">发展路径</div>
+                    <div id="developmentPath" class="muted"></div>
+                </div>
+                <div class="card integration">
+                    <div class="pill">潜在挑战</div>
+                    <div id="potentialChallenges" class="muted"></div>
+                </div>
+                <div class="card integration">
+                    <div class="pill">人生建议</div>
+                    <div id="lifeAdvice" class="muted"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 命理基础测试 -->
+        <div class="card">
+            <h3 class="section-title">🧪 命理基础测试（10题）</h3>
+            <div id="quiz"></div>
+            <div style="margin-top:10px">
+                <button class="btn" type="button" onclick="gradeQuiz()">提交答案</button>
+                <span id="quizScore" class="pill" style="margin-left:10px"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 天干地支五行映射
+        const STEM_TO_WUXING = { '甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水' };
+        const BRANCH_TO_WUXING = { '子':'水','丑':'土','寅':'木','卯':'木','辰':'土','巳':'火','午':'火','未':'土','申':'金','酉':'金','戌':'土','亥':'水' };
+        const STEM_POLARITY = { '甲':'阳','乙':'阴','丙':'阳','丁':'阴','戊':'阳','己':'阴','庚':'阳','辛':'阴','壬':'阳','癸':'阴' };
+        const SHENG = { '木':'火', '火':'土', '土':'金', '金':'水', '水':'木' }; // 生
+        const KE   = { '木':'土', '土':'水', '水':'火', '火':'金', '金':'木' }; // 克
+
+        function safeGetPillars(year, month, day, hour, minute) {
+            try {
+                const Solar = window.Solar || (window.Lunar && window.Lunar.Solar);
+                if (!Solar) throw new Error('模块未就绪');
+                
+                const tz = parseInt(document.getElementById('tz').value || '8', 10);
+                const jsDate = new Date(Date.UTC(year, month - 1, day, hour - tz, minute, 0));
+                const y = jsDate.getUTCFullYear();
+                const m = jsDate.getUTCMonth() + 1;
+                const d = jsDate.getUTCDate();
+                const h = jsDate.getUTCHours();
+                const mi = jsDate.getUTCMinutes();
+
+                let solar = null;
+                if (typeof Solar.fromYmdHms === 'function') {
+                    solar = Solar.fromYmdHms(y, m, d, h, mi, 0);
+                } else if (typeof Solar.fromDate === 'function') {
+                    solar = Solar.fromDate(new Date(Date.UTC(y, m - 1, d, h, mi, 0)));
+                } else {
+                    throw new Error('Solar 构造不可用');
+                }
+                const lunar = solar.getLunar();
+                const ec = lunar.getEightChar();
+
+                const yearP = (ec.getYear && ec.getYear()) || '';
+                const monthP = (ec.getMonth && ec.getMonth()) || '';
+                const dayP = (ec.getDay && ec.getDay()) || '';
+                const timeP = (ec.getTime && ec.getTime()) || '';
+                const pillarText = (yearP && monthP && dayP && timeP) ? `${yearP}｜${monthP}｜${dayP}｜${timeP}` : (ec.toString ? ec.toString() : '— —｜— —｜— —｜— —');
+
+                const parts = pillarText.replace(/[\s]/g,'').split('｜');
+                const parseGanZhi = (gz) => gz && gz.length >= 2 ? [gz[0], gz.slice(1)] : ['—','—'];
+                const [yG, yZ] = parseGanZhi(parts[0] || '');
+                const [mG, mZ] = parseGanZhi(parts[1] || '');
+                const [dG, dZ] = parseGanZhi(parts[2] || '');
+                const [tG, tZ] = parseGanZhi(parts[3] || '');
+
+                return { pillarText, stems: [yG,mG,dG,tG], branches: [yZ,mZ,dZ,tZ] };
+            } catch (e) {
+                console.warn('计算失败，将返回占位：', e);
+                return { pillarText: '— —｜— —｜— —｜— —', stems: ['—','—','—','—'], branches: ['—','—','—','—'] };
+            }
+        }
+
+        let isLoading = false;
+
+        function showStatus(msg){
+            const el = document.getElementById('calcStatus');
+            if (!el) return;
+            el.textContent = msg;
+            el.classList.remove('hidden');
+        }
+        function hideStatus(){
+            const el = document.getElementById('calcStatus');
+            if (!el) return;
+            el.classList.add('hidden');
+            el.textContent = '';
+        }
+        async function waitForLunar(tries = 40, intervalMs = 150){
+            for (let i=0;i<tries;i++){
+                if ((window.Solar && (window.Solar.fromYmdHms || window.Solar.fromDate)) ||
+                    (window.Lunar && window.Lunar.Solar && (window.Lunar.Solar.fromYmdHms || window.Lunar.Solar.fromDate))) {
+                    return true;
+                }
+                await new Promise(r=>setTimeout(r, intervalMs));
+            }
+            return false;
+        }
+
+        const LUNAR_SOURCES = [
+            // local first
+            './libs/lunar.min.js',
+            // jsDelivr common paths
+            'https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.min.js',
+            'https://cdn.jsdelivr.net/npm/lunar-javascript/dist/lunar.min.js',
+            'https://cdn.jsdelivr.net/npm/lunar-javascript/umd/lunar.js',
+            'https://cdn.jsdelivr.net/npm/lunar-javascript',
+            // unpkg common paths
+            'https://unpkg.com/lunar-javascript/lunar.min.js',
+            'https://unpkg.com/lunar-javascript/dist/lunar.min.js',
+            'https://unpkg.com/lunar-javascript/umd/lunar.js',
+            'https://unpkg.com/lunar-javascript'
+        ];
+
+        function loadScriptOnce(src, timeoutMs = 6000){
+            return new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                const bust = (src.startsWith('./') || src.startsWith('/')) ? (`${src}?v=${Date.now()}`) : src;
+                s.src = bust;
+                s.async = true;
+                s.crossOrigin = 'anonymous';
+                let done = false;
+                const timer = setTimeout(() => { if (!done){ done = true; s.remove(); reject(new Error('timeout')); } }, timeoutMs);
+                s.onload = () => { if (!done){ done = true; clearTimeout(timer); resolve(true); } };
+                s.onerror = () => { if (!done){ done = true; clearTimeout(timer); reject(new Error('load error')); } };
+                document.head.appendChild(s);
+            });
+        }
+
+        async function loadLunarFromFallbacks(){
+            for (const url of LUNAR_SOURCES){
+                try {
+                    showStatus(`尝试加载命理库：${url}`);
+                    await loadScriptOnce(url);
+                    const ok = await waitForLunar(20, 100);
+                    if (ok) { hideStatus(); return true; }
+                } catch (e) {
+                    // try next
+                }
+            }
+            return false;
+        }
+
+        async function analyzePersonality() {
+            if (isLoading) return;
+            isLoading = true;
+            const btn = document.querySelector('button.btn');
+            if (btn) { btn.disabled = true; btn.textContent = '分析中…'; }
+            hideStatus();
+            const d = document.getElementById('bDate').value;
+            const t = document.getElementById('bTime').value || '12:00';
+            if (!d) { showStatus('请选择出生日期'); if (btn){ btn.disabled=false; btn.textContent='开始分析'; } isLoading=false; return; }
+
+            let ready = await waitForLunar();
+            if (!ready) {
+                showStatus('主CDN加载失败，正在尝试备用镜像...');
+                ready = await loadLunarFromFallbacks();
+            }
+            if (!ready) { showStatus('镜像加载失败。如需离线，请将 lunar-javascript 的 UMD 版本置于 ./libs/lunar.min.js'); if (btn){ btn.disabled=false; btn.textContent='开始分析'; } isLoading=false; return; }
+
+            const [yy,mm,dd] = d.split('-').map(s=>parseInt(s,10));
+            const [hh,mi] = t.split(':').map(s=>parseInt(s,10));
+
+            const res = safeGetPillars(yy,mm,dd,hh,mi);
+            if (!res || res.stems.every(s => s === '—')) {
+                showStatus('解析失败：输入或库异常。请确认日期/时间/时区正确，或刷新页面重试。');
+                if (btn){ btn.disabled=false; btn.textContent='开始分析'; } isLoading=false; return;
+            }
+            document.getElementById('pillars').textContent = res.pillarText;
+            document.getElementById('stemsBranches').textContent = `天干：${res.stems.join(' ')} ｜ 地支：${res.branches.join(' ')}`;
+
+            // 五行统计
+            const count = { '金':0, '木':0, '水':0, '火':0, '土':0 };
+            res.stems.forEach(g => { const w = STEM_TO_WUXING[g]; if (w) count[w] += 1; });
+            res.branches.forEach(z => { const w = BRANCH_TO_WUXING[z]; if (w) count[w] += 1; });
+            
+            const wx = document.getElementById('wuxing');
+            wx.innerHTML = '';
+            Object.entries(count).forEach(([k,v])=>{
+                const div = document.createElement('div');
+                div.className = 'card';
+                div.innerHTML = `<div class="pill">${k}</div><div class="kpi">${v}</div>`;
+                wx.appendChild(div);
+            });
+
+            // 分析MBTI维度
+            analyzeMBTIDimensions(res, count);
+            
+            // 分析八字命理
+            analyzeBaziPatterns(res, count);
+            
+            // 融合解析
+            analyzeIntegration(res, count);
+
+            // 显示分析结果
+            document.getElementById('mbtiAnalysis').classList.remove('hidden');
+            document.getElementById('baziAnalysis').classList.remove('hidden');
+            document.getElementById('integrationAnalysis').classList.remove('hidden');
+            if (btn){ btn.disabled=false; btn.textContent='开始分析'; }
+            isLoading = false;
+        }
+
+        function analyzeMBTIDimensions(bazi, wuxing) {
+            const dayStem = bazi.stems[2];
+            const dayElement = STEM_TO_WUXING[dayStem];
+            
+            // 基于日主五行和整体五行分布分析MBTI倾向
+            const ei = analyzeEI(dayElement, wuxing);
+            const sn = analyzeSN(dayElement, wuxing);
+            const tf = analyzeTF(dayElement, wuxing);
+            const jp = analyzeJP(dayElement, wuxing);
+
+            document.getElementById('eiAnalysis').innerHTML = ei;
+            document.getElementById('snAnalysis').innerHTML = sn;
+            document.getElementById('tfAnalysis').innerHTML = tf;
+            document.getElementById('jpAnalysis').innerHTML = jp;
+        }
+
+        function analyzeEI(dayElement, wuxing) {
+            const fireCount = wuxing['火'] || 0;
+            const waterCount = wuxing['水'] || 0;
+            const woodCount = wuxing['木'] || 0;
+            const metalCount = wuxing['金'] || 0;
+
+            if (fireCount > waterCount && woodCount > metalCount) {
+                return '偏外向(E)：火木旺相，主动表达，善于社交互动';
+            } else if (waterCount > fireCount && metalCount > woodCount) {
+                return '偏内向(I)：金水旺相，内敛思考，善于沉淀反思';
+            } else {
+                return '内外平衡：五行相对均衡，内外向特征不明显';
+            }
+        }
+
+        function analyzeSN(dayElement, wuxing) {
+            const earthCount = wuxing['土'] || 0;
+            const woodCount = wuxing['木'] || 0;
+            const fireCount = wuxing['火'] || 0;
+
+            if (earthCount > 2) {
+                return '偏感觉(S)：土旺主实，重视细节，关注现实';
+            } else if (woodCount + fireCount > 3) {
+                return '偏直觉(N)：木火旺相，富有想象，善于联想';
+            } else {
+                return '感觉直觉平衡：五行分布相对均衡';
+            }
+        }
+
+        function analyzeTF(dayElement, wuxing) {
+            const metalCount = wuxing['金'] || 0;
+            const fireCount = wuxing['火'] || 0;
+            const waterCount = wuxing['水'] || 0;
+
+            if (metalCount > 2) {
+                return '偏思考(T)：金旺主理，逻辑清晰，重视原则';
+            } else if (fireCount + waterCount > 3) {
+                return '偏情感(F)：火水旺相，感性丰富，重视关系';
+            } else {
+                return '思考情感平衡：理性与感性相对均衡';
+            }
+        }
+
+        function analyzeJP(dayElement, wuxing) {
+            const earthCount = wuxing['土'] || 0;
+            const woodCount = wuxing['木'] || 0;
+            const waterCount = wuxing['水'] || 0;
+
+            if (earthCount > 2) {
+                return '偏判断(J)：土旺主稳，计划性强，重视秩序';
+            } else if (woodCount + waterCount > 3) {
+                return '偏感知(P)：木水旺相，灵活适应，保持开放';
+            } else {
+                return '判断感知平衡：计划性与灵活性相对均衡';
+            }
+        }
+
+        function analyzeBaziPatterns(bazi, wuxing) {
+            const dayStem = bazi.stems[2];
+            const dayElement = STEM_TO_WUXING[dayStem];
+            
+            // 日主强弱分析
+            const strength = analyzeDayMasterStrength(dayStem, bazi.stems, bazi.branches[1]);
+            document.getElementById('dayMasterStrength').innerHTML = `日主${dayStem}：${strength.verdict}（评分${strength.score}）`;
+
+            // 十神配置分析
+            const tenGods = analyzeTenGods(dayStem, bazi.stems);
+            document.getElementById('tenGods').innerHTML = tenGods;
+
+            // 五行调候分析
+            const regulation = analyzeRegulation(dayElement, bazi.branches[1], wuxing);
+            document.getElementById('regulation').innerHTML = regulation;
+
+            // 格局特征分析
+            const pattern = analyzePattern(dayStem, bazi.stems, wuxing);
+            document.getElementById('pattern').innerHTML = pattern;
+        }
+
+        function analyzeDayMasterStrength(dayStem, stems, monthBranch) {
+            const dm = { element: STEM_TO_WUXING[dayStem], polarity: STEM_POLARITY[dayStem] };
+            let score = 0;
+            
+            stems.forEach(s => {
+                const si = { element: STEM_TO_WUXING[s], polarity: STEM_POLARITY[s] };
+                if (!si.element) return;
+                if (si.element === dm.element) score += 1;
+                else if (SHENG[si.element] === dm.element) score += 0.6;
+                else if (SHENG[dm.element] === si.element) score -= 0.4;
+                else if (KE[dm.element] === si.element) score -= 0.5;
+                else if (KE[si.element] === dm.element) score -= 0.7;
+            });
+
+            if (monthBranch) {
+                const me = dm.element;
+                const be = BRANCH_TO_WUXING[monthBranch];
+                if (be) {
+                    if (be === me) score += 1.0;
+                    else if (SHENG[be] === me) score += 0.5;
+                    else if (KE[be] === me) score -= 0.6;
+                    else if (SHENG[me] === be) score -= 0.2;
+                }
+            }
+
+            let verdict = '平';
+            if (score >= 2) verdict = '偏旺';
+            else if (score <= 0.5) verdict = '偏弱';
+            
+            return { score: Number(score.toFixed(2)), verdict };
+        }
+
+        function analyzeTenGods(dayStem, stems) {
+            const labels = ['年干', '月干', '日干', '时干'];
+            let result = '';
+            
+            stems.forEach((s, idx) => {
+                if (idx === 2) {
+                    result += `${labels[idx]}：${s}（日主）<br>`;
+                } else {
+                    const god = getTenGod(dayStem, s);
+                    result += `${labels[idx]}：${s} → ${god}<br>`;
+                }
+            });
+            
+            return result;
+        }
+
+        function getTenGod(dayStem, otherStem) {
+            const d = { element: STEM_TO_WUXING[dayStem], polarity: STEM_POLARITY[dayStem] };
+            const o = { element: STEM_TO_WUXING[otherStem], polarity: STEM_POLARITY[otherStem] };
+            
+            if (!d.element || !o.element) return '—';
+            if (d.element === o.element) return (d.polarity === o.polarity) ? '比肩' : '劫财';
+            if (SHENG[o.element] === d.element) return (d.polarity !== o.polarity) ? '正印' : '偏印';
+            if (SHENG[d.element] === o.element) return (d.polarity !== o.polarity) ? '食神' : '伤官';
+            if (KE[d.element] === o.element) return (d.polarity !== o.polarity) ? '正财' : '偏财';
+            if (KE[o.element] === d.element) return (d.polarity !== o.polarity) ? '正官' : '七杀';
+            return '—';
+        }
+
+        function analyzeRegulation(dayElement, monthBranch, wuxing) {
+            const monthElement = BRANCH_TO_WUXING[monthBranch];
+            if (!monthElement || !dayElement) return '无法分析';
+            
+            if (monthElement === dayElement) {
+                return '月令当令，日主得令，气势较强';
+            } else if (SHENG[monthElement] === dayElement) {
+                return '月令生身，日主得生，根基稳固';
+            } else if (KE[monthElement] === dayElement) {
+                return '月令克身，日主受克，需要调候';
+            } else if (SHENG[dayElement] === monthElement) {
+                return '日主生月令，泄气较多，需要补益';
+            } else {
+                return '月令与日主关系中性，整体平衡';
+            }
+        }
+
+        function analyzePattern(dayStem, stems, wuxing) {
+            const dayElement = STEM_TO_WUXING[dayStem];
+            const fireCount = wuxing['火'] || 0;
+            const waterCount = wuxing['水'] || 0;
+            const earthCount = wuxing['土'] || 0;
+            const woodCount = wuxing['木'] || 0;
+            const metalCount = wuxing['金'] || 0;
+
+            if (fireCount > 3) return '火旺格：热情主动，富有创造力，但需注意情绪控制';
+            if (waterCount > 3) return '水旺格：智慧深沉，善于思考，但需注意行动力';
+            if (earthCount > 3) return '土旺格：稳重务实，重视秩序，但需注意灵活性';
+            if (woodCount > 3) return '木旺格：生机勃勃，富有理想，但需注意稳定性';
+            if (metalCount > 3) return '金旺格：刚毅果断，重视原则，但需注意包容性';
+            
+            return '中和格：五行相对均衡，性格特征不明显，适应性较强';
+        }
+
+        function analyzeIntegration(bazi, wuxing) {
+            const dayStem = bazi.stems[2];
+            const dayElement = STEM_TO_WUXING[dayStem];
+            const strength = analyzeDayMasterStrength(dayStem, bazi.stems, bazi.branches[1]);
+
+            // 性格根基
+            const foundation = getPersonalityFoundation(dayElement, strength.verdict);
+            document.getElementById('personalityFoundation').innerHTML = foundation;
+
+            // 发展路径
+            const path = getDevelopmentPath(dayElement, strength.verdict, wuxing);
+            document.getElementById('developmentPath').innerHTML = path;
+
+            // 潜在挑战
+            const challenges = getPotentialChallenges(dayElement, strength.verdict, wuxing);
+            document.getElementById('potentialChallenges').innerHTML = challenges;
+
+            // 人生建议
+            const advice = getLifeAdvice(dayElement, strength.verdict, wuxing);
+            document.getElementById('lifeAdvice').innerHTML = advice;
+        }
+
+        function getPersonalityFoundation(dayElement, strength) {
+            const foundations = {
+                '木': '木性主仁，具有生长、向上、进取的特质',
+                '火': '火性主礼，具有光明、温暖、热情的特质',
+                '土': '土性主信，具有包容、稳定、务实的特质',
+                '金': '金性主义，具有刚毅、果断、原则的特质',
+                '水': '水性主智，具有智慧、灵活、包容的特质'
+            };
+            
+            const base = foundations[dayElement] || '五行特征不明显';
+            return `${base}。日主${strength}，${strength === '偏旺' ? '性格特征突出，优势明显' : strength === '偏弱' ? '性格温和，需要培养' : '性格平衡，适应性较强'}。`;
+        }
+
+        function getDevelopmentPath(dayElement, strength, wuxing) {
+            if (strength === '偏旺') {
+                return '发挥优势：利用日主旺相的优势，在擅长的领域深耕发展。注意适度收敛，避免过于强势。';
+            } else if (strength === '偏弱') {
+                return '补益发展：通过学习和实践增强日主力量，培养核心能力。寻找贵人相助，建立支持系统。';
+            } else {
+                return '平衡发展：保持五行平衡，全面发展各项能力。根据大运流年调整发展重点。';
+            }
+        }
+
+        function getPotentialChallenges(dayElement, strength, wuxing) {
+            const challenges = {
+                '木': '木旺易折，需注意情绪控制和人际关系处理',
+                '火': '火旺易燥，需注意耐心和细节管理',
+                '土': '土旺易滞，需注意创新思维和灵活性',
+                '金': '金旺易刚，需注意包容性和人际关系',
+                '水': '水旺易流，需注意稳定性和执行力'
+            };
+            
+            const base = challenges[dayElement] || '无明显挑战';
+            return `${base}。${strength === '偏旺' ? '日主过旺时，这些挑战会更加明显' : strength === '偏弱' ? '日主偏弱时，需要克服这些挑战来增强自身' : '日主平衡时，这些挑战相对温和'}。`;
+        }
+
+        function getLifeAdvice(dayElement, strength, wuxing) {
+            const advice = {
+                '木': '培养耐心，学会倾听，在团队中发挥领导作用',
+                '火': '保持热情，注意细节，在创新中展现才华',
+                '土': '保持稳定，培养创新，在务实中追求卓越',
+                '金': '坚持原则，学会包容，在刚毅中展现智慧',
+                '水': '保持智慧，增强行动，在灵活中追求稳定'
+            };
+            
+            const base = advice[dayElement] || '保持平衡发展';
+            return `${base}。${strength === '偏旺' ? '发挥优势的同时，注意自我调节和他人感受' : strength === '偏弱' ? '在补益自身的同时，寻找适合自己的发展道路' : '在平衡发展中，寻找突破和创新的机会'}。`;
+        }
+
+        // 命理基础测试（10题）
+        const QUIZ = [
+            { t:'日主为甲木，年干为庚金，则年干对日主的十神是？', opts:['正官','七杀','正印','偏印'], a:1, explanation:'甲木日主，庚金克甲木，阴阳不同为七杀。' },
+            { t:'日主为丙火，月干为戊土，则月干对日主的十神是？', opts:['食神','伤官','正印','偏印'], a:0, explanation:'丙火生戊土，阴阳不同为食神。' },
+            { t:'日主为壬水，时干为甲木，则时干对日主的十神是？', opts:['正财','偏财','食神','伤官'], a:2, explanation:'壬水生甲木，阴阳不同为食神。' },
+            { t:'日主甲木生于寅月，寅中藏干为？', opts:['甲木','丙火','戊土','甲丙戊'], a:3, explanation:'寅为木之长生，藏甲木本气、丙火中气、戊土余气。' },
+            { t:'日主丙火生于亥月，亥为水旺之月，此命局调候宜？', opts:['取火调候','取土制水','取木生火','取金生水'], a:0, explanation:'亥月水旺火弱，需火调候暖局。' },
+            { t:'日主偏弱，局中印星较多，此格局宜？', opts:['取印生身','取比劫扶身','取食伤泄秀','取财星耗身'], a:1, explanation:'印多身弱，印重为忌，宜取比劫扶身制印。' },
+            { t:'日主偏旺，局中食伤较多，此格局宜？', opts:['取印生身','取比劫扶身','取食伤泄秀','取官杀制身'], a:2, explanation:'身旺食伤多，宜顺其势取食伤泄秀。' },
+            { t:'大运与流年天干相同，地支相冲，此年运势？', opts:['平稳发展','变动较大','贵人相助','口舌是非'], a:1, explanation:'天干相同地支相冲，主变动较大，需谨慎。' },
+            { t:'日主为金，大运为火，流年为木，此年五行关系？', opts:['火克金，木生火','木克土，火生土','金克木，火克金','木生火，火克金'], a:3, explanation:'木生火，火克金，形成木→火→金的生克链。' },
+            { t:'日主为水，生于午月，午为火旺之月，此命局调候宜？', opts:['取水调候','取金生水','取土制火','取木生火'], a:0, explanation:'午月火旺水弱，需水调候润局。' }
+        ];
+
+        function renderQuiz(){
+            const root = document.getElementById('quiz');
+            root.innerHTML = '';
+            QUIZ.forEach((q, i)=>{
+                const div = document.createElement('div');
+                div.className = 'q';
+                div.innerHTML = `<div style="font-weight:700">${i+1}. ${q.t}</div>`;
+                q.opts.forEach((o, j)=>{
+                    const opt = document.createElement('div');
+                    opt.className = 'opt';
+                    opt.innerHTML = `<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;
+                    div.appendChild(opt);
+                });
+                root.appendChild(div);
+            });
+        }
+
+        function gradeQuiz(){
+            let score = 0;
+            let explanations = [];
+            QUIZ.forEach((q, i)=>{
+                const sel = document.querySelector(`input[name="q${i}"]:checked`);
+                if (sel && parseInt(sel.value,10) === q.a) {
+                    score += 1;
+                } else if (sel) {
+                    explanations.push(`第${i+1}题：${q.explanation || '无解释'}`);
+                }
+            });
+            const pill = document.getElementById('quizScore');
+            pill.textContent = `得分：${score}/${QUIZ.length}`;
+            
+            if (explanations.length > 0) {
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'result';
+                explanationDiv.style.marginTop = '10px';
+                explanationDiv.innerHTML = `<strong>错题解析：</strong><br>${explanations.join('<br>')}`;
+                document.getElementById('quiz').appendChild(explanationDiv);
+            }
+        }
+
+        // 初始化
+        renderQuiz();
+    </script>
+</body>
+</html>

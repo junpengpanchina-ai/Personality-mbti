@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MBTI人格测试 - 探索你的性格类型</title>
     
-    <!-- Google AdSense 代码 -->
+    <!-- 广告相关已禁用 -->
+    <!--
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4198974976257818" crossorigin="anonymous"></script>
-    
-    <!-- 广告配置文件 -->
     <script src="ads-config.js"></script>
+    -->
     <style>
         * {
             margin: 0;
@@ -3453,6 +3453,13 @@
             }
         }
     </style>
+    <style>
+        /* 强制隐藏所有广告/投放相关区域 */
+        .ad-section,
+        .ad-config-panel,
+        .google-adsense-ad,
+        ins.adsbygoogle { display: none !important; visibility: hidden !important; }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -3480,18 +3487,18 @@
             <p>除了MBTI人格测试，我们还有更多有趣的测试等你来体验</p>
             
             <div class="features-grid">
-                <div class="feature-card" onclick="showFeatureInfo('mbti')">
+                <div class="feature-card" onclick="location.href='mbti-quick-test.html'">
                     <div class="feature-icon">🧠</div>
                     <h3>MBTI人格测试</h3>
                     <p>基于荣格理论的16种人格类型测试</p>
-                    <div class="feature-status active">当前使用</div>
+                    <div class="feature-status active">开始测试</div>
                 </div>
                 
-                <div class="feature-card" onclick="startZodiacMBTITest()">
+                <div class="feature-card" id="zodiacMbtiExperienceCard" onclick="location.href='mbti-quick-test.html'">
                     <div class="feature-icon">♈</div>
                     <h3>星座+MBTI融合测试</h3>
                     <p>探索你的星座特质与MBTI性格类型的完美结合</p>
-                    <div class="feature-status active">立即体验</div>
+                    <div class="feature-status active">开始测试</div>
                 </div>
                 
                 <!-- 测试按钮 -->
@@ -3502,11 +3509,11 @@
                     <button class="btn" onclick="testModalElements()" style="background: #45b7d1;">测试模态框元素</button>
                 </div>
                 
-                <div class="feature-card" onclick="showFeatureInfo('bazi')">
+                <div class="feature-card" onclick="location.href='bazi-test.html'">
                     <div class="feature-icon">📅</div>
                     <h3>八字算命</h3>
                     <p>传统命理学，解读你的命运密码</p>
-                    <div class="feature-status coming-soon">即将推出</div>
+                    <div class="feature-status active">开始测试</div>
                 </div>
                 
                 <div class="feature-card" onclick="showFeatureInfo('tarot')">
@@ -3633,7 +3640,7 @@
             </div>
             <p>测试大约需要15-20分钟，请确保在安静的环境中完成。</p>
             <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-                <button class="btn" onclick="startTest()">开始测试</button>
+                <button class="btn" onclick="location.href='mbti-quick-test.html'">开始测试</button>
                 <button class="btn btn-secondary" onclick="showMBTIInfo()">了解MBTI</button>
                 <button class="btn btn-secondary" onclick="showDebugInfo()" style="font-size: 0.8rem; padding: 10px 20px;">调试信息</button>
             </div>
@@ -4662,6 +4669,256 @@
                 weight: 2.5,
                 explanation: "综合验证你的生活哲学",
                 requires: ["JP", "SN", "TF", "EI"]
+            },
+
+            // ===== 文献建模扩展：基础偏好（心理类型/天生不同） =====
+            {
+                id: 21,
+                level: 1,
+                question: "初到新环境时，你通常：",
+                options: ["A. 主动尝试融入，快速建立连接", "B. 先观察整体氛围，择机参与"],
+                dimension: "EI",
+                category: "social_energy",
+                weight: 1.0,
+                explanation: "态度(E/I)偏好（荣格《心理类型》）",
+                source: "心理类型",
+                facet: "态度(E/I)"
+            },
+            {
+                id: 22,
+                level: 1,
+                question: "做方案时你更看重：",
+                options: ["A. 可验证的数据与既有经验", "B. 潜在模式与未来可能"],
+                dimension: "SN",
+                category: "information_processing",
+                weight: 1.0,
+                explanation: "功能(S/N)偏好（荣格《心理类型》）",
+                source: "心理类型",
+                facet: "功能(S/N)"
+            },
+            {
+                id: 23,
+                level: 1,
+                question: "面对分歧你更倾向于：",
+                options: ["A. 回到标准与证据，理清是非", "B. 考量双方感受，顾及关系"],
+                dimension: "TF",
+                category: "decision_making",
+                weight: 1.0,
+                explanation: "功能(T/F)偏好（荣格《心理类型》）",
+                source: "心理类型",
+                facet: "功能(T/F)"
+            },
+            {
+                id: 24,
+                level: 1,
+                question: "你的时间观更像：",
+                options: ["A. 先定计划再推进，按部就班", "B. 先启动探索，再逐步成形"],
+                dimension: "JP",
+                category: "lifestyle_preference",
+                weight: 1.0,
+                explanation: "取向(J/P)偏好（MBTI框架）",
+                source: "天生不同/请理解我",
+                facet: "取向(J/P)"
+            },
+
+            // ===== 文献建模扩展：具体行为（请理解我/类型与沟通） =====
+            {
+                id: 25,
+                level: 2,
+                question: "沟通时你更常：",
+                options: ["A. 直陈要点，追求效率与清晰", "B. 先建立氛围，循序渐进表达"],
+                dimension: "EI",
+                category: "team_communication",
+                weight: 1.2,
+                explanation: "沟通取向（《类型与沟通》《请理解我》）",
+                source: "类型与沟通",
+                facet: "表达/倾听"
+            },
+            {
+                id: 26,
+                level: 2,
+                question: "学习路径选择时你更看重：",
+                options: ["A. 可复用的范式与最佳实践", "B. 原理框架与模型推演"],
+                dimension: "SN",
+                category: "learning_style",
+                weight: 1.2,
+                explanation: "经验(S) vs 直觉(N)的学习偏好（《请理解我》）",
+                source: "请理解我",
+                facet: "学习方式"
+            },
+            {
+                id: 27,
+                level: 2,
+                question: "反馈他人时你更：",
+                options: ["A. 指出问题与改进建议", "B. 先肯定再提出感受与期望"],
+                dimension: "TF",
+                category: "emotional_support",
+                weight: 1.2,
+                explanation: "决策与人际权衡（《类型与沟通》）",
+                source: "类型与沟通",
+                facet: "反馈风格"
+            },
+            {
+                id: 28,
+                level: 2,
+                question: "面对不确定任务你通常：",
+                options: ["A. 快速澄清目标，划分阶段推进", "B. 保持开放探索，多方案并行试错"],
+                dimension: "JP",
+                category: "work_organization",
+                weight: 1.2,
+                explanation: "结构(J) vs 机动(P)（《请理解我》）",
+                source: "请理解我",
+                facet: "组织风格"
+            },
+
+            // ===== 文献建模扩展：深度功能偏好（心理类型/认知功能） =====
+            {
+                id: 29,
+                level: 3,
+                question: "面向未来的思考中你更：",
+                options: ["A. 从当下数据外推趋势（Se/Te倾向）", "B. 由直觉洞见回推路径（Ni/Ne倾向）"],
+                dimension: "SN",
+                category: "innovation_approach",
+                weight: 1.5,
+                explanation: "感知/直觉的功能取向（荣格功能）",
+                source: "心理类型",
+                facet: "功能取向"
+            },
+            {
+                id: 30,
+                level: 3,
+                question: "评估方案优先级时你侧重：",
+                options: ["A. 客观标准、一致性与可复现（Ti/Te）", "B. 价值契合、影响关系与人群（Fi/Fe）"],
+                dimension: "TF",
+                category: "conflict_resolution",
+                weight: 1.5,
+                explanation: "思考/情感的功能取向（荣格功能）",
+                source: "心理类型",
+                facet: "功能取向"
+            },
+            {
+                id: 31,
+                level: 3,
+                question: "推进复杂议题时你更：",
+                options: ["A. 锁定目标与路径，减少变量（J）", "B. 保留探索窗口，动态适配（P）"],
+                dimension: "JP",
+                category: "change_adaptation",
+                weight: 1.5,
+                explanation: "取向(J/P)在复杂性情境下的表现",
+                source: "天生不同",
+                facet: "复杂性管理"
+            },
+            {
+                id: 32,
+                level: 3,
+                question: "社交展示中你更：",
+                options: ["A. 以任务/目标驱动互动（E-任务型）", "B. 以关系/氛围驱动互动（I-关系型）"],
+                dimension: "EI",
+                category: "stress_response",
+                weight: 1.5,
+                explanation: "E/I在目标与关系之间的侧重",
+                source: "类型与沟通",
+                facet: "社交取向"
+            },
+
+            // ===== 文献建模扩展：交叉验证（类型与亲密关系/就业宝典） =====
+            {
+                id: 33,
+                level: 4,
+                question: "亲密关系中你更看重：",
+                options: ["A. 共同目标、角色分工与稳定性", "B. 情感连接、表达自由与理解"],
+                dimension: "TF",
+                category: "relationship_values",
+                weight: 2.0,
+                explanation: "伴侣期望的价值取向（《类型与亲密关系》）",
+                source: "类型与亲密关系",
+                facet: "伴侣期望"
+            },
+            {
+                id: 34,
+                level: 4,
+                question: "职业场景里更适配你的是：",
+                options: ["A. 规则明确、流程稳定的岗位（SJ/NT偏好）", "B. 创意驱动、变化快速的岗位（SP/NF偏好）"],
+                dimension: "JP",
+                category: "ideal_workplace",
+                weight: 2.0,
+                explanation: "凯尔西气质与职业匹配（《就业宝典》）",
+                source: "就业宝典",
+                facet: "气质与职业"
+            },
+            {
+                id: 35,
+                level: 4,
+                question: "信息获取更偏好：",
+                options: ["A. 一手事实、可测量指标（S）", "B. 模式识别、隐含意义（N）"],
+                dimension: "SN",
+                category: "problem_solving",
+                weight: 2.0,
+                explanation: "感觉/直觉在知识摄入的差异",
+                source: "心理类型",
+                facet: "信息偏好"
+            },
+            {
+                id: 36,
+                level: 4,
+                question: "团队协作时更关注：",
+                options: ["A. 角色清晰、进度与产出", "B. 心理安全、关系与动力"],
+                dimension: "EI",
+                category: "leadership_style",
+                weight: 2.0,
+                explanation: "外向/内向在团队目标中的侧重",
+                source: "类型与沟通",
+                facet: "团队关注点"
+            },
+
+            // ===== 文献建模扩展：综合验证（了不起的16型人格/学术论文） =====
+            {
+                id: 37,
+                level: 5,
+                question: "遇到价值冲突时你更可能：",
+                options: ["A. 坚持原则并优化规则（T/NT气质）", "B. 协调关系并寻求共识（F/NF气质）"],
+                dimension: "TF",
+                category: "life_philosophy",
+                weight: 2.5,
+                explanation: "价值系统取向（《了不起的16型人格》《学术论文综述》）",
+                source: "学术论文/16型人格",
+                facet: "价值取向"
+            },
+            {
+                id: 38,
+                level: 5,
+                question: "长期学习策略你更：",
+                options: ["A. 以目标为导向，阶段性复盘与固化", "B. 以兴趣为驱动，广度探索与联结"],
+                dimension: "JP",
+                category: "personal_growth",
+                weight: 2.5,
+                explanation: "J/P在元学习中的差异（文献综合）",
+                source: "学术论文",
+                facet: "元学习"
+            },
+            {
+                id: 39,
+                level: 5,
+                question: "复杂问题求解你更：",
+                options: ["A. 自底向上汇总证据（S/T）", "B. 自顶向下设定假说（N/T或N/F）"],
+                dimension: "SN",
+                category: "problem_solving",
+                weight: 2.5,
+                explanation: "S/N在推理路径上的差异（学术综述）",
+                source: "学术论文",
+                facet: "推理路径"
+            },
+            {
+                id: 40,
+                level: 5,
+                question: "人际决策你更：",
+                options: ["A. 依据角色/规则保持一致性（T/J）", "B. 依据情境/人心灵活调整（F/P）"],
+                dimension: "TF",
+                category: "relationship_values",
+                weight: 2.5,
+                explanation: "T/F与J/P的交互（文献综合）",
+                source: "类型与亲密关系/学术论文",
+                facet: "人际决策"
             }
         ];
 
@@ -7024,6 +7281,25 @@
             if (typeof window.zodiacTestAnswers === 'undefined') {
                 window.zodiacTestAnswers = { basic: {}, mbti: {}, zodiac: {}, fusion: {} };
                 console.log('在全局作用域初始化zodiacTestAnswers');
+            }
+
+            // 绑定“立即体验”卡片点击事件（冗余绑定，防止inline无效）
+            const experienceCard = document.getElementById('zodiacMbtiExperienceCard');
+            if (experienceCard) {
+                experienceCard.addEventListener('click', function(e) {
+                    try {
+                        console.log('“立即体验”卡片被点击（监听器）');
+                        // 不阻止默认，让 inline 与监听器都能触发；如需单通道，可取消下一行注释
+                        // e.stopPropagation();
+                        startZodiacMBTITest();
+                    } catch (err) {
+                        console.error('触发startZodiacMBTITest失败:', err);
+                        alert('启动体验失败: ' + err.message);
+                    }
+                }, { passive: true });
+                console.log('已绑定“立即体验”卡片点击事件');
+            } else {
+                console.warn('未找到“立即体验”卡片进行事件绑定');
             }
         });
 
