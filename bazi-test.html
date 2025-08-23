@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>八字×MBTI 人格深度解析</title>
+    <title>八字×MBTI×数字命理 人格深度解析</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -19,6 +19,7 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 16px; }
         .btn { display:inline-block; background: linear-gradient(135deg, #0ea5e9, #6366f1); color:#fff; border:none; padding:10px 18px; border-radius:999px; cursor:pointer; font-weight:600; }
         .btn:hover { transform: translateY(-1px); }
+        .btn-secondary { background: linear-gradient(135deg, #94a3b8, #64748b); color:#fff; }
         .muted { color:#6b7280; font-size:14px; }
         label { font-weight:600; display:block; margin:8px 0 6px; }
         input, select { width:100%; padding:10px; border-radius:10px; border:1px solid #e5e7eb; }
@@ -34,130 +35,341 @@
         .mbti-dimension { background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 4px solid #f59e0b; }
         .bazi-insight { background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-left: 4px solid #3b82f6; }
         .integration { background: linear-gradient(135deg, #dcfce7, #bbf7d0); border-left: 4px solid #16a34a; }
+        .numerology { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); border-left: 4px solid #9333ea; }
         .hidden { display: none; }
+        
+        .feature-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .feature-status.coming-soon {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .feature-status.ready {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .tab-container { display: flex; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,0.1); }
+        .tab { flex: 1; padding: 12px; text-align: center; background: rgba(255,255,255,0.2); color: #fff; cursor: pointer; transition: all 0.3s; }
+        .tab.active { background: rgba(255,255,255,0.9); color: #111827; }
+        .tab:hover { background: rgba(255,255,255,0.3); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Utility bar */
+        /* utility/share removed by request */
     </style>
     
 </head>
 <body>
     <div class="header">
         <div class="container">
-            <h1>🧠 八字×MBTI 人格深度解析</h1>
-            <p class="muted">结合传统命理学与MBTI理论，探索你的性格密码与人生格局</p>
+            <h1>🧠 八字×MBTI×数字命理 人格深度解析</h1>
+            <p class="muted">结合传统命理学、MBTI理论与现代数字命理学，探索你的性格密码与人生格局</p>
+            
+            <!-- 测试按钮 -->
+            <div style="margin-top: 20px;">
+                <button class="btn" onclick="testNumerologyDirectly()" style="margin-right: 10px;">🧪 直接测试数字命理</button>
+                <button class="btn" onclick="debugTabSwitching()" style="background: #dc2626;">🐛 调试标签页切换</button>
+                <button class="btn" onclick="location.href='index.html'" style="background: #6b7280; margin-left: 10px;">🏠 返回首页</button>
+            </div>
         </div>
     </div>
 
     <div class="container">
-        <!-- 基础信息输入 -->
+        <!-- 测试类型选择 -->
         <div class="card">
-            <div class="grid">
-                <div>
-                    <h3 class="section-title">基础信息</h3>
-                    <label for="bDate">出生日期</label>
-                    <input type="date" id="bDate" />
-                    <label for="bTime">出生时间（24小时制）</label>
-                    <input type="time" id="bTime" value="12:00" />
-                    <label for="tz">时区</label>
-                    <select id="tz">
-                        <option value="8" selected>东八区（中国大陆/港澳台）UTC+8</option>
-                        <option value="7">UTC+7</option>
-                        <option value="9">UTC+9</option>
-                        <option value="0">UTC±0</option>
-                    </select>
-                    <div style="margin-top:12px">
-                        <button class="btn" type="button" onclick="analyzePersonality()">开始分析</button>
-                        <a class="link" href="index.html" style="margin-left:12px">返回首页</a>
+            <div class="tab-container">
+                <div class="tab active" onclick="switchTab('bazi', event)">八字×MBTI</div>
+                <div class="tab" onclick="switchTab('numerology', event)">数字命理×MBTI</div>
+                <div class="tab" onclick="switchTab('fusion', event)">三合一融合</div>
+            </div>
+        </div>
+
+        <!-- 八字×MBTI 测试内容 -->
+        <div id="bazi-content" class="tab-content active">
+            <!-- 基础信息输入 -->
+            <div class="card">
+                <div class="grid">
+                    <div>
+                        <h3 class="section-title">基础信息</h3>
+                        <label for="bDate">出生日期</label>
+                        <input type="date" id="bDate" />
+                        <label for="bTime">出生时间（24小时制）</label>
+                        <input type="time" id="bTime" value="12:00" />
+                        <label for="tz">时区</label>
+                        <select id="tz">
+                            <option value="8" selected>东八区（中国大陆/港澳台）UTC+8</option>
+                            <option value="7">UTC+7</option>
+                            <option value="9">UTC+9</option>
+                            <option value="0">UTC±0</option>
+                        </select>
+                        <div style="margin-top:12px">
+                            <button class="btn" type="button" onclick="analyzePersonality()">开始分析</button>
+                            <button class="btn btn-secondary" type="button" onclick="location.href='index.html'" style="margin-left:12px">返回首页</button>
+                        </div>
+                        <p class="muted" style="margin-top:8px">基于《渊海子平》《三命通会》等经典命理著作，结合MBTI理论进行人格深度解析。</p>
                     </div>
-                    <p class="muted" style="margin-top:8px">基于《渊海子平》《三命通会》等经典命理著作，结合MBTI理论进行人格深度解析。</p>
+                    <div>
+                        <h3 class="section-title">八字基础</h3>
+                        <div class="pill">四柱</div>
+                        <div class="kpi mono" id="pillars">— —｜— —｜— —｜— —</div>
+                        <div class="muted" id="stemsBranches"></div>
+                        <div style="height:10px"></div>
+                        <div class="pill">五行统计</div>
+                        <div id="wuxing" class="grid" style="grid-template-columns: repeat(5,1fr); gap:8px; margin-top:8px"></div>
+                        <div id="calcStatus" class="result hidden" style="margin-top:10px"></div>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="section-title">八字基础</h3>
-                    <div class="pill">四柱</div>
-                    <div class="kpi mono" id="pillars">— —｜— —｜— —｜— —</div>
-                    <div class="muted" id="stemsBranches"></div>
-                    <div style="height:10px"></div>
-                    <div class="pill">五行统计</div>
-                    <div id="wuxing" class="grid" style="grid-template-columns: repeat(5,1fr); gap:8px; margin-top:8px"></div>
-                    <div id="calcStatus" class="result hidden" style="margin-top:10px"></div>
+            </div>
+
+            <!-- MBTI维度分析 -->
+            <div class="card hidden" id="mbtiAnalysis">
+                <h3 class="section-title">🧠 MBTI 四维度分析</h3>
+                <div class="grid">
+                    <div class="card mbti-dimension">
+                        <div class="pill">外向 E / 内向 I</div>
+                        <div id="eiAnalysis" class="muted"></div>
+                    </div>
+                    <div class="card mbti-dimension">
+                        <div class="pill">感觉 S / 直觉 N</div>
+                        <div id="snAnalysis" class="muted"></div>
+                    </div>
+                    <div class="card mbti-dimension">
+                        <div class="pill">思考 T / 情感 F</div>
+                        <div id="tfAnalysis" class="muted"></div>
+                    </div>
+                    <div class="card mbti-dimension">
+                        <div class="pill">判断 J / 感知 P</div>
+                        <div id="jpAnalysis" class="muted"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 八字命理解析 -->
+            <div class="card hidden" id="baziAnalysis">
+                <h3 class="section-title">📅 八字命理解析</h3>
+                <div class="grid">
+                    <div class="card bazi-insight">
+                        <div class="pill">日主强弱</div>
+                        <div id="dayMasterStrength" class="muted"></div>
+                    </div>
+                    <div class="card bazi-insight">
+                        <div class="pill">十神配置</div>
+                        <div id="tenGods" class="muted"></div>
+                    </div>
+                    <div class="card bazi-insight">
+                        <div class="pill">五行调候</div>
+                        <div id="regulation" class="muted"></div>
+                    </div>
+                    <div class="card bazi-insight">
+                        <div class="pill">格局特征</div>
+                        <div id="pattern" class="muted"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 八字×MBTI 融合解析 -->
+            <div class="card hidden" id="integrationAnalysis">
+                <h3 class="section-title">🌟 八字×MBTI 融合解析</h3>
+                <div class="card integration" style="margin-bottom:12px">
+                    <div class="pill">融合MBTI类型</div>
+                    <div id="fusionInlineType" class="kpi" style="font-size:22px; margin-top:6px"></div>
+                    <div id="fusionInlineBias" class="muted" style="margin-top:4px"></div>
+                </div>
+                <div class="grid">
+                    <div class="card integration">
+                        <div class="pill">性格根基</div>
+                        <div id="personalityFoundation" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">发展路径</div>
+                        <div id="developmentPath" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">潜在挑战</div>
+                        <div id="potentialChallenges" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">人生建议</div>
+                        <div id="lifeAdvice" class="muted"></div>
+                    </div>
+                </div>
+                <div class="card integration" style="margin-top:12px">
+                    <div class="pill">融合类型详解</div>
+                    <div id="fusionDetail" class="muted" style="margin-top:6px"></div>
+                </div>
+            </div>
+
+            <!-- 融合测评（自适应出题） -->
+            <div class="card hidden" id="fusionTest">
+                <h3 class="section-title">🧩 八字×MBTI 融合测评</h3>
+                <div id="fusionQuiz"></div>
+                <div style="margin-top:10px">
+                    <button class="btn" type="button" onclick="submitFusion()">提交融合测评</button>
+                    <span id="fusionResult" class="pill" style="margin-left:10px"></span>
                 </div>
             </div>
         </div>
 
-        <!-- MBTI维度分析 -->
-        <div class="card hidden" id="mbtiAnalysis">
-            <h3 class="section-title">🧠 MBTI 四维度分析</h3>
-            <div class="grid">
-                <div class="card mbti-dimension">
-                    <div class="pill">外向 E / 内向 I</div>
-                    <div id="eiAnalysis" class="muted"></div>
+        <!-- 数字命理×MBTI 测试内容 -->
+        <div id="numerology-content" class="tab-content">
+            <div class="card">
+                <h3 class="section-title">🔢 数字命理×MBTI 测试</h3>
+                <p class="muted">基于《数字命理学：基于数字的自我发现指南》《生命数字：揭示你的生命蓝图》等经典著作</p>
+                
+                <!-- 强制显示测试按钮 -->
+                <div style="margin-bottom: 20px; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <h4 style="margin: 0 0 10px 0; color: #92400e;">🧪 调试信息</h4>
+                    <p style="margin: 0 0 10px 0; color: #92400e;">如果你能看到这个区域，说明数字命理内容已经加载成功！</p>
+                    <button class="btn" onclick="forceShowNumerology()" style="background: #f59e0b;">🔍 强制显示所有内容</button>
+                    <button class="btn" onclick="testNumerologyFunctions()" style="background: #dc2626; margin-left: 10px;">🧪 测试函数</button>
                 </div>
-                <div class="card mbti-dimension">
-                    <div class="pill">感觉 S / 直觉 N</div>
-                    <div id="snAnalysis" class="muted"></div>
+                
+                <div class="grid">
+                    <div>
+                        <label for="nDate">出生日期</label>
+                        <input type="date" id="nDate" />
+                        <label for="nName">姓名（中文）</label>
+                        <input type="text" id="nName" placeholder="请输入中文姓名" />
+                        <div style="margin-top:12px">
+                            <button class="btn" type="button" onclick="analyzeNumerology()">开始数字命理分析</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>生命数字基础</h4>
+                        <div class="pill">生命数字</div>
+                        <div class="kpi mono" id="lifeNumber">—</div>
+                        <div class="pill">命运数字</div>
+                        <div class="kpi mono" id="destinyNumber">—</div>
+                        <div class="pill">灵魂数字</div>
+                        <div class="kpi mono" id="soulNumber">—</div>
+                    </div>
                 </div>
-                <div class="card mbti-dimension">
-                    <div class="pill">思考 T / 情感 F</div>
-                    <div id="tfAnalysis" class="muted"></div>
+            </div>
+
+            <!-- 数字命理解析结果 -->
+            <div class="card hidden" id="numerologyAnalysis">
+                <h3 class="section-title">🔢 数字命理解析</h3>
+                <div class="grid">
+                    <div class="card numerology">
+                        <div class="pill">生命数字特质</div>
+                        <div id="lifeNumberTraits" class="muted"></div>
+                    </div>
+                    <div class="card numerology">
+                        <div class="pill">命运数字指引</div>
+                        <div id="destinyNumberGuidance" class="muted"></div>
+                    </div>
+                    <div class="card numerology">
+                        <div class="pill">灵魂数字内涵</div>
+                        <div id="soulNumberMeaning" class="muted"></div>
+                    </div>
+                    <div class="card numerology">
+                        <div class="pill">数字组合分析</div>
+                        <div id="numberCombination" class="muted"></div>
+                    </div>
                 </div>
-                <div class="card mbti-dimension">
-                    <div class="pill">判断 J / 感知 P</div>
-                    <div id="jpAnalysis" class="muted"></div>
+            </div>
+
+            <!-- 数字命理×MBTI 融合分析 -->
+            <div class="card hidden" id="numerologyMBTIAnalysis">
+                <h3 class="section-title">🌟 数字命理×MBTI 融合分析</h3>
+                <div class="grid">
+                    <div class="card integration">
+                        <div class="pill">数字-MBTI映射</div>
+                        <div id="numberMBTIMapping" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">性格优势</div>
+                        <div id="numerologyStrengths" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">发展建议</div>
+                        <div id="numerologyAdvice" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">职业适配</div>
+                        <div id="numerologyCareer" class="muted"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数字命理测试题 -->
+            <div class="card hidden" id="numerologyTest">
+                <h3 class="section-title">🧩 数字命理×MBTI 融合测评</h3>
+                <div id="numerologyQuiz"></div>
+                <div style="margin-top:10px">
+                    <button class="btn" type="button" onclick="submitNumerologyTest()">提交数字命理测评</button>
+                    <span id="numerologyResult" class="pill" style="margin-left:10px"></span>
                 </div>
             </div>
         </div>
 
-        <!-- 八字命理解析 -->
-        <div class="card hidden" id="baziAnalysis">
-            <h3 class="section-title">📅 八字命理解析</h3>
-            <div class="grid">
-                <div class="card bazi-insight">
-                    <div class="pill">日主强弱</div>
-                    <div id="dayMasterStrength" class="muted"></div>
-                </div>
-                <div class="card bazi-insight">
-                    <div class="pill">十神配置</div>
-                    <div id="tenGods" class="muted"></div>
-                </div>
-                <div class="card bazi-insight">
-                    <div class="pill">五行调候</div>
-                    <div id="regulation" class="muted"></div>
-                </div>
-                <div class="card bazi-insight">
-                    <div class="pill">格局特征</div>
-                    <div id="pattern" class="muted"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 八字×MBTI 融合解析 -->
-        <div class="card hidden" id="integrationAnalysis">
-            <h3 class="section-title">🌟 八字×MBTI 融合解析</h3>
-            <div class="grid">
-                <div class="card integration">
-                    <div class="pill">性格根基</div>
-                    <div id="personalityFoundation" class="muted"></div>
-                </div>
-                <div class="card integration">
-                    <div class="pill">发展路径</div>
-                    <div id="developmentPath" class="muted"></div>
-                </div>
-                <div class="card integration">
-                    <div class="pill">潜在挑战</div>
-                    <div id="potentialChallenges" class="muted"></div>
-                </div>
-                <div class="card integration">
-                    <div class="pill">人生建议</div>
-                    <div id="lifeAdvice" class="muted"></div>
+        <!-- 三合一融合测试内容 -->
+        <div id="fusion-content" class="tab-content">
+            <div class="card">
+                <h3 class="section-title">🌟 三合一融合测试</h3>
+                <p class="muted">结合八字、MBTI、数字命理三大体系，进行全方位人格解析</p>
+                
+                <div class="grid">
+                    <div>
+                        <h4>基础信息</h4>
+                        <label for="fDate">出生日期</label>
+                        <input type="date" id="fDate" />
+                        <label for="fTime">出生时间</label>
+                        <input type="time" id="fTime" value="12:00" />
+                        <label for="fName">姓名</label>
+                        <input type="text" id="fName" placeholder="请输入中文姓名" />
+                        <div style="margin-top:12px">
+                            <button class="btn" type="button" onclick="runTripleAnalysis()">开始三合一分析</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>分析体系</h4>
+                        <div class="pill">八字命理</div>
+                        <div class="muted">传统命理学分析</div>
+                        <div class="pill">MBTI理论</div>
+                        <div class="muted">现代心理学分析</div>
+                        <div class="pill">数字命理</div>
+                        <div class="muted">数字能量学分析</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 命理基础测试 -->
-        <div class="card">
-            <h3 class="section-title">🧪 命理基础测试（10题）</h3>
-            <div id="quiz"></div>
-            <div style="margin-top:10px">
-                <button class="btn" type="button" onclick="gradeQuiz()">提交答案</button>
-                <span id="quizScore" class="pill" style="margin-left:10px"></span>
+            <!-- 三合一分析结果 -->
+            <div class="card hidden" id="tripleAnalysisResult">
+                <h3 class="section-title">🌟 三合一融合解析结果</h3>
+                <div class="card integration" style="margin-bottom:12px">
+                    <div class="pill">综合MBTI类型</div>
+                    <div id="tripleMBTIType" class="kpi" style="font-size:22px; margin-top:6px"></div>
+                    <div id="tripleConfidence" class="muted" style="margin-top:4px"></div>
+                </div>
+                <div class="grid">
+                    <div class="card integration">
+                        <div class="pill">八字特征</div>
+                        <div id="tripleBaziTraits" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">数字能量</div>
+                        <div id="tripleNumberEnergy" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">MBTI倾向</div>
+                        <div id="tripleMBTITendency" class="muted"></div>
+                    </div>
+                    <div class="card integration">
+                        <div class="pill">融合建议</div>
+                        <div id="tripleAdvice" class="muted"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -170,6 +382,68 @@
         const SHENG = { '木':'火', '火':'土', '土':'金', '金':'水', '水':'木' }; // 生
         const KE   = { '木':'土', '土':'水', '水':'火', '火':'金', '金':'木' }; // 克
 
+        // 数字命理映射
+        const NUMBER_MEANINGS = {
+            1: { traits: '领导力、独立性、创新性', mbti: 'ENTJ,ENTP,INTJ', element: '火', career: '企业家、领导、创新者' },
+            2: { traits: '合作性、敏感性、和谐性', mbti: 'INFJ,INFP,ENFJ', element: '水', career: '咨询师、协调者、艺术家' },
+            3: { traits: '表达性、创造性、乐观性', mbti: 'ENFP,ESFP,ENTP', element: '木', career: '创意工作者、表演者、教师' },
+            4: { traits: '稳定性、实用性、组织性', mbti: 'ISTJ,ESTJ,ISFJ', element: '土', career: '管理者、工程师、会计师' },
+            5: { traits: '自由性、冒险性、适应性', mbti: 'ESTP,ISTP,ENFP', element: '水', career: '探险家、销售员、记者' },
+            6: { traits: '责任感、关爱性、平衡性', mbti: 'ISFJ,ESFJ,INFJ', element: '土', career: '护理师、教师、社工' },
+            7: { traits: '分析性、精神性、神秘性', mbti: 'INTP,INTJ,INFJ', element: '金', career: '科学家、哲学家、分析师' },
+            8: { traits: '权力性、物质性、成就性', mbti: 'ENTJ,ESTJ,ISTJ', element: '金', career: '企业家、高管、政治家' },
+            9: { traits: '人道性、理想性、智慧性', mbti: 'INFJ,ENFJ,INFP', element: '火', career: '人道主义者、艺术家、导师' }
+        };
+
+        // 中文姓名数字映射
+        const CHINESE_NAME_NUMBERS = {
+            // 数字
+            '一':1, '二':2, '三':3, '四':4, '五':5, '六':6, '七':7, '八':8, '九':9,
+            '壹':1, '贰':2, '叁':3, '肆':4, '伍':5, '陆':6, '柒':7, '捌':8, '玖':9,
+            // 天干
+            '甲':1, '乙':2, '丙':3, '丁':4, '戊':5, '己':6, '庚':7, '辛':8, '壬':9, '癸':10,
+            // 地支
+            '子':1, '丑':2, '寅':3, '卯':4, '辰':5, '巳':6, '午':7, '未':8, '申':9, '酉':10, '戌':11, '亥':12,
+            // 五行
+            '木':3, '火':2, '土':5, '金':7, '水':1,
+            // 常用字
+            '王':1, '李':2, '张':3, '刘':4, '陈':5, '杨':6, '赵':7, '黄':8, '周':9, '吴':10,
+            '徐':1, '孙':2, '胡':3, '朱':4, '高':5, '林':6, '何':7, '郭':8, '马':9, '罗':10,
+            '梁':1, '宋':2, '郑':3, '谢':4, '韩':5, '唐':6, '冯':7, '于':8, '董':9, '萧':10,
+            '程':1, '曹':2, '袁':3, '邓':4, '许':5, '傅':6, '沈':7, '曾':8, '彭':9, '吕':10,
+            '苏':1, '卢':2, '蒋':3, '蔡':4, '贾':5, '丁':6, '魏':7, '薛':8, '叶':9, '阎':10
+        };
+
+        // 标签页切换
+        function switchTab(tabName, event) {
+            console.log('切换标签页到:', tabName);
+            
+            // 隐藏所有标签内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 显示选中的标签内容
+            const targetContent = document.getElementById(tabName + '-content');
+            if (targetContent) {
+                targetContent.classList.add('active');
+                console.log('显示内容:', tabName + '-content');
+            } else {
+                console.error('找不到内容元素:', tabName + '-content');
+            }
+            
+            // 激活对应的标签页
+            const targetTab = document.querySelector(`.tab[onclick*="${tabName}"]`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                console.log('激活标签页:', targetTab.textContent);
+            }
+        }
+
+        // 天干地支五行映射
         function safeGetPillars(year, month, day, hour, minute) {
             try {
                 const Solar = window.Solar || (window.Lunar && window.Lunar.Solar);
@@ -283,157 +557,1016 @@
             return false;
         }
 
-        async function analyzePersonality() {
-            if (isLoading) return;
-            isLoading = true;
-            const btn = document.querySelector('button.btn');
-            if (btn) { btn.disabled = true; btn.textContent = '分析中…'; }
-            hideStatus();
-            const d = document.getElementById('bDate').value;
-            const t = document.getElementById('bTime').value || '12:00';
-            if (!d) { showStatus('请选择出生日期'); if (btn){ btn.disabled=false; btn.textContent='开始分析'; } isLoading=false; return; }
+        // 数字命理分析
+        function analyzeNumerology() {
+            console.log('数字命理分析函数被调用');
+            
+            const birthDate = document.getElementById('nDate').value;
+            const name = document.getElementById('nName').value;
 
-            let ready = await waitForLunar();
-            if (!ready) {
-                showStatus('主CDN加载失败，正在尝试备用镜像...');
-                ready = await loadLunarFromFallbacks();
+            console.log('出生日期:', birthDate);
+            console.log('姓名:', name);
+
+            if (!birthDate) {
+                alert('请输入出生日期');
+                return;
             }
-            if (!ready) { showStatus('镜像加载失败。如需离线，请将 lunar-javascript 的 UMD 版本置于 ./libs/lunar.min.js'); if (btn){ btn.disabled=false; btn.textContent='开始分析'; } isLoading=false; return; }
 
-            const [yy,mm,dd] = d.split('-').map(s=>parseInt(s,10));
-            const [hh,mi] = t.split(':').map(s=>parseInt(s,10));
+            // 计算生命数字
+            const lifeNumber = calculateLifeNumber(birthDate);
+            const destinyNumber = calculateDestinyNumber(birthDate);
+            const soulNumber = calculateSoulNumber(name);
 
-            const res = safeGetPillars(yy,mm,dd,hh,mi);
-            if (!res || res.stems.every(s => s === '—')) {
-                showStatus('解析失败：输入或库异常。请确认日期/时间/时区正确，或刷新页面重试。');
-                if (btn){ btn.disabled=false; btn.textContent='开始分析'; } isLoading=false; return;
-            }
-            document.getElementById('pillars').textContent = res.pillarText;
-            document.getElementById('stemsBranches').textContent = `天干：${res.stems.join(' ')} ｜ 地支：${res.branches.join(' ')}`;
+            console.log('计算结果:', { lifeNumber, destinyNumber, soulNumber });
 
-            // 五行统计
-            const count = { '金':0, '木':0, '水':0, '火':0, '土':0 };
-            res.stems.forEach(g => { const w = STEM_TO_WUXING[g]; if (w) count[w] += 1; });
-            res.branches.forEach(z => { const w = BRANCH_TO_WUXING[z]; if (w) count[w] += 1; });
-            
-            const wx = document.getElementById('wuxing');
-            wx.innerHTML = '';
-            Object.entries(count).forEach(([k,v])=>{
-                const div = document.createElement('div');
-                div.className = 'card';
-                div.innerHTML = `<div class="pill">${k}</div><div class="kpi">${v}</div>`;
-                wx.appendChild(div);
-            });
+            // 显示基础数字
+            document.getElementById('lifeNumber').textContent = lifeNumber;
+            document.getElementById('destinyNumber').textContent = destinyNumber;
+            document.getElementById('soulNumber').textContent = soulNumber;
 
-            // 分析MBTI维度
-            analyzeMBTIDimensions(res, count);
-            
-            // 分析八字命理
-            analyzeBaziPatterns(res, count);
-            
-            // 融合解析
-            analyzeIntegration(res, count);
+            // 分析数字特质
+            analyzeNumberTraits(lifeNumber, destinyNumber, soulNumber);
 
             // 显示分析结果
-            document.getElementById('mbtiAnalysis').classList.remove('hidden');
-            document.getElementById('baziAnalysis').classList.remove('hidden');
-            document.getElementById('integrationAnalysis').classList.remove('hidden');
-            if (btn){ btn.disabled=false; btn.textContent='开始分析'; }
-            isLoading = false;
+            document.getElementById('numerologyAnalysis').classList.remove('hidden');
+            document.getElementById('numerologyMBTIAnalysis').classList.remove('hidden');
+
+            // 生成数字命理测试题
+            generateNumerologyQuiz(lifeNumber, destinyNumber, soulNumber);
         }
 
-        function analyzeMBTIDimensions(bazi, wuxing) {
-            const dayStem = bazi.stems[2];
-            const dayElement = STEM_TO_WUXING[dayStem];
+        // 计算生命数字
+        function calculateLifeNumber(birthDate) {
+            const dateStr = birthDate.replace(/-/g, '');
+            let sum = 0;
+            for (let i = 0; i < dateStr.length; i++) {
+                sum += parseInt(dateStr[i]);
+            }
+            while (sum > 9) {
+                sum = Math.floor(sum / 10) + (sum % 10);
+            }
+            return sum;
+        }
+
+        // 计算命运数字
+        function calculateDestinyNumber(birthDate) {
+            const dateStr = birthDate.replace(/-/g, '');
+            let sum = 0;
+            for (let i = 0; i < dateStr.length; i++) {
+                sum += parseInt(dateStr[i]);
+            }
+            return sum;
+        }
+
+        // 计算灵魂数字
+        function calculateSoulNumber(name) {
+            if (!name) return 0;
+            let sum = 0;
+            let found = false;
             
-            // 基于日主五行和整体五行分布分析MBTI倾向
-            const ei = analyzeEI(dayElement, wuxing);
-            const sn = analyzeSN(dayElement, wuxing);
-            const tf = analyzeTF(dayElement, wuxing);
-            const jp = analyzeJP(dayElement, wuxing);
-
-            document.getElementById('eiAnalysis').innerHTML = ei;
-            document.getElementById('snAnalysis').innerHTML = sn;
-            document.getElementById('tfAnalysis').innerHTML = tf;
-            document.getElementById('jpAnalysis').innerHTML = jp;
-        }
-
-        function analyzeEI(dayElement, wuxing) {
-            const fireCount = wuxing['火'] || 0;
-            const waterCount = wuxing['水'] || 0;
-            const woodCount = wuxing['木'] || 0;
-            const metalCount = wuxing['金'] || 0;
-
-            if (fireCount > waterCount && woodCount > metalCount) {
-                return '偏外向(E)：火木旺相，主动表达，善于社交互动';
-            } else if (waterCount > fireCount && metalCount > woodCount) {
-                return '偏内向(I)：金水旺相，内敛思考，善于沉淀反思';
-            } else {
-                return '内外平衡：五行相对均衡，内外向特征不明显';
+            for (let i = 0; i < name.length; i++) {
+                const char = name[i];
+                if (CHINESE_NAME_NUMBERS[char]) {
+                    sum += CHINESE_NAME_NUMBERS[char];
+                    found = true;
+                }
             }
-        }
-
-        function analyzeSN(dayElement, wuxing) {
-            const earthCount = wuxing['土'] || 0;
-            const woodCount = wuxing['木'] || 0;
-            const fireCount = wuxing['火'] || 0;
-
-            if (earthCount > 2) {
-                return '偏感觉(S)：土旺主实，重视细节，关注现实';
-            } else if (woodCount + fireCount > 3) {
-                return '偏直觉(N)：木火旺相，富有想象，善于联想';
-            } else {
-                return '感觉直觉平衡：五行分布相对均衡';
-            }
-        }
-
-        function analyzeTF(dayElement, wuxing) {
-            const metalCount = wuxing['金'] || 0;
-            const fireCount = wuxing['火'] || 0;
-            const waterCount = wuxing['水'] || 0;
-
-            if (metalCount > 2) {
-                return '偏思考(T)：金旺主理，逻辑清晰，重视原则';
-            } else if (fireCount + waterCount > 3) {
-                return '偏情感(F)：火水旺相，感性丰富，重视关系';
-            } else {
-                return '思考情感平衡：理性与感性相对均衡';
-            }
-        }
-
-        function analyzeJP(dayElement, wuxing) {
-            const earthCount = wuxing['土'] || 0;
-            const woodCount = wuxing['木'] || 0;
-            const waterCount = wuxing['水'] || 0;
-
-            if (earthCount > 2) {
-                return '偏判断(J)：土旺主稳，计划性强，重视秩序';
-            } else if (woodCount + waterCount > 3) {
-                return '偏感知(P)：木水旺相，灵活适应，保持开放';
-            } else {
-                return '判断感知平衡：计划性与灵活性相对均衡';
-            }
-        }
-
-        function analyzeBaziPatterns(bazi, wuxing) {
-            const dayStem = bazi.stems[2];
-            const dayElement = STEM_TO_WUXING[dayStem];
             
-            // 日主强弱分析
-            const strength = analyzeDayMasterStrength(dayStem, bazi.stems, bazi.branches[1]);
-            document.getElementById('dayMasterStrength').innerHTML = `日主${dayStem}：${strength.verdict}（评分${strength.score}）`;
+            // 如果没有找到映射字符，使用字符的Unicode编码
+            if (!found) {
+                for (let i = 0; i < name.length; i++) {
+                    const charCode = name.charCodeAt(i);
+                    sum += (charCode % 9) + 1; // 将Unicode编码转换为1-9的数字
+                }
+            }
+            
+            // 将总和转换为个位数
+            while (sum > 9) {
+                sum = Math.floor(sum / 10) + (sum % 10);
+            }
+            
+            return sum;
+        }
 
-            // 十神配置分析
-            const tenGods = analyzeTenGods(dayStem, bazi.stems);
-            document.getElementById('tenGods').innerHTML = tenGods;
+        // 分析数字特质
+        function analyzeNumberTraits(lifeNumber, destinyNumber, soulNumber) {
+            const lifeInfo = NUMBER_MEANINGS[lifeNumber] || {};
+            const destinyInfo = NUMBER_MEANINGS[destinyNumber] || {};
+            const soulInfo = NUMBER_MEANINGS[soulNumber] || {};
 
-            // 五行调候分析
-            const regulation = analyzeRegulation(dayElement, bazi.branches[1], wuxing);
-            document.getElementById('regulation').innerHTML = regulation;
+            // 生命数字特质
+            const lifeTraits = lifeInfo.traits || '特质不明显';
+            const lifeElement = lifeInfo.element || '';
+            const lifeCareer = lifeInfo.career || '';
+            
+            document.getElementById('lifeNumberTraits').innerHTML = 
+                `<strong>${lifeNumber}号人特质：</strong>${lifeTraits}<br>
+                 <small>五行属性：${lifeElement} | 适配职业：${lifeCareer}</small>`;
+            
+            // 命运数字指引
+            const destinyTraits = destinyInfo.traits || '指引不明显';
+            const destinyElement = destinyInfo.element || '';
+            
+            document.getElementById('destinyNumberGuidance').innerHTML = 
+                `<strong>命运指引：</strong>${destinyTraits}<br>
+                 <small>五行属性：${destinyElement}</small>`;
+            
+            // 灵魂数字内涵
+            const soulTraits = soulInfo.traits || '内涵不明显';
+            const soulElement = soulInfo.element || '';
+            
+            document.getElementById('soulNumberMeaning').innerHTML = 
+                `<strong>灵魂内涵：</strong>${soulTraits}<br>
+                 <small>五行属性：${soulElement}</small>`;
 
-            // 格局特征分析
-            const pattern = analyzePattern(dayStem, bazi.stems, wuxing);
-            document.getElementById('pattern').innerHTML = pattern;
+            // 数字组合分析
+            const combination = analyzeNumberCombination(lifeNumber, destinyNumber, soulNumber);
+            document.getElementById('numberCombination').innerHTML = combination;
+
+            // MBTI映射分析
+            const mbtiMapping = analyzeNumberMBTIMapping(lifeNumber, destinyNumber, soulNumber);
+            document.getElementById('numberMBTIMapping').innerHTML = mbtiMapping;
+
+            // 性格优势
+            const strengths = analyzeNumerologyStrengths(lifeNumber, destinyNumber, soulNumber);
+            document.getElementById('numerologyStrengths').innerHTML = strengths;
+
+            // 发展建议
+            const advice = analyzeNumerologyAdvice(lifeNumber, destinyNumber, soulNumber);
+            document.getElementById('numerologyAdvice').innerHTML = advice;
+
+            // 职业适配
+            const career = analyzeNumerologyCareer(lifeNumber, destinyNumber, soulNumber);
+            document.getElementById('numerologyCareer').innerHTML = career;
+        }
+
+        // 分析数字组合
+        function analyzeNumberCombination(life, destiny, soul) {
+            let analysis = '';
+            let energyLevel = '';
+            let compatibility = '';
+            
+            if (life === destiny && destiny === soul) {
+                analysis = '三数合一，能量集中，性格特征非常突出';
+                energyLevel = '能量集中度：极高';
+                compatibility = '兼容性：极强，但可能过于单一';
+            } else if (life === destiny || destiny === soul || life === soul) {
+                analysis = '两数相同，能量互补，性格特征明显';
+                energyLevel = '能量集中度：高';
+                compatibility = '兼容性：强，主要特征突出';
+            } else if (Math.abs(life - destiny) <= 2 && Math.abs(destiny - soul) <= 2) {
+                analysis = '三数相近，能量和谐，性格特征平衡';
+                energyLevel = '能量集中度：中等';
+                compatibility = '兼容性：良好，特征协调';
+            } else {
+                analysis = '三数分散，能量多元，性格特征丰富';
+                energyLevel = '能量集中度：低';
+                compatibility = '兼容性：多元，需要整合';
+            }
+
+            // 添加五行相生相克分析
+            const lifeElement = NUMBER_MEANINGS[life]?.element || '';
+            const destinyElement = NUMBER_MEANINGS[destiny]?.element || '';
+            const soulElement = NUMBER_MEANINGS[soul]?.element || '';
+            
+            let elementAnalysis = '';
+            if (lifeElement && destinyElement && soulElement) {
+                elementAnalysis = `<br><small>五行组合：${lifeElement} + ${destinyElement} + ${soulElement}</small>`;
+            }
+
+            return `<strong>组合特征：</strong>${analysis}<br>
+                    <small>${energyLevel} | ${compatibility}${elementAnalysis}</small>`;
+        }
+
+        // 分析数字-MBTI映射
+        function analyzeNumberMBTIMapping(life, destiny, soul) {
+            const lifeMBTI = NUMBER_MEANINGS[life]?.mbti || '';
+            const destinyMBTI = NUMBER_MEANINGS[destiny]?.mbti || '';
+            const soulMBTI = NUMBER_MEANINGS[soul]?.mbti || '';
+
+            let mapping = '';
+            let dominantType = '';
+            let compatibility = '';
+            
+            if (lifeMBTI) mapping += `生命数字：${lifeMBTI}<br>`;
+            if (destinyMBTI) mapping += `命运数字：${destinyMBTI}<br>`;
+            if (soulMBTI) mapping += `灵魂数字：${soulMBTI}`;
+
+            // 分析主导类型
+            const allTypes = [lifeMBTI, destinyMBTI, soulMBTI].filter(Boolean);
+            if (allTypes.length > 0) {
+                const typeCounts = {};
+                allTypes.forEach(type => {
+                    const types = type.split(',');
+                    types.forEach(t => {
+                        typeCounts[t] = (typeCounts[t] || 0) + 1;
+                    });
+                });
+                
+                const dominantTypes = Object.entries(typeCounts)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 2)
+                    .map(([type, count]) => `${type}(${count}次)`);
+                
+                dominantType = `主导类型：${dominantTypes.join('、')}`;
+                
+                // 兼容性分析
+                if (Object.keys(typeCounts).length <= 2) {
+                    compatibility = '兼容性：高，类型集中';
+                } else if (Object.keys(typeCounts).length <= 4) {
+                    compatibility = '兼容性：中等，类型多样';
+                } else {
+                    compatibility = '兼容性：低，类型分散';
+                }
+            }
+
+            return `${mapping || '暂无MBTI映射信息'}<br>
+                    <small><strong>${dominantType}</strong><br>
+                    <strong>${compatibility}</strong></small>`;
+        }
+
+        // 分析数字命理优势
+        function analyzeNumerologyStrengths(life, destiny, soul) {
+            const strengths = [];
+            const lifeInfo = NUMBER_MEANINGS[life] || {};
+            const destinyInfo = NUMBER_MEANINGS[destiny] || {};
+            const soulInfo = NUMBER_MEANINGS[soul] || {};
+            
+            // 生命数字优势
+            if (life <= 3) {
+                strengths.push(`创新思维（${life}号特质）`);
+                strengths.push('表达能力、灵活性');
+            } else if (life >= 4 && life <= 6) {
+                strengths.push(`组织能力（${life}号特质）`);
+                strengths.push('责任感、稳定性');
+            } else if (life >= 7 && life <= 9) {
+                strengths.push(`分析能力（${life}号特质）`);
+                strengths.push('领导力、专业性');
+            }
+
+            // 命运数字优势
+            if (destiny <= 3) {
+                strengths.push(`灵活性（${destiny}号特质）`);
+                strengths.push('适应性、创新性');
+            } else if (destiny >= 4 && destiny <= 6) {
+                strengths.push(`稳定性（${destiny}号特质）`);
+                strengths.push('可靠性、组织性');
+            } else if (destiny >= 7 && destiny <= 9) {
+                strengths.push(`深度思考（${destiny}号特质）`);
+                strengths.push('专业能力、洞察力');
+            }
+
+            // 灵魂数字优势
+            if (soul > 0) {
+                strengths.push(`内在特质（${soul}号灵魂）`);
+                strengths.push(soulInfo.traits ? soulInfo.traits.split('、')[0] : '独特个性');
+            }
+
+            // 五行优势
+            const elements = [lifeInfo.element, destinyInfo.element, soulInfo.element].filter(Boolean);
+            if (elements.length > 0) {
+                const uniqueElements = [...new Set(elements)];
+                if (uniqueElements.length === 1) {
+                    strengths.push(`${uniqueElements[0]}行专精，能量集中`);
+                } else {
+                    strengths.push(`${uniqueElements.join('+')}行组合，能量多元`);
+                }
+            }
+
+            return `<strong>核心优势：</strong>${strengths.join('、')}`;
+        }
+
+        // 分析数字命理建议
+        function analyzeNumerologyAdvice(life, destiny, soul) {
+            let advice = '';
+            let focus = '';
+            let warning = '';
+            
+            // 生命数字建议
+            if (life <= 3) {
+                advice = '发挥创造力，注意细节管理';
+                focus = '重点发展：创新思维、表达能力、灵活性';
+                warning = '需要注意：细节管理、执行力、稳定性';
+            } else if (life >= 4 && life <= 6) {
+                advice = '保持稳定性，培养创新思维';
+                focus = '重点发展：组织能力、责任感、稳定性';
+                warning = '需要注意：创新思维、灵活性、突破性';
+            } else {
+                advice = '发挥专业能力，注意团队合作';
+                focus = '重点发展：分析能力、领导力、专业性';
+                warning = '需要注意：团队合作、沟通能力、包容性';
+            }
+
+            // 命运数字建议
+            let destinyAdvice = '';
+            if (destiny <= 3) {
+                destinyAdvice = '培养适应能力，注意坚持性';
+            } else if (destiny >= 4 && destiny <= 6) {
+                destinyAdvice = '发挥稳定优势，注意灵活性';
+            } else {
+                destinyAdvice = '深化专业能力，注意实践性';
+            }
+
+            // 灵魂数字建议
+            let soulAdvice = '';
+            if (soul > 0) {
+                const soulInfo = NUMBER_MEANINGS[soul] || {};
+                if (soul <= 3) {
+                    soulAdvice = '关注内在成长，培养自我认知';
+                } else if (soul >= 4 && soul <= 6) {
+                    soulAdvice = '平衡内外需求，培养自我调节';
+                } else {
+                    soulAdvice = '深化内在智慧，培养自我超越';
+                }
+            }
+
+            return `<strong>发展建议：</strong>${advice}<br>
+                    <small><strong>重点发展：</strong>${focus}<br>
+                    <strong>需要注意：</strong>${warning}<br>
+                    <strong>命运指引：</strong>${destinyAdvice}<br>
+                    <strong>灵魂成长：</strong>${soulAdvice}</small>`;
+        }
+
+        // 分析数字命理职业
+        function analyzeNumerologyCareer(life, destiny, soul) {
+            const lifeCareer = NUMBER_MEANINGS[life]?.career || '';
+            const destinyCareer = NUMBER_MEANINGS[destiny]?.career || '';
+            const soulCareer = NUMBER_MEANINGS[soul]?.career || '';
+            
+            let careers = [];
+            let careerTypes = [];
+            let developmentPath = '';
+            
+            // 收集职业建议
+            if (lifeCareer) careers.push(lifeCareer);
+            if (destinyCareer && destinyCareer !== lifeCareer) careers.push(destinyCareer);
+            if (soulCareer && !careers.includes(soulCareer)) careers.push(soulCareer);
+
+            // 分析职业类型
+            if (life <= 3 || destiny <= 3) {
+                careerTypes.push('创新创意类');
+            }
+            if (life >= 4 && life <= 6 || destiny >= 4 && destiny <= 6) {
+                careerTypes.push('管理组织类');
+            }
+            if (life >= 7 || destiny >= 7) {
+                careerTypes.push('专业分析类');
+            }
+
+            // 发展路径建议
+            if (life <= 3 && destiny <= 3) {
+                developmentPath = '适合从创意岗位开始，逐步培养管理能力';
+            } else if (life >= 7 && destiny >= 7) {
+                developmentPath = '适合从专业岗位开始，逐步培养领导能力';
+            } else if (life >= 4 && life <= 6 && destiny >= 4 && destiny <= 6) {
+                developmentPath = '适合从管理岗位开始，逐步培养创新能力';
+            } else {
+                developmentPath = '适合从综合岗位开始，逐步培养专业能力';
+            }
+
+            return `<strong>适配职业：</strong>${careers.join('、') || '根据兴趣选择'}<br>
+                    <small><strong>职业类型：</strong>${careerTypes.join('、')}<br>
+                    <strong>发展路径：</strong>${developmentPath}</small>`;
+        }
+
+        // 生成数字命理测试题
+        function generateNumerologyQuiz(life, destiny, soul) {
+            const quizContainer = document.getElementById('numerologyQuiz');
+            quizContainer.innerHTML = '';
+
+            const questions = [
+                {
+                    id: 1,
+                    question: '面对新挑战时，你更倾向于：',
+                    options: [
+                        { text: '制定详细计划，按步骤执行', score: { S: 1, J: 1, number: { 4: 0.5, 6: 0.5 } } },
+                        { text: '灵活应对，随机应变', score: { N: 1, P: 1, number: { 5: 0.5, 3: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: '在团队中，你更愿意扮演：',
+                    options: [
+                        { text: '领导者，制定方向和策略', score: { E: 1, J: 1, number: { 1: 0.5, 8: 0.5 } } },
+                        { text: '支持者，协助他人完成任务', score: { I: 1, F: 1, number: { 2: 0.5, 6: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: '解决问题时，你更依赖：',
+                    options: [
+                        { text: '逻辑分析和数据支持', score: { T: 1, S: 1, number: { 7: 0.5, 4: 0.5 } } },
+                        { text: '直觉感受和创意灵感', score: { F: 1, N: 1, number: { 3: 0.5, 9: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 4,
+                    question: '对于规则和传统，你的态度是：',
+                    options: [
+                        { text: '尊重并遵循，维护秩序', score: { S: 1, J: 1, number: { 4: 0.5, 6: 0.5 } } },
+                        { text: '灵活运用，必要时打破', score: { N: 1, P: 1, number: { 5: 0.5, 1: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 5,
+                    question: '在社交场合，你更：',
+                    options: [
+                        { text: '主动交流，扩大人脉', score: { E: 1, number: { 1: 0.5, 3: 0.5 } } },
+                        { text: '观察倾听，深度交流', score: { I: 1, number: { 2: 0.5, 7: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 6,
+                    question: '处理冲突时，你更倾向于：',
+                    options: [
+                        { text: '直接面对，寻求解决方案', score: { T: 1, E: 0.5, number: { 1: 0.5, 8: 0.5 } } },
+                        { text: '缓和气氛，维护关系和谐', score: { F: 1, I: 0.5, number: { 2: 0.5, 6: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 7,
+                    question: '学习新知识时，你更喜欢：',
+                    options: [
+                        { text: '系统学习，建立知识框架', score: { S: 1, J: 1, number: { 4: 0.5, 7: 0.5 } } },
+                        { text: '跳跃式学习，寻找灵感连接', score: { N: 1, P: 1, number: { 3: 0.5, 5: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 8,
+                    question: '面对压力时，你会：',
+                    options: [
+                        { text: '制定计划，逐步化解', score: { J: 1, S: 0.5, number: { 4: 0.5, 6: 0.5 } } },
+                        { text: '寻找支持，寻求帮助', score: { F: 1, E: 0.5, number: { 2: 0.5, 9: 0.5 } } }
+                    ]
+                }
+            ];
+
+            // 存储问题到全局变量，供提交函数使用
+            window._numerologyQuestions = questions;
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'q';
+                questionDiv.innerHTML = `<div style="font-weight:700">${index + 1}. ${q.question}</div>`;
+                
+                q.options.forEach((option, optIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'opt';
+                    optionDiv.innerHTML = `<label><input type="radio" name="nq${q.id}" value="${optIndex}"> ${option.text}</label>`;
+                    questionDiv.appendChild(optionDiv);
+                });
+                
+                quizContainer.appendChild(questionDiv);
+            });
+
+            document.getElementById('numerologyTest').classList.remove('hidden');
+        }
+
+        // 提交数字命理测试
+        function submitNumerologyTest() {
+            const questions = document.querySelectorAll('#numerologyQuiz .q');
+            let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+            let numberScores = {};
+
+            questions.forEach((q, index) => {
+                const selected = q.querySelector('input:checked');
+                if (selected) {
+                    const optionIndex = parseInt(selected.value);
+                    const question = window._numerologyQuestions ? window._numerologyQuestions[index] : null;
+                    if (question && question.options[optionIndex]) {
+                        const option = question.options[optionIndex];
+                        Object.entries(option.score).forEach(([key, value]) => {
+                            if (key === 'number') {
+                                Object.entries(value).forEach(([num, score]) => {
+                                    numberScores[num] = (numberScores[num] || 0) + score;
+                                });
+                            } else {
+                                scores[key] = (scores[key] || 0) + value;
+                            }
+                        });
+                    }
+                }
+            });
+
+            const mbtiType = determineMBTIType(scores);
+            const result = `数字命理MBTI类型：${mbtiType}`;
+            
+            // 显示详细结果
+            document.getElementById('numerologyResult').textContent = result;
+            
+            // 显示数字能量分析
+            const numberAnalysis = analyzeNumberEnergy(numberScores);
+            const resultDiv = document.getElementById('numerologyResult');
+            resultDiv.innerHTML = `
+                <div style="margin-bottom: 8px;"><strong>数字命理MBTI类型：${mbtiType}</strong></div>
+                <div style="font-size: 12px; color: #6b7280;">${numberAnalysis}</div>
+            `;
+        }
+
+        // 分析数字能量
+        function analyzeNumberEnergy(numberScores) {
+            if (Object.keys(numberScores).length === 0) return '请完成测试题';
+            
+            const topNumbers = Object.entries(numberScores)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 3)
+                .map(([num, score]) => `${num}号能量(${score.toFixed(1)})`);
+            
+            return `数字能量：${topNumbers.join('、')}`;
+        }
+
+        // 确定MBTI类型
+        function determineMBTIType(scores) {
+            const E = scores.E || 0;
+            const I = scores.I || 0;
+            const S = scores.S || 0;
+            const N = scores.N || 0;
+            const T = scores.T || 0;
+            const F = scores.F || 0;
+            const J = scores.J || 0;
+            const P = scores.P || 0;
+
+            const first = E > I ? 'E' : 'I';
+            const second = S > N ? 'S' : 'N';
+            const third = T > F ? 'T' : 'F';
+            const fourth = J > P ? 'J' : 'P';
+
+            return first + second + third + fourth;
+        }
+
+        // 三合一分析
+        function runTripleAnalysis() {
+            const birthDate = document.getElementById('fDate').value;
+            const birthTime = document.getElementById('fTime').value;
+            const name = document.getElementById('fName').value;
+
+            if (!birthDate) {
+                alert('请输入出生日期');
+                return;
+            }
+
+            // 计算八字
+            const baziResult = calculateBazi(birthDate, birthTime);
+            
+            // 计算数字命理
+            const lifeNumber = calculateLifeNumber(birthDate);
+            const destinyNumber = calculateDestinyNumber(birthDate);
+            const soulNumber = calculateSoulNumber(name);
+
+            // 综合分析
+            const tripleResult = analyzeTripleIntegration(baziResult, lifeNumber, destinyNumber, soulNumber);
+            
+            // 显示结果
+            displayTripleResult(tripleResult);
+        }
+
+        // 计算八字（简化版）
+        function calculateBazi(birthDate, birthTime) {
+            // 这里简化处理，实际应该调用完整的八字计算
+            const date = new Date(birthDate + 'T' + birthTime);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const hour = date.getHours();
+
+            // 简化的天干地支计算（实际应用中应该使用专业的八字计算库）
+            const stems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+            const branches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+            
+            const yearStem = stems[year % 10];
+            const monthStem = stems[month % 10];
+            const dayStem = stems[day % 10];
+            const hourStem = stems[hour % 10];
+
+            return {
+                year, month, day, hour,
+                yearStem,
+                monthStem,
+                dayStem,
+                hourStem,
+                yearBranch: branches[year % 12],
+                monthBranch: branches[month % 12],
+                dayBranch: branches[day % 12],
+                hourBranch: branches[hour % 12]
+            };
+        }
+
+        // 三合一融合分析
+        function analyzeTripleIntegration(bazi, life, destiny, soul) {
+            // 基于八字、数字命理的综合分析
+            let mbtiType = 'INTJ'; // 默认类型
+            let confidence = '中等';
+            let baziTraits = '传统命理特征';
+            let numberEnergy = '数字能量特征';
+            let mbtiTendency = 'MBTI倾向特征';
+            let advice = '综合发展建议';
+
+            // 数字命理与MBTI的融合逻辑
+            if (life <= 3 && destiny <= 3) {
+                mbtiType = 'ENFP';
+                confidence = '高';
+                numberEnergy = `生命数字${life}：创新思维 + 命运数字${destiny}：灵活适应`;
+                mbtiTendency = '外向直觉情感感知型，富有创造力和适应性';
+                advice = '发挥创新思维，培养执行力，注意细节管理';
+            } else if (life >= 7 && destiny >= 7) {
+                mbtiType = 'INTJ';
+                confidence = '高';
+                numberEnergy = `生命数字${life}：分析能力 + 命运数字${destiny}：深度思考`;
+                mbtiTendency = '内向直觉思考判断型，擅长战略规划和系统思考';
+                advice = '发挥分析优势，培养沟通能力，注意团队合作';
+            } else if (life >= 4 && life <= 6 && destiny >= 4 && destiny <= 6) {
+                mbtiType = 'ISTJ';
+                confidence = '高';
+                numberEnergy = `生命数字${life}：组织能力 + 命运数字${destiny}：稳定性`;
+                mbtiTendency = '内向感觉思考判断型，重视秩序和可靠性';
+                advice = '发挥组织优势，培养创新思维，注意灵活性';
+            } else if (life <= 3 && destiny >= 7) {
+                mbtiType = 'ENTP';
+                confidence = '中等';
+                numberEnergy = `生命数字${life}：创新思维 + 命运数字${destiny}：深度思考`;
+                mbtiTendency = '外向直觉思考感知型，富有创意和分析能力';
+                advice = '平衡创新与分析，培养专注力，注意执行力';
+            } else if (life >= 7 && destiny <= 3) {
+                mbtiType = 'INFJ';
+                confidence = '中等';
+                numberEnergy = `生命数字${life}：分析能力 + 命运数字${destiny}：创新思维`;
+                mbtiTendency = '内向直觉情感判断型，具有洞察力和理想主义';
+                advice = '发挥洞察优势，培养行动力，注意现实落地';
+            } else {
+                // 其他组合的分析
+                mbtiType = 'ISFP'; // 默认类型
+                confidence = '中等';
+                numberEnergy = `生命数字${life}：${NUMBER_MEANINGS[life]?.traits || '特质'} + 命运数字${destiny}：${NUMBER_MEANINGS[destiny]?.traits || '特质'}`;
+                mbtiTendency = '平衡型，具有多元特质，需要根据具体情况分析';
+                advice = '发挥主要优势，平衡发展，注意整合多元特质';
+            }
+
+            // 添加灵魂数字分析
+            if (soul > 0) {
+                const soulInfo = NUMBER_MEANINGS[soul] || {};
+                numberEnergy += `<br>灵魂数字${soul}：${soulInfo.traits || '内在特质'}`;
+                if (soul <= 3) {
+                    advice += '<br>关注内在成长，培养自我认知';
+                } else if (soul >= 7) {
+                    advice += '<br>深化内在智慧，培养自我超越';
+                }
+            }
+
+            // 八字特征分析
+            const yearElement = STEM_TO_WUXING[bazi.yearStem] || '';
+            const monthElement = STEM_TO_WUXING[bazi.monthStem] || '';
+            const dayElement = STEM_TO_WUXING[bazi.dayStem] || '';
+            const hourElement = STEM_TO_WUXING[bazi.hourStem] || '';
+            
+            if (yearElement) {
+                const elementTraits = {
+                    '木': '木性主仁，具有生长、向上、进取的特质',
+                    '火': '火性主礼，具有光明、温暖、热情的特质',
+                    '土': '土性主信，具有包容、稳定、务实的特质',
+                    '金': '金性主义，具有刚毅、果断、原则的特质',
+                    '水': '水性主智，具有智慧、灵活、包容的特质'
+                };
+                
+                baziTraits = `年干${bazi.yearStem}(${yearElement})：${elementTraits[yearElement]}`;
+                
+                // 添加月令分析
+                if (monthElement) {
+                    baziTraits += `<br>月干${bazi.monthStem}(${monthElement})：月令当令，影响日主强弱`;
+                }
+                
+                // 添加日主分析
+                if (dayElement) {
+                    baziTraits += `<br>日干${bazi.dayStem}(${dayElement})：日主，性格核心`;
+                }
+                
+                // 添加时柱分析
+                if (hourElement) {
+                    baziTraits += `<br>时干${bazi.hourStem}(${hourElement})：时柱，晚年发展`;
+                }
+            }
+
+            // 完善MBTI倾向分析
+            if (mbtiTendency === 'MBTI倾向特征') {
+                const lifeInfo = NUMBER_MEANINGS[life] || {};
+                const destinyInfo = NUMBER_MEANINGS[destiny] || {};
+                
+                if (life <= 3 && destiny <= 3) {
+                    mbtiTendency = '外向直觉情感感知型，富有创造力和适应性，适合创新和社交工作';
+                } else if (life >= 7 && destiny >= 7) {
+                    mbtiTendency = '内向直觉思考判断型，擅长战略规划和系统思考，适合分析和领导工作';
+                } else if (life >= 4 && life <= 6 && destiny >= 4 && destiny <= 6) {
+                    mbtiTendency = '内向感觉思考判断型，重视秩序和可靠性，适合管理和执行工作';
+                } else {
+                    mbtiTendency = '平衡型，具有多元特质，需要根据具体情况分析，适合综合和协调工作';
+                }
+            }
+
+            // 完善综合建议分析
+            if (advice === '综合发展建议') {
+                const lifeInfo = NUMBER_MEANINGS[life] || {};
+                const destinyInfo = NUMBER_MEANINGS[destiny] || {};
+                
+                if (life <= 3 && destiny <= 3) {
+                    advice = '发挥创新思维，培养执行力，注意细节管理，平衡创意与落地';
+                } else if (life >= 7 && destiny >= 7) {
+                    advice = '发挥分析优势，培养沟通能力，注意团队合作，平衡专业与协作';
+                } else if (life >= 4 && life <= 6 && destiny >= 4 && destiny <= 6) {
+                    advice = '发挥组织优势，培养创新思维，注意灵活性，平衡稳定与创新';
+                } else {
+                    advice = '发挥主要优势，平衡发展，注意整合多元特质，寻找适合自己的发展路径';
+                }
+                
+                // 添加灵魂数字建议
+                if (soul > 0) {
+                    const soulInfo = NUMBER_MEANINGS[soul] || {};
+                    if (soul <= 3) {
+                        advice += '<br>关注内在成长，培养自我认知，平衡内外发展';
+                    } else if (soul >= 7) {
+                        advice += '<br>深化内在智慧，培养自我超越，平衡精神与物质';
+                    } else {
+                        advice += '<br>平衡内外需求，培养自我调节，保持身心健康';
+                    }
+                }
+            }
+
+            // 完善综合建议
+            if (advice === '综合发展建议') {
+                const lifeInfo = NUMBER_MEANINGS[life] || {};
+                const destinyInfo = NUMBER_MEANINGS[destiny] || {};
+                
+                if (life <= 3 && destiny <= 3) {
+                    advice = '发挥创新思维，培养执行力，注意细节管理，平衡创意与落地';
+                } else if (life >= 7 && destiny >= 7) {
+                    advice = '发挥分析优势，培养沟通能力，注意团队合作，平衡专业与协作';
+                } else if (life >= 4 && life <= 6 && destiny >= 4 && destiny <= 6) {
+                    advice = '发挥组织优势，培养创新思维，注意灵活性，平衡稳定与创新';
+                } else {
+                    advice = '发挥主要优势，平衡发展，注意整合多元特质，寻找适合自己的发展路径';
+                }
+            }
+
+            // 完善置信度分析
+            if (confidence === '中等') {
+                if (life === destiny || destiny === soul || life === soul) {
+                    confidence = '高';
+                } else if (Math.abs(life - destiny) <= 1 && Math.abs(destiny - soul) <= 1) {
+                    confidence = '高';
+                } else if (Math.abs(life - destiny) <= 3 && Math.abs(destiny - soul) <= 3) {
+                    confidence = '中等';
+                } else {
+                    confidence = '低';
+                }
+            }
+
+            // 完善八字特征分析
+            if (baziTraits === '传统命理特征') {
+                const yearElement = STEM_TO_WUXING[bazi.yearStem] || '';
+                const monthElement = STEM_TO_WUXING[bazi.monthStem] || '';
+                const dayElement = STEM_TO_WUXING[bazi.dayStem] || '';
+                const hourElement = STEM_TO_WUXING[bazi.hourStem] || '';
+                
+                if (yearElement) {
+                    const elementTraits = {
+                        '木': '木性主仁，具有生长、向上、进取的特质',
+                        '火': '火性主礼，具有光明、温暖、热情的特质',
+                        '土': '土性主信，具有包容、稳定、务实的特质',
+                        '金': '金性主义，具有刚毅、果断、原则的特质',
+                        '水': '水性主智，具有智慧、灵活、包容的特质'
+                    };
+                    
+                    baziTraits = `年干${bazi.yearStem}(${yearElement})：${elementTraits[yearElement]}`;
+                    
+                    // 添加月令分析
+                    if (monthElement) {
+                        baziTraits += `<br>月干${bazi.monthStem}(${monthElement})：月令当令，影响日主强弱`;
+                    }
+                    
+                    // 添加日主分析
+                    if (dayElement) {
+                        baziTraits += `<br>日干${bazi.dayStem}(${dayElement})：日主，性格核心`;
+                    }
+                    
+                    // 添加时柱分析
+                    if (hourElement) {
+                        baziTraits += `<br>时干${bazi.hourStem}(${hourElement})：时柱，晚年发展`;
+                    }
+                }
+            }
+
+            // 完善数字能量分析
+            if (numberEnergy === '数字能量特征') {
+                const lifeInfo = NUMBER_MEANINGS[life] || {};
+                const destinyInfo = NUMBER_MEANINGS[destiny] || {};
+                const soulInfo = NUMBER_MEANINGS[soul] || {};
+                
+                numberEnergy = `生命数字${life}：${lifeInfo.traits || '特质'} + 命运数字${destiny}：${destinyInfo.traits || '特质'}`;
+                
+                if (soul > 0) {
+                    numberEnergy += `<br>灵魂数字${soul}：${soulInfo.traits || '内在特质'}`;
+                }
+                
+                // 添加五行分析
+                const elements = [lifeInfo.element, destinyInfo.element, soulInfo.element].filter(Boolean);
+                if (elements.length > 0) {
+                    const uniqueElements = [...new Set(elements)];
+                    if (uniqueElements.length === 1) {
+                        numberEnergy += `<br>五行专精：${uniqueElements[0]}行，能量集中`;
+                    } else {
+                        numberEnergy += `<br>五行组合：${uniqueElements.join('+')}，能量多元`;
+                    }
+                }
+            }
+
+            // 完善MBTI倾向分析
+            if (mbtiTendency === 'MBTI倾向特征') {
+                const lifeInfo = NUMBER_MEANINGS[life] || {};
+                const destinyInfo = NUMBER_MEANINGS[destiny] || {};
+                
+                if (life <= 3 && destiny <= 3) {
+                    mbtiTendency = '外向直觉情感感知型，富有创造力和适应性，适合创新和社交工作';
+                } else if (life >= 7 && destiny >= 7) {
+                    mbtiTendency = '内向直觉思考判断型，擅长战略规划和系统思考，适合分析和领导工作';
+                } else if (life >= 4 && life <= 6 && destiny >= 4 && destiny <= 6) {
+                    mbtiTendency = '内向感觉思考判断型，重视秩序和可靠性，适合管理和执行工作';
+                } else {
+                    mbtiTendency = '平衡型，具有多元特质，需要根据具体情况分析，适合综合和协调工作';
+                }
+            }
+
+            return {
+                mbtiType,
+                confidence,
+                baziTraits,
+                numberEnergy,
+                mbtiTendency,
+                advice
+            };
+        }
+
+        // 显示三合一结果
+        function displayTripleResult(result) {
+            document.getElementById('tripleMBTIType').textContent = result.mbtiType;
+            document.getElementById('tripleConfidence').textContent = `置信度：${result.confidence}`;
+            document.getElementById('tripleBaziTraits').innerHTML = result.baziTraits;
+            document.getElementById('tripleNumberEnergy').innerHTML = result.numberEnergy;
+            document.getElementById('tripleMBTITendency').innerHTML = result.mbtiTendency;
+            document.getElementById('tripleAdvice').innerHTML = result.advice;
+
+            document.getElementById('tripleAnalysisResult').classList.remove('hidden');
+        }
+
+        // ——— 融合题库与打分 ———
+        const FUSION_QUESTIONS = [
+            { id:1, d:'EI', when:{ any:[{ dayElementIn:['木','火'] }, { tenGodsTopIn:['比劫','食伤'] }] }, t:'新项目Kickoff，你更可能：', a:{ text:'主动定框架、拉齐节奏', mbti:{E:1.2}, bias:{ element:{火:+0.3,木:+0.2}, strength:{'偏旺':-0.1,'偏弱':+0.1} } }, b:{ text:'先听信息、再给关键意见', mbti:{I:1.2}, bias:{ element:{水:+0.3,金:+0.2} } } },
+            { id:2, d:'EI', when:{ any:[{ dayElementIn:['金','水'] }, { tenGodsTopIn:['官杀','印'] }] }, t:'大型社交场合，你更：', a:{ text:'自然串联人脉，快速建立连接', mbti:{E:1.0}, bias:{ element:{火:+0.2,木:+0.2} } }, b:{ text:'点到为止，保留精力在深聊上', mbti:{I:1.0}, bias:{ element:{金:+0.2,水:+0.2} } } },
+            { id:3, d:'SN', when:{ any:[{ dayElementIn:['土','金'] }, { monthBranchIn:['丑','辰','未','戌'] }] }, t:'做方案你会优先：', a:{ text:'调研案例与约束，先可行后优化', mbti:{S:1.2}, bias:{ element:{土:+0.3,金:+0.2} } }, b:{ text:'搭假设与蓝图，先方向后细化', mbti:{N:1.2}, bias:{ element:{木:+0.2,火:+0.2} } } },
+            { id:4, d:'SN', when:{ any:[{ dayElementIn:['木','火'] }, { tenGodsTopIn:['食伤'] }] }, t:'遇到模糊问题你更：', a:{ text:'抓显性事实，逐步收敛', mbti:{S:1.0} }, b:{ text:'用类比和愿景快速定位本质', mbti:{N:1.0}, bias:{ element:{木:+0.2,火:+0.2} } } },
+            { id:5, d:'TF', when:{ any:[{ tenGodsTopIn:['官杀','印'] }, { dayElementIn:['金','水'] }] }, t:'裁决时的第一原则：', a:{ text:'一致性与标准优先', mbti:{T:1.2}, bias:{ element:{金:+0.3,水:+0.2} } }, b:{ text:'关系与体验优先', mbti:{F:1.2}, bias:{ element:{火:+0.2,木:+0.2} } } },
+            { id:6, d:'TF', when:{ any:[{ tenGodsTopIn:['食伤','财'] }, { dayElementIn:['火','木'] }] }, t:'反馈同事时你会：', a:{ text:'先讲清标准与改进路径', mbti:{T:1.0} }, b:{ text:'先共情，再给建议', mbti:{F:1.0}, bias:{ element:{火:+0.2,木:+0.2} } } },
+            { id:7, d:'JP', when:{ any:[{ dayElementIn:['土'] }, { strengthIn:['偏旺'] }] }, t:'推进复杂任务你更：', a:{ text:'切分阶段，控节奏与风险', mbti:{J:1.2}, bias:{ element:{土:+0.3} } }, b:{ text:'多方案并行，动态试错', mbti:{P:1.0}, bias:{ strength:{'偏旺':-0.1,'偏弱':+0.1} } } },
+            { id:8, d:'JP', when:{ any:[{ dayElementIn:['木','水'] }, { monthBranchIn:['亥','子','丑'] }] }, t:'面对不确定的市场窗口：', a:{ text:'拉齐计划与依赖再动', mbti:{J:1.0} }, b:{ text:'先小步试探抢时机', mbti:{P:1.2}, bias:{ element:{木:+0.2,水:+0.2} } } },
+            { id:9, d:'TF', cross:['EI'], t:'现场冲突升级，你会：', a:{ text:'出面定规则与边界', mbti:{T:1.0,E:0.4}, bias:{ tenGods:{'官杀':+0.2} } }, b:{ text:'私下安抚，先稳人心', mbti:{F:1.0,I:0.4}, bias:{ element:{水:+0.2} } } },
+            { id:10, d:'SN', cross:['JP'], t:'0→1 产品探索时：', a:{ text:'做MVP验证关键事实', mbti:{S:1.0,J:0.4}, bias:{ element:{土:+0.2} } }, b:{ text:'先跑愿景Demo收反馈', mbti:{N:1.0,P:0.4}, bias:{ element:{木:+0.2,火:+0.2} } } },
+            { id:11, d:'JP', when:{ any:[{ monthBranchIn:['寅','卯','辰'] }, { dayElementIn:['木'] }] }, t:'资源有限的春季节点：', a:{ text:'立目标抢生长窗口', mbti:{J:1.0}, bias:{ element:{木:+0.2} } }, b:{ text:'保留弹性等信号明确', mbti:{P:1.0}, bias:{ strength:{'偏弱':+0.1} } } },
+            { id:12, d:'TF', when:{ any:[{ monthBranchIn:['巳','午','未'] }, { dayElementIn:['火'] }] }, t:'高压周期你更：', a:{ text:'靠流程与标准抗压', mbti:{T:1.0}, bias:{ element:{金:+0.2} } }, b:{ text:'靠士气与关系撑住', mbti:{F:1.0}, bias:{ element:{火:+0.2} } } },
+            { id:13, d:'SN', t:'你更愿意承担的价值：', a:{ text:'守正与复盘（稳定/沉淀）', mbti:{S:1.0,J:0.2}, bias:{ element:{土:+0.2,金:+0.1} } }, b:{ text:'破局与创变（拓展/连接）', mbti:{N:1.0,P:0.2}, bias:{ element:{木:+0.2,火:+0.1} } } },
+            { id:14, d:'EI', t:'团队里你更像：', a:{ text:'发动机：拉动节奏与协作', mbti:{E:1.0}, bias:{ element:{火:+0.2} } }, b:{ text:'稳定器：兜底质量与风险', mbti:{I:1.0}, bias:{ element:{土:+0.2,金:+0.1} } } },
+            { id:15, d:'TF', when:{ any:[{ tenGodsTopIn:['印'] }, { tenGodsTopIn:['财'] }] }, t:'知识/资源获取时你更：', a:{ text:'以知识体系为锚（印）', mbti:{T:0.6,N:0.4}, bias:{ tenGods:{'印':+0.3} } }, b:{ text:'以收益与落地为锚（财）', mbti:{S:0.6,J:0.4}, bias:{ tenGods:{'财':+0.3} } } },
+            { id:16, d:'JP', when:{ any:[{ tenGodsTopIn:['比劫'] }, { tenGodsTopIn:['官杀'] }] }, t:'推进方式你更：', a:{ text:'拉齐伙伴共同出力（比劫）', mbti:{E:0.4,P:0.6}, bias:{ tenGods:{'比劫':+0.3} } }, b:{ text:'设定权责压住推进（官杀）', mbti:{J:0.8}, bias:{ tenGods:{'官杀':+0.3} } } }
+        ];
+
+        function matches(ctx, when){
+            if (!when) return true;
+            const ok = (cond)=>{
+                if (cond.dayElementIn && !cond.dayElementIn.includes(ctx.dayElement)) return false;
+                if (cond.strengthIn && !cond.strengthIn.includes(ctx.strength)) return false;
+                if (cond.monthBranchIn && !cond.monthBranchIn.includes(ctx.monthBranch)) return false;
+                if (cond.tenGodsTopIn && !cond.tenGodsTopIn.includes(ctx.tenGodsTop)) return false;
+                return true;
+            };
+            if (when.any) return when.any.some(ok);
+            return ok(when);
+        }
+
+        function pickFusionQuestions(all, ctx, max = 12){
+            const pool = all.filter(q => matches(ctx, q.when));
+            const byD = { EI:[], SN:[], TF:[], JP:[] };
+            pool.forEach(q => byD[q.d].push(q));
+            const seq = [];
+            const order = ['EI','SN','TF','JP'];
+            let i = 0;
+            while (seq.length < Math.min(max, pool.length) && i < 1000){
+                const d = order[seq.length % 4];
+                const arr = byD[d];
+                if (arr && arr.length) seq.push(arr.shift());
+                i++;
+            }
+            return seq;
+        }
+
+        function scoreOption(base, opt, ctx){
+            const s = { ...base };
+            Object.entries(opt.mbti || {}).forEach(([k,v])=>{ s[k] = (s[k]||0) + v; });
+            const b = opt.bias || {};
+            if (b.element && b.element[ctx.dayElement]) s.BIAS = (s.BIAS||0) + b.element[ctx.dayElement];
+            if (b.strength && b.strength[ctx.strength]) s.BIAS = (s.BIAS||0) + b.strength[ctx.strength];
+            if (b.tenGods && b.tenGods[ctx.tenGodsTop]) s.BIAS = (s.BIAS||0) + b.tenGods[ctx.tenGodsTop];
+            return s;
+        }
+
+        function decideType(scores){
+            const p = (a,b)=> (scores[a]||0) >= (scores[b]||0) ? a : b;
+            return p('E','I') + p('S','N') + p('T','F') + p('J','P');
+        }
+
+        let fusionQuestions = [];
+
+        function renderFusionQuiz(ctx){
+            const root = document.getElementById('fusionQuiz');
+            root.innerHTML = '';
+            fusionQuestions = pickFusionQuestions(FUSION_QUESTIONS, ctx, 12);
+            fusionQuestions.forEach((q, i)=>{
+                const div = document.createElement('div');
+                div.className = 'q';
+                div.innerHTML = `<div style="font-weight:700">${i+1}. ${q.t}</div>`;
+                ['a','b'].forEach((k,j)=>{
+                    const optDiv = document.createElement('div');
+                    optDiv.className = 'opt';
+                    optDiv.innerHTML = `<label><input type="radio" name="fq${q.id}" value="${k}"> ${q[k].text}</label>`;
+                    div.appendChild(optDiv);
+                });
+                root.appendChild(div);
+            });
+            document.getElementById('fusionTest').classList.remove('hidden');
+        }
+
+        function submitFusion(){
+            if (!fusionQuestions.length){ showStatus('没有融合题可提交'); return; }
+            const ctx = window._lastFusionCtx;
+            let scores = { E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0 };
+            for (const q of fusionQuestions){
+                const sel = document.querySelector(`input[name="fq${q.id}"]:checked`);
+                if (!sel){ continue; }
+                const opt = q[sel.value];
+                scores = scoreOption(scores, opt, ctx);
+            }
+            const type = decideType(scores);
+            document.getElementById('fusionResult').textContent = `融合类型：${type}`;
+            const inlineType = document.getElementById('fusionInlineType');
+            const inlineBias = document.getElementById('fusionInlineBias');
+            if (inlineType) inlineType.textContent = type;
+            if (inlineBias) inlineBias.textContent = `协同偏置(Bazi)：${(scores.BIAS||0).toFixed(2)} · dayElement=${ctx.dayElement} · strength=${ctx.strength} · 十神=${ctx.tenGodsTop}`;
+
+            const detailEl = document.getElementById('fusionDetail');
+            if (detailEl){
+                detailEl.innerHTML = buildFusionDetail(type, ctx);
+            }
+        }
+
+        const TYPE_SUMMARY = {
+            INTJ: { desc:'策略型·内敛而深谋远虑，系统性强，擅长前瞻规划。', careers:['战略/咨询','数据/算法','产品架构','投研/风控'], figures:['马斯克（风格类比）'] },
+            INTP: { desc:'分析型·好奇与逻辑并重，偏研究与系统建构。', careers:['科研/工程','后端/系统','知识管理'], figures:['图灵（类比）'] },
+            ENTJ: { desc:'领导型·果断与组织力，擅长目标拆解与推进。', careers:['管理/运营','BD/战略','大项目统筹'], figures:['乔布斯（类比）'] },
+            ENTP: { desc:'创变型·点子与试错，偏创新与跨界连接。', careers:['创新/创业','增长/市场','新产品探索'], figures:['达芬奇（类比）'] },
+            INFJ: { desc:'洞察型·价值与愿景，擅长人本与长期主义。', careers:['品牌/公关','教育/公益','产品体验'], figures:['甘地（类比）'] },
+            INFP: { desc:'理想型·表达与共情，偏内容与人文价值。', careers:['内容/设计','文案/策划','用户研究'], figures:['村上春树（类比）'] },
+            ENFJ: { desc:'引导型·沟通与影响，擅长团队激发与培养。', careers:['组织发展','销售/培训','社区运营'], figures:['奥普拉（类比）'] },
+            ENFP: { desc:'灵感型·热情与创造，偏创新体验与连接。', careers:['创意/品牌','产品探索','社区/新媒体'], figures:['罗宾·威廉姆斯（类比）'] },
+            ISTJ: { desc:'执行型·秩序与可靠，擅长流程与标准化。', careers:['项目管理','质量/法务','财会/合规'], figures:['巴菲特（类比）'] },
+            ISFJ: { desc:'守护型·细致与责任，擅长服务与保障。', careers:['运营支持','HR/行政','医疗/护理'], figures:['戴安娜（类比）'] },
+            ESTJ: { desc:'统筹型·组织与效率，擅长执行落地。', careers:['运营/供应链','团队管理','政府/军警'], figures:['刘邦（类比）'] },
+            ESFJ: { desc:'协作型·人际与秩序，擅长协调与服务。', careers:['客户成功','活动/公关','教育/社工'], figures:['海伦·凯勒（类比）'] },
+            ISTP: { desc:'匠人型·动手与优化，偏工程与实操。', careers:['工程/维修','安全/应急','游戏/硬件'], figures:['"钢铁侠"托尼·斯塔克（类比）'] },
+            ISFP: { desc:'审美型·体验与表达，偏艺术与体验。', careers:['UI/UX','摄影/音乐','产品体验'], figures:['梵高（类比）'] },
+            ESTP: { desc:'进取型·行动与博弈，偏市场与实战。', careers:['销售/交易','体育/赛事','危机处理'], figures:['科比（类比）'] },
+            ESFP: { desc:'表现型·热情与互动，偏表演与交付体验。', careers:['演员/主持','直播/电商','客服/活动'], figures:['Lady Gaga（类比）'] }
+        };
+
+        const ELEMENT_TUNING = {
+            木: { tilt:'+ 创变/生长', add:['产品探索','品牌创意','教育/社区'] },
+            火: { tilt:'+ 表达/影响', add:['市场/增长','公关/演讲','活动运营'] },
+            土: { tilt:'+ 稳定/治理', add:['PMO/流程','财会/法务','合规/政务'] },
+            金: { tilt:'+ 标准/决断', add:['风控/审计','交易/谈判','管理/统筹'] },
+            水: { tilt:'+ 洞察/连接', add:['用户研究','数据/策略','知识管理'] }
+        };
+
+        const STRENGTH_TUNING = {
+            '偏旺': { tilt:'+ 进攻/输出', add:['前台增长','销售拓展','策略推进'], strategy:'聚焦输出与影响，注意收敛与协同，避免过度消耗团队信用' },
+            '偏弱': { tilt:'+ 防守/积累', add:['后台支持','研究沉淀','流程治理'], strategy:'先立根基与能力，争取资源与贵人助力，逐步扩大影响半径' },
+            '平':   { tilt:'+ 平衡/调和', add:['跨部门协同','PMO/项目','产品协调'], strategy:'因势利导、平衡推进，保持节奏与健康边界' }
+        };
+
+        function buildFusionDetail(type, ctx){
+            const base = TYPE_SUMMARY[type] || { desc:'混合型', careers:[], figures:[] };
+            const tuneEl = ELEMENT_TUNING[ctx.dayElement] || { tilt:'', add:[] };
+            const tuneSt = STRENGTH_TUNING[ctx.strength] || { tilt:'', add:[], strategy:'' };
+            const jobs = Array.from(new Set([...(base.careers||[]), ...tuneEl.add, ...tuneSt.add]));
+            return `
+                <div><strong>${type}</strong> · ${base.desc} ${tuneEl.tilt ? `（日主${ctx.dayElement} ${tuneEl.tilt}` : ''}${tuneSt.tilt ? `，${tuneSt.tilt}` : ''}${tuneEl.tilt || tuneSt.tilt ? '）' : ''}</div>
+                <div style=\"margin-top:6px\"><strong>适配职业：</strong>${jobs.join('、') || '依兴趣与能力定向'}</div>
+                <div style=\"margin-top:6px\"><strong>发展策略：</strong>${tuneSt.strategy || '根据大势灵活取用，维持节奏与边界'}</div>
+                <div style=\"margin-top:6px\"><strong>代表人物风格：</strong>${(base.figures||[]).join('、') || '—'}（类比，非认证）</div>
+            `;
         }
 
         function analyzeDayMasterStrength(dayStem, stems, monthBranch) {
@@ -602,62 +1735,199 @@
             return `${base}。${strength === '偏旺' ? '发挥优势的同时，注意自我调节和他人感受' : strength === '偏弱' ? '在补益自身的同时，寻找适合自己的发展道路' : '在平衡发展中，寻找突破和创新的机会'}。`;
         }
 
-        // 命理基础测试（10题）
-        const QUIZ = [
-            { t:'日主为甲木，年干为庚金，则年干对日主的十神是？', opts:['正官','七杀','正印','偏印'], a:1, explanation:'甲木日主，庚金克甲木，阴阳不同为七杀。' },
-            { t:'日主为丙火，月干为戊土，则月干对日主的十神是？', opts:['食神','伤官','正印','偏印'], a:0, explanation:'丙火生戊土，阴阳不同为食神。' },
-            { t:'日主为壬水，时干为甲木，则时干对日主的十神是？', opts:['正财','偏财','食神','伤官'], a:2, explanation:'壬水生甲木，阴阳不同为食神。' },
-            { t:'日主甲木生于寅月，寅中藏干为？', opts:['甲木','丙火','戊土','甲丙戊'], a:3, explanation:'寅为木之长生，藏甲木本气、丙火中气、戊土余气。' },
-            { t:'日主丙火生于亥月，亥为水旺之月，此命局调候宜？', opts:['取火调候','取土制水','取木生火','取金生水'], a:0, explanation:'亥月水旺火弱，需火调候暖局。' },
-            { t:'日主偏弱，局中印星较多，此格局宜？', opts:['取印生身','取比劫扶身','取食伤泄秀','取财星耗身'], a:1, explanation:'印多身弱，印重为忌，宜取比劫扶身制印。' },
-            { t:'日主偏旺，局中食伤较多，此格局宜？', opts:['取印生身','取比劫扶身','取食伤泄秀','取官杀制身'], a:2, explanation:'身旺食伤多，宜顺其势取食伤泄秀。' },
-            { t:'大运与流年天干相同，地支相冲，此年运势？', opts:['平稳发展','变动较大','贵人相助','口舌是非'], a:1, explanation:'天干相同地支相冲，主变动较大，需谨慎。' },
-            { t:'日主为金，大运为火，流年为木，此年五行关系？', opts:['火克金，木生火','木克土，火生土','金克木，火克金','木生火，火克金'], a:3, explanation:'木生火，火克金，形成木→火→金的生克链。' },
-            { t:'日主为水，生于午月，午为火旺之月，此命局调候宜？', opts:['取水调候','取金生水','取土制火','取木生火'], a:0, explanation:'午月火旺水弱，需水调候润局。' }
-        ];
+        // 分享/返回已取消：如需恢复，可在此处重新启用函数
 
-        function renderQuiz(){
-            const root = document.getElementById('quiz');
-            root.innerHTML = '';
-            QUIZ.forEach((q, i)=>{
-                const div = document.createElement('div');
-                div.className = 'q';
-                div.innerHTML = `<div style="font-weight:700">${i+1}. ${q.t}</div>`;
-                q.opts.forEach((o, j)=>{
-                    const opt = document.createElement('div');
-                    opt.className = 'opt';
-                    opt.innerHTML = `<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;
-                    div.appendChild(opt);
-                });
-                root.appendChild(div);
-            });
-        }
+        // （删除）命理知识题与相关逻辑，统一使用融合测评
 
-        function gradeQuiz(){
-            let score = 0;
-            let explanations = [];
-            QUIZ.forEach((q, i)=>{
-                const sel = document.querySelector(`input[name="q${i}"]:checked`);
-                if (sel && parseInt(sel.value,10) === q.a) {
-                    score += 1;
-                } else if (sel) {
-                    explanations.push(`第${i+1}题：${q.explanation || '无解释'}`);
-                }
-            });
-            const pill = document.getElementById('quizScore');
-            pill.textContent = `得分：${score}/${QUIZ.length}`;
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成，开始初始化...');
             
-            if (explanations.length > 0) {
-                const explanationDiv = document.createElement('div');
-                explanationDiv.className = 'result';
-                explanationDiv.style.marginTop = '10px';
-                explanationDiv.innerHTML = `<strong>错题解析：</strong><br>${explanations.join('<br>')}`;
-                document.getElementById('quiz').appendChild(explanationDiv);
+            // 检查标签页元素
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            console.log('找到标签页数量:', tabs.length);
+            console.log('找到标签内容数量:', tabContents.length);
+            
+            // 检查数字命理相关元素
+            const numerologyContent = document.getElementById('numerology-content');
+            const numerologyBtn = document.querySelector('button[onclick="analyzeNumerology()"]');
+            
+            console.log('数字命理内容元素:', numerologyContent);
+            console.log('数字命理按钮:', numerologyBtn);
+            
+            // 检查函数是否可用
+            console.log('analyzeNumerology函数:', typeof analyzeNumerology);
+            console.log('switchTab函数:', typeof switchTab);
+            
+            console.log('初始化完成！');
+        });
+
+        // 功能卡片点击处理
+        function showFeatureInfo(featureType) {
+            console.log('点击功能卡片:', featureType);
+            
+            if (featureType === 'numerology') {
+                // 切换到数字命理标签页
+                switchTab('numerology');
+                
+                // 更新状态显示
+                const statusElement = document.querySelector('.feature-status.coming-soon');
+                if (statusElement) {
+                    statusElement.textContent = '功能已就绪';
+                    statusElement.classList.remove('coming-soon');
+                    statusElement.classList.add('ready');
+                }
+                
+                console.log('数字命理功能已激活！');
             }
         }
 
-        // 初始化
-        renderQuiz();
+        // 直接测试数字命理功能
+        function testNumerologyDirectly() {
+            console.log('🧪 直接测试数字命理功能');
+            
+            // 直接切换到数字命理标签页
+            switchTab('numerology');
+            
+            // 模拟输入数据
+            const testDate = '1990-01-01';
+            const testName = '张三';
+            
+            // 设置测试数据
+            if (document.getElementById('nDate')) {
+                document.getElementById('nDate').value = testDate;
+            }
+            if (document.getElementById('nName')) {
+                document.getElementById('nName').value = testName;
+            }
+            
+            console.log('测试数据已设置:', { testDate, testName });
+            console.log('请检查数字命理标签页是否显示内容');
+        }
+
+        // 调试标签页切换
+        function debugTabSwitching() {
+            console.log('🐛 开始调试标签页切换');
+            
+            // 检查所有标签页元素
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            console.log('标签页数量:', tabs.length);
+            console.log('标签内容数量:', tabContents.length);
+            
+            // 检查每个标签页
+            tabs.forEach((tab, index) => {
+                console.log(`标签页 ${index}:`, tab.textContent, 'active:', tab.classList.contains('active'));
+            });
+            
+            // 检查每个标签内容
+            tabContents.forEach((content, index) => {
+                console.log(`标签内容 ${index}:`, content.id, 'active:', content.classList.contains('active'), 'display:', window.getComputedStyle(content).display);
+            });
+            
+            // 尝试手动切换
+            console.log('尝试手动切换到数字命理标签页...');
+            switchTab('numerology');
+            
+            // 检查切换后的状态
+            setTimeout(() => {
+                const numerologyContent = document.getElementById('numerology-content');
+                if (numerologyContent) {
+                    console.log('数字命理内容元素状态:', {
+                        id: numerologyContent.id,
+                        classes: numerologyContent.className,
+                        display: window.getComputedStyle(numerologyContent).display,
+                        visible: numerologyContent.offsetParent !== null
+                    });
+                } else {
+                    console.error('找不到数字命理内容元素！');
+                }
+            }, 100);
+        }
+
+        // 强制显示数字命理内容
+        function forceShowNumerology() {
+            console.log('🔍 强制显示数字命理内容');
+            
+            // 隐藏所有标签内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+            
+            // 显示数字命理内容
+            const numerologyContent = document.getElementById('numerology-content');
+            if (numerologyContent) {
+                numerologyContent.style.display = 'block';
+                numerologyContent.classList.add('active');
+                console.log('✅ 数字命理内容已强制显示');
+                
+                // 更新标签页状态
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                const numerologyTab = document.querySelector('.tab[onclick*="numerology"]');
+                if (numerologyTab) {
+                    numerologyTab.classList.add('active');
+                }
+            } else {
+                console.error('❌ 找不到数字命理内容元素');
+            }
+        }
+
+        // 测试数字命理函数
+        function testNumerologyFunctions() {
+            console.log('🧪 测试数字命理函数');
+            
+            // 测试基本函数是否存在
+            const functions = [
+                'analyzeNumerology',
+                'calculateLifeNumber', 
+                'calculateDestinyNumber',
+                'calculateSoulNumber',
+                'analyzeNumberTraits'
+            ];
+            
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    console.log(`✅ ${funcName} 函数存在`);
+                } else {
+                    console.error(`❌ ${funcName} 函数不存在`);
+                }
+            });
+            
+            // 测试数据对象
+            if (typeof NUMBER_MEANINGS !== 'undefined') {
+                console.log('✅ NUMBER_MEANINGS 对象存在，包含', Object.keys(NUMBER_MEANINGS).length, '个数字');
+            } else {
+                console.error('❌ NUMBER_MEANINGS 对象不存在');
+            }
+            
+            if (typeof CHINESE_NAME_NUMBERS !== 'undefined') {
+                console.log('✅ CHINESE_NAME_NUMBERS 对象存在，包含', Object.keys(CHINESE_NAME_NUMBERS).length, '个字符');
+            } else {
+                console.error('❌ CHINESE_NAME_NUMBERS 对象不存在');
+            }
+            
+            // 测试输入元素
+            const nDate = document.getElementById('nDate');
+            const nName = document.getElementById('nName');
+            
+            if (nDate) {
+                console.log('✅ 出生日期输入框存在');
+            } else {
+                console.error('❌ 出生日期输入框不存在');
+            }
+            
+            if (nName) {
+                console.log('✅ 姓名输入框存在');
+            } else {
+                console.error('❌ 姓名输入框不存在');
+            }
+        }
     </script>
 </body>
 </html>

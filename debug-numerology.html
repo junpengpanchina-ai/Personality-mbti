@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字命理功能调试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .btn { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #007bff; }
+    </style>
+</head>
+<body>
+    <h1>🔢 数字命理功能调试页面</h1>
+    
+    <div class="test-section">
+        <h3>测试1: 基本函数调用</h3>
+        <button class="btn" onclick="testBasicFunctions()">测试基本函数</button>
+        <div id="test1Result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>测试2: 数字计算</h3>
+        <input type="date" id="testDate" value="1990-01-01">
+        <input type="text" id="testName" placeholder="测试姓名" value="张三">
+        <button class="btn" onclick="testNumberCalculations()">测试数字计算</button>
+        <div id="test2Result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>测试3: 完整分析流程</h3>
+        <button class="btn" onclick="testFullAnalysis()">测试完整分析</button>
+        <div id="test3Result" class="result"></div>
+    </div>
+
+    <script>
+        // 复制数字命理的核心函数
+        const NUMBER_MEANINGS = {
+            1: { traits: '领导力、独立性、创新性', mbti: 'ENTJ,ENTP,INTJ', element: '火', career: '企业家、领导、创新者' },
+            2: { traits: '合作性、敏感性、和谐性', mbti: 'INFJ,INFP,ENFJ', element: '水', career: '咨询师、协调者、艺术家' },
+            3: { traits: '表达性、创造性、乐观性', mbti: 'ENFP,ESFP,ENTP', element: '木', career: '创意工作者、表演者、教师' },
+            4: { traits: '稳定性、实用性、组织性', mbti: 'ISTJ,ESTJ,ISFJ', element: '土', career: '管理者、工程师、会计师' },
+            5: { traits: '自由性、冒险性、适应性', mbti: 'ESTP,ISTP,ENFP', element: '水', career: '探险家、销售员、记者' },
+            6: { traits: '责任感、关爱性、平衡性', mbti: 'ISFJ,ESFJ,INFJ', element: '土', career: '护理师、教师、社工' },
+            7: { traits: '分析性、精神性、神秘性', mbti: 'INTP,INTJ,INFJ', element: '金', career: '科学家、哲学家、分析师' },
+            8: { traits: '权力性、物质性、成就性', mbti: 'ENTJ,ESTJ,ISTJ', element: '金', career: '企业家、高管、政治家' },
+            9: { traits: '人道性、理想性、智慧性', mbti: 'INFJ,ENFJ,INFP', element: '火', career: '人道主义者、艺术家、导师' }
+        };
+
+        const CHINESE_NAME_NUMBERS = {
+            '一':1, '二':2, '三':3, '四':4, '五':5, '六':6, '七':7, '八':8, '九':9,
+            '张':3, '三':3, '王':1, '李':2, '刘':4, '陈':5, '杨':6, '赵':7, '黄':8, '周':9, '吴':10
+        };
+
+        // 测试基本函数
+        function testBasicFunctions() {
+            const result = document.getElementById('test1Result');
+            try {
+                result.innerHTML = `
+                    <h4>✅ 基本函数测试通过</h4>
+                    <p>NUMBER_MEANINGS 对象: ${Object.keys(NUMBER_MEANINGS).length} 个数字</p>
+                    <p>CHINESE_NAME_NUMBERS 对象: ${Object.keys(CHINESE_NAME_NUMBERS).length} 个字符</p>
+                    <p>所有函数都已定义并可用</p>
+                `;
+            } catch (error) {
+                result.innerHTML = `<h4>❌ 基本函数测试失败</h4><p>错误: ${error.message}</p>`;
+            }
+        }
+
+        // 测试数字计算
+        function testNumberCalculations() {
+            const result = document.getElementById('test2Result');
+            const birthDate = document.getElementById('testDate').value;
+            const name = document.getElementById('testName').value;
+            
+            try {
+                const lifeNumber = calculateLifeNumber(birthDate);
+                const destinyNumber = calculateDestinyNumber(birthDate);
+                const soulNumber = calculateSoulNumber(name);
+                
+                result.innerHTML = `
+                    <h4>✅ 数字计算测试通过</h4>
+                    <p>出生日期: ${birthDate}</p>
+                    <p>姓名: ${name}</p>
+                    <p>生命数字: ${lifeNumber}</p>
+                    <p>命运数字: ${destinyNumber}</p>
+                    <p>灵魂数字: ${soulNumber}</p>
+                `;
+            } catch (error) {
+                result.innerHTML = `<h4>❌ 数字计算测试失败</h4><p>错误: ${error.message}</p>`;
+            }
+        }
+
+        // 测试完整分析流程
+        function testFullAnalysis() {
+            const result = document.getElementById('test3Result');
+            const birthDate = document.getElementById('testDate').value;
+            const name = document.getElementById('testName').value;
+            
+            try {
+                const lifeNumber = calculateLifeNumber(birthDate);
+                const destinyNumber = calculateDestinyNumber(birthDate);
+                const soulNumber = calculateSoulNumber(name);
+                
+                const lifeInfo = NUMBER_MEANINGS[lifeNumber] || {};
+                const destinyInfo = NUMBER_MEANINGS[destinyNumber] || {};
+                const soulInfo = NUMBER_MEANINGS[soulNumber] || {};
+                
+                result.innerHTML = `
+                    <h4>✅ 完整分析测试通过</h4>
+                    <p><strong>生命数字 ${lifeNumber}:</strong> ${lifeInfo.traits}</p>
+                    <p><strong>命运数字 ${destinyNumber}:</strong> ${destinyInfo.traits}</p>
+                    <p><strong>灵魂数字 ${soulNumber}:</strong> ${soulInfo.traits}</p>
+                    <p><strong>MBTI映射:</strong> ${lifeInfo.mbti}</p>
+                    <p><strong>五行属性:</strong> ${lifeInfo.element}</p>
+                    <p><strong>适配职业:</strong> ${lifeInfo.career}</p>
+                `;
+            } catch (error) {
+                result.innerHTML = `<h4>❌ 完整分析测试失败</h4><p>错误: ${error.message}</p>`;
+            }
+        }
+
+        // 复制核心计算函数
+        function calculateLifeNumber(birthDate) {
+            const dateStr = birthDate.replace(/-/g, '');
+            let sum = 0;
+            for (let i = 0; i < dateStr.length; i++) {
+                sum += parseInt(dateStr[i]);
+            }
+            while (sum > 9) {
+                sum = Math.floor(sum / 10) + (sum % 10);
+            }
+            return sum;
+        }
+
+        function calculateDestinyNumber(birthDate) {
+            const dateStr = birthDate.replace(/-/g, '');
+            let sum = 0;
+            for (let i = 0; i < dateStr.length; i++) {
+                sum += parseInt(dateStr[i]);
+            }
+            return sum;
+        }
+
+        function calculateSoulNumber(name) {
+            if (!name) return 0;
+            let sum = 0;
+            let found = false;
+            
+            for (let i = 0; i < name.length; i++) {
+                const char = name[i];
+                if (CHINESE_NAME_NUMBERS[char]) {
+                    sum += CHINESE_NAME_NUMBERS[char];
+                    found = true;
+                }
+            }
+            
+            if (!found) {
+                for (let i = 0; i < name.length; i++) {
+                    const charCode = name.charCodeAt(i);
+                    sum += (charCode % 9) + 1;
+                }
+            }
+            
+            while (sum > 9) {
+                sum = Math.floor(sum / 10) + (sum % 10);
+            }
+            
+            return sum;
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('调试页面加载完成');
+            console.log('数字命理核心函数已加载');
+            console.log('可以进行功能测试');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味星座测试 - 探索你的星座特质与性格</title
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: #111827;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+        .header { text-align: center; color: #fff; margin: 24px 0; }
+        .header h1 { margin: 0 0 8px; font-size: 30px; }
+        .card { background: rgba(255,255,255,0.98); border-radius: 16px; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); margin-bottom: 16px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 16px; }
+        .btn { display:inline-block; background: linear-gradient(135deg, #8b5cf6, #ec4899); color:#fff; border:none; padding:10px 18px; border-radius:999px; cursor:pointer; font-weight:600; }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-secondary { background: linear-gradient(135deg, #94a3b8, #64748b); color:#fff; }
+        .muted { color:#6b7280; font-size:14px; }
+        .hidden { display: none; }
+        .zodiac-card {
+            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+            border: 2px solid #8b5cf6;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .zodiac-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.3);
+        }
+        .zodiac-card.selected {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+        .zodiac-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .zodiac-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .zodiac-dates {
+            font-size: 14px;
+            color: #7c3aed;
+            margin-bottom: 10px;
+        }
+        .zodiac-card.selected .zodiac-dates {
+            color: rgba(255,255,255,0.8);
+        }
+        .result-section {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            border-left: 4px solid #16a34a;
+        }
+        .mbti-section {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-left: 4px solid #3b82f6;
+        }
+        .fusion-section {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid #f59e0b;
+        }
+        .question-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+        .option {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.2s;
+        }
+        .option:hover {
+            border-color: #8b5cf6;
+            background: #f3f4f6;
+        }
+        .option input[type="radio"] {
+            margin-right: 8px;
+        }
+        .kpi {
+            font-size: 32px;
+            font-weight: 800;
+            color: #8b5cf6;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .back-btn {
+            background: #6b7280;
+            margin-left: 10px;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 12px 0 20px;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>♈ 趣味星座测试</h1>
+            <p class="muted">轻松有趣的星座性格测试，探索你的星座特质与性格特点</p>
+            
+            <div style="margin-top: 20px;">
+                <button class="btn" onclick="startTest()">🧪 开始星座测试</button>
+                <button class="btn back-btn" onclick="location.href='index.html'">🏠 返回首页</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 星座选择区域 -->
+        <div id="zodiac-selection" class="card">
+            <h2 style="text-align: center; color: #7c3aed; margin-bottom: 20px;">选择你的星座</h2>
+            <div class="grid">
+                <div class="zodiac-card" onclick="selectZodiac('aries')">
+                    <div class="zodiac-icon">♈</div>
+                    <div class="zodiac-name">白羊座</div>
+                    <div class="zodiac-dates">3.21 - 4.19</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('taurus')">
+                    <div class="zodiac-icon">♉</div>
+                    <div class="zodiac-name">金牛座</div>
+                    <div class="zodiac-dates">4.20 - 5.20</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('gemini')">
+                    <div class="zodiac-icon">♊</div>
+                    <div class="zodiac-name">双子座</div>
+                    <div class="zodiac-dates">5.21 - 6.21</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('cancer')">
+                    <div class="zodiac-icon">♋</div>
+                    <div class="zodiac-name">巨蟹座</div>
+                    <div class="zodiac-dates">6.22 - 7.22</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('leo')">
+                    <div class="zodiac-icon">♌</div>
+                    <div class="zodiac-name">狮子座</div>
+                    <div class="zodiac-dates">7.23 - 8.22</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('virgo')">
+                    <div class="zodiac-icon">♍</div>
+                    <div class="zodiac-name">处女座</div>
+                    <div class="zodiac-dates">8.23 - 9.22</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('libra')">
+                    <div class="zodiac-icon">♎</div>
+                    <div class="zodiac-name">天秤座</div>
+                    <div class="zodiac-dates">9.23 - 10.23</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('scorpio')">
+                    <div class="zodiac-icon">♏</div>
+                    <div class="zodiac-name">天蝎座</div>
+                    <div class="zodiac-dates">10.24 - 11.22</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('sagittarius')">
+                    <div class="zodiac-icon">♐</div>
+                    <div class="zodiac-name">射手座</div>
+                    <div class="zodiac-dates">11.23 - 12.21</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('capricorn')">
+                    <div class="zodiac-icon">♑</div>
+                    <div class="zodiac-name">摩羯座</div>
+                    <div class="zodiac-dates">12.22 - 1.19</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('aquarius')">
+                    <div class="zodiac-icon">♒</div>
+                    <div class="zodiac-name">水瓶座</div>
+                    <div class="zodiac-dates">1.20 - 2.18</div>
+                </div>
+                <div class="zodiac-card" onclick="selectZodiac('pisces')">
+                    <div class="zodiac-icon">♓</div>
+                    <div class="zodiac-name">双鱼座</div>
+                    <div class="zodiac-dates">2.19 - 3.20</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="startMBTITest()" id="start-mbti-btn" disabled>🧠 开始MBTI测试</button>
+            </div>
+        </div>
+
+        <!-- MBTI测试区域 -->
+        <div id="mbti-test" class="card hidden">
+            <h2 style="text-align: center; color: #3b82f6; margin-bottom: 20px;">MBTI性格测试</h2>
+            <p style="text-align: center; color: #6b7280; margin-bottom: 20px;">请根据你的真实想法选择最符合的选项</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="mbtiProgress"></div>
+            </div>
+            
+            <div id="mbti-questions"></div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="submitMBTI()" id="submit-mbti-btn" disabled>📊 提交测试结果</button>
+                <button class="btn btn-secondary" onclick="backToZodiac()" style="margin-left: 10px;">🔙 返回选择星座</button>
+            </div>
+        </div>
+
+        <!-- 测试结果区域 -->
+        <div id="test-result" class="card result-section hidden">
+            <h2 style="text-align: center; color: #065f46; margin-bottom: 20px;">你的星座性格分析结果</h2>
+            <div id="result-content"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedZodiac = null;
+        let mbtiScores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+        
+        // MBTI测试题目
+        const mbtiQuestions = [
+            { question: "在社交场合中，你通常：", options: ["A. 主动与他人交谈，享受社交", "B. 倾向于安静观察，较少主动社交"] },
+            { question: "当你需要做决定时，你更依赖：", options: ["A. 逻辑分析和客观事实", "B. 个人价值观和他人感受"] },
+            { question: "你更喜欢的工作环境是：", options: ["A. 有明确计划和截止日期", "B. 灵活多变，可以随时调整"] },
+            { question: "面对新信息时，你更关注：", options: ["A. 具体的细节和实际应用", "B. 整体的概念和未来可能性"] },
+            { question: "在团队中，你通常：", options: ["A. 喜欢讨论和头脑风暴", "B. 需要时间思考后再表达"] },
+            { question: "你更倾向于：", options: ["A. 按照既定计划执行", "B. 根据情况灵活调整"] },
+            { question: "你更喜欢的学习方式是：", options: ["A. 通过实践和具体例子", "B. 通过理论和抽象概念"] },
+            { question: "做决定时，你更重视：", options: ["A. 效率和结果", "B. 和谐和人际关系"] },
+            { question: "你更喜欢：", options: ["A. 明确的规则和结构", "B. 自由和灵活性"] },
+            { question: "你更擅长：", options: ["A. 处理具体问题", "B. 思考抽象概念"] },
+            { question: "在压力下，你倾向于：", options: ["A. 寻求他人支持和建议", "B. 独自思考和处理"] },
+            { question: "你更喜欢的工作是：", options: ["A. 有明确的成功标准", "B. 有创新和探索空间" ] }
+        ];
+        
+        // 星座数据
+        const zodiacData = {
+            aries: { name: '白羊座', icon: '♈', element: '火象', traits: ['勇敢', '热情', '冲动', '领导力'] },
+            taurus: { name: '金牛座', icon: '♉', element: '土象', traits: ['稳重', '务实', '固执', '耐心'] },
+            gemini: { name: '双子座', icon: '♊', element: '风象', traits: ['灵活', '好奇', '善变', '沟通'] },
+            cancer: { name: '巨蟹座', icon: '♋', element: '水象', traits: ['敏感', '保护', '情感', '家庭'] },
+            leo: { name: '狮子座', icon: '♌', element: '火象', traits: ['自信', '慷慨', '骄傲', '魅力'] },
+            virgo: { name: '处女座', icon: '♍', element: '土象', traits: ['完美', '分析', '谦虚', '服务'] },
+            libra: { name: '天秤座', icon: '♎', element: '风象', traits: ['平衡', '公正', '犹豫', '和谐'] },
+            scorpio: { name: '天蝎座', icon: '♏', element: '水象', traits: ['神秘', '洞察', '执着', '激情'] },
+            sagittarius: { name: '射手座', icon: '♐', element: '火象', traits: ['乐观', '冒险', '直率', '自由'] },
+            capricorn: { name: '摩羯座', icon: '♑', element: '土象', traits: ['野心', '责任', '谨慎', '成就'] },
+            aquarius: { name: '水瓶座', icon: '♒', element: '风象', traits: ['创新', '独立', '人道', '叛逆'] },
+            pisces: { name: '双鱼座', icon: '♓', element: '水象', traits: ['直觉', '同情', '艺术', '梦想'] }
+        };
+        
+        // 选择星座
+        function selectZodiac(zodiac) {
+            // 清除之前的选择
+            document.querySelectorAll('.zodiac-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // 选中当前星座
+            event.target.closest('.zodiac-card').classList.add('selected');
+            selectedZodiac = zodiac;
+            
+            // 启用开始MBTI测试按钮
+            document.getElementById('start-mbti-btn').disabled = false;
+        }
+        
+        // 开始MBTI测试
+        function startMBTITest() {
+            if (!selectedZodiac) {
+                alert('请先选择一个星座！');
+                return;
+            }
+            
+            // 隐藏星座选择，显示MBTI测试
+            document.getElementById('zodiac-selection').classList.add('hidden');
+            document.getElementById('mbti-test').classList.remove('hidden');
+            
+            // 显示MBTI测试题
+            displayMBTIQuestions();
+        }
+        
+        // 显示MBTI测试题
+        function displayMBTIQuestions() {
+            const questionsDiv = document.getElementById('mbti-questions');
+            let questionsHTML = '';
+            
+            mbtiQuestions.forEach((q, index) => {
+                questionsHTML += `
+                    <div class="question-card">
+                        <h4 style="margin-bottom: 15px; color: #374151;">问题 ${index + 1}</h4>
+                        <p style="margin-bottom: 15px; font-size: 16px;">${q.question}</p>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q${index}" value="${q.options[0].charAt(0)}" onchange="updateProgress()" style="margin-right: 8px;">
+                                ${q.options[0]}
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q${index}" value="${q.options[1].charAt(0)}" onchange="updateProgress()" style="margin-right: 8px;">
+                                ${q.options[1]}
+                            </label>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            questionsDiv.innerHTML = questionsHTML;
+        }
+        
+        // 更新进度条
+        function updateProgress() {
+            const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+            const progress = (answeredQuestions / mbtiQuestions.length) * 100;
+            document.getElementById('mbtiProgress').style.width = progress + '%';
+            
+            // 启用提交按钮
+            const submitBtn = document.getElementById('submit-mbti-btn');
+            submitBtn.disabled = answeredQuestions < mbtiQuestions.length;
+        }
+        
+        // 提交MBTI测试
+        function submitMBTI() {
+            // 计算MBTI得分
+            mbtiScores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+            
+            mbtiQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected) {
+                    const value = selected.value;
+                    switch(index) {
+                        case 0: case 4: case 10: // E vs I
+                            if (value === 'A') mbtiScores.E++;
+                            else mbtiScores.I++;
+                            break;
+                        case 1: case 7: // T vs F
+                            if (value === 'A') mbtiScores.T++;
+                            else mbtiScores.F++;
+                            break;
+                        case 2: case 5: case 8: case 11: // J vs P
+                            if (value === 'A') mbtiScores.J++;
+                            else mbtiScores.P++;
+                            break;
+                        case 3: case 6: case 9: // S vs N
+                            if (value === 'A') mbtiScores.S++;
+                            else mbtiScores.N++;
+                            break;
+                    }
+                }
+            });
+            
+            // 确定MBTI类型
+            const mbtiType = determineMBTIType(mbtiScores);
+            
+            // 分析星座和MBTI的融合结果
+            const result = getZodiacMBTIAnalysis(selectedZodiac, mbtiType, mbtiScores);
+            displayResult(result);
+        }
+        
+        // 确定MBTI类型
+        function determineMBTIType(scores) {
+            const first = scores.E > scores.I ? 'E' : 'I';
+            const second = scores.S > scores.N ? 'S' : 'N';
+            const third = scores.T > scores.F ? 'T' : 'F';
+            const fourth = scores.J > scores.P ? 'J' : 'P';
+            return first + second + third + fourth;
+        }
+        
+        // 获取星座和MBTI的融合分析
+        function getZodiacMBTIAnalysis(zodiac, mbtiType, mbtiScores) {
+            const zodiacInfo = zodiacData[zodiac];
+            
+            // 分析MBTI和星座的匹配度
+            let matchAnalysis = '';
+            let compatibility = '';
+            
+            // 基于星座元素和MBTI类型的匹配分析
+            if (zodiacInfo.element === '火象' && (mbtiType.includes('E') || mbtiType.includes('P'))) {
+                matchAnalysis = '你的MBTI类型与火象星座特质高度匹配！';
+                compatibility = '完美匹配';
+            } else if (zodiacInfo.element === '土象' && (mbtiType.includes('S') || mbtiType.includes('J'))) {
+                matchAnalysis = '你的MBTI类型与土象星座特质高度匹配！';
+                compatibility = '完美匹配';
+            } else if (zodiacInfo.element === '风象' && (mbtiType.includes('N') || mbtiType.includes('P'))) {
+                matchAnalysis = '你的MBTI类型与风象星座特质高度匹配！';
+                compatibility = '完美匹配';
+            } else if (zodiacInfo.element === '水象' && (mbtiType.includes('F') || mbtiType.includes('I'))) {
+                matchAnalysis = '你的MBTI类型与水象星座特质高度匹配！';
+                compatibility = '完美匹配';
+            } else {
+                matchAnalysis = '你的MBTI类型与星座特质形成独特组合，展现了你的个性多样性！';
+                compatibility = '独特组合';
+            }
+            
+            return {
+                zodiac: zodiacInfo,
+                userMBTI: mbtiType,
+                matchAnalysis: matchAnalysis,
+                compatibility: compatibility,
+                mbtiScores: mbtiScores
+            };
+        }
+        
+        // 显示分析结果
+        function displayResult(result) {
+            const resultContent = document.getElementById('result-content');
+            
+            let resultHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div class="kpi">${result.zodiac.icon} ${result.zodiac.name}</div>
+                    <p class="muted">星座性格特质分析</p>
+                </div>
+                
+                <div class="grid">
+                    <div class="card mbti-section">
+                        <h4>🎭 你的MBTI类型</h4>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="font-size: 24px; font-weight: 700; color: #3b82f6;">${result.userMBTI}</div>
+                        </div>
+                        <p>基于MBTI测试的实际结果</p>
+                    </div>
+                    
+                    <div class="card fusion-section">
+                        <h4>🌟 星座特质</h4>
+                        <p><strong>元素：</strong>${result.zodiac.element}</p>
+                        <p><strong>核心特质：</strong>${result.zodiac.traits.join('、')}</p>
+                    </div>
+                </div>
+                
+                <div class="card" style="background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 4px solid #f59e0b;">
+                    <h4>🎯 融合匹配度</h4>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <div style="font-size: 20px; font-weight: 700; color: #92400e;">${result.compatibility}</div>
+                    </div>
+                    <p style="text-align: center; color: #92400e;">${result.matchAnalysis}</p>
+                </div>
+                
+                <div class="card">
+                    <h4>📊 MBTI维度得分</h4>
+                    <p><strong>外向(E):</strong> ${result.mbtiScores.E} | <strong>内向(I):</strong> ${result.mbtiScores.I}</p>
+                    <p><strong>感觉(S):</strong> ${result.mbtiScores.S} | <strong>直觉(N):</strong> ${result.mbtiScores.N}</p>
+                    <p><strong>思考(T):</strong> ${result.mbtiScores.T} | <strong>情感(F):</strong> ${result.mbtiScores.F}</p>
+                    <p><strong>判断(J):</strong> ${result.mbtiScores.J} | <strong>感知(P):</strong> ${result.mbtiScores.P}</p>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <h4>💡 融合性格总结</h4>
+                    <p>你的性格是${result.zodiac.name}特质与${result.userMBTI}类型的独特结合，既有星座的神秘魅力，又体现了MBTI的科学性。</p>
+                    <p style="margin-top: 15px; color: #6b7280; font-size: 14px;">
+                        这种融合分析能更全面地展现你的个性特点，帮助你更好地了解自己和他人。
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" onclick="resetTest()">🔄 重新测试</button>
+                    <button class="btn back-btn" onclick="location.href='index.html'">🏠 返回首页</button>
+                </div>
+            `;
+            
+            resultContent.innerHTML = resultHTML;
+            document.getElementById('mbti-test').classList.add('hidden');
+            document.getElementById('test-result').classList.remove('hidden');
+        }
+        
+        // 返回选择星座
+        function backToZodiac() {
+            document.getElementById('mbti-test').classList.add('hidden');
+            document.getElementById('zodiac-selection').classList.remove('hidden');
+        }
+        
+        // 重新测试
+        function resetTest() {
+            selectedZodiac = null;
+            mbtiScores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+            
+            // 重置星座选择
+            document.querySelectorAll('.zodiac-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // 重置MBTI测试
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            
+            // 重置进度条
+            document.getElementById('mbtiProgress').style.width = '0%';
+            
+            // 重置按钮状态
+            document.getElementById('start-mbti-btn').disabled = true;
+            document.getElementById('submit-mbti-btn').disabled = true;
+            
+            // 显示星座选择页面
+            document.getElementById('zodiac-selection').classList.remove('hidden');
+            document.getElementById('mbti-test').classList.add('hidden');
+            document.getElementById('test-result').classList.add('hidden');
+        }
+        
+        // 开始测试
+        function startTest() {
+            // 滚动到星座选择区域
+            document.getElementById('zodiac-selection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 页面加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('趣味星座测试系统已加载完成！');
+        });
+    </script>
+</body>
+</html>

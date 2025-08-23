@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>快速 MBTI 测试</title>
+    <title>专业MBTI测试 - 基于荣格理论的16种人格类型</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -101,7 +101,6 @@
         };
 
         // 星座知识库（基于常见性格画像，作为微弱偏置参与计算）
-        // 说明：以下倾向仅作趣味性增强，非严格科学结论。
         const ZODIAC_KB = {
             aries: { key: 'aries', cn: '白羊座', weights: { E: 0.8, I: 0.0, S: 0.0, N: 0.6, T: 0.4, F: 0.0, J: 0.0, P: 0.6 }, traits: '行动力强、直来直往、偏向直觉与探索。' },
             taurus: { key: 'taurus', cn: '金牛座', weights: { E: 0.0, I: 0.4, S: 0.8, N: 0.0, T: 0.4, F: 0.2, J: 0.8, P: 0.0 }, traits: '务实稳定、重视细节与秩序，行动稳健。' },
@@ -209,6 +208,49 @@
 
         let selectedSign = null;
 
+        // MBTI 类型知识库（摘要/功能堆栈/优势/风险/工作风格/职业/代表人物）
+        const TYPE_KB = {
+            INTJ: { summary:'战略型规划者，长期愿景与系统化推进并重。', funcs:['Ni','Te','Fi','Se'], strengths:['前瞻规划','结构化思维','独立自驱','高标准'], risks:['沟通生硬','忽视情绪','完美主义','固执路线'], work:['偏好目标清晰、可衡量产出','喜欢深度独处与长周期研究','重视效率与可复用体系'], careers:['战略/咨询','产品/架构','科研/数据','投研/运营优化'], figures:['Elon Musk(推测)','J.K.罗琳(推测)'] },
+            INTP: { summary:'概念型问题求解者，热衷原理建模与抽象优化。', funcs:['Ti','Ne','Si','Fe'], strengths:['逻辑剖析','模型搭建','创新点子','学习速度快'], risks:['拖延倾向','交付不稳','忽视细节','社交能量低'], work:['喜欢自由探索与技术难题','需要低干扰、可试错空间','厌恶重复流程与官僚'], careers:['算法/研究','系统设计','Dev/DevRel','数据分析'], figures:['爱因斯坦(推测)','拉里·佩奇(推测)'] },
+            ENTJ: { summary:'执行型领导者，目标导向与资源统筹兼备。', funcs:['Te','Ni','Se','Fi'], strengths:['决策果断','组织调度','结果导向','抗压推进'], risks:['强势控制','同理不足','急于求成','忽视风险边界'], work:['偏好多团队协作和规模化','看重KPI与明确责权','适合复杂项目与变革'], careers:['管理/运营','战略/销售','投行/咨询','增长/ToB'], figures:['张瑞敏(推测)','Jeff Bezos(推测)'] },
+            ENTP: { summary:'辩思型创变者，点子密集与跨域连接能力强。', funcs:['Ne','Ti','Fe','Si'], strengths:['创意爆发','跨界联想','应变快','说服力强'], risks:['后继乏力','注意力跳跃','不爱收尾','挑战权威'], work:['喜欢0→1与试验田','需要弹性与舞台','对新奇/竞争敏感'], careers:['创新/产品','创业/市场','咨询/媒体','增长/BD'], figures:['史蒂夫·乔布斯(推测)','马斯克(推测)'] },
+            INFJ: { summary:'洞察型辅导者，价值驱动与体系化关怀。', funcs:['Ni','Fe','Ti','Se'], strengths:['洞察人心','价值引导','长期陪伴','整合视角'], risks:['理想主义挫败','过度共情','表达含蓄','能量易耗'], work:['偏好深度一对一或小团体','需要意义感与一致价值','适合长期影响工作'], careers:['心理/教育','品牌/内容','非营利/人力','咨询/教练'], figures:['卡尔·荣格(推测)','甘地(推测)'] },
+            INFP: { summary:'理想型创作者，内在价值与真实表达优先。', funcs:['Fi','Ne','Si','Te'], strengths:['真诚共情','创作表达','价值敏感','坚持初心'], risks:['执行松散','回避冲突','抗压较弱','现实妥协难'], work:['需要价值一致与创作空间','反感高压流程化','适合内容与用户体验'], careers:['写作/设计','内容/用户研究','公益/教育','产品体验'], figures:['村上春树(推测)','托尔金(推测)'] },
+            ENFJ: { summary:'凝聚型推动者，人群动员与成长赋能。', funcs:['Fe','Ni','Se','Ti'], strengths:['激发潜能','组织氛围','沟通共识','长期培养'], risks:['忽视自我','过度承担','讨好压力','理性不足'], work:['擅长搭建协作机制','重视文化与节奏','适合教练和管理'], careers:['HR/组织发展','教育/培训','市场/社区','公益/运营'], figures:['奥普拉(推测)','马丁·路德·金(推测)'] },
+            ENFP: { summary:'启发型传播者，灵感、连接与探索驱动。', funcs:['Ne','Fi','Te','Si'], strengths:['创意连接','同理鼓舞','学习快','机动适应'], risks:['难以聚焦','执行分散','抗拒约束','情绪起伏'], work:['喜欢多样与人际互动','需要自由与认可','适合品牌与增长'], careers:['内容/品牌','增长/媒体','产品/用户','公关/BD'], figures:['罗宾·威廉姆斯(推测)','奥巴马(推测)'] },
+            ISTJ: { summary:'秩序型执行者，可靠、严谨、稳定推进。', funcs:['Si','Te','Fi','Ne'], strengths:['流程化','风险控制','稳健交付','责任心强'], risks:['保守僵化','创新不足','沟通直接','适应慢'], work:['偏好标准与规范','擅长长期维护与质量','适合复杂后勤体系'], careers:['质控/法务','财务/审计','运维/项目','公务/行政'], figures:['沃伦·巴菲特(推测)','海军军官典型'] },
+            ISFJ: { summary:'守护型服务者，细致体贴与稳定支撑。', funcs:['Si','Fe','Ti','Ne'], strengths:['稳定可靠','体察需求','记忆细节','耐心勤勉'], risks:['回避冲突','难拒绝','创新偏弱','自我表达少'], work:['偏好明确职责与协作','擅长客户与内部支持','适合服务密集岗位'], careers:['护理/教育','客户成功','行政/内勤','运营/社服'], figures:['凯特·米德尔顿(推测)'] },
+            ESTJ: { summary:'指挥型落实者，结构与效率的代言人。', funcs:['Te','Si','Ne','Fi'], strengths:['强执行力','流程优化','公平客观','抗压稳'], risks:['强硬/控制','对人情感知弱','不耐低效','保守路径依赖'], work:['偏好清晰KPI与职责','擅长规模化与管理','适合流程改造与交付'], careers:['运营/管理','供应链/制造','项目/PMO','政务/军警'], figures:['Indra Nooyi(推测)','Tim Cook(推测)'] },
+            ESFJ: { summary:'协同型照护者，关系维护与秩序守护。', funcs:['Fe','Si','Ne','Ti'], strengths:['人际和谐','服务意识','组织细节','执行稳定'], risks:['过度在意评价','保守从众','难拒绝','逃避冲突'], work:['偏好团队与明确流程','重视氛围与公平','适合大团队运营'], careers:['人事/行政','客户/社区','教育/护理','活动/运营'], figures:['泰勒·斯威夫特(推测)'] },
+            ISTP: { summary:'冷静型工匠，动手解决现实问题。', funcs:['Ti','Se','Ni','Fe'], strengths:['快速定位故障','实操能力强','临场反应好','客观冷静'], risks:['沟通简短','规则淡薄','长期规划弱','情感表达少'], work:['偏好实际问题与工具','喜欢独立与即时反馈','适合危机处理场景'], careers:['工程/安防','运维/应急','外科/机械','交易/竞技'], figures:['李小龙(推测)','F1车手典型'] },
+            ISFP: { summary:'温柔型体验者，审美、手作与真实感受。', funcs:['Fi','Se','Ni','Te'], strengths:['审美敏锐','真诚温和','体验导向','专注当下'], risks:['计划性弱','回避硬碰','抗压较差','表达含蓄'], work:['偏好小团队与作品呈现','需要空间与尊重','适合设计与手作'], careers:['视觉/UI','摄影/手作','内容/体验','护工/康复'], figures:['宫崎骏(推测)'] },
+            ESTP: { summary:'行动型实干家，现场反应与影响力强。', funcs:['Se','Ti','Fe','Ni'], strengths:['快速决断','资源整合','谈判说服','结果导向'], risks:['短视冒险','后续维护弱','权威冲突','耐心不足'], work:['喜欢高节奏与博弈','在现场更出彩','适合销售与突击任务'], careers:['销售/交易','公关/谈判','应急/救援','运营/运动'], figures:['乔丹(推测)','格兰特·卡尔登(推测)'] },
+            ESFP: { summary:'活力型表演者，感染力与人气中心。', funcs:['Se','Fi','Te','Ni'], strengths:['社交驱动','氛围打造','当下洞察','适应力强'], risks:['难以长期坚持','管理弱','情绪波动','抗压不足'], work:['喜欢互动与舞台','需要即时反馈','适合品牌与活动'], careers:['演艺/主播','市场/活动','客服/运营','旅游/体育'], figures:['麦当娜(推测)','综艺主持典型'] }
+        };
+
+        function buildTypeDetail(mbti){
+            const info = TYPE_KB[mbti];
+            if (!info) return '';
+            const funcs = info.funcs.join(' → ');
+            const renderList = (arr) => arr.map(x=>`<li>${x}</li>`).join('');
+            return `
+                <div class="card">
+                    <div class="pill">类型综述</div>
+                    <p class="muted" style="margin-top:6px">${info.summary}</p>
+                    <div class="grid" style="margin-top:8px">
+                        <div class="card"><div class="pill">功能堆栈</div><p class="muted">${funcs}</p></div>
+                        <div class="card"><div class="pill">优势</div><ul class="muted" style="margin:6px 0 0 18px">${renderList(info.strengths)}</ul></div>
+                        <div class="card"><div class="pill">潜在风险</div><ul class="muted" style="margin:6px 0 0 18px">${renderList(info.risks)}</ul></div>
+                        <div class="card"><div class="pill">工作风格</div><ul class="muted" style="margin:6px 0 0 18px">${renderList(info.work)}</ul></div>
+                    </div>
+                    <div class="grid" style="margin-top:8px">
+                        <div class="card"><div class="pill">适合职业</div><p class="muted">${info.careers.join('、')}</p></div>
+                        <div class="card"><div class="pill">代表人物（推测）</div><p class="muted">${info.figures.join('、')}</p></div>
+                    </div>
+                </div>
+            `;
+        }
+
         function $(sel){ return document.querySelector(sel); }
 
         function show(section){
@@ -217,12 +259,7 @@
         }
 
         function startTest(){
-            const sel = document.getElementById('signSelect');
-            selectedSign = sel ? sel.value : null;
-            if (!selectedSign) {
-                alert('请先选择你的星座');
-                return;
-            }
+            console.log('开始专业MBTI测试');
             currentIndex = 0;
             selections.fill(null);
             Object.keys(scores).forEach(k => scores[k] = 0);
@@ -320,6 +357,8 @@
         }
 
         function submit(){
+            console.log('提交MBTI测试结果');
+            
             // 累计分数
             Object.keys(scores).forEach(k => scores[k] = 0);
             selections.forEach((val, i) => { if (val) scores[val] += 1; });
@@ -340,40 +379,11 @@
                 P: Math.round(100 * scores.P / countByDim.JP)
             };
 
-            // 星座增强：将星座倾向作为微弱权重参与四个维度的最终判定
-            const sign = ZODIAC_KB[selectedSign];
-            const zw = sign ? sign.weights : { E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0 };
-            const weightedWinner = (a, b, dimCount) => {
-                const aScore = scores[a] + (zw[a] || 0);
-                const bScore = scores[b] + (zw[b] || 0);
-                if (aScore === bScore) {
-                    // 平分时以星座权重占优为准；仍相等则回落到原始得分，再仍相等默认前者
-                    if ((zw[a] || 0) !== (zw[b] || 0)) return (zw[a] || 0) > (zw[b] || 0) ? a : b;
-                    return scores[a] >= scores[b] ? a : b;
-                }
-                return aScore > bScore ? a : b;
-            };
-            const zType = [
-                weightedWinner('E','I', countByDim.EI),
-                weightedWinner('S','N', countByDim.SN),
-                weightedWinner('T','F', countByDim.TF),
-                weightedWinner('J','P', countByDim.JP)
-            ].join('');
-
             // 渲染结果
             $('#type').textContent = type;
-            $('#ztype').textContent = zType;
-            $('#zsummary').innerHTML = sign ? `${sign.cn} · ${sign.traits}` : '';
-            // 星座×MBTI交叉洞察
-            const zmbtiHtml = selectedSign ? buildZodiacMbtiInsight(zType || type, selectedSign) : '';
-            const zBias = sign ? `
-                <div class="grid">
-                    <div class="card"><div class="pill">星座倾向 · 外向 E / 内向 I</div><p class="muted">E +${(zw.E||0).toFixed(1)} · I +${(zw.I||0).toFixed(1)}</p></div>
-                    <div class="card"><div class="pill">星座倾向 · 感觉 S / 直觉 N</div><p class="muted">S +${(zw.S||0).toFixed(1)} · N +${(zw.N||0).toFixed(1)}</p></div>
-                    <div class="card"><div class="pill">星座倾向 · 思考 T / 情感 F</div><p class="muted">T +${(zw.T||0).toFixed(1)} · F +${(zw.F||0).toFixed(1)}</p></div>
-                    <div class="card"><div class="pill">星座倾向 · 判断 J / 感知 P</div><p class="muted">J +${(zw.J||0).toFixed(1)} · P +${(zw.P||0).toFixed(1)}</p></div>
-                </div>` : '';
-
+            $('#ztype').textContent = type; // 使用相同的类型，因为这是纯MBTI测试
+            $('#zsummary').innerHTML = '专业MBTI分析结果';
+            
             $('#breakdown').innerHTML = `
                 <div class="grid">
                     <div class="card"><div class="pill">外向 E / 内向 I</div><p class="muted">E ${pct.E}% · I ${pct.I}%</p></div>
@@ -381,11 +391,12 @@
                     <div class="card"><div class="pill">思考 T / 情感 F</div><p class="muted">T ${pct.T}% · F ${pct.F}%</p></div>
                     <div class="card"><div class="pill">判断 J / 感知 P</div><p class="muted">J ${pct.J}% · P ${pct.P}%</p></div>
                 </div>
-                <div style="margin-top:12px"></div>
-                ${zBias}
-                <div style="margin-top:12px"></div>
-                ${zmbtiHtml}
             `;
+            
+            // MBTI类型详解
+            const detailHtml = buildTypeDetail(type);
+            const detail = document.getElementById('typeDetail');
+            if (detail) detail.innerHTML = detailHtml;
 
             show('#result');
         }
@@ -401,12 +412,12 @@
     <meta name="color-scheme" content="light dark">
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <h1>🧠 快速 MBTI 测试</h1>
-            <p>约 3-5 分钟 · 12 题 · 本地计算，不上传任何数据</p>
+            <div class="header">
+            <div class="container">
+                <h1>🧠 专业MBTI测试</h1>
+                <p>基于荣格理论的16种人格类型专业测试，快速准确 · 约 3-5 分钟 · 12 题 · 本地计算</p>
+            </div>
         </div>
-    </div>
 
     <div class="container">
         <!-- 欢迎页 -->
@@ -415,27 +426,26 @@
             <p class="muted">
                 根据你的偏好在两项中择一。请凭第一反应作答，没有正确或错误的选项。
             </p>
-            <div style="margin-top:12px">
-                <label for="signSelect" class="muted">选择你的星座（用于星座增强版 MBTI）：</label>
-                <div>
-                    <select id="signSelect" style="margin-top:6px; width:100%; padding:10px; border-radius:10px; border:1px solid #e5e7eb;">
-                        <option value="">请选择</option>
-                        <option value="aries">白羊座</option>
-                        <option value="taurus">金牛座</option>
-                        <option value="gemini">双子座</option>
-                        <option value="cancer">巨蟹座</option>
-                        <option value="leo">狮子座</option>
-                        <option value="virgo">处女座</option>
-                        <option value="libra">天秤座</option>
-                        <option value="scorpio">天蝎座</option>
-                        <option value="sagittarius">射手座</option>
-                        <option value="capricorn">摩羯座</option>
-                        <option value="aquarius">水瓶座</option>
-                        <option value="pisces">双鱼座</option>
-                    </select>
+            
+            <div class="card" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; margin: 16px 0;">
+                <h3 style="margin: 0 0 8px; color: #92400e;">🌟 专业MBTI测试特色</h3>
+                <p style="margin: 0; color: #92400e; font-size: 14px;">
+                    本测试基于荣格理论，通过精心设计的12道题目，快速准确地分析你的MBTI人格类型。测试完成后，你将获得：
+                </p>
+                <ul style="margin: 8px 0 0 18px; color: #92400e; font-size: 14px;">
+                    <li>标准MBTI四维度分析</li>
+                    <li>专业的人格类型解读</li>
+                    <li>个性化的发展建议</li>
+                    <li>职业适配性分析</li>
+                </ul>
+                
+                <div style="margin-top: 12px;">
+                    <p style="color: #92400e; font-size: 14px; margin: 0;">
+                        💡 本测试基于心理学理论，通过科学方法分析你的性格特征
+                    </p>
                 </div>
-                <p class="muted" style="margin-top:6px">说明：星座只作为轻权重参与判定，用于在分数接近时提供偏向与解释。</p>
             </div>
+            
             <div class="center" style="margin-top:16px">
                 <button class="btn" type="button" onclick="startTest()">开始测试</button>
                 <a class="link" href="index.html" style="margin-left:12px">返回首页</a>
@@ -462,11 +472,12 @@
                 <div id="type" class="result-type">XXXX</div>
                 <p class="muted">下面是四个维度的分布情况：</p>
                 <div style="margin-top:8px"></div>
-                <div class="pill">星座增强类型</div>
+                <div class="pill">专业分析结果</div>
                 <div id="ztype" class="result-type" style="font-size:28px; color:#10b981">XXXX</div>
                 <div id="zsummary" class="muted" style="margin-top:6px"></div>
             </div>
             <div id="breakdown" style="margin-top:12px"></div>
+            <div id="typeDetail" style="margin-top:12px"></div>
             <div class="center" style="margin-top:16px">
                 <button class="btn" type="button" onclick="restart()">重新测试</button>
                 <a class="link" href="index.html" style="margin-left:12px">返回首页</a>

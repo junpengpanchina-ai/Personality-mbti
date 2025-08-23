@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 塔罗牌×MBTI 人格深度解析</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e8e8e8;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+        .header { text-align: center; color: #fff; margin: 24px 0; }
+        .header h1 { margin: 0 0 8px; font-size: 32px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .header p { font-size: 16px; opacity: 0.9; }
+        
+        .card { 
+            background: rgba(255,255,255,0.05); 
+            border-radius: 20px; 
+            padding: 24px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3); 
+            margin-bottom: 20px; 
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 20px; }
+        .btn { 
+            display:inline-block; 
+            background: linear-gradient(135deg, #667eea, #764ba2); 
+            color:#fff; 
+            border:none; 
+            padding:12px 24px; 
+            border-radius:25px; 
+            cursor:pointer; 
+            font-weight:600; 
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: linear-gradient(135deg, #4a5568, #2d3748); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        
+        .muted { color:#a0aec0; font-size:14px; }
+        label { font-weight:600; display:block; margin:12px 0 8px; color: #e2e8f0; }
+        input, select { 
+            width:100%; 
+            padding:12px; 
+            border-radius:12px; 
+            border:1px solid rgba(255,255,255,0.2); 
+            background: rgba(255,255,255,0.1);
+            color: #e8e8e8;
+            font-size: 14px;
+        }
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: #667eea; 
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .pill { 
+            display:inline-block; 
+            padding:8px 16px; 
+            border-radius:20px; 
+            background:rgba(102, 126, 234, 0.2); 
+            color:#a0aec0; 
+            font-weight:600; 
+            font-size:12px; 
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .kpi { font-size: 28px; font-weight:800; color:#667eea; }
+        .q { 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius:16px; 
+            padding:20px; 
+            margin-bottom:20px; 
+            background: rgba(255,255,255,0.03);
+        }
+        .opt { margin:12px 0; }
+        .opt input { width:auto; margin-right:12px; }
+        .opt label { 
+            display: flex; 
+            align-items: center; 
+            cursor: pointer; 
+            padding: 12px; 
+            border-radius: 12px; 
+            transition: all 0.3s ease;
+        }
+        .opt label:hover { background: rgba(255,255,255,0.05); }
+        .opt input:checked + span { color: #667eea; font-weight: 600; }
+        
+        .result { 
+            margin-top: 16px; 
+            padding: 16px 20px; 
+            border-left: 4px solid #48bb78; 
+            background: rgba(72, 187, 120, 0.1); 
+            color: #9ae6b4; 
+            border-radius: 12px; 
+        }
+        
+        .section-title { margin: 0 0 16px; color: #e2e8f0; font-size: 20px; }
+        .hidden { display: none; }
+        
+        .tarot-card {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tarot-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+        .tarot-card.selected { border-color: #667eea; box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+        .tarot-card img { width: 80px; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+        .tarot-card h4 { margin: 8px 0; color: #e2e8f0; }
+        .tarot-card p { font-size: 12px; color: #a0aec0; margin: 0; }
+        
+        .mbti-dimension { 
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); 
+            border-left: 4px solid #667eea; 
+        }
+        .tarot-insight { 
+            background: linear-gradient(135deg, rgba(72, 187, 120, 0.1), rgba(56, 178, 172, 0.1)); 
+            border-left: 4px solid #48bb78; 
+        }
+        .integration { 
+            background: linear-gradient(135deg, rgba(237, 137, 54, 0.1), rgba(245, 101, 101, 0.1)); 
+            border-left: 4px solid #ed8936; 
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        .tarot-spread {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .spread-position {
+            text-align: center;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .spread-position h5 { margin: 8px 0; color: #e2e8f0; }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0;
+            margin-right: 12px;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.15); }
+        
+        .feature-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .feature-status.active {
+            background: rgba(72, 187, 120, 0.2);
+            color: #9ae6b4;
+            border: 1px solid rgba(72, 187, 120, 0.3);
+        }
+        .feature-status.coming-soon {
+            background: rgba(237, 137, 54, 0.2);
+            color: #fbd38d;
+            border: 1px solid rgba(237, 137, 54, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 16px; }
+            .header h1 { font-size: 24px; }
+            .grid { grid-template-columns: 1fr; }
+            .tarot-spread { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🔮 塔罗牌×MBTI 人格深度解析</h1>
+            <p class="muted">结合神秘塔罗牌与MBTI理论，探索你的内心世界与性格密码</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 基础信息输入 -->
+        <div class="card">
+            <div class="grid">
+                <div>
+                    <h3 class="section-title">🔮 基础信息</h3>
+                    <label for="bDate">出生日期</label>
+                    <input type="date" id="bDate" />
+                    <label for="bTime">出生时间（24小时制）</label>
+                    <input type="time" id="bTime" value="12:00" />
+                    <label for="name">姓名（可选）</label>
+                    <input type="text" id="name" placeholder="请输入您的姓名" />
+                    <div style="margin-top:20px">
+                        <button class="btn" type="button" onclick="startTarotTest()">开始塔罗牌测试</button>
+                        <button class="btn btn-secondary" type="button" onclick="location.href='index.html'" style="margin-left:12px">返回首页</button>
+                    </div>
+                    <p class="muted" style="margin-top:12px">基于《其实你已经很塔罗了》《塔罗葵花宝典》《78度的智慧》等经典塔罗著作，结合MBTI理论进行人格深度解析。</p>
+                </div>
+                <div>
+                    <h3 class="section-title">🎴 测试说明</h3>
+                    <div class="pill">测试流程</div>
+                    <div class="muted" style="margin-top:8px">
+                        1. 基础信息收集<br>
+                        2. MBTI性格测试<br>
+                        3. 塔罗牌选择<br>
+                        4. 融合解析结果
+                    </div>
+                    <div style="height:16px"></div>
+                    <div class="pill">塔罗牌阵</div>
+                    <div class="muted" style="margin-top:8px">
+                        使用凯尔特十字牌阵，揭示：<br>
+                        • 当前状况<br>
+                        • 内在特质<br>
+                        • 潜在挑战<br>
+                        • 发展建议
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MBTI测试部分 -->
+        <div class="card hidden" id="mbtiSection">
+            <h3 class="section-title">🧠 MBTI 四维度测试</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="mbtiProgress"></div>
+            </div>
+            <div id="mbtiQuestions"></div>
+            <div style="margin-top:20px">
+                <button class="btn back-btn" type="button" onclick="previousSection('basicSection')">返回</button>
+                <button class="btn" type="button" onclick="nextSection('tarotSection')" id="mbtiNextBtn" disabled>下一步：塔罗牌选择</button>
+            </div>
+        </div>
+
+        <!-- 塔罗牌选择部分 -->
+        <div class="card hidden" id="tarotSection">
+            <h3 class="section-title">🎴 塔罗牌选择</h3>
+            <p class="muted">请选择与你内心共鸣的塔罗牌，我们将使用凯尔特十字牌阵进行解读</p>
+            
+            <div class="tarot-spread">
+                <div class="spread-position">
+                    <h5>🎯 中心牌 - 当前状况</h5>
+                    <div id="centerCard" class="tarot-card" onclick="selectCard('center', this)">
+                        <div style="width:80px;height:120px;background:linear-gradient(135deg,#2d3748,#4a5568);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                            <span style="font-size:24px;">🎴</span>
+                        </div>
+                        <h4>选择中心牌</h4>
+                        <p>代表你当前的状态</p>
+                    </div>
+                </div>
+                
+                <div class="spread-position">
+                    <h5>🔄 十字牌 - 内在特质</h5>
+                    <div id="crossCard" class="tarot-card" onclick="selectCard('cross', this)">
+                        <div style="width:80px;height:120px;background:linear-gradient(135deg,#2d3748,#4a5568);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                            <span style="font-size:24px;">🎴</span>
+                        </div>
+                        <h4>选择十字牌</h4>
+                        <p>代表你的内在特质</p>
+                    </div>
+                </div>
+                
+                <div class="spread-position">
+                    <h5>🌟 基础牌 - 潜在挑战</h5>
+                    <div id="baseCard" class="tarot-card" onclick="selectCard('base', this)">
+                        <div style="width:80px;height:120px;background:linear-gradient(135deg,#2d3748,#4a5568);border-radius:8px;display:flex:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                            <span style="font-size:24px;">🎴</span>
+                        </div>
+                        <h4>选择基础牌</h4>
+                        <p>代表潜在挑战</p>
+                    </div>
+                </div>
+                
+                <div class="spread-position">
+                    <h5>🔮 未来牌 - 发展建议</h5>
+                    <div id="futureCard" class="tarot-card" onclick="selectCard('future', this)">
+                        <div style="width:80px;height:120px;background:linear-gradient(135deg,#2d3748,#4a5568);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                            <div style="text-align:center;">
+                                <span style="font-size:24px;">🎴</span>
+                            </div>
+                        </div>
+                        <h4>选择未来牌</h4>
+                        <p>代表发展建议</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top:20px">
+                <button class="btn back-btn" type="button" onclick="previousSection('mbtiSection')">返回</button>
+                <button class="btn" type="button" onclick="generateResults()" id="tarotNextBtn" disabled>生成解析结果</button>
+            </div>
+        </div>
+
+        <!-- 结果解析部分 -->
+        <div class="card hidden" id="resultsSection">
+            <h3 class="section-title">🌟 塔罗牌×MBTI 融合解析</h3>
+            
+            <!-- MBTI类型显示 -->
+            <div class="card mbti-dimension" style="margin-bottom:20px">
+                <div class="pill">你的MBTI类型</div>
+                <div id="mbtiType" class="kpi" style="font-size:24px; margin-top:8px"></div>
+                <div id="mbtiDescription" class="muted" style="margin-top:8px"></div>
+            </div>
+            
+            <!-- 塔罗牌解读 -->
+            <div class="grid">
+                <div class="card tarot-insight">
+                    <div class="pill">🎯 中心牌解读</div>
+                    <div id="centerInterpretation" class="muted" style="margin-top:8px"></div>
+                </div>
+                <div class="card tarot-insight">
+                    <div class="pill">🔄 十字牌解读</div>
+                    <div id="crossInterpretation" class="muted" style="margin-top:8px"></div>
+                </div>
+                <div class="card tarot-insight">
+                    <div class="pill">🌟 基础牌解读</div>
+                    <div id="baseInterpretation" class="muted" style="margin-top:8px"></div>
+                </div>
+                <div class="card tarot-insight">
+                    <div class="pill">🔮 未来牌解读</div>
+                    <div id="futureInterpretation" class="muted" style="margin-top:8px"></div>
+                </div>
+            </div>
+            
+            <!-- 融合解析 -->
+            <div class="card integration" style="margin-top:20px">
+                <div class="pill">🌟 塔罗牌×MBTI 融合解析</div>
+                <div id="fusionAnalysis" class="muted" style="margin-top:12px"></div>
+            </div>
+            
+            <!-- 人生建议 -->
+            <div class="card integration" style="margin-top:20px">
+                <div class="pill">💡 人生发展建议</div>
+                <div id="lifeAdvice" class="muted" style="margin-top:12px"></div>
+            </div>
+            
+            <div style="margin-top:20px">
+                <button class="btn back-btn" type="button" onclick="previousSection('tarotSection')">返回</button>
+                <button class="btn" type="button" onclick="location.href='index.html'">返回首页</button>
+                <button class="btn btn-secondary" type="button" onclick="restartTest()">重新测试</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 塔罗牌数据 - 基于经典塔罗牌理论
+        const TAROT_CARDS = {
+            // 大阿卡纳牌
+            '愚者': { 
+                element: '风', 
+                mbti: ['ENFP', 'INFP'], 
+                meaning: '新的开始、冒险精神、纯真无邪',
+                advice: '保持开放心态，勇敢尝试新事物'
+            },
+            '魔术师': { 
+                element: '风', 
+                mbti: ['ENTP', 'INTJ'], 
+                meaning: '创造力、技能、意志力',
+                advice: '发挥你的才能，专注目标实现'
+            },
+            '女祭司': { 
+                element: '水', 
+                mbti: ['INFJ', 'INTJ'], 
+                meaning: '直觉、智慧、神秘',
+                advice: '倾听内心声音，相信你的直觉'
+            },
+            '女皇': { 
+                element: '土', 
+                mbti: ['ESFJ', 'ISFJ'], 
+                meaning: '丰饶、母性、创造力',
+                advice: '培养创造力，关注家庭和关系'
+            },
+            '皇帝': { 
+                element: '火', 
+                mbti: ['ESTJ', 'ENTJ'], 
+                meaning: '权威、领导力、稳定',
+                advice: '承担责任，建立秩序和结构'
+            },
+            '教皇': { 
+                element: '土', 
+                mbti: ['ENFJ', 'INFJ'], 
+                meaning: '传统、教育、精神指导',
+                advice: '寻求智慧，传承知识和价值观'
+            },
+            '恋人': { 
+                element: '风', 
+                mbti: ['ENFP', 'ESFP'], 
+                meaning: '爱情、选择、和谐',
+                advice: '做出重要选择，平衡理性与感性'
+            },
+            '战车': { 
+                element: '火', 
+                mbti: ['ESTP', 'ENTP'], 
+                meaning: '胜利、意志力、控制',
+                advice: '保持专注，克服障碍'
+            },
+            '力量': { 
+                element: '火', 
+                mbti: ['ESFP', 'ISFP'], 
+                meaning: '勇气、耐心、内在力量',
+                advice: '培养内在力量，保持耐心'
+            },
+            '隐者': { 
+                element: '土', 
+                mbti: ['INTP', 'ISTP'], 
+                meaning: '智慧、独处、指导',
+                advice: '寻求内在智慧，给予他人指导'
+            },
+            '命运之轮': { 
+                element: '火', 
+                mbti: ['ENFP', 'ENTP'], 
+                meaning: '变化、命运、转折点',
+                advice: '适应变化，把握机会'
+            },
+            '正义': { 
+                element: '风', 
+                mbti: ['ISTJ', 'ESTJ'], 
+                meaning: '平衡、公正、真理',
+                advice: '保持公正，寻求真理'
+            },
+            '倒吊人': { 
+                element: '水', 
+                mbti: ['INFP', 'INFJ'], 
+                meaning: '牺牲、新视角、暂停',
+                advice: '换个角度看问题，接受暂停'
+            },
+            '死神': { 
+                element: '水', 
+                mbti: ['INTJ', 'ISTJ'], 
+                meaning: '结束、转变、新生',
+                advice: '接受结束，拥抱新的开始'
+            },
+            '节制': { 
+                element: '火', 
+                mbti: ['ISFJ', 'ESFJ'], 
+                meaning: '平衡、适度、和谐',
+                advice: '保持平衡，适度而行'
+            },
+            '恶魔': { 
+                element: '土', 
+                mbti: ['ESTP', 'ISTP'], 
+                meaning: '束缚、欲望、物质',
+                advice: '识别束缚，超越物质欲望'
+            },
+            '塔': { 
+                element: '火', 
+                mbti: ['ENTJ', 'ESTJ'], 
+                meaning: '突然变化、启示、混乱',
+                advice: '接受变化，从混乱中学习'
+            },
+            '星星': { 
+                element: '风', 
+                mbti: ['INFP', 'ENFP'], 
+                meaning: '希望、灵感、信心',
+                advice: '保持希望，相信你的灵感'
+            },
+            '月亮': { 
+                element: '水', 
+                mbti: ['INFJ', 'ISFJ'], 
+                meaning: '直觉、幻想、恐惧',
+                advice: '面对恐惧，相信直觉'
+            },
+            '太阳': { 
+                element: '火', 
+                mbti: ['ESFP', 'ENFP'], 
+                meaning: '快乐、成功、活力',
+                advice: '保持乐观，分享快乐'
+            },
+            '审判': { 
+                element: '火', 
+                mbti: ['ENTJ', 'INTJ'], 
+                meaning: '重生、内在召唤、释放',
+                advice: '听从内心召唤，释放旧我'
+            },
+            '世界': { 
+                element: '土', 
+                mbti: ['ISFP', 'ISTP'], 
+                meaning: '完成、和谐、圆满',
+                advice: '庆祝成就，保持和谐'
+            }
+        };
+
+        // MBTI测试题目
+        const MBTI_QUESTIONS = [
+            { id: 1, dimension: 'EI', question: '在社交场合，你更倾向于：', 
+              options: [
+                  { text: '主动与他人交谈，认识新朋友', score: { E: 1 } },
+                  { text: '与熟悉的人安静交谈，或独自观察', score: { I: 1 } }
+              ] },
+            { id: 2, dimension: 'EI', question: '当你需要充电时，你会：', 
+              options: [
+                  { text: '和朋友一起外出活动', score: { E: 1 } },
+                  { text: '独自待着，享受独处时光', score: { I: 1 } }
+              ] },
+            { id: 3, dimension: 'SN', question: '你更关注：', 
+              options: [
+                  { text: '具体的事实和细节', score: { S: 1 } },
+                  { text: '可能性和未来愿景', score: { N: 1 } }
+              ] },
+            { id: 4, dimension: 'SN', question: '解决问题时，你更喜欢：', 
+              options: [
+                  { text: '使用已有的方法和经验', score: { S: 1 } },
+                  { text: '尝试新的创新方法', score: { N: 1 } }
+              ] },
+            { id: 5, dimension: 'TF', question: '做决定时，你更看重：', 
+              options: [
+                  { text: '逻辑分析和客观事实', score: { T: 1 } },
+                  { text: '个人价值观和他人感受', score: { F: 1 } }
+              ] },
+            { id: 6, dimension: 'TF', question: '处理冲突时，你会：', 
+              options: [
+                  { text: '寻求公平合理的解决方案', score: { T: 1 } },
+                  { text: '考虑各方感受，寻求和谐', score: { F: 1 } }
+              ] },
+            { id: 7, dimension: 'JP', question: '你更喜欢：', 
+              options: [
+                  { text: '制定计划并按计划执行', score: { J: 1 } },
+                  { text: '保持灵活性，随机应变', score: { P: 1 } }
+              ] },
+            { id: 8, dimension: 'JP', question: '面对截止日期，你通常：', 
+              options: [
+                  { text: '提前完成，避免压力', score: { J: 1 } },
+                  { text: '在最后时刻高效完成', score: { P: 1 } }
+              ] }
+        ];
+
+        let currentSection = 'basicSection';
+        let mbtiScores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+        let selectedCards = {};
+        let mbtiType = '';
+
+        function startTarotTest() {
+            const date = document.getElementById('bDate').value;
+            const time = document.getElementById('bTime').value;
+            const name = document.getElementById('name').value;
+            
+            if (!date || !time) {
+                alert('请填写出生日期和时间');
+                return;
+            }
+            
+            showSection('mbtiSection');
+            renderMBTIQuestions();
+        }
+
+        function showSection(sectionId) {
+            // 隐藏所有section
+            document.querySelectorAll('[id$="Section"]').forEach(el => el.classList.add('hidden'));
+            // 显示目标section
+            document.getElementById(sectionId).classList.remove('hidden');
+            currentSection = sectionId;
+        }
+
+        function previousSection(targetSection) {
+            showSection(targetSection);
+        }
+
+        function nextSection(targetSection) {
+            showSection(targetSection);
+        }
+
+        function renderMBTIQuestions() {
+            const container = document.getElementById('mbtiQuestions');
+            container.innerHTML = '';
+            
+            MBTI_QUESTIONS.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'q';
+                questionDiv.innerHTML = `
+                    <div style="font-weight:700; margin-bottom:12px">${index + 1}. ${q.question}</div>
+                    ${q.options.map((opt, optIndex) => `
+                        <div class="opt">
+                            <label>
+                                <input type="radio" name="q${q.id}" value="${optIndex}" onchange="updateMBTIProgress()">
+                                <span>${opt.text}</span>
+                            </label>
+                        </div>
+                    `).join('')}
+                `;
+                container.appendChild(questionDiv);
+            });
+            
+            updateMBTIProgress();
+        }
+
+        function updateMBTIProgress() {
+            const totalQuestions = MBTI_QUESTIONS.length;
+            const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+            const progress = (answeredQuestions / totalQuestions) * 100;
+            
+            document.getElementById('mbtiProgress').style.width = progress + '%';
+            
+            // 检查是否可以进入下一步
+            const nextBtn = document.getElementById('mbtiNextBtn');
+            if (answeredQuestions === totalQuestions) {
+                nextBtn.disabled = false;
+                calculateMBTI();
+            } else {
+                nextBtn.disabled = true;
+            }
+        }
+
+        function calculateMBTI() {
+            // 重置分数
+            mbtiScores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+            
+            // 计算分数
+            MBTI_QUESTIONS.forEach(q => {
+                const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                if (selected) {
+                    const option = q.options[parseInt(selected.value)];
+                    Object.entries(option.score).forEach(([dimension, score]) => {
+                        mbtiScores[dimension] += score;
+                    });
+                }
+            });
+            
+            // 确定类型
+            mbtiType = '';
+            mbtiType += mbtiScores.E >= mbtiScores.I ? 'E' : 'I';
+            mbtiType += mbtiScores.S >= mbtiScores.N ? 'S' : 'N';
+            mbtiType += mbtiScores.T >= mbtiScores.F ? 'T' : 'F';
+            mbtiType += mbtiScores.J >= mbtiScores.P ? 'J' : 'P';
+        }
+
+        function selectCard(position, element) {
+            // 移除同位置其他卡片的选中状态
+            document.querySelectorAll(`#${position}Card`).forEach(card => card.classList.remove('selected'));
+            
+            // 添加选中状态
+            element.classList.add('selected');
+            
+            // 随机选择一张塔罗牌
+            const cardNames = Object.keys(TAROT_CARDS);
+            const randomCard = cardNames[Math.floor(Math.random() * cardNames.length)];
+            selectedCards[position] = randomCard;
+            
+            // 更新显示
+            element.innerHTML = `
+                <div style="width:80px;height:120px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                    <span style="font-size:24px;">🎴</span>
+                </div>
+                <h4>${randomCard}</h4>
+                <p>${TAROT_CARDS[randomCard].meaning}</p>
+            `;
+            
+            // 检查是否所有卡片都已选择
+            checkAllCardsSelected();
+        }
+
+        function checkAllCardsSelected() {
+            const allSelected = ['center', 'cross', 'base', 'future'].every(pos => selectedCards[pos]);
+            const nextBtn = document.getElementById('tarotNextBtn');
+            nextBtn.disabled = !allSelected;
+        }
+
+        function generateResults() {
+            showSection('resultsSection');
+            
+            // 显示MBTI类型
+            document.getElementById('mbtiType').textContent = mbtiType;
+            document.getElementById('mbtiDescription').textContent = getMBTIDescription(mbtiType);
+            
+            // 显示塔罗牌解读
+            document.getElementById('centerInterpretation').innerHTML = getCardInterpretation('center', selectedCards.center);
+            document.getElementById('crossInterpretation').innerHTML = getCardInterpretation('cross', selectedCards.cross);
+            document.getElementById('baseInterpretation').innerHTML = getCardInterpretation('base', selectedCards.base);
+            document.getElementById('futureInterpretation').innerHTML = getCardInterpretation('future', selectedCards.future);
+            
+            // 生成融合解析
+            document.getElementById('fusionAnalysis').innerHTML = generateFusionAnalysis();
+            
+            // 生成人生建议
+            document.getElementById('lifeAdvice').innerHTML = generateLifeAdvice();
+        }
+
+        function getMBTIDescription(type) {
+            const descriptions = {
+                'INTJ': '建筑师 - 富有想象力和战略性的思考者',
+                'INTP': '逻辑学家 - 具有创新性的发明家',
+                'ENTJ': '指挥官 - 大胆、富有想象力的领导者',
+                'ENTP': '辩论家 - 聪明好奇的思想家',
+                'INFJ': '提倡者 - 安静而神秘，鼓舞人心',
+                'INFP': '调停者 - 诗意、善良的利他主义者',
+                'ENFJ': '主人公 - 富有魅力和鼓舞人心的领导者',
+                'ENFP': '竞选者 - 热情、有创造力、社交能力强',
+                'ISTJ': '物流师 - 实用主义者和事实爱好者',
+                'ISFJ': '守卫者 - 非常专注和温暖的守护者',
+                'ESTJ': '总经理 - 优秀的管理者，不可阻挡',
+                'ESFJ': '执政官 - 非常关心他人的看护者',
+                'ISTP': '鉴赏家 - 大胆而实用的实验家',
+                'ISFP': '探险家 - 灵活和有魅力的艺术家',
+                'ESTP': '企业家 - 聪明、精力充沛、非常善解人意',
+                'ESFP': '表演者 - 自发的、精力充沛的表演者'
+            };
+            return descriptions[type] || '独特的个性类型';
+        }
+
+        function getCardInterpretation(position, cardName) {
+            const card = TAROT_CARDS[cardName];
+            const positionMeanings = {
+                'center': '代表你当前的状态和关注点',
+                'cross': '代表你的内在特质和核心能力',
+                'base': '代表你需要面对的潜在挑战',
+                'future': '代表你的发展方向和建议'
+            };
+            
+            return `
+                <strong>${cardName}</strong><br>
+                <em>${positionMeanings[position]}</em><br>
+                <strong>含义：</strong>${card.meaning}<br>
+                <strong>建议：</strong>${card.advice}
+            `;
+        }
+
+        function generateFusionAnalysis() {
+            const centerCard = TAROT_CARDS[selectedCards.center];
+            const crossCard = TAROT_CARDS[selectedCards.cross];
+            const baseCard = TAROT_CARDS[selectedCards.base];
+            const futureCard = TAROT_CARDS[selectedCards.future];
+            
+            // 分析元素与MBTI的关联
+            const elementAnalysis = analyzeElementMBTI();
+            
+            return `
+                <strong>塔罗牌元素分析：</strong><br>
+                中心牌（${centerCard.element}）+ 十字牌（${crossCard.element}）+ 基础牌（${baseCard.element}）+ 未来牌（${futureCard.element}）<br><br>
+                
+                <strong>MBTI类型特征：</strong><br>
+                ${mbtiType}类型：${getMBTIDescription(mbtiType)}<br><br>
+                
+                <strong>融合解读：</strong><br>
+                你的${mbtiType}性格特质与塔罗牌揭示的${elementAnalysis}元素能量相结合，形成了独特的个性组合。
+                当前你正处于${centerCard.meaning}的状态，内在具备${crossCard.meaning}的特质，
+                需要面对${baseCard.meaning}的挑战，未来将朝着${futureCard.meaning}的方向发展。
+            `;
+        }
+
+        function analyzeElementMBTI() {
+            const elements = ['center', 'cross', 'base', 'future'].map(pos => TAROT_CARDS[selectedCards[pos]].element);
+            const elementCounts = elements.reduce((acc, element) => {
+                acc[element] = (acc[element] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const dominantElement = Object.entries(elementCounts).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+            
+            const elementMBTI = {
+                '火': '热情、行动力强，适合外向型人格',
+                '土': '稳重、务实，适合判断型人格',
+                '风': '灵活、创新，适合感知型人格',
+                '水': '感性、直觉，适合情感型人格'
+            };
+            
+            return dominantElement + '（' + elementMBTI[dominantElement] + '）';
+        }
+
+        function generateLifeAdvice() {
+            const centerCard = TAROT_CARDS[selectedCards.center];
+            const crossCard = TAROT_CARDS[selectedCards.cross];
+            const baseCard = TAROT_CARDS[selectedCards.base];
+            const futureCard = TAROT_CARDS[selectedCards.future];
+            
+            return `
+                <strong>基于你的MBTI类型和塔罗牌解读，建议你：</strong><br><br>
+                
+                <strong>1. 当前阶段（${centerCard.meaning}）：</strong><br>
+                ${centerCard.advice}<br><br>
+                
+                <strong>2. 发挥优势（${crossCard.meaning}）：</strong><br>
+                ${crossCard.advice}<br><br>
+                
+                <strong>3. 面对挑战（${baseCard.meaning}）：</strong><br>
+                ${baseCard.advice}<br><br>
+                
+                <strong>4. 发展方向（${futureCard.meaning}）：</strong><br>
+                ${futureCard.advice}<br><br>
+                
+                <strong>总体建议：</strong><br>
+                结合你的${mbtiType}性格特质，在保持个性的同时，学会平衡各种能量。
+                当前阶段要${centerCard.advice.toLowerCase()}，发挥你的${crossCard.meaning}优势，
+                勇敢面对${baseCard.meaning}的挑战，朝着${futureCard.meaning}的目标前进。
+            `;
+        }
+
+        function restartTest() {
+            // 重置所有状态
+            mbtiScores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+            selectedCards = {};
+            mbtiType = '';
+            
+            // 重置表单
+            document.getElementById('bDate').value = '';
+            document.getElementById('bTime').value = '12:00';
+            document.getElementById('name').value = '';
+            
+            // 重置进度条
+            document.getElementById('mbtiProgress').style.width = '0%';
+            
+            // 重置按钮状态
+            document.getElementById('mbtiNextBtn').disabled = true;
+            document.getElementById('tarotNextBtn').disabled = true;
+            
+            // 重置塔罗牌选择
+            ['center', 'cross', 'base', 'future'].forEach(pos => {
+                const card = document.getElementById(pos + 'Card');
+                card.classList.remove('selected');
+                card.innerHTML = `
+                    <div style="width:80px;height:120px;background:linear-gradient(135deg,#2d3748,#4a5568);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                        <span style="font-size:24px;">🎴</span>
+                    </div>
+                    <h4>选择${pos === 'center' ? '中心' : pos === 'cross' ? '十字' : pos === 'base' ? '基础' : '未来'}牌</h4>
+                    <p>代表${pos === 'center' ? '你当前的状态' : pos === 'cross' ? '你的内在特质' : pos === 'base' ? '潜在挑战' : '发展建议'}</p>
+                `;
+            });
+            
+            // 返回基础信息部分
+            showSection('basicSection');
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置默认时间为当前时间
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('bTime').value = timeString;
+        });
+    </script>
+</body>
+</html>

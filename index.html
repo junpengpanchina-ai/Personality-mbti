@@ -3487,27 +3487,21 @@
             <p>除了MBTI人格测试，我们还有更多有趣的测试等你来体验</p>
             
             <div class="features-grid">
-                <div class="feature-card" onclick="location.href='mbti-quick-test.html'">
+                <div class="feature-card" onclick="showMBTIWelcome()">
                     <div class="feature-icon">🧠</div>
-                    <h3>MBTI人格测试</h3>
-                    <p>基于荣格理论的16种人格类型测试</p>
+                    <h3>专业MBTI测试</h3>
+                    <p>基于荣格理论的16种人格类型专业测试，快速准确</p>
                     <div class="feature-status active">开始测试</div>
                 </div>
                 
-                <div class="feature-card" id="zodiacMbtiExperienceCard" onclick="location.href='mbti-quick-test.html'">
+                <div class="feature-card" id="zodiacMbtiExperienceCard" onclick="location.href='zodiac-mbti-fusion.html'">
                     <div class="feature-icon">♈</div>
-                    <h3>星座+MBTI融合测试</h3>
-                    <p>探索你的星座特质与MBTI性格类型的完美结合</p>
+                    <h3>趣味星座测试</h3>
+                    <p>轻松有趣的星座性格测试，探索你的星座特质</p>
                     <div class="feature-status active">开始测试</div>
                 </div>
                 
-                <!-- 测试按钮 -->
-                <div style="margin: 20px; text-align: center;">
-                    <button class="btn" onclick="alert('HTML测试成功！')" style="background: #ff6b6b;">HTML测试</button>
-                    <button class="btn" onclick="testZodiacFunction()" style="background: #ff6b6b;">测试弹窗功能</button>
-                    <button class="btn" onclick="testStartZodiacTest()" style="background: #4ecdc4;">测试开始测试按钮</button>
-                    <button class="btn" onclick="testModalElements()" style="background: #45b7d1;">测试模态框元素</button>
-                </div>
+
                 
                 <div class="feature-card" onclick="location.href='bazi-test.html'">
                     <div class="feature-icon">📅</div>
@@ -3516,25 +3510,25 @@
                     <div class="feature-status active">开始测试</div>
                 </div>
                 
-                <div class="feature-card" onclick="showFeatureInfo('tarot')">
+                <div class="feature-card" onclick="location.href='tarot-test.html'">
                     <div class="feature-icon">🔮</div>
                     <h3>塔罗牌测试</h3>
                     <p>神秘的塔罗牌，揭示你的内心世界</p>
-                    <div class="feature-status coming-soon">即将推出</div>
+                    <div class="feature-status active">开始测试</div>
                 </div>
                 
                 <div class="feature-card" onclick="showFeatureInfo('numerology')">
                     <div class="feature-icon">🔢</div>
                     <h3>数字命理</h3>
                     <p>通过数字解读你的性格和命运</p>
-                    <div class="feature-status coming-soon">即将推出</div>
+                    <div class="feature-status active">开始测试</div>
                 </div>
                 
                 <div class="feature-card" onclick="showFeatureInfo('chinese-zodiac')">
                     <div class="feature-icon">🐉</div>
                     <h3>生肖测试</h3>
                     <p>十二生肖性格特征深度解析</p>
-                    <div class="feature-status coming-soon">即将推出</div>
+                    <div class="feature-status active">开始测试</div>
                 </div>
             </div>
         </div>
@@ -3543,7 +3537,7 @@
         <div class="zodiac-mbti-modal hidden" id="zodiacMBTIModal">
             <div class="zodiac-mbti-modal-content">
                 <div class="zodiac-mbti-modal-header">
-                    <h3>🌟 星座+MBTI融合测试</h3>
+                    <h3>🌟 趣味星座测试</h3>
                     <button class="close-btn" onclick="closeZodiacMBTIModal()">&times;</button>
                     <!-- 调试按钮 -->
                     <button class="btn" onclick="closeZodiacMBTIModal()" style="background: #ff6b6b; margin-left: 10px; padding: 8px 16px; font-size: 0.9rem;">关闭弹窗</button>
@@ -3625,26 +3619,9 @@
             </div>
         </div>
 
-        <!-- 欢迎部分 -->
-        <div class="card welcome-section" id="welcomeSection">
-            <h2>欢迎参加MBTI人格测试</h2>
-            <p>
-                MBTI（迈尔斯-布里格斯类型指标）是一种基于荣格类型学理论的人格测试工具。
-                通过回答一系列问题，我们将帮助你了解自己的性格偏好，包括：
-            </p>
-            <div style="text-align: left; max-width: 600px; margin: 0 auto 30px;">
-                <p>• <strong>外向(E) vs 内向(I)</strong> - 你如何获取能量</p>
-                <p>• <strong>感觉(S) vs 直觉(N)</strong> - 你如何接收信息</p>
-                <p>• <strong>思考(T) vs 情感(F)</strong> - 你如何做决定</p>
-                <p>• <strong>判断(J) vs 感知(P)</strong> - 你如何对待生活</p>
-            </div>
-            <p>测试大约需要15-20分钟，请确保在安静的环境中完成。</p>
-            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-                <button class="btn" onclick="location.href='mbti-quick-test.html'">开始测试</button>
-                <button class="btn btn-secondary" onclick="showMBTIInfo()">了解MBTI</button>
-                <button class="btn btn-secondary" onclick="showDebugInfo()" style="font-size: 0.8rem; padding: 10px 20px;">调试信息</button>
-            </div>
-        </div>
+
+
+
 
         <!-- 登录页面 -->
         <div class="login-section hidden" id="loginSection">
@@ -4982,8 +4959,8 @@
 
         // 初始化导航系统
         function initializeNavigation() {
-            // 设置初始页面
-            navigateToPage(PAGE_STATES.HOME);
+            // 设置初始页面为功能卡片区域
+            showFeaturesSection();
             
             // 监听浏览器后退按钮
             window.addEventListener('popstate', function(event) {
@@ -5019,7 +4996,7 @@
         // 隐藏所有页面
         function hideAllPages() {
             const pages = [
-                'welcomeSection', 'testSection', 'adSection', 'resultSection',
+                'testSection', 'adSection', 'resultSection',
                 'loginSection', 'registerSection', 'forgotPasswordSection',
                 'mbtiInfoSection'
             ];
@@ -5039,7 +5016,8 @@
             
             switch (page) {
                 case PAGE_STATES.HOME:
-                    targetElement = document.getElementById('welcomeSection');
+                    // 首页现在直接显示功能卡片区域
+                    targetElement = document.getElementById('featuresSection');
                     break;
                 case PAGE_STATES.TEST:
                     targetElement = document.getElementById('testSection');
@@ -5141,48 +5119,54 @@
         }
 
         // 处理登录表单提交
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            // 简单的登录验证（实际应用中应该连接后端API）
-            if (username && password) {
-                currentUser = { username: username, email: username + '@example.com' };
-                localStorage.setItem('mbti_user', JSON.stringify(currentUser));
-                showMainContent();
-            } else {
-                alert('请输入用户名和密码');
-            }
-        });
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // 简单的登录验证（实际应用中应该连接后端API）
+                if (username && password) {
+                    currentUser = { username: username, email: username + '@example.com' };
+                    localStorage.setItem('mbti_user', JSON.stringify(currentUser));
+                    showMainContent();
+                } else {
+                    alert('请输入用户名和密码');
+                }
+            });
+        }
 
         // 处理注册表单提交
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('regUsername').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('regConfirmPassword').value;
-            const agreeTerms = document.getElementById('agreeTerms').checked;
-            
-            if (!agreeTerms) {
-                alert('请同意服务条款和隐私政策');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                alert('两次输入的密码不一致');
-                return;
-            }
-            
-            if (username && email && password) {
-                currentUser = { username: username, email: email };
-                localStorage.setItem('mbti_user', JSON.stringify(currentUser));
-                showMainContent();
-            } else {
-                alert('请填写所有必填字段');
-            }
-        });
+        const registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('regUsername').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+                const confirmPassword = document.getElementById('regConfirmPassword').value;
+                const agreeTerms = document.getElementById('agreeTerms').checked;
+                
+                if (!agreeTerms) {
+                    alert('请同意服务条款和隐私政策');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('两次输入的密码不一致');
+                    return;
+                }
+                
+                if (username && email && password) {
+                    currentUser = { username: username, email: email };
+                    localStorage.setItem('mbti_user', JSON.stringify(currentUser));
+                    showMainContent();
+                } else {
+                    alert('请填写所有必填字段');
+                }
+            });
+        }
 
         // Google登录（改进版）
         function googleLogin() {
@@ -5692,62 +5676,68 @@
         }
 
         // 处理忘记密码表单提交
-        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('resetEmail').value;
-            const code = document.getElementById('resetCode').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmNewPassword').value;
-            
-            // 验证邮箱
-            if (!email || !email.includes('@')) {
-                showMessage('请输入有效的邮箱地址', 'error');
-                return;
-            }
-            
-            // 验证验证码
-            const storedCode = localStorage.getItem('reset_code');
-            const storedEmail = localStorage.getItem('reset_email');
-            
-            if (!storedCode || !storedEmail || storedEmail !== email) {
-                showMessage('请先发送验证码', 'error');
-                return;
-            }
-            
-            if (code !== storedCode) {
-                showMessage('验证码错误，请重新输入', 'error');
-                return;
-            }
-            
-            // 验证密码
-            if (newPassword.length < 8) {
-                showMessage('密码长度至少8位', 'error');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                showMessage('两次输入的密码不一致', 'error');
-                return;
-            }
-            
-            // 模拟密码重置成功
-            showMessage('密码重置成功！正在跳转到登录页面...', 'success');
-            
-            // 清除存储的验证码
-            localStorage.removeItem('reset_code');
-            localStorage.removeItem('reset_email');
-            
-            // 3秒后跳转到登录页面
-            setTimeout(() => {
-                showLogin();
-            }, 3000);
-        });
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+        if (forgotPasswordForm) {
+            forgotPasswordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('resetEmail').value;
+                const code = document.getElementById('resetCode').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmNewPassword').value;
+                
+                // 验证邮箱
+                if (!email || !email.includes('@')) {
+                    showMessage('请输入有效的邮箱地址', 'error');
+                    return;
+                }
+                
+                // 验证验证码
+                const storedCode = localStorage.getItem('reset_code');
+                const storedEmail = localStorage.getItem('reset_email');
+                
+                if (!storedCode || !storedEmail || storedEmail !== email) {
+                    showMessage('请先发送验证码', 'error');
+                    return;
+                }
+                
+                if (code !== storedCode) {
+                    showMessage('验证码错误，请重新输入', 'error');
+                    return;
+                }
+                
+                // 验证密码
+                if (newPassword.length < 8) {
+                    showMessage('密码长度至少8位', 'error');
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    showMessage('两次输入的密码不一致', 'error');
+                    return;
+                }
+                
+                // 模拟密码重置成功
+                showMessage('密码重置成功！正在跳转到登录页面...', 'success');
+                
+                // 清除存储的验证码
+                localStorage.removeItem('reset_code');
+                localStorage.removeItem('reset_email');
+                
+                // 3秒后跳转到登录页面
+                setTimeout(() => {
+                    showLogin();
+                }, 3000);
+            });
+        }
 
         // 监听新密码输入，检测密码强度
-        document.getElementById('newPassword').addEventListener('input', function(e) {
-            checkPasswordStrength(e.target.value);
-        });
+        const newPasswordInput = document.getElementById('newPassword');
+        if (newPasswordInput) {
+            newPasswordInput.addEventListener('input', function(e) {
+                checkPasswordStrength(e.target.value);
+            });
+        }
 
         function startTest() {
             navigateToPage(PAGE_STATES.TEST);
@@ -6399,6 +6389,35 @@
             navigateToPage(PAGE_STATES.HOME);
         }
 
+        function showMBTIWelcome() {
+            console.log('跳转到专业MBTI测试页面');
+            // 直接跳转到MBTI测试页面
+            window.location.href = 'mbti-quick-test.html';
+        }
+
+
+
+        function showFeaturesSection() {
+            console.log('显示功能卡片区域');
+            
+            // 隐藏所有页面
+            hideAllPages();
+            
+            // 显示功能卡片区域
+            const featuresSection = document.getElementById('featuresSection');
+            if (featuresSection) {
+                featuresSection.style.display = 'block';
+                console.log('功能卡片区域已显示');
+            }
+            
+            // 确保功能卡片区域可见
+            console.log('功能卡片区域状态:', {
+                element: featuresSection,
+                display: featuresSection ? featuresSection.style.display : 'N/A',
+                classes: featuresSection ? featuresSection.className : 'N/A'
+            });
+        }
+
         function showMBTIInfo() {
             navigateToPage(PAGE_STATES.MBTI_INFO);
         }
@@ -6435,7 +6454,7 @@
             
             // 检查所有页面元素的显示状态
             const pages = [
-                { id: 'welcomeSection', name: '首页' },
+                { id: 'featuresSection', name: '功能卡片区域' },
                 { id: 'testSection', name: '测试页' },
                 { id: 'resultSection', name: '结果页' },
                 { id: 'loginSection', name: '登录页' },
@@ -7573,7 +7592,7 @@
                     title: '🧠 MBTI人格测试',
                     description: '基于荣格类型学理论的16种人格类型测试，帮助你了解自己的性格偏好和优势。',
                     status: '当前可用',
-                    action: () => startTest()
+                    action: 'startTest()'
                 },
                 'zodiac': {
                     title: '♈ 星座性格测试',
@@ -7590,20 +7609,20 @@
                 'tarot': {
                     title: '🔮 塔罗牌测试',
                     description: '神秘的塔罗牌测试，揭示你的内心世界、潜在能力和未来发展方向。',
-                    status: '即将推出',
-                    action: () => showToast('塔罗牌测试功能即将推出，敬请期待！', 'info')
+                    status: '当前可用',
+                    action: 'location.href=\'tarot-test.html\''
                 },
                 'numerology': {
                     title: '🔢 数字命理',
                     description: '通过数字解读你的性格特征、天赋才能和人生使命。',
-                    status: '即将推出',
-                    action: () => showToast('数字命理功能即将推出，敬请期待！', 'info')
+                    status: '当前可用',
+                    action: 'location.href=\'test-numerology.html\''
                 },
                 'chinese-zodiac': {
                     title: '🐉 生肖测试',
                     description: '十二生肖性格特征深度解析，了解你的生肖特质和潜在优势。',
-                    status: '即将推出',
-                    action: () => showToast('生肖测试功能即将推出，敬请期待！', 'info')
+                    status: '当前可用',
+                    action: 'location.href=\'chinese-zodiac-test.html\''
                 }
             };
             
@@ -7624,7 +7643,7 @@
                                 ${feature.status}
                             </div>
                             <div class="feature-actions">
-                                <button class="btn" onclick="this.closest('.feature-modal').remove(); ${feature.action.toString()}()">
+                                <button class="btn" onclick="this.closest('.feature-modal').remove(); ${feature.status === '当前可用' ? feature.action : 'showToast(\'功能即将推出，敬请期待！\', \'info\')'}">
                                     ${feature.status === '当前可用' ? '开始测试' : '我知道了'}
                                 </button>
                             </div>
@@ -7977,7 +7996,6 @@
                 console.log('弹窗已显示，hidden类已移除');
                 
                 // 隐藏首页元素，专注于测试
-                document.getElementById('welcomeSection').classList.add('hidden');
                 document.getElementById('featuresSection').classList.add('hidden');
                 document.getElementById('mainHeader').classList.add('hidden');
                 
