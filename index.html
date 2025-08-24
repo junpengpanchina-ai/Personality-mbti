@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -2549,58 +2548,7 @@
             border-radius: 6px;
         }
 
-        /* 语言切换器样式 */
-        .language-switcher {
-            display: flex;
-            align-items: center;
-            margin: 0 20px;
-        }
 
-        .lang-tabs {
-            display: flex;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 4px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .lang-tab {
-            padding: 8px 12px;
-            font-size: 1rem;
-            border: none;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.7);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .lang-tab:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .lang-tab.active {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .lang-tabs {
-                padding: 2px;
-            }
-            
-            .lang-tab {
-                padding: 6px 8px;
-                font-size: 0.9rem;
-                min-width: 36px;
-            }
-        }
 
         .logout-btn {
             background: #dc3545;
@@ -2695,6 +2643,8 @@
             background: #ffc107;
             color: #212529;
         }
+        
+
 
         /* 功能弹窗样式 */
         .feature-modal {
@@ -3524,19 +3474,7 @@
             <p>探索你的性格类型，了解真实的自己</p>
                 </div>
                 
-                <!-- 语言切换器 -->
-                <div class="language-switcher">
-                    <div class="lang-tabs">
-                        <button class="lang-tab" onclick="switchLanguage('zh')" data-lang="zh">🇨🇳</button>
-                        <button class="lang-tab" onclick="switchLanguage('en')" data-lang="en">🇺🇸</button>
-                        <button class="lang-tab" onclick="switchLanguage('de')" data-lang="de">🇩🇪</button>
-                        <button class="lang-tab" onclick="switchLanguage('fr')" data-lang="fr">🇫🇷</button>
-                        <button class="lang-tab" onclick="switchLanguage('vi')" data-lang="vi">🇻🇳</button>
-                        <button class="lang-tab" onclick="switchLanguage('ko')" data-lang="ko">🇰🇷</button>
-                        <button class="lang-tab" onclick="switchLanguage('it')" data-lang="it">🇮🇹</button>
-                        <button class="lang-tab" onclick="switchLanguage('ja')" data-lang="ja">🇯🇵</button>
-                    </div>
-                </div>
+
                 
                 <div class="user-info" id="userInfoSection">
                                     <button class="btn btn-secondary" onclick="showLogin()">登录</button>
@@ -3590,7 +3528,7 @@
                     <div class="feature-status active">开始测试</div>
                 </div>
                 
-                <div class="feature-card" onclick="displayFeatureInfo('chinese-zodiac')">
+                <div class="feature-card" onclick="showFeatureInfo('chinese-zodiac')">
                     <div class="feature-icon">🐉</div>
                     <h3>生肖测试</h3>
                     <p>十二生肖性格特征深度解析</p>
@@ -5001,8 +4939,7 @@
             responsive: true // 响应式支持
         };
 
-        // 多语言支持
-        const TRANSLATIONS = {
+
             zh: {
                 main: {
                     title: "🧠 MBTI人格测试",
@@ -5042,6 +4979,59 @@
                         title: "生肖测试",
                         description: "十二生肖性格特征深度解析"
                     }
+                },
+                common: {
+                    loading: "加载中...",
+                    error: "错误",
+                    success: "成功",
+                    confirm: "确认",
+                    cancel: "取消",
+                    close: "关闭",
+                    save: "保存",
+                    edit: "编辑",
+                    delete: "删除",
+                    search: "搜索",
+                    filter: "筛选",
+                    sort: "排序",
+                    refresh: "刷新",
+                    back: "返回",
+                    next: "下一步",
+                    previous: "上一步",
+                    submit: "提交",
+                    reset: "重置"
+                },
+                test: {
+                    startTest: "开始测试",
+                    finishTest: "完成测试",
+                    question: "问题",
+                    answer: "答案",
+                    result: "结果",
+                    analysis: "分析",
+                    score: "分数",
+                    level: "等级",
+                    progress: "进度",
+                    timeRemaining: "剩余时间"
+                },
+                // 新增更多翻译内容
+                ui: {
+                    startTest: "开始测试",
+                    learnMore: "了解更多",
+                    backToHome: "返回首页",
+                    continue: "继续",
+                    finish: "完成",
+                    restart: "重新开始",
+                    share: "分享",
+                    copy: "复制",
+                    download: "下载"
+                },
+                messages: {
+                    welcome: "欢迎使用MBTI人格测试",
+                    testComplete: "测试完成！",
+                    resultReady: "结果已准备就绪",
+                    loading: "正在加载...",
+                    errorOccurred: "发生错误",
+                    success: "操作成功",
+                    pleaseWait: "请稍候..."
                 }
             },
             en: {
@@ -5083,6 +5073,59 @@
                         title: "Chinese Zodiac Test",
                         description: "Deep analysis of twelve zodiac animal personality traits"
                     }
+                },
+                common: {
+                    loading: "Loading...",
+                    error: "Error",
+                    success: "Success",
+                    confirm: "Confirm",
+                    cancel: "Cancel",
+                    close: "Close",
+                    save: "Save",
+                    edit: "Edit",
+                    delete: "Delete",
+                    search: "Search",
+                    filter: "Filter",
+                    sort: "Sort",
+                    refresh: "Refresh",
+                    back: "Back",
+                    next: "Next",
+                    previous: "Previous",
+                    submit: "Submit",
+                    reset: "Reset"
+                },
+                test: {
+                    startTest: "Start Test",
+                    finishTest: "Finish Test",
+                    question: "Question",
+                    answer: "Answer",
+                    result: "Result",
+                    analysis: "Analysis",
+                    score: "Score",
+                    level: "Level",
+                    progress: "Progress",
+                    timeRemaining: "Time Remaining"
+                },
+                // 新增更多翻译内容
+                ui: {
+                    startTest: "Start Test",
+                    learnMore: "Learn More",
+                    backToHome: "Back to Home",
+                    continue: "Continue",
+                    finish: "Finish",
+                    restart: "Restart",
+                    share: "Share",
+                    copy: "Copy",
+                    download: "Download"
+                },
+                messages: {
+                    welcome: "Welcome to MBTI Personality Test",
+                    testComplete: "Test Complete!",
+                    resultReady: "Results are ready",
+                    loading: "Loading...",
+                    errorOccurred: "An error occurred",
+                    success: "Operation successful",
+                    pleaseWait: "Please wait..."
                 }
             },
             de: {
@@ -5124,6 +5167,38 @@
                         title: "Chinesischer Tierkreis Test",
                         description: "Tiefgehende Analyse der zwölf Tierkreis-Tier-Persönlichkeitsmerkmale"
                     }
+                },
+                common: {
+                    loading: "Laden...",
+                    error: "Fehler",
+                    success: "Erfolg",
+                    confirm: "Bestätigen",
+                    cancel: "Abbrechen",
+                    close: "Schließen",
+                    save: "Speichern",
+                    edit: "Bearbeiten",
+                    delete: "Löschen",
+                    search: "Suchen",
+                    filter: "Filter",
+                    sort: "Sortieren",
+                    refresh: "Aktualisieren",
+                    back: "Zurück",
+                    next: "Weiter",
+                    previous: "Zurück",
+                    submit: "Absenden",
+                    reset: "Zurücksetzen"
+                },
+                test: {
+                    startTest: "Test starten",
+                    finishTest: "Test beenden",
+                    question: "Frage",
+                    answer: "Antwort",
+                    result: "Ergebnis",
+                    analysis: "Analyse",
+                    score: "Punktzahl",
+                    level: "Level",
+                    progress: "Fortschritt",
+                    timeRemaining: "Verbleibende Zeit"
                 }
             },
             fr: {
@@ -5165,6 +5240,38 @@
                         title: "Test du Zodiaque Chinois",
                         description: "Analyse approfondie des douze traits de personnalité des animaux du zodiaque"
                     }
+                },
+                common: {
+                    loading: "Chargement...",
+                    error: "Erreur",
+                    success: "Succès",
+                    confirm: "Confirmer",
+                    cancel: "Annuler",
+                    close: "Fermer",
+                    save: "Sauvegarder",
+                    edit: "Modifier",
+                    delete: "Supprimer",
+                    search: "Rechercher",
+                    filter: "Filtrer",
+                    sort: "Trier",
+                    refresh: "Actualiser",
+                    back: "Retour",
+                    next: "Suivant",
+                    previous: "Précédent",
+                    submit: "Soumettre",
+                    reset: "Réinitialiser"
+                },
+                test: {
+                    startTest: "Commencer le test",
+                    finishTest: "Terminer le test",
+                    question: "Question",
+                    answer: "Réponse",
+                    result: "Résultat",
+                    analysis: "Analyse",
+                    score: "Score",
+                    level: "Niveau",
+                    progress: "Progrès",
+                    timeRemaining: "Temps restant"
                 }
             },
             vi: {
@@ -5206,6 +5313,38 @@
                         title: "Bài Kiểm Tra 12 Con Giáp",
                         description: "Phân tích sâu sắc về 12 đặc điểm tính cách của các con giáp"
                     }
+                },
+                common: {
+                    loading: "Đang tải...",
+                    error: "Lỗi",
+                    success: "Thành công",
+                    confirm: "Xác nhận",
+                    cancel: "Hủy",
+                    close: "Đóng",
+                    save: "Lưu",
+                    edit: "Chỉnh sửa",
+                    delete: "Xóa",
+                    search: "Tìm kiếm",
+                    filter: "Lọc",
+                    sort: "Sắp xếp",
+                    refresh: "Làm mới",
+                    back: "Quay lại",
+                    next: "Tiếp theo",
+                    previous: "Trước đó",
+                    submit: "Gửi",
+                    reset: "Đặt lại"
+                },
+                test: {
+                    startTest: "Bắt đầu kiểm tra",
+                    finishTest: "Hoàn thành kiểm tra",
+                    question: "Câu hỏi",
+                    answer: "Trả lời",
+                    result: "Kết quả",
+                    analysis: "Phân tích",
+                    score: "Điểm số",
+                    level: "Cấp độ",
+                    progress: "Tiến độ",
+                    timeRemaining: "Thời gian còn lại"
                 }
             },
             ko: {
@@ -5329,11 +5468,157 @@
                         title: "中国十二支テスト",
                         description: "十二支動物の性格特性の深い分析"
                     }
+                },
+                common: {
+                    loading: "読み込み中...",
+                    error: "エラー",
+                    success: "成功",
+                    confirm: "確認",
+                    cancel: "キャンセル",
+                    close: "閉じる",
+                    save: "保存",
+                    edit: "編集",
+                    delete: "削除",
+                    search: "検索",
+                    filter: "フィルター",
+                    sort: "並び替え",
+                    refresh: "更新",
+                    back: "戻る",
+                    next: "次へ",
+                    previous: "前へ",
+                    submit: "送信",
+                    reset: "リセット"
+                },
+                test: {
+                    startTest: "テスト開始",
+                    finishTest: "テスト完了",
+                    question: "質問",
+                    answer: "回答",
+                    result: "結果",
+                    analysis: "分析",
+                    score: "スコア",
+                    level: "レベル",
+                    progress: "進捗",
+                    timeRemaining: "残り時間"
+                },
+                ui: {
+                    startTest: "テスト開始",
+                    learnMore: "詳細を見る",
+                    backToHome: "ホームに戻る",
+                    continue: "続行",
+                    finish: "完了",
+                    restart: "再開",
+                    share: "共有",
+                    copy: "コピー",
+                    download: "ダウンロード"
+                },
+                messages: {
+                    welcome: "MBTI性格テストへようこそ",
+                    testComplete: "テスト完了！",
+                    resultReady: "結果の準備ができました",
+                    loading: "読み込み中...",
+                    errorOccurred: "エラーが発生しました",
+                    success: "操作が成功しました",
+                    pleaseWait: "お待ちください..."
+                }
+            },
+            // 新增韩语支持
+            ko: {
+                main: {
+                    title: "🧠 MBTI 성격 테스트",
+                    subtitle: "당신의 성격 유형을 탐구하고 진정한 자신을 발견하세요"
+                },
+                auth: {
+                    login: "로그인",
+                    register: "회원가입",
+                    welcome: "다시 오신 것을 환영합니다!",
+                    logout: "로그아웃"
+                },
+                features: {
+                    title: "🌟 더 많은 신비로운 테스트 탐험",
+                    subtitle: "MBTI 성격 테스트 외에도 당신을 기다리는 더 흥미로운 테스트가 있습니다",
+                    startTest: "테스트 시작",
+                    mbti: {
+                        title: "전문 MBTI 테스트",
+                        description: "융의 16가지 성격 유형 이론에 기반한 전문 테스트, 빠르고 정확함"
+                    },
+                    zodiac: {
+                        title: "재미있는 별자리 테스트",
+                        description: "가볍고 재미있는 별자리 성격 테스트, 당신의 별자리 특성을 탐험하세요"
+                    },
+                    bazi: {
+                        title: "팔자 점성술",
+                        description: "전통적인 중국 점성술, 당신의 운명 코드를 해석하세요"
+                    },
+                    tarot: {
+                        title: "타로 카드 테스트",
+                        description: "신비로운 타로 카드, 당신의 내면 세계를 드러내세요"
+                    },
+                    numerology: {
+                        title: "수비학",
+                        description: "숫자를 통해 당신의 성격과 운명을 해석하세요"
+                    },
+                    chineseZodiac: {
+                        title: "중국 12지신 테스트",
+                        description: "12지신 동물의 성격 특성에 대한 깊이 있는 분석"
+                    }
+                },
+                common: {
+                    loading: "로딩 중...",
+                    error: "오류",
+                    success: "성공",
+                    confirm: "확인",
+                    cancel: "취소",
+                    close: "닫기",
+                    save: "저장",
+                    edit: "편집",
+                    delete: "삭제",
+                    search: "검색",
+                    filter: "필터",
+                    sort: "정렬",
+                    refresh: "새로고침",
+                    back: "뒤로",
+                    next: "다음",
+                    previous: "이전",
+                    submit: "제출",
+                    reset: "재설정"
+                },
+                test: {
+                    startTest: "테스트 시작",
+                    finishTest: "테스트 완료",
+                    question: "질문",
+                    answer: "답변",
+                    result: "결과",
+                    analysis: "분석",
+                    score: "점수",
+                    level: "레벨",
+                    progress: "진행률",
+                    timeRemaining: "남은 시간"
+                },
+                ui: {
+                    startTest: "테스트 시작",
+                    learnMore: "자세히 보기",
+                    backToHome: "홈으로 돌아가기",
+                    continue: "계속",
+                    finish: "완료",
+                    restart: "다시 시작",
+                    share: "공유",
+                    copy: "복사",
+                    download: "다운로드"
+                },
+                messages: {
+                    welcome: "MBTI 성격 테스트에 오신 것을 환영합니다",
+                    testComplete: "테스트 완료!",
+                    resultReady: "결과가 준비되었습니다",
+                    loading: "로딩 중...",
+                    errorOccurred: "오류가 발생했습니다",
+                    success: "작업이 성공했습니다",
+                    pleaseWait: "잠시 기다려주세요..."
                 }
             }
         };
 
-        let currentLanguage = 'zh'; // 默认语言
+
 
         // 页面状态管理
         const PAGE_STATES = {
@@ -5354,7 +5639,7 @@
         window.onload = function() {
             initializeNavigation();
             checkLoginStatus();
-            initializeLanguage();
+
         };
 
         // 初始化导航系统
@@ -6818,74 +7103,12 @@
             });
         }
 
-        // 多语言相关函数
-        function initializeLanguage() {
-            // 从localStorage获取保存的语言设置
-            const savedLang = localStorage.getItem('mbti_language');
-            if (savedLang && TRANSLATIONS[savedLang]) {
-                currentLanguage = savedLang;
-            }
-            
-            // 更新语言按钮状态
-            updateLanguageButtons();
-            
-            // 应用当前语言
-            applyLanguage();
-        }
 
-        function switchLanguage(lang) {
-            if (TRANSLATIONS[lang]) {
-                currentLanguage = lang;
-                localStorage.setItem('mbti_language', lang);
-                
-                // 更新语言按钮状态
-                updateLanguageButtons();
-                
-                // 应用新语言
-                applyLanguage();
-                
-                console.log(`语言已切换到: ${lang}`);
-            }
-        }
 
-        function updateLanguageButtons() {
-            // 移除所有按钮的active类
-            document.querySelectorAll('.lang-tab').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // 为当前语言按钮添加active类
-            const currentLangBtn = document.querySelector(`[data-lang="${currentLanguage}"]`);
-            if (currentLangBtn) {
-                currentLangBtn.classList.add('active');
-            }
-        }
+            const labels = document.querySelectorAll('label[data-i18n]');
 
-        function applyLanguage() {
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                const translation = getTranslation(key);
-                if (translation) {
-                    element.textContent = translation;
-                }
-            });
-        }
 
-        function getTranslation(key) {
-            const keys = key.split('.');
-            let value = TRANSLATIONS[currentLanguage];
-            
-            for (const k of keys) {
-                if (value && value[k]) {
-                    value = value[k];
-                } else {
-                    return null;
-                }
-            }
-            
-            return value;
-        }
+
 
         function showMBTIInfo() {
             navigateToPage(PAGE_STATES.MBTI_INFO);
@@ -8001,7 +8224,7 @@
                     title: '🧠 MBTI人格测试',
                     description: '基于荣格类型学理论的16种人格类型测试，帮助你了解自己的性格偏好和优势。',
                     status: '当前可用',
-                    action: 'startTest()'
+                    action: () => startTest()
                 },
                 'zodiac': {
                     title: '♈ 星座性格测试',
@@ -8019,19 +8242,19 @@
                     title: '🔮 塔罗牌测试',
                     description: '神秘的塔罗牌测试，揭示你的内心世界、潜在能力和未来发展方向。',
                     status: '当前可用',
-                    action: 'location.href=\'tarot-test.html\''
+                    action: () => window.location.href = 'tarot-test.html'
                 },
                 'numerology': {
                     title: '🔢 数字命理',
                     description: '通过数字解读你的性格特征、天赋才能和人生使命。',
                     status: '当前可用',
-                    action: 'location.href=\'test-numerology.html\''
+                    action: () => window.location.href = 'test-numerology.html'
                 },
                 'chinese-zodiac': {
                     title: '🐉 生肖测试',
                     description: '十二生肖性格特征深度解析，了解你的生肖特质和潜在优势。',
                     status: '当前可用',
-                    action: 'location.href=\'chinese-zodiac-test.html\''
+                    action: () => window.location.href = 'chinese-zodiac-test.html'
                 }
             };
             
@@ -8040,6 +8263,7 @@
                 // 显示功能详情弹窗
                 const modal = document.createElement('div');
                 modal.className = 'feature-modal';
+                
                 modal.innerHTML = `
                     <div class="feature-modal-content">
                         <div class="feature-modal-header">
@@ -8052,13 +8276,20 @@
                                 ${feature.status}
                             </div>
                             <div class="feature-actions">
-                                <button class="btn" onclick="this.closest('.feature-modal').remove(); ${feature.status === '当前可用' ? feature.action : 'showToast(\'功能即将推出，敬请期待！\', \'info\')'}">
+                                <button class="btn" onclick="this.closest('.feature-modal').remove(); ${feature.status === '当前可用' ? 'executeFeatureAction()' : 'showToast(\'功能即将推出，敬请期待！\', \'info\')'}">
                                     ${feature.status === '当前可用' ? '开始测试' : '我知道了'}
                                 </button>
                             </div>
                         </div>
                     </div>
                 `;
+                
+                // 添加全局的executeFeatureAction函数
+                window.executeFeatureAction = () => {
+                    if (typeof feature.action === 'function') {
+                        feature.action();
+                    }
+                };
                 
                 document.body.appendChild(modal);
                 
@@ -8127,6 +8358,29 @@
             }
         }
 
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            console.log('页面加载完成，开始初始化...');
+            
+
+            
+
+            
+            console.log('页面初始化完成');
+        });
+        
+
+            
+            // 更新语言按钮状态
+            updateLanguageButtons();
+            
+            // 应用语言
+            applyLanguage();
+            
+            console.log('语言初始化完成:', currentLanguage);
+            
+
+        
         // 显示提示消息
         function showToast(message, type = 'info') {
             // 移除现有的提示

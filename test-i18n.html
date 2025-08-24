@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国际化测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .language-switcher {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .lang-tabs {
+            display: inline-flex;
+            background: #e0e0e0;
+            border-radius: 25px;
+            padding: 4px;
+        }
+        .lang-tab {
+            background: transparent;
+            border: none;
+            padding: 8px 16px;
+            margin: 0 2px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .lang-tab.active {
+            background: #007bff;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .debug-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 data-i18n="main.title">国际化测试页面</h1>
+        <p data-i18n="main.subtitle">这是一个测试国际化功能的简单页面</p>
+        
+        <div class="language-switcher">
+            <div class="lang-tabs">
+                <button class="lang-tab active" onclick="switchLanguage('zh')" data-lang="zh">🇨🇳 中文</button>
+                <button class="lang-tab" onclick="switchLanguage('en')" data-lang="en">🇺🇸 English</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3 data-i18n="test.section1.title">测试区域1</h3>
+            <p data-i18n="test.section1.content">这是第一个测试区域的内容，用于验证翻译是否正常工作。</p>
+            <button data-i18n="test.section1.button">测试按钮</button>
+        </div>
+        
+        <div class="test-section">
+            <h3 data-i18n="test.section2.title">测试区域2</h3>
+            <p data-i18n="test.section2.content">这是第二个测试区域的内容，包含更多的测试元素。</p>
+            <button data-i18n="test.section2.button">另一个按钮</button>
+        </div>
+        
+        <div class="debug-info">
+            <h4>调试信息</h4>
+            <div id="debugContent">等待页面加载...</div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="testTranslation()">测试翻译功能</button>
+            <button onclick="showDebugInfo()">显示调试信息</button>
+            <button onclick="resetLanguage()">重置语言</button>
+        </div>
+    </div>
+
+    <script>
+        // 国际化配置
+        const TRANSLATIONS = {
+            zh: {
+                main: {
+                    title: "国际化测试页面",
+                    subtitle: "这是一个测试国际化功能的简单页面"
+                },
+                test: {
+                    section1: {
+                        title: "测试区域1",
+                        content: "这是第一个测试区域的内容，用于验证翻译是否正常工作。",
+                        button: "测试按钮"
+                    },
+                    section2: {
+                        title: "测试区域2",
+                        content: "这是第二个测试区域的内容，包含更多的测试元素。",
+                        button: "另一个按钮"
+                    }
+                }
+            },
+            en: {
+                main: {
+                    title: "Internationalization Test Page",
+                    subtitle: "This is a simple page to test internationalization functionality"
+                },
+                test: {
+                    section1: {
+                        title: "Test Section 1",
+                        content: "This is the content of the first test section, used to verify that translation is working properly.",
+                        button: "Test Button"
+                    },
+                    section2: {
+                        title: "Test Section 2",
+                        content: "This is the content of the second test section, containing more test elements.",
+                        button: "Another Button"
+                    }
+                }
+            }
+        };
+        
+        let currentLanguage = 'zh';
+        
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            console.log('页面加载完成，开始初始化...');
+            initializeLanguage();
+            updateDebugInfo();
+        });
+        
+        // 初始化语言设置
+        function initializeLanguage() {
+            const savedLang = localStorage.getItem('test_language');
+            if (savedLang && TRANSLATIONS[savedLang]) {
+                currentLanguage = savedLang;
+            } else {
+                currentLanguage = 'zh';
+            }
+            
+            updateLanguageButtons();
+            applyLanguage();
+            console.log('语言初始化完成:', currentLanguage);
+        }
+        
+        // 切换语言
+        function switchLanguage(lang) {
+            console.log('尝试切换语言到:', lang);
+            
+            if (TRANSLATIONS[lang]) {
+                currentLanguage = lang;
+                localStorage.setItem('test_language', lang);
+                
+                updateLanguageButtons();
+                applyLanguage();
+                updateDebugInfo();
+                
+                console.log(`语言已切换到: ${lang}`);
+                alert(`语言已切换到${lang === 'zh' ? '中文' : 'English'}`);
+            } else {
+                console.error(`不支持的语言: ${lang}`);
+                alert(`不支持的语言: ${lang}`);
+            }
+        }
+        
+        // 更新语言按钮状态
+        function updateLanguageButtons() {
+            document.querySelectorAll('.lang-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-lang="${currentLanguage}"]`).classList.add('active');
+        }
+        
+        // 应用语言
+        function applyLanguage() {
+            console.log('开始应用语言:', currentLanguage);
+            const elements = document.querySelectorAll('[data-i18n]');
+            console.log('找到需要翻译的元素数量:', elements.length);
+            
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const translation = getTranslation(key);
+                console.log(`翻译键: ${key}, 翻译结果:`, translation);
+                if (translation) {
+                    element.textContent = translation;
+                }
+            });
+            
+            // 更新页面标题
+            const pageTitle = getTranslation('main.title');
+            if (pageTitle) {
+                document.title = pageTitle;
+            }
+            
+            console.log('语言应用完成');
+        }
+        
+        // 获取翻译
+        function getTranslation(key) {
+            const keys = key.split('.');
+            let value = TRANSLATIONS[currentLanguage];
+            
+            for (const k of keys) {
+                if (value && value[k]) {
+                    value = value[k];
+                } else {
+                    return null;
+                }
+            }
+            
+            return value;
+        }
+        
+        // 测试翻译功能
+        function testTranslation() {
+            const testKey = 'test.section1.title';
+            const translation = getTranslation(testKey);
+            alert(`测试翻译键 "${testKey}":\n当前语言: ${currentLanguage}\n翻译结果: ${translation}`);
+        }
+        
+        // 显示调试信息
+        function showDebugInfo() {
+            updateDebugInfo();
+        }
+        
+        // 更新调试信息
+        function updateDebugInfo() {
+            const debugContent = document.getElementById('debugContent');
+            debugContent.innerHTML = `
+                <strong>当前语言:</strong> ${currentLanguage}<br>
+                <strong>可用语言:</strong> ${Object.keys(TRANSLATIONS).join(', ')}<br>
+                <strong>本地存储:</strong> ${localStorage.getItem('test_language') || '未设置'}<br>
+                <strong>页面标题:</strong> ${document.title}<br>
+                <strong>翻译元素数量:</strong> ${document.querySelectorAll('[data-i18n]').length}<br>
+                <strong>TRANSLATIONS对象:</strong> ${JSON.stringify(TRANSLATIONS, null, 2)}
+            `;
+        }
+        
+        // 重置语言
+        function resetLanguage() {
+            localStorage.removeItem('test_language');
+            currentLanguage = 'zh';
+            updateLanguageButtons();
+            applyLanguage();
+            updateDebugInfo();
+            alert('语言设置已重置为中文');
+        }
+    </script>
+</body>
+</html>
