@@ -2549,6 +2549,59 @@
             border-radius: 6px;
         }
 
+        /* 语言切换器样式 */
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+        }
+
+        .lang-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 4px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-tab {
+            padding: 8px 12px;
+            font-size: 1rem;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .lang-tab:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .lang-tabs {
+                padding: 2px;
+            }
+            
+            .lang-tab {
+                padding: 6px 8px;
+                font-size: 0.9rem;
+                min-width: 36px;
+            }
+        }
+
         .logout-btn {
             background: #dc3545;
             color: white;
@@ -3467,15 +3520,30 @@
         <div class="header" id="mainHeader">
             <div class="header-top">
                 <div class="header-content">
-            <h1>🧠 MBTI人格测试</h1>
+                                <h1>🧠 MBTI人格测试</h1>
             <p>探索你的性格类型，了解真实的自己</p>
                 </div>
-            <div class="user-info" id="userInfoSection">
-                <button class="btn btn-secondary" onclick="showLogin()">登录</button>
+                
+                <!-- 语言切换器 -->
+                <div class="language-switcher">
+                    <div class="lang-tabs">
+                        <button class="lang-tab" onclick="switchLanguage('zh')" data-lang="zh">🇨🇳</button>
+                        <button class="lang-tab" onclick="switchLanguage('en')" data-lang="en">🇺🇸</button>
+                        <button class="lang-tab" onclick="switchLanguage('de')" data-lang="de">🇩🇪</button>
+                        <button class="lang-tab" onclick="switchLanguage('fr')" data-lang="fr">🇫🇷</button>
+                        <button class="lang-tab" onclick="switchLanguage('vi')" data-lang="vi">🇻🇳</button>
+                        <button class="lang-tab" onclick="switchLanguage('ko')" data-lang="ko">🇰🇷</button>
+                        <button class="lang-tab" onclick="switchLanguage('it')" data-lang="it">🇮🇹</button>
+                        <button class="lang-tab" onclick="switchLanguage('ja')" data-lang="ja">🇯🇵</button>
+                    </div>
+                </div>
+                
+                <div class="user-info" id="userInfoSection">
+                                    <button class="btn btn-secondary" onclick="showLogin()">登录</button>
                 <button class="btn" onclick="showRegister()">注册</button>
-            </div>
-            <div class="user-info hidden" id="loggedInSection">
-                <span id="userDisplayName">欢迎回来！</span>
+                </div>
+                <div class="user-info hidden" id="loggedInSection">
+                                    <span id="userDisplayName">欢迎回来！</span>
                 <button class="btn btn-secondary logout-btn" onclick="logout()">退出登录</button>
                 </div>
             </div>
@@ -3501,8 +3569,6 @@
                     <div class="feature-status active">开始测试</div>
                 </div>
                 
-
-                
                 <div class="feature-card" onclick="location.href='bazi-test.html'">
                     <div class="feature-icon">📅</div>
                     <h3>八字算命</h3>
@@ -3524,7 +3590,7 @@
                     <div class="feature-status active">开始测试</div>
                 </div>
                 
-                <div class="feature-card" onclick="showFeatureInfo('chinese-zodiac')">
+                <div class="feature-card" onclick="displayFeatureInfo('chinese-zodiac')">
                     <div class="feature-icon">🐉</div>
                     <h3>生肖测试</h3>
                     <p>十二生肖性格特征深度解析</p>
@@ -3541,7 +3607,6 @@
                     <button class="close-btn" onclick="closeZodiacMBTIModal()">&times;</button>
                     <!-- 调试按钮 -->
                     <button class="btn" onclick="closeZodiacMBTIModal()" style="background: #ff6b6b; margin-left: 10px; padding: 8px 16px; font-size: 0.9rem;">关闭弹窗</button>
-                    <button class="btn" onclick="debugHomePageElements()" style="background: #4ecdc4; margin-left: 10px; padding: 8px 16px; font-size: 0.9rem;">调试首页</button>
                 </div>
                 <div class="zodiac-mbti-modal-body">
                     <!-- 基础信息收集 -->
@@ -4086,7 +4151,7 @@
                     <button class="btn" onclick="watchAd()" id="watchAdBtn">开始观看</button>
                     <button class="btn btn-info" onclick="toggleAdConfig()" style="margin-top: 10px; font-size: 0.9rem;">广告配置</button>
                     <button class="btn btn-success" onclick="testAdSense()" style="margin-top: 10px; font-size: 0.9rem;">测试AdSense</button>
-                    <button class="btn btn-warning" onclick="debugTest()" style="margin-top: 10px; font-size: 0.9rem;">调试测试</button>
+
                     <button class="btn btn-primary" onclick="testQuestionDisplay()" style="margin-top: 10px; font-size: 0.9rem;">测试问题显示</button>
                 </div>
 
@@ -4936,6 +5001,340 @@
             responsive: true // 响应式支持
         };
 
+        // 多语言支持
+        const TRANSLATIONS = {
+            zh: {
+                main: {
+                    title: "🧠 MBTI人格测试",
+                    subtitle: "探索你的性格类型，了解真实的自己"
+                },
+                auth: {
+                    login: "登录",
+                    register: "注册",
+                    welcome: "欢迎回来！",
+                    logout: "退出登录"
+                },
+                features: {
+                    title: "🌟 探索更多神秘学测试",
+                    subtitle: "除了MBTI人格测试，我们还有更多有趣的测试等你来体验",
+                    startTest: "开始测试",
+                    mbti: {
+                        title: "专业MBTI测试",
+                        description: "基于荣格理论的16种人格类型专业测试，快速准确"
+                    },
+                    zodiac: {
+                        title: "趣味星座测试",
+                        description: "轻松有趣的星座性格测试，探索你的星座特质"
+                    },
+                    bazi: {
+                        title: "八字算命",
+                        description: "传统命理学，解读你的命运密码"
+                    },
+                    tarot: {
+                        title: "塔罗牌测试",
+                        description: "神秘的塔罗牌，揭示你的内心世界"
+                    },
+                    numerology: {
+                        title: "数字命理",
+                        description: "通过数字解读你的性格和命运"
+                    },
+                    chineseZodiac: {
+                        title: "生肖测试",
+                        description: "十二生肖性格特征深度解析"
+                    }
+                }
+            },
+            en: {
+                main: {
+                    title: "🧠 MBTI Personality Test",
+                    subtitle: "Explore your personality type and discover your true self"
+                },
+                auth: {
+                    login: "Login",
+                    register: "Register",
+                    welcome: "Welcome back!",
+                    logout: "Logout"
+                },
+                features: {
+                    title: "🌟 Explore More Mystical Tests",
+                    subtitle: "Besides MBTI personality test, we have more interesting tests waiting for you",
+                    startTest: "Start Test",
+                    mbti: {
+                        title: "Professional MBTI Test",
+                        description: "Professional test based on Jung's theory of 16 personality types, fast and accurate"
+                    },
+                    zodiac: {
+                        title: "Fun Zodiac Test",
+                        description: "Light and fun zodiac personality test, explore your zodiac traits"
+                    },
+                    bazi: {
+                        title: "Bazi Fortune Telling",
+                        description: "Traditional Chinese astrology, interpret your destiny code"
+                    },
+                    tarot: {
+                        title: "Tarot Card Test",
+                        description: "Mysterious tarot cards, reveal your inner world"
+                    },
+                    numerology: {
+                        title: "Numerology",
+                        description: "Interpret your personality and destiny through numbers"
+                    },
+                    chineseZodiac: {
+                        title: "Chinese Zodiac Test",
+                        description: "Deep analysis of twelve zodiac animal personality traits"
+                    }
+                }
+            },
+            de: {
+                main: {
+                    title: "🧠 MBTI Persönlichkeitstest",
+                    subtitle: "Entdecke deinen Persönlichkeitstyp und lerne dein wahres Ich kennen"
+                },
+                auth: {
+                    login: "Anmelden",
+                    register: "Registrieren",
+                    welcome: "Willkommen zurück!",
+                    logout: "Abmelden"
+                },
+                features: {
+                    title: "🌟 Entdecke mehr mystische Tests",
+                    subtitle: "Neben dem MBTI Persönlichkeitstest haben wir noch mehr interessante Tests für dich",
+                    startTest: "Test starten",
+                    mbti: {
+                        title: "Professioneller MBTI Test",
+                        description: "Professioneller Test basierend auf Jungs Theorie der 16 Persönlichkeitstypen, schnell und genau"
+                    },
+                    zodiac: {
+                        title: "Spaßiger Tierkreis-Test",
+                        description: "Leichter und unterhaltsamer Tierkreis-Persönlichkeitstest, erkunde deine Tierkreis-Eigenschaften"
+                    },
+                    bazi: {
+                        title: "Bazi Wahrsagung",
+                        description: "Traditionelle chinesische Astrologie, interpretiere deinen Schicksalscode"
+                    },
+                    tarot: {
+                        title: "Tarot-Karten Test",
+                        description: "Mystische Tarot-Karten, enthülle deine innere Welt"
+                    },
+                    numerology: {
+                        title: "Numerologie",
+                        description: "Interpretiere deine Persönlichkeit und dein Schicksal durch Zahlen"
+                    },
+                    chineseZodiac: {
+                        title: "Chinesischer Tierkreis Test",
+                        description: "Tiefgehende Analyse der zwölf Tierkreis-Tier-Persönlichkeitsmerkmale"
+                    }
+                }
+            },
+            fr: {
+                main: {
+                    title: "🧠 Test de Personnalité MBTI",
+                    subtitle: "Explorez votre type de personnalité et découvrez votre vrai moi"
+                },
+                auth: {
+                    login: "Connexion",
+                    register: "S'inscrire",
+                    welcome: "Bon retour !",
+                    logout: "Déconnexion"
+                },
+                features: {
+                    title: "🌟 Explorez plus de tests mystiques",
+                    subtitle: "Outre le test de personnalité MBTI, nous avons d'autres tests intéressants qui vous attendent",
+                    startTest: "Commencer le test",
+                    mbti: {
+                        title: "Test MBTI Professionnel",
+                        description: "Test professionnel basé sur la théorie de Jung des 16 types de personnalité, rapide et précis"
+                    },
+                    zodiac: {
+                        title: "Test du Zodiaque Amusant",
+                        description: "Test de personnalité du zodiaque léger et amusant, explorez vos traits du zodiaque"
+                    },
+                    bazi: {
+                        title: "Divination Bazi",
+                        description: "Astrologie chinoise traditionnelle, interprétez votre code du destin"
+                    },
+                    tarot: {
+                        title: "Test des Cartes de Tarot",
+                        description: "Cartes de tarot mystérieuses, révélez votre monde intérieur"
+                    },
+                    numerology: {
+                        title: "Numérologie",
+                        description: "Interprétez votre personnalité et votre destin à travers les nombres"
+                    },
+                    chineseZodiac: {
+                        title: "Test du Zodiaque Chinois",
+                        description: "Analyse approfondie des douze traits de personnalité des animaux du zodiaque"
+                    }
+                }
+            },
+            vi: {
+                main: {
+                    title: "🧠 Bài Kiểm Tra Tính Cách MBTI",
+                    subtitle: "Khám phá loại tính cách của bạn và hiểu rõ bản thân thật sự"
+                },
+                auth: {
+                    login: "Đăng nhập",
+                    register: "Đăng ký",
+                    welcome: "Chào mừng trở lại!",
+                    logout: "Đăng xuất"
+                },
+                features: {
+                    title: "🌟 Khám phá thêm các bài kiểm tra huyền bí",
+                    subtitle: "Bên cạnh bài kiểm tra tính cách MBTI, chúng tôi còn có nhiều bài kiểm tra thú vị khác đang chờ bạn",
+                    startTest: "Bắt đầu kiểm tra",
+                    mbti: {
+                        title: "Bài Kiểm Tra MBTI Chuyên Nghiệp",
+                        description: "Bài kiểm tra chuyên nghiệp dựa trên lý thuyết 16 loại tính cách của Jung, nhanh chóng và chính xác"
+                    },
+                    zodiac: {
+                        title: "Bài Kiểm Tra Cung Hoàng Đạo Vui Nhộn",
+                        description: "Bài kiểm tra tính cách cung hoàng đạo nhẹ nhàng và thú vị, khám phá đặc điểm cung hoàng đạo của bạn"
+                    },
+                    bazi: {
+                        title: "Bói Bát Tự",
+                        description: "Chiêm tinh học truyền thống Trung Quốc, giải mã mã số vận mệnh của bạn"
+                    },
+                    tarot: {
+                        title: "Bài Kiểm Tra Lá Bài Tarot",
+                        description: "Những lá bài tarot huyền bí, tiết lộ thế giới nội tâm của bạn"
+                    },
+                    numerology: {
+                        title: "Thần Số Học",
+                        description: "Giải mã tính cách và vận mệnh của bạn thông qua các con số"
+                    },
+                    chineseZodiac: {
+                        title: "Bài Kiểm Tra 12 Con Giáp",
+                        description: "Phân tích sâu sắc về 12 đặc điểm tính cách của các con giáp"
+                    }
+                }
+            },
+            ko: {
+                main: {
+                    title: "🧠 MBTI 성격 테스트",
+                    subtitle: "당신의 성격 유형을 탐구하고 진정한 자신을 발견하세요"
+                },
+                auth: {
+                    login: "로그인",
+                    register: "회원가입",
+                    welcome: "다시 오신 것을 환영합니다!",
+                    logout: "로그아웃"
+                },
+                features: {
+                    title: "🌟 더 많은 신비로운 테스트 탐험",
+                    subtitle: "MBTI 성격 테스트 외에도 당신을 기다리는 더 흥미로운 테스트가 있습니다",
+                    startTest: "테스트 시작",
+                    mbti: {
+                        title: "전문 MBTI 테스트",
+                        description: "융의 16가지 성격 유형 이론에 기반한 전문 테스트, 빠르고 정확함"
+                    },
+                    zodiac: {
+                        title: "재미있는 별자리 테스트",
+                        description: "가볍고 재미있는 별자리 성격 테스트, 당신의 별자리 특성을 탐험하세요"
+                    },
+                    bazi: {
+                        title: "팔자 점성술",
+                        description: "전통적인 중국 점성술, 당신의 운명 코드를 해석하세요"
+                    },
+                    tarot: {
+                        title: "타로 카드 테스트",
+                        description: "신비로운 타로 카드, 당신의 내면 세계를 드러내세요"
+                    },
+                    numerology: {
+                        title: "수비학",
+                        description: "숫자를 통해 당신의 성격과 운명을 해석하세요"
+                    },
+                    chineseZodiac: {
+                        title: "중국 12지신 테스트",
+                        description: "12지신 동물의 성격 특성에 대한 깊이 있는 분석"
+                    }
+                }
+            },
+            it: {
+                main: {
+                    title: "🧠 Test di Personalità MBTI",
+                    subtitle: "Esplora il tuo tipo di personalità e scopri il tuo vero io"
+                },
+                auth: {
+                    login: "Accedi",
+                    register: "Registrati",
+                    welcome: "Bentornato!",
+                    logout: "Disconnetti"
+                },
+                features: {
+                    title: "🌟 Esplora più test mistici",
+                    subtitle: "Oltre al test di personalità MBTI, abbiamo altri test interessanti che ti aspettano",
+                    startTest: "Inizia il test",
+                    mbti: {
+                        title: "Test MBTI Professionale",
+                        description: "Test professionale basato sulla teoria di Jung dei 16 tipi di personalità, veloce e accurato"
+                    },
+                    zodiac: {
+                        title: "Test dello Zodiaco Divertente",
+                        description: "Test di personalità dello zodiaco leggero e divertente, esplora i tuoi tratti zodiacali"
+                    },
+                    bazi: {
+                        title: "Divinazione Bazi",
+                        description: "Astrologia cinese tradizionale, interpreta il tuo codice del destino"
+                    },
+                    tarot: {
+                        title: "Test delle Carte dei Tarocchi",
+                        description: "Carte dei tarocchi misteriose, rivela il tuo mondo interiore"
+                    },
+                    numerology: {
+                        title: "Numerologia",
+                        description: "Interpreta la tua personalità e il tuo destino attraverso i numeri"
+                    },
+                    chineseZodiac: {
+                        title: "Test dello Zodiaco Cinese",
+                        description: "Analisi approfondita delle dodici caratteristiche di personalità degli animali dello zodiaco"
+                    }
+                }
+            },
+            ja: {
+                main: {
+                    title: "🧠 MBTI性格テスト",
+                    subtitle: "あなたの性格タイプを探求し、真の自分を発見しましょう"
+                },
+                auth: {
+                    login: "ログイン",
+                    register: "登録",
+                    welcome: "おかえりなさい！",
+                    logout: "ログアウト"
+                },
+                features: {
+                    title: "🌟 より多くの神秘的なテストを探索",
+                    subtitle: "MBTI性格テストに加えて、あなたを待っているより興味深いテストがあります",
+                    startTest: "テスト開始",
+                    mbti: {
+                        title: "プロフェッショナルMBTIテスト",
+                        description: "ユングの16性格タイプ理論に基づくプロフェッショナルテスト、迅速で正確"
+                    },
+                    zodiac: {
+                        title: "楽しい星座テスト",
+                        description: "軽くて楽しい星座性格テスト、あなたの星座特性を探索"
+                    },
+                    bazi: {
+                        title: "八字占い",
+                        description: "伝統的な中国占星術、あなたの運命コードを解釈"
+                    },
+                    tarot: {
+                        title: "タロットカードテスト",
+                        description: "神秘的なタロットカード、あなたの内なる世界を明らかに"
+                    },
+                    numerology: {
+                        title: "数秘術",
+                        description: "数字を通してあなたの性格と運命を解釈"
+                    },
+                    chineseZodiac: {
+                        title: "中国十二支テスト",
+                        description: "十二支動物の性格特性の深い分析"
+                    }
+                }
+            }
+        };
+
+        let currentLanguage = 'zh'; // 默认语言
+
         // 页面状态管理
         const PAGE_STATES = {
             HOME: 'home',
@@ -4955,6 +5354,7 @@
         window.onload = function() {
             initializeNavigation();
             checkLoginStatus();
+            initializeLanguage();
         };
 
         // 初始化导航系统
@@ -6418,6 +6818,75 @@
             });
         }
 
+        // 多语言相关函数
+        function initializeLanguage() {
+            // 从localStorage获取保存的语言设置
+            const savedLang = localStorage.getItem('mbti_language');
+            if (savedLang && TRANSLATIONS[savedLang]) {
+                currentLanguage = savedLang;
+            }
+            
+            // 更新语言按钮状态
+            updateLanguageButtons();
+            
+            // 应用当前语言
+            applyLanguage();
+        }
+
+        function switchLanguage(lang) {
+            if (TRANSLATIONS[lang]) {
+                currentLanguage = lang;
+                localStorage.setItem('mbti_language', lang);
+                
+                // 更新语言按钮状态
+                updateLanguageButtons();
+                
+                // 应用新语言
+                applyLanguage();
+                
+                console.log(`语言已切换到: ${lang}`);
+            }
+        }
+
+        function updateLanguageButtons() {
+            // 移除所有按钮的active类
+            document.querySelectorAll('.lang-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 为当前语言按钮添加active类
+            const currentLangBtn = document.querySelector(`[data-lang="${currentLanguage}"]`);
+            if (currentLangBtn) {
+                currentLangBtn.classList.add('active');
+            }
+        }
+
+        function applyLanguage() {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const translation = getTranslation(key);
+                if (translation) {
+                    element.textContent = translation;
+                }
+            });
+        }
+
+        function getTranslation(key) {
+            const keys = key.split('.');
+            let value = TRANSLATIONS[currentLanguage];
+            
+            for (const k of keys) {
+                if (value && value[k]) {
+                    value = value[k];
+                } else {
+                    return null;
+                }
+            }
+            
+            return value;
+        }
+
         function showMBTIInfo() {
             navigateToPage(PAGE_STATES.MBTI_INFO);
         }
@@ -6445,37 +6914,7 @@
             }
         }
 
-        // 调试函数：显示当前页面状态
-        function showDebugInfo() {
-            console.log('=== 页面状态调试信息 ===');
-            console.log('当前页面:', currentPage);
-            console.log('页面历史:', pageHistory);
-            console.log('当前用户:', currentUser);
-            
-            // 检查所有页面元素的显示状态
-            const pages = [
-                { id: 'featuresSection', name: '功能卡片区域' },
-                { id: 'testSection', name: '测试页' },
-                { id: 'resultSection', name: '结果页' },
-                { id: 'loginSection', name: '登录页' },
-                { id: 'registerSection', name: '注册页' },
-                { id: 'forgotPasswordSection', name: '忘记密码页' },
-                { id: 'mbtiInfoSection', name: 'MBTI信息页' }
-            ];
-            
-            pages.forEach(page => {
-                const element = document.getElementById(page.id);
-                if (element) {
-                    const isHidden = element.classList.contains('hidden');
-                    const displayStyle = element.style.display;
-                    console.log(`${page.name} (${page.id}): hidden=${isHidden}, display=${displayStyle}`);
-                } else {
-                    console.log(`${page.name} (${page.id}): 元素不存在`);
-                }
-            });
-            
-            console.log('=== 调试信息结束 ===');
-        }
+
 
         // 强制重置到首页（调试用）
         function forceGoHome() {
@@ -6846,37 +7285,7 @@
             showToast('AdSense测试已开始，请查看控制台日志', 'info');
         }
 
-        // 调试测试功能
-        function debugTest() {
-            console.log('=== 测试调试信息 ===');
-            console.log('当前页面状态:', currentPage);
-            console.log('当前问题索引:', currentQuestion);
-            console.log('已回答问题数:', answers.length);
-            console.log('总问题数:', questions.length);
-            console.log('问题序列长度:', questionSequence.length);
-            console.log('各维度进度:', dimensionProgress);
-            console.log('测试层级:', testLevel);
-            
-            // 检查页面元素
-            const questionText = document.getElementById('questionText');
-            const optionsContainer = document.getElementById('optionsContainer');
-            const progressFill = document.getElementById('progressFill');
-            
-            console.log('问题文本元素:', questionText);
-            console.log('选项容器元素:', optionsContainer);
-            console.log('进度条元素:', progressFill);
-            
-            // 尝试手动显示问题
-            if (answers.length < questions.length) {
-                console.log('尝试手动显示下一个问题...');
-                showQuestion();
-            } else {
-                console.log('所有问题已完成，显示结果...');
-                showResults();
-            }
-            
-            showToast('调试信息已输出到控制台', 'info');
-        }
+
 
         // 测试问题显示功能
         function testQuestionDisplay() {
@@ -8217,80 +8626,7 @@
             }
         }
 
-        // 调试首页元素状态
-        function debugHomePageElements() {
-            console.log('=== 调试首页元素状态 ===');
-            
-            const welcomeSection = document.getElementById('welcomeSection');
-            const featuresSection = document.getElementById('featuresSection');
-            const mainHeader = document.getElementById('mainHeader');
-            const modal = document.getElementById('zodiacMBTIModal');
-            
-            console.log('弹窗元素:', modal);
-            console.log('弹窗类名:', modal ? modal.className : 'N/A');
-            console.log('弹窗是否隐藏:', modal ? modal.classList.contains('hidden') : 'N/A');
-            console.log('弹窗display:', modal ? modal.style.display : 'N/A');
-            console.log('弹窗visibility:', modal ? modal.style.visibility : 'N/A');
-            console.log('弹窗opacity:', modal ? modal.style.opacity : 'N/A');
-            console.log('弹窗z-index:', modal ? modal.style.zIndex : 'N/A');
-            
-            console.log('欢迎部分元素:', welcomeSection);
-            console.log('欢迎部分类名:', welcomeSection ? welcomeSection.className : 'N/A');
-            console.log('欢迎部分是否隐藏:', welcomeSection ? welcomeSection.classList.contains('hidden') : 'N/A');
-            console.log('欢迎部分display:', welcomeSection ? welcomeSection.style.display : 'N/A');
-            
-            console.log('功能栏目元素:', featuresSection);
-            console.log('功能栏目类名:', featuresSection ? featuresSection.className : 'N/A');
-            console.log('功能栏目是否隐藏:', featuresSection ? featuresSection.classList.contains('hidden') : 'N/A');
-            console.log('功能栏目display:', featuresSection ? featuresSection.style.display : 'N/A');
-            
-            console.log('主标题元素:', mainHeader);
-            console.log('主标题类名:', mainHeader ? mainHeader.className : 'N/A');
-            console.log('主标题是否隐藏:', mainHeader ? mainHeader.classList.contains('hidden') : 'N/A');
-            console.log('主标题display:', mainHeader ? mainHeader.style.display : 'N/A');
-            
-            // 尝试强制显示首页元素
-            console.log('=== 尝试强制显示首页元素 ===');
-            
-            if (welcomeSection) {
-                welcomeSection.classList.remove('hidden');
-                welcomeSection.style.display = 'block';
-                welcomeSection.style.visibility = 'visible';
-                welcomeSection.style.opacity = '1';
-                welcomeSection.style.zIndex = 'auto';
-                console.log('欢迎部分强制显示完成');
-            }
-            
-            if (featuresSection) {
-                featuresSection.classList.remove('hidden');
-                featuresSection.style.display = 'block';
-                featuresSection.style.visibility = 'visible';
-                featuresSection.style.opacity = '1';
-                featuresSection.style.zIndex = 'auto';
-                console.log('功能栏目强制显示完成');
-            }
-            
-            if (mainHeader) {
-                mainHeader.classList.remove('hidden');
-                mainHeader.style.display = 'block';
-                mainHeader.style.visibility = 'visible';
-                mainHeader.style.opacity = '1';
-                mainHeader.style.zIndex = 'auto';
-                console.log('主标题强制显示完成');
-            }
-            
-            // 强制隐藏弹窗
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.style.display = 'none';
-                modal.style.visibility = 'hidden';
-                modal.style.opacity = '0';
-                modal.style.zIndex = '-1';
-                console.log('弹窗强制隐藏完成');
-            }
-            
-            console.log('=== 调试操作完成 ===');
-        }
+
 
         // 初始化星座+MBTI弹窗的关闭按钮事件监听器
         function initZodiacModalCloseButton() {
