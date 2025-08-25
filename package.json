@@ -1,0 +1,12 @@
+{
+  "name": "personality-mbti",
+  "version": "1.0.0",
+  "description": "MBTI人格测试网站",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  },
+  "devDependencies": {
+    "vercel": "latest"
+  }
+}
