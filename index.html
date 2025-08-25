@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MBTI人格测试 - 探索你的性格类型</title>
+    <title>MBTI Personality Test - Discover Your Personality Type</title>
     
     <!-- Favicon 设置 -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -3310,8 +3310,8 @@
         <div class="header" id="mainHeader">
             <div class="header-top">
                 <div class="header-content">
-                                <h1>🧠 MBTI人格测试</h1>
-            <p>探索你的性格类型，了解真实的自己</p>
+                                <h1>🧠 MBTI Personality Test</h1>
+            <p>Discover your personality type and understand your true self</p>
                 </div>
                 
 
@@ -3322,50 +3322,50 @@
 
         <!-- 功能栏目区域 -->
         <div class="features-section" id="featuresSection">
-            <h2>🌟 探索更多神秘学测试</h2>
-            <p>除了MBTI人格测试，我们还有更多有趣的测试等你来体验</p>
+            <h2>🌟 Explore More Mystical Tests</h2>
+            <p>Besides MBTI personality test, we have more interesting tests waiting for you</p>
             
             <div class="features-grid">
                 <div class="feature-card" onclick="showMBTIWelcome()">
                     <div class="feature-icon">🧠</div>
-                    <h3>专业MBTI测试</h3>
-                    <p>基于荣格理论的16种人格类型专业测试，快速准确</p>
-                    <div class="feature-status active">开始测试</div>
+                    <h3>Professional MBTI Test</h3>
+                    <p>Professional test based on Jung's theory of 16 personality types, fast and accurate</p>
+                    <div class="feature-status active">Start Test</div>
                 </div>
                 
                 <div class="feature-card" id="zodiacMbtiExperienceCard" onclick="location.href='zodiac-mbti-fusion.html'">
                     <div class="feature-icon">♈</div>
-                    <h3>趣味星座测试</h3>
-                    <p>轻松有趣的星座性格测试，探索你的星座特质</p>
-                    <div class="feature-status active">开始测试</div>
+                    <h3>Fun Zodiac Test</h3>
+                    <p>Light and fun zodiac personality test, explore your zodiac traits</p>
+                    <div class="feature-status active">Start Test</div>
                 </div>
                 
                 <div class="feature-card" onclick="location.href='bazi-test.html'">
                     <div class="feature-icon">📅</div>
-                    <h3>八字算命</h3>
-                    <p>传统命理学，解读你的命运密码</p>
-                    <div class="feature-status active">开始测试</div>
+                    <h3>Bazi Fortune Telling</h3>
+                    <p>Traditional Chinese astrology, interpret your destiny code</p>
+                    <div class="feature-status active">Start Test</div>
                 </div>
                 
                 <div class="feature-card" onclick="location.href='tarot-test.html'">
                     <div class="feature-icon">🔮</div>
-                    <h3>塔罗牌测试</h3>
-                    <p>神秘的塔罗牌，揭示你的内心世界</p>
-                    <div class="feature-status active">开始测试</div>
+                    <h3>Tarot Card Test</h3>
+                    <p>Mysterious tarot cards, reveal your inner world</p>
+                    <div class="feature-status active">Start Test</div>
                 </div>
                 
                 <div class="feature-card" onclick="showFeatureInfo('numerology')">
                     <div class="feature-icon">🔢</div>
-                    <h3>数字命理</h3>
-                    <p>通过数字解读你的性格和命运</p>
-                    <div class="feature-status active">开始测试</div>
+                    <h3>Numerology</h3>
+                    <p>Interpret your personality and destiny through numbers</p>
+                    <div class="feature-status active">Start Test</div>
                 </div>
                 
                 <div class="feature-card" onclick="showFeatureInfo('chinese-zodiac')">
                     <div class="feature-icon">🐉</div>
-                    <h3>生肖测试</h3>
-                    <p>十二生肖性格特征深度解析</p>
-                    <div class="feature-status active">开始测试</div>
+                    <h3>Chinese Zodiac Test</h3>
+                    <p>Deep analysis of twelve zodiac animal personality traits</p>
+                    <div class="feature-status active">Start Test</div>
                 </div>
             </div>
         </div>
@@ -3379,88 +3379,88 @@
                     <!-- 调试按钮已隐藏 -->
                 </div>
                 <div class="zodiac-mbti-modal-body">
-                    <!-- 基础信息收集 -->
+                    <!-- Basic Information Collection -->
                     <div class="test-section" id="basicInfoSection">
-                        <h4>📅 基础信息收集</h4>
+                        <h4>📅 Basic Information Collection</h4>
                         <div class="form-group">
-                            <label for="birthDate">出生日期</label>
+                            <label for="birthDate">Birth Date</label>
                             <input type="date" id="birthDate" required>
                         </div>
                         <div class="form-group">
-                            <label for="birthTime">出生时间（精确到分钟）</label>
+                            <label for="birthTime">Birth Time (Precise to minute)</label>
                             <input type="time" id="birthTime" required>
                         </div>
                         <div class="form-group">
-                            <label for="birthPlace">出生地点</label>
-                            <input type="text" id="birthPlace" placeholder="例如：北京、上海、广州" required>
+                            <label for="birthPlace">Birth Place</label>
+                            <input type="text" id="birthPlace" placeholder="e.g., Beijing, Shanghai, Guangzhou" required>
                         </div>
-                        <!-- 开始测试按钮已隐藏 -->
+                        <!-- Start test button hidden -->
                         <!--
-                        <button class="btn" onclick="startZodiacTest()" id="startTestBtn">开始测试</button>
+                        <button class="btn" onclick="startZodiacTest()" id="startTestBtn">Start Test</button>
                         -->
                         <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 10px;">
-                            💡 点击此按钮将保存您的出生信息并开始测试
+                            💡 Click this button to save your birth information and start the test
                         </p>
-                        <!-- 测试数据保存按钮已隐藏 -->
+                        <!-- Test data save button hidden -->
                         <!--
                         <div style="text-align: center; margin-top: 15px;">
-                            <button class="btn" onclick="testDataSave()" style="background: #4ecdc4; padding: 8px 16px; font-size: 0.9rem;">测试数据保存</button>
+                            <button class="btn" onclick="testDataSave()" style="background: #4ecdc4; padding: 8px 16px; font-size: 0.9rem;">Test Data Save</button>
                         </div>
                         -->
                     </div>
 
-                    <!-- MBTI测试部分 -->
+                    <!-- MBTI Test Section -->
                     <div class="test-section hidden" id="mbtiSection">
-                        <h4>🧠 MBTI性格测试</h4>
+                        <h4>🧠 MBTI Personality Test</h4>
                         <div class="progress-bar">
                             <div class="progress-fill" id="mbtiProgress"></div>
                         </div>
                         <div id="mbtiQuestions"></div>
-                        <button class="btn btn-secondary" onclick="previousZodiacSection('basicInfoSection')">返回</button>
-                        <button class="btn" onclick="nextZodiacSection('zodiacSection')" id="mbtiNextBtn" disabled>下一步</button>
+                        <button class="btn btn-secondary" onclick="previousZodiacSection('basicInfoSection')">Back</button>
+                        <button class="btn" onclick="nextZodiacSection('zodiacSection')" id="mbtiNextBtn" disabled>Next</button>
                     </div>
 
-                    <!-- 星座特质测试 -->
+                    <!-- Zodiac Traits Test -->
                     <div class="test-section hidden" id="zodiacSection">
-                        <h4>♈ 星座特质测试</h4>
+                        <h4>♈ Zodiac Traits Test</h4>
                         <div class="progress-bar">
                             <div class="progress-fill" id="zodiacProgress"></div>
                         </div>
                         <div id="zodiacQuestions"></div>
-                        <button class="btn btn-secondary" onclick="previousZodiacSection('mbtiSection')">返回</button>
-                        <button class="btn" onclick="nextZodiacSection('fusionSection')" id="zodiacNextBtn" disabled>下一步</button>
+                        <button class="btn btn-secondary" onclick="previousZodiacSection('mbtiSection')">Back</button>
+                        <button class="btn" onclick="nextZodiacSection('fusionSection')" id="zodiacNextBtn" disabled>Next</button>
                     </div>
 
-                    <!-- 融合验证测试 -->
+                    <!-- Fusion Verification Test -->
                     <div class="test-section hidden" id="fusionSection">
-                        <h4>🔄 融合验证测试</h4>
+                        <h4>🔄 Fusion Verification Test</h4>
                         <div class="progress-bar">
                             <div class="progress-fill" id="fusionProgress"></div>
                         </div>
                         <div id="fusionQuestions"></div>
-                        <button class="btn btn-secondary" onclick="previousZodiacSection('zodiacSection')">返回</button>
-                        <button class="btn" onclick="generateZodiacResults()" id="fusionNextBtn" disabled>生成结果</button>
+                        <button class="btn btn-secondary" onclick="previousZodiacSection('zodiacSection')">Back</button>
+                        <button class="btn" onclick="generateZodiacResults()" id="fusionNextBtn" disabled>Generate Results</button>
                     </div>
 
-                    <!-- 结果展示 -->
+                    <!-- Results Display -->
                     <div class="test-section hidden" id="zodiacResultSection">
-                        <h4>🎯 你的融合测试结果</h4>
+                        <h4>🎯 Your Fusion Test Results</h4>
                         <div id="zodiacFusionResult"></div>
                         <div id="zodiacDetailedReport"></div>
-                        <!-- 重新测试按钮已隐藏 -->
+                        <!-- Restart test button hidden -->
                         <!--
-                        <button class="btn btn-secondary" onclick="restartZodiacTest()">重新测试</button>
+                        <button class="btn btn-secondary" onclick="restartZodiacTest()">Restart Test</button>
                         -->
-                        <!-- 分享结果按钮已隐藏 -->
+                        <!-- Share results button hidden -->
                         <!--
-                        <button class="btn" onclick="shareZodiacResults()">分享结果</button>
+                        <button class="btn" onclick="shareZodiacResults()">Share Results</button>
                         -->
                     </div>
 
-                    <!-- 加载状态 -->
+                    <!-- Loading State -->
                     <div class="loading hidden" id="zodiacLoadingSection">
                         <div class="spinner"></div>
-                        <p>正在分析你的星座特质和MBTI偏好...</p>
+                        <p>Analyzing your zodiac traits and MBTI preferences...</p>
                     </div>
                 </div>
             </div>
@@ -3470,208 +3470,208 @@
 
 
 
-        <!-- 登录页面 -->
+        <!-- Login Page -->
         <div class="login-section hidden" id="loginSection">
             <div class="login-card">
                 <div class="login-header">
-                    <h1>🔐 登录MBTI测试</h1>
-                    <p>请登录后开始你的性格探索之旅</p>
+                    <h1>🔐 Login to MBTI Test</h1>
+                    <p>Please login to start your personality exploration journey</p>
                     <button class="close-overlay-btn" onclick="closeLogin()">&times;</button>
                 </div>
                 
                 <form class="login-form" id="loginForm">
                     <div class="form-group">
-                        <label for="username">用户名</label>
-                        <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter username" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="password">密码</label>
-                        <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
                     </div>
                     
                     <div class="form-options">
                         <label class="checkbox-label">
                             <input type="checkbox" id="rememberMe">
                             <span class="checkmark"></span>
-                            记住我
+                            Remember me
                         </label>
-                        <a href="#" class="forgot-password" onclick="showForgotPassword()">忘记密码？</a>
+                        <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot password?</a>
                     </div>
                     
-                    <button type="submit" class="btn login-btn">登录</button>
+                    <button type="submit" class="btn login-btn">Login</button>
                 </form>
                 
                 <!-- Google 登录按钮已删除 -->
                 
                 <div class="register-link">
-                    <p>还没有账号？ <a href="#" onclick="showRegister()">立即注册</a></p>
+                    <p>Don't have an account? <a href="#" onclick="showRegister()">Register now</a></p>
                 </div>
             </div>
         </div>
 
-        <!-- 注册页面 -->
+        <!-- Register Page -->
         <div class="register-section hidden" id="registerSection">
             <div class="login-card">
                 <div class="login-header">
-                    <h1>📝 注册账号</h1>
-                    <p>创建你的MBTI测试账号</p>
+                    <h1>📝 Register Account</h1>
+                    <p>Create your MBTI test account</p>
                     <button class="close-overlay-btn" onclick="closeRegister()">&times;</button>
                 </div>
                 
                 <form class="login-form" id="registerForm">
                     <div class="form-group">
-                        <label for="regUsername">用户名</label>
-                        <input type="text" id="regUsername" name="username" placeholder="请输入用户名" required>
+                        <label for="regUsername">Username</label>
+                        <input type="text" id="regUsername" name="username" placeholder="Enter username" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="regEmail">邮箱</label>
-                        <input type="email" id="regEmail" name="email" placeholder="请输入邮箱" required>
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" name="email" placeholder="Enter email" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="regPassword">密码</label>
-                        <input type="password" id="regPassword" name="password" placeholder="请输入密码" required>
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" name="password" placeholder="Enter password" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="regConfirmPassword">确认密码</label>
-                        <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
+                        <label for="regConfirmPassword">Confirm Password</label>
+                        <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="Enter password again" required>
                     </div>
                     
                     <div class="form-options">
                         <label class="checkbox-label">
                             <input type="checkbox" id="agreeTerms" required>
                             <span class="checkmark"></span>
-                            我同意 <a href="#" class="terms-link">服务条款</a> 和 <a href="#" class="terms-link">隐私政策</a>
+                            I agree to <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
                         </label>
                     </div>
                     
-                    <button type="submit" class="btn login-btn">注册</button>
+                    <button type="submit" class="btn login-btn">Register</button>
                 </form>
                 
-                <!-- Google 注册按钮已删除 -->
+                <!-- Google register button deleted -->
                 
                 <div class="register-link">
-                    <p>已有账号？ <a href="#" onclick="showLogin()">立即登录</a></p>
+                    <p>Already have an account? <a href="#" onclick="showLogin()">Login now</a></p>
                 </div>
             </div>
         </div>
 
-        <!-- MBTI介绍部分 -->
+        <!-- MBTI Introduction Section -->
         <div class="card mbti-info-section hidden" id="mbtiInfoSection">
             <div style="text-align: center; margin-bottom: 30px;">
-                <h2>🧠 MBTI人格类型理论详解</h2>
-                                    <!-- 返回测试按钮已隐藏 -->
+                <h2>🧠 MBTI Personality Type Theory Explained</h2>
+                                    <!-- Back to test button hidden -->
                     <!--
-                    <button class="btn btn-secondary" onclick="hideMBTIInfo()" style="margin-top: 20px;">返回测试</button>
+                    <button class="btn btn-secondary" onclick="hideMBTIInfo()" style="margin-top: 20px;">Back to Test</button>
                     -->
             </div>
             
             <div class="mbti-content">
                 <div class="dimension-explanation">
-                    <h3>📊 四个核心维度</h3>
+                    <h3>📊 Four Core Dimensions</h3>
                     
                     <div class="dimension-card">
-                        <h4>1. 能量方向 (E - I)</h4>
+                        <h4>1. Energy Direction (E - I)</h4>
                         <div class="dimension-details">
                             <div class="dimension-side">
-                                <h5>外向 (E - Extraversion)</h5>
+                                <h5>Extraversion (E)</h5>
                                 <ul>
-                                    <li>从外部世界获取能量</li>
-                                    <li>喜欢社交和互动</li>
-                                    <li>行动导向，喜欢表达</li>
-                                    <li>在人群中感到充满活力</li>
-                                    <li>喜欢多样性和刺激</li>
+                                    <li>Gain energy from the external world</li>
+                                    <li>Enjoy socializing and interaction</li>
+                                    <li>Action-oriented, like to express</li>
+                                    <li>Feel energized in crowds</li>
+                                    <li>Like variety and stimulation</li>
                                 </ul>
                             </div>
                             <div class="dimension-side">
-                                <h5>内向 (I - Introversion)</h5>
+                                <h5>Introversion (I)</h5>
                                 <ul>
-                                    <li>从内心世界获取能量</li>
-                                    <li>喜欢独处和深度思考</li>
-                                    <li>思考导向，喜欢倾听</li>
-                                    <li>在安静环境中恢复精力</li>
-                                    <li>喜欢专注和深度</li>
+                                    <li>Gain energy from the inner world</li>
+                                    <li>Enjoy solitude and deep thinking</li>
+                                    <li>Thought-oriented, like to listen</li>
+                                    <li>Recharge energy in quiet environments</li>
+                                    <li>Like focus and depth</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <div class="dimension-card">
-                        <h4>2. 信息接收 (S - N)</h4>
+                        <h4>2. Information Reception (S - N)</h4>
                         <div class="dimension-details">
                             <div class="dimension-side">
-                                <h5>感觉 (S - Sensing)</h5>
+                                <h5>Sensing (S)</h5>
                                 <ul>
-                                    <li>关注具体事实和细节</li>
-                                    <li>相信经验和传统</li>
-                                    <li>喜欢实际和可验证的信息</li>
-                                    <li>活在当下，关注现实</li>
-                                    <li>喜欢循序渐进的方法</li>
+                                    <li>Focus on concrete facts and details</li>
+                                    <li>Trust experience and tradition</li>
+                                    <li>Like practical and verifiable information</li>
+                                    <li>Live in the present, focus on reality</li>
+                                    <li>Like step-by-step approaches</li>
                                 </ul>
                             </div>
                             <div class="dimension-side">
-                                <h5>直觉 (N - Intuition)</h5>
+                                <h5>Intuition (N)</h5>
                                 <ul>
-                                    <li>关注可能性和未来</li>
-                                    <li>相信创新和改变</li>
-                                    <li>喜欢理论和概念</li>
-                                    <li>关注整体和模式</li>
-                                    <li>喜欢跳跃式思维</li>
+                                    <li>Focus on possibilities and future</li>
+                                    <li>Trust innovation and change</li>
+                                    <li>Like theories and concepts</li>
+                                    <li>Focus on the whole and patterns</li>
+                                    <li>Like to think in leaps</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <div class="dimension-card">
-                        <h4>3. 决策方式 (T - F)</h4>
+                        <h4>3. Decision Making (T - F)</h4>
                         <div class="dimension-details">
                             <div class="dimension-side">
-                                <h5>思考 (T - Thinking)</h5>
+                                <h5>Thinking (T)</h5>
                                 <ul>
-                                    <li>基于逻辑和客观分析</li>
-                                    <li>追求公平和一致性</li>
-                                    <li>重视真理和准确性</li>
-                                    <li>分析问题，寻找解决方案</li>
-                                    <li>可能显得直接和坦率</li>
+                                    <li>Based on logic and objective analysis</li>
+                                    <li>Pursue fairness and consistency</li>
+                                    <li>Value truth and accuracy</li>
+                                    <li>Analyze problems, find solutions</li>
+                                    <li>May appear direct and frank</li>
                                 </ul>
                             </div>
                             <div class="dimension-side">
-                                <h5>情感 (F - Feeling)</h5>
+                                <h5>Feeling (F)</h5>
                                 <ul>
-                                    <li>基于价值观和感受</li>
-                                    <li>追求和谐和关系</li>
-                                    <li>重视人情和同理心</li>
-                                    <li>考虑对他人的影响</li>
-                                    <li>可能显得温和和关心</li>
+                                    <li>Based on values and feelings</li>
+                                    <li>Pursue harmony and relationships</li>
+                                    <li>Value human connection and empathy</li>
+                                    <li>Consider impact on others</li>
+                                    <li>May appear gentle and caring</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <div class="dimension-card">
-                        <h4>4. 生活方式 (J - P)</h4>
+                        <h4>4. Lifestyle (J - P)</h4>
                         <div class="dimension-details">
                             <div class="dimension-side">
-                                <h5>判断 (J - Judging)</h5>
+                                <h5>Judging (J)</h5>
                                 <ul>
-                                    <li>喜欢计划和结构</li>
-                                    <li>按时完成任务</li>
-                                    <li>喜欢明确的期望</li>
-                                    <li>做决定后坚持执行</li>
-                                    <li>喜欢控制和确定性</li>
+                                    <li>Like planning and structure</li>
+                                    <li>Complete tasks on time</li>
+                                    <li>Like clear expectations</li>
+                                    <li>Stick to decisions once made</li>
+                                    <li>Like control and certainty</li>
                                 </ul>
                             </div>
                             <div class="dimension-side">
-                                <h5>感知 (P - Perceiving)</h5>
+                                <h5>Perceiving (P)</h5>
                                 <ul>
-                                    <li>喜欢灵活和选择</li>
-                                    <li>保持开放和适应性</li>
-                                    <li>喜欢探索和发现</li>
-                                    <li>延迟决定，收集信息</li>
-                                    <li>喜欢自发和自由</li>
+                                    <li>Like flexibility and options</li>
+                                    <li>Stay open and adaptable</li>
+                                    <li>Like exploration and discovery</li>
+                                    <li>Delay decisions, gather information</li>
+                                    <li>Like spontaneity and freedom</li>
                                 </ul>
                             </div>
                         </div>
@@ -3679,107 +3679,107 @@
                 </div>
 
                 <div class="personality-types">
-                    <h3>🌟 16种性格类型概览</h3>
+                    <h3>🌟 16 Personality Types Overview</h3>
                     <div class="types-grid">
                         <div class="type-card">
-                            <h4>INTJ - 建筑师</h4>
-                            <p>富有想象力和战略性的思考者，一切都要经过深思熟虑</p>
+                            <h4>INTJ - Architect</h4>
+                            <p>Imaginative and strategic thinkers, everything must be carefully considered</p>
                         </div>
                         <div class="type-card">
-                            <h4>INTP - 逻辑学家</h4>
-                            <p>创新的发明家，对知识有着不可抑制的渴望</p>
+                            <h4>INTP - Logician</h4>
+                            <p>Innovative inventors with an insatiable thirst for knowledge</p>
                         </div>
                         <div class="type-card">
-                            <h4>ENTJ - 指挥官</h4>
-                            <p>大胆、富有想象力的强领导者，总是能找到或创造解决方案</p>
+                            <h4>ENTJ - Commander</h4>
+                            <p>Bold, imaginative and strong leaders, always finding or creating solutions</p>
                         </div>
                         <div class="type-card">
-                            <h4>ENTP - 辩论家</h4>
-                            <p>聪明好奇的思想家，不会放过任何智力挑战</p>
+                            <h4>ENTP - Debater</h4>
+                            <p>Smart and curious thinkers who never miss an intellectual challenge</p>
                         </div>
                         <div class="type-card">
-                            <h4>INFJ - 提倡者</h4>
-                            <p>安静而神秘，同时鼓舞人心且不知疲倦的理想主义者</p>
+                            <h4>INFJ - Advocate</h4>
+                            <p>Quiet and mysterious, yet inspiring and tireless idealists</p>
                         </div>
                         <div class="type-card">
-                            <h4>INFP - 调停者</h4>
-                            <p>诗意、善良的利他主义者，总是热情地为正当理由而战</p>
+                            <h4>INFP - Mediator</h4>
+                            <p>Poetic, kind altruists who are always passionate about fighting for just causes</p>
                         </div>
                         <div class="type-card">
-                            <h4>ENFJ - 主人公</h4>
-                            <p>富有魅力和鼓舞人心的领导者，有着与生俱来的领导能力</p>
+                            <h4>ENFJ - Protagonist</h4>
+                            <p>Charismatic and inspiring leaders with innate leadership abilities</p>
                         </div>
                         <div class="type-card">
-                            <h4>ENFP - 竞选者</h4>
-                            <p>热情、有创造力、社交能力强的人，能够找到与他人联系的可能性</p>
+                            <h4>ENFP - Campaigner</h4>
+                            <p>Enthusiastic, creative and socially skilled individuals who can find possibilities to connect with others</p>
                         </div>
                         <div class="type-card">
-                            <h4>ISTJ - 物流师</h4>
-                            <p>实际且注重事实的可靠个体，其可靠性不容置疑</p>
+                            <h4>ISTJ - Logistician</h4>
+                            <p>Practical and fact-focused reliable individuals whose reliability is unquestionable</p>
                         </div>
                         <div class="type-card">
-                            <h4>ISFJ - 守卫者</h4>
-                            <p>非常专注和温暖的守护者，时刻准备保护所爱之人</p>
+                            <h4>ISFJ - Defender</h4>
+                            <p>Very dedicated and warm guardians, always ready to protect loved ones</p>
                         </div>
                         <div class="type-card">
-                            <h4>ESTJ - 总经理</h4>
-                            <p>出色的管理者，在管理事情或人员方面无与伦比</p>
+                            <h4>ESTJ - Executive</h4>
+                            <p>Excellent managers, unparalleled in managing things or people</p>
                         </div>
                         <div class="type-card">
-                            <h4>ESFJ - 执政官</h4>
-                            <p>极其关心他人的感受，以热情和友善著称</p>
+                            <h4>ESFJ - Consul</h4>
+                            <p>Extremely caring about others' feelings, known for warmth and friendliness</p>
                         </div>
                         <div class="type-card">
-                            <h4>ISTP - 鉴赏家</h4>
-                            <p>大胆而实用的实验家，擅长使用各种工具</p>
+                            <h4>ISTP - Virtuoso</h4>
+                            <p>Bold and practical experimenters, skilled at using various tools</p>
                         </div>
                         <div class="type-card">
-                            <h4>ISFP - 探险家</h4>
-                            <p>灵活且有魅力的艺术家，随时准备探索和体验新事物</p>
+                            <h4>ISFP - Adventurer</h4>
+                            <p>Flexible and charming artists, always ready to explore and experience new things</p>
                         </div>
                         <div class="type-card">
-                            <h4>ESTP - 企业家</h4>
-                            <p>聪明、精力充沛且非常善于感知的人，真正享受生活的刺激</p>
+                            <h4>ESTP - Entrepreneur</h4>
+                            <p>Smart, energetic and very perceptive people who truly enjoy life's excitement</p>
                         </div>
                         <div class="type-card">
-                            <h4>ESFP - 表演者</h4>
-                            <p>自发的、精力充沛且热情的表演者，他们的生活永远不会无聊</p>
+                            <h4>ESFP - Entertainer</h4>
+                            <p>Spontaneous, energetic and enthusiastic performers whose lives are never boring</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="mbti-tips">
-                    <h3>💡 MBTI使用建议</h3>
+                    <h3>💡 MBTI Usage Tips</h3>
                     <div class="tips-content">
                         <div class="tip-item">
-                            <h4>理解而非标签</h4>
-                            <p>MBTI是一种工具，帮助你更好地理解自己和他人，而不是给人贴标签。每个人都是独特的个体。</p>
+                            <h4>Understanding, Not Labeling</h4>
+                            <p>MBTI is a tool to help you better understand yourself and others, not to label people. Everyone is a unique individual.</p>
                         </div>
                         <div class="tip-item">
-                            <h4>发展而非限制</h4>
-                            <p>了解自己的偏好可以帮助你发挥优势，同时也可以有意识地发展其他方面的能力。</p>
+                            <h4>Development, Not Limitation</h4>
+                            <p>Understanding your preferences can help you leverage your strengths while consciously developing other abilities.</p>
                         </div>
                         <div class="tip-item">
-                            <h4>沟通和理解</h4>
-                            <p>理解不同的性格类型可以帮助你更好地与他人沟通，建立更和谐的关系。</p>
+                            <h4>Communication and Understanding</h4>
+                            <p>Understanding different personality types can help you communicate better with others and build more harmonious relationships.</p>
                         </div>
                         <div class="tip-item">
-                            <h4>职业发展</h4>
-                            <p>了解自己的性格类型可以为职业选择和发展方向提供参考，但不应作为唯一依据。</p>
+                            <h4>Career Development</h4>
+                            <p>Understanding your personality type can provide reference for career choices and development direction, but should not be the only basis.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 测试部分 -->
+        <!-- Test Section -->
         <div class="card test-section hidden" id="testSection">
             <div class="test-header">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <div class="test-stage-display">
-                    <span class="stage-badge" id="currentStageBadge">🌱 性格基础探索</span>
+                    <span class="stage-badge" id="currentStageBadge">🌱 Personality Foundation Exploration</span>
                 </div>
             </div>
             
@@ -3789,37 +3789,37 @@
             </div>
             
             <div class="navigation-buttons">
-                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">上一题</button>
-                <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>下一题</button>
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">Previous</button>
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
             </div>
         </div>
 
-        <!-- 结果部分 -->
+        <!-- Results Section -->
         <div class="card result-section hidden" id="resultSection">
-            <h2>🎉 测试完成！</h2>
+            <h2>🎉 Test Completed!</h2>
             <div class="personality-type" id="personalityType"></div>
             
             <div class="dimensions" id="dimensionsContainer"></div>
             
             <div class="description">
-                <h3>你的性格类型分析</h3>
+                <h3>Your Personality Type Analysis</h3>
                 <div id="typeDescription"></div>
             </div>
             
-                                    <!-- 重新测试按钮已隐藏 -->
+                                    <!-- Restart test button hidden -->
                         <!--
-                        <button class="btn btn-secondary" onclick="restartTest()" style="margin-top: 30px;">重新测试</button>
+                        <button class="btn btn-secondary" onclick="restartTest()" style="margin-top: 30px;">Restart Test</button>
                         -->
         </div>
 
-        <!-- 广告页面 -->
+        <!-- Advertisement Page -->
         <div class="ad-section hidden" id="adSection">
             <div class="ad-container">
                 <div class="ad-header">
-                    <h2>📺 观看广告继续测试</h2>
-                    <p>为了支持免费测试服务，请观看以下广告后继续答题</p>
+                    <h2>📺 Watch Ad to Continue Test</h2>
+                    <p>To support free testing services, please watch the following ad before continuing</p>
                     <div class="test-progress-info">
-                        <span class="progress-badge">测试进度: 第 <span id="currentQuestionNumber"></span> 题 / 共 10 题</span>
+                        <span class="progress-badge">Test Progress: Question <span id="currentQuestionNumber"></span> / 10</span>
                         <div class="test-progress-bar">
                             <div class="test-progress-fill" id="testProgressFill"></div>
                         </div>
@@ -3834,26 +3834,26 @@
                         <div class="ad-video-frame">
                             <!-- Google AdSense 广告容器已删除 -->
                             
-                            <!-- 备用广告内容 -->
+                            <!-- Fallback Ad Content -->
                             <div id="fallback-ad" class="fallback-ad" style="display: none;">
                                 <div class="ad-video-player">
                                     <div class="ad-header">
-                                        <div class="ad-badge">推荐</div>
-                                        <div class="ad-sponsor">MBTI测试</div>
+                                        <div class="ad-badge">Recommended</div>
+                                        <div class="ad-sponsor">MBTI Test</div>
                                 </div>
                                     <div class="ad-content-main">
                                         <div class="ad-icon">🧠</div>
-                                        <div class="ad-title">MBTI性格测试结果解锁</div>
-                                        <div class="ad-subtitle">了解你的真实性格类型</div>
+                                        <div class="ad-title">MBTI Personality Test Results Unlock</div>
+                                        <div class="ad-subtitle">Discover your true personality type</div>
                                         <div class="ad-features">
-                                            <span class="feature">✨ 专业分析</span>
-                                            <span class="feature">📊 详细报告</span>
-                                            <span class="feature">🎯 职业建议</span>
+                                            <span class="feature">✨ Professional Analysis</span>
+                                            <span class="feature">📊 Detailed Report</span>
+                                            <span class="feature">🎯 Career Advice</span>
                                         </div>
                                     </div>
                                     <div class="ad-footer">
-                                        <div class="ad-duration">⏱️ 15秒</div>
-                                        <div class="ad-action">观看解锁</div>
+                                        <div class="ad-duration">⏱️ 15s</div>
+                                        <div class="ad-action">Watch to Unlock</div>
                                     </div>
                                 </div>
                             </div>
@@ -3897,40 +3897,40 @@
                 <!-- 广告配置面板 -->
                 <div id="adConfigPanel" class="ad-config-panel" style="display: none;">
                     <div class="ad-config-header">
-                        <h4>🔧 广告配置</h4>
+                        <h4>🔧 Ad Configuration</h4>
                         <button class="close-config-btn" onclick="toggleAdConfig()">&times;</button>
             </div>
                     <div class="ad-config-content">
                         <div class="config-item">
                             <label>Google AdSense:</label>
                             <select id="adSenseEnabled" onchange="updateAdConfig()">
-                                <option value="false">使用备用广告</option>
-                                <option value="true">启用AdSense</option>
+                                <option value="false">Use Fallback Ads</option>
+                                <option value="true">Enable AdSense</option>
                             </select>
                         </div>
                         <div class="config-item">
-                            <label>发布商ID:</label>
+                            <label>Publisher ID:</label>
                             <input type="text" id="adClientId" placeholder="ca-pub-XXXXXXXXXX" onchange="updateAdConfig()">
                         </div>
                         <div class="config-item">
-                            <label>广告位ID:</label>
+                            <label>Ad Slot ID:</label>
                             <input type="text" id="adSlotId" placeholder="XXXXXXXXXX" onchange="updateAdConfig()">
                         </div>
                                         <div class="config-info">
-                    <p><strong>说明：</strong></p>
+                    <p><strong>Instructions:</strong></p>
                     <ul>
-                        <li>• 备用广告：无需配置，直接显示</li>
-                        <li>• AdSense：需要Google AdSense账号和广告位</li>
-                        <li>• 配置后需要刷新页面生效</li>
+                        <li>• Fallback Ads: No configuration needed, display directly</li>
+                        <li>• AdSense: Requires Google AdSense account and ad slots</li>
+                        <li>• Refresh page after configuration to take effect</li>
                     </ul>
                     
                     <div class="adsense-status" style="margin-top: 15px; padding: 10px; background: #e8f5e8; border-radius: 6px;">
-                        <p><strong>AdSense状态：</strong></p>
+                        <p><strong>AdSense Status:</strong></p>
                         <ul>
-                            <li>• 脚本加载：<span id="scriptStatus">检查中...</span></li>
-                            <li>• 发布商ID：<span id="publisherStatus">已配置</span></li>
-                            <li>• 广告位ID：<span id="slotStatus">需要配置</span></li>
-                            <li>• 连接状态：<span id="connectionStatus">测试中...</span></li>
+                            <li>• Script Loading: <span id="scriptStatus">Checking...</span></li>
+                            <li>• Publisher ID: <span id="publisherStatus">Configured</span></li>
+                            <li>• Ad Slot ID: <span id="slotStatus">Needs Configuration</span></li>
+                            <li>• Connection Status: <span id="connectionStatus">Testing...</span></li>
                         </ul>
                     </div>
                 </div>
@@ -3939,139 +3939,139 @@
             </div>
         </div>
 
-        <!-- 忘记密码页面 -->
+        <!-- Forgot Password Page -->
         <div class="forgot-password-section hidden" id="forgotPasswordSection">
             <div class="login-card">
                 <div class="login-header">
-                    <h1>🔑 忘记密码</h1>
-                    <p>请输入你的邮箱地址，我们将发送重置链接</p>
+                    <h1>🔑 Forgot Password</h1>
+                    <p>Please enter your email address, we will send a reset link</p>
                     <button class="close-overlay-btn" onclick="closeForgotPassword()">&times;</button>
                 </div>
                 
-                <!-- 第一步：邮箱输入 -->
+                <!-- Step 1: Email Input -->
                 <div id="forgotPasswordStep1">
                     <div class="form-group">
-                        <label for="resetEmail">邮箱地址</label>
-                        <input type="email" id="resetEmail" name="email" placeholder="请输入注册时使用的邮箱" required>
+                        <label for="resetEmail">Email Address</label>
+                        <input type="email" id="resetEmail" name="email" placeholder="Enter the email used for registration" required>
                     </div>
                     
-                    <button type="button" class="btn login-btn" onclick="sendResetEmail()">发送重置链接</button>
+                    <button type="button" class="btn login-btn" onclick="sendResetEmail()">Send Reset Link</button>
                     
                     <div class="forgot-password-options">
-                        <button class="btn btn-secondary" onclick="showLogin()">返回登录</button>
-                        <button class="btn btn-secondary" onclick="showRegister()">注册新账号</button>
+                        <button class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
+                        <button class="btn btn-secondary" onclick="showRegister()">Register New Account</button>
                     </div>
                 </div>
                 
-                <!-- 第二步：验证码和新密码 -->
+                <!-- Step 2: Verification Code and New Password -->
                 <div id="forgotPasswordStep2" style="display: none;">
                     <div class="form-group">
-                        <label for="resetCode">验证码</label>
+                        <label for="resetCode">Verification Code</label>
                         <div class="verification-code-group">
-                            <input type="text" id="resetCode" name="code" placeholder="请输入6位验证码" maxlength="6" required>
+                            <input type="text" id="resetCode" name="code" placeholder="Enter 6-digit verification code" maxlength="6" required>
                             <button type="button" class="btn btn-secondary send-code-btn" onclick="sendVerificationCode()">
-                                重新发送
+                                Resend
                             </button>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="newPassword">新密码</label>
-                        <input type="password" id="newPassword" name="password" placeholder="请输入新密码" required>
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="password" placeholder="Enter new password" required>
                         <div class="password-strength" id="passwordStrength"></div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="confirmNewPassword">确认新密码</label>
-                        <input type="password" id="confirmNewPassword" name="confirmPassword" placeholder="请再次输入新密码" required>
+                        <label for="confirmNewPassword">Confirm New Password</label>
+                        <input type="password" id="confirmNewPassword" name="confirmPassword" placeholder="Enter new password again" required>
                     </div>
                     
-                    <button type="submit" class="btn login-btn" onclick="resetPassword()">重置密码</button>
+                    <button type="submit" class="btn login-btn" onclick="resetPassword()">Reset Password</button>
                     
                     <div class="forgot-password-options">
-                        <button class="btn btn-secondary" onclick="backToStep1()">返回上一步</button>
-                        <button class="btn btn-secondary" onclick="showLogin()">返回登录</button>
+                        <button class="btn btn-secondary" onclick="backToStep1()">Back to Previous Step</button>
+                        <button class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 页脚部分 -->
+        <!-- Footer Section -->
         <footer class="footer">
             <div class="footer-content interactive">
                 <div class="footer-header">
                     <div class="company-intro">
-                        <h3>🧠 MBTI人格测试平台</h3>
-                        <p>专业 · 准确 · 便捷</p>
+                        <h3>🧠 MBTI Personality Test Platform</h3>
+                        <p>Professional · Accurate · Convenient</p>
                     </div>
                     <div class="interactive-stats">
                         <div class="stat-counter" data-target="100">
                             <span class="counter">0</span>
                             <span class="unit">+</span>
-                            <span class="label">人测试</span>
+                            <span class="label">People Tested</span>
                         </div>
                         <div class="stat-counter" data-target="99.99">
                             <span class="counter">0</span>
                             <span class="unit">%</span>
-                            <span class="label">精准</span>
+                            <span class="label">Accuracy</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-body">
                     <div class="footer-section interactive">
-                        <h4>📞 联系我们</h4>
+                        <h4>📞 Contact Us</h4>
                         <div class="contact-methods">
                             <div class="contact-method" onclick="copyToClipboard('junpengpanchina@gmail.com')">
                                 <span class="icon">📧</span>
-                                <span class="text">复制邮箱</span>
-                                <span class="tooltip">点击复制</span>
+                                <span class="text">Copy Email</span>
+                                <span class="tooltip">Click to Copy</span>
                             </div>
                             <div class="contact-method" onclick="copyToClipboard('15626005076')">
                                 <span class="icon">📱</span>
-                                <span class="text">复制电话</span>
-                                <span class="tooltip">点击复制</span>
+                                <span class="text">Copy Phone</span>
+                                <span class="tooltip">Click to Copy</span>
                             </div>
                             <div class="contact-method" onclick="showQRCode()">
                                 <span class="icon">💬</span>
-                                <span class="text">微信二维码</span>
-                                <span class="tooltip">查看二维码</span>
+                                <span class="text">WeChat QR Code</span>
+                                <span class="tooltip">View QR Code</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="footer-section interactive">
-                        <h4>💬 快速反馈</h4>
+                        <h4>💬 Quick Feedback</h4>
                         <div class="feedback-buttons">
                             <button class="feedback-btn" data-type="praise" onclick="showPraiseOptions()">
                                 <span class="icon">👍</span>
-                                <span class="text">很好用</span>
+                                <span class="text">Great!</span>
                             </button>
                             <button class="feedback-btn" data-type="improvement" onclick="quickFeedback('improvement')">
                                 <span class="icon">🚀</span>
-                                <span class="text">功能改进</span>
+                                <span class="text">Feature Request</span>
                             </button>
                             <button class="feedback-btn" data-type="bug" onclick="quickFeedback('bug')">
                                 <span class="icon">🐛</span>
-                                <span class="text">问题反馈</span>
+                                <span class="text">Bug Report</span>
                             </button>
                         </div>
                     </div>
                     
                     <div class="footer-section interactive">
-                        <h4>🔗 快速链接</h4>
+                        <h4>🔗 Quick Links</h4>
                         <div class="quick-links">
                             <a href="#" class="quick-link" onclick="showMBTIInfo()">
                                 <span class="icon">📚</span>
-                                <span class="text">MBTI介绍</span>
+                                <span class="text">MBTI Introduction</span>
                             </a>
                             <a href="#" class="quick-link" onclick="showPrivacyPolicy()">
                                 <span class="icon">🔒</span>
-                                <span class="text">隐私政策</span>
+                                <span class="text">Privacy Policy</span>
                             </a>
                             <a href="#" class="quick-link" onclick="showTermsOfService()">
                                 <span class="icon">📋</span>
-                                <span class="text">服务条款</span>
+                                <span class="text">Terms of Service</span>
                             </a>
                         </div>
                     </div>
@@ -4079,201 +4079,201 @@
                 
                 <div class="footer-bottom">
                     <div class="footer-info">
-                        <p>&copy; 2024 MBTI人格测试</p>
-                        <p>基于荣格类型学理论，仅供娱乐和参考使用</p>
+                        <p>&copy; 2024 MBTI Personality Test</p>
+                        <p>Based on Jungian typology theory, for entertainment and reference only</p>
                     </div>
                     <div class="footer-controls">
-                        <button class="control-btn" onclick="backToTop()">⬆️ 返回顶部</button>
-                        <button class="control-btn" onclick="toggleTheme()">🌙 切换主题</button>
+                        <button class="control-btn" onclick="backToTop()">⬆️ Back to Top</button>
+                        <button class="control-btn" onclick="toggleTheme()">🌙 Toggle Theme</button>
                     </div>
                 </div>
             </div>
         </footer>
 
-        <!-- 留言反馈弹窗 -->
+        <!-- Feedback Modal -->
         <div class="feedback-modal hidden" id="feedbackModal">
             <div class="feedback-modal-content">
                 <div class="feedback-modal-header">
-                    <h3>💬 留言反馈</h3>
+                    <h3>💬 Feedback</h3>
                     <button class="close-btn" onclick="closeFeedbackModal()">&times;</button>
                 </div>
                 <div class="feedback-modal-body">
                     <form class="feedback-form-modal" id="feedbackFormModal" onsubmit="handleFeedbackSubmit(event)">
                         <div class="form-group">
-                            <label for="modalFeedbackName">姓名</label>
-                            <input type="text" id="modalFeedbackName" name="name" placeholder="请输入您的姓名" required>
+                            <label for="modalFeedbackName">Name</label>
+                            <input type="text" id="modalFeedbackName" name="name" placeholder="Enter your name" required>
                         </div>
                         <div class="form-group">
-                            <label for="modalFeedbackEmail">邮箱</label>
-                            <input type="email" id="modalFeedbackEmail" name="email" placeholder="请输入您的邮箱" required>
+                            <label for="modalFeedbackEmail">Email</label>
+                            <input type="email" id="modalFeedbackEmail" name="email" placeholder="Enter your email" required>
                         </div>
                         <div class="form-group">
-                            <label for="modalFeedbackType">反馈类型</label>
+                            <label for="modalFeedbackType">Feedback Type</label>
                             <select id="modalFeedbackType" name="type" required>
-                                <option value="">请选择反馈类型</option>
-                                <option value="praise">表扬</option>
-                                <option value="improvement">功能改进</option>
-                                <option value="bug">问题反馈</option>
-                                <option value="other">其他</option>
+                                <option value="">Please select feedback type</option>
+                                <option value="praise">Praise</option>
+                                <option value="improvement">Feature Request</option>
+                                <option value="bug">Bug Report</option>
+                                <option value="other">Other</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="modalFeedbackMessage">留言内容</label>
-                            <textarea id="modalFeedbackMessage" name="message" placeholder="请详细描述您的意见或建议..." rows="5" required></textarea>
+                            <label for="modalFeedbackMessage">Message</label>
+                            <textarea id="modalFeedbackMessage" name="message" placeholder="Please describe your opinions or suggestions in detail..." rows="5" required></textarea>
                         </div>
                         <div class="form-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="modalAgreePrivacy" name="agreePrivacy" required>
                                 <span class="checkmark"></span>
-                                我同意 <a href="#" onclick="showPrivacyPolicy()">隐私政策</a>
+                                I agree to <a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a>
                             </label>
                         </div>
-                        <button type="submit" class="btn">提交反馈</button>
+                        <button type="submit" class="btn">Submit Feedback</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- 隐私政策弹窗 -->
+        <!-- Privacy Policy Modal -->
         <div class="policy-modal hidden" id="privacyPolicyModal">
             <div class="policy-modal-content">
                 <div class="policy-modal-header">
-                    <h3>🔒 隐私政策</h3>
+                    <h3>🔒 Privacy Policy</h3>
                     <button class="close-btn" onclick="closePolicyModal()">&times;</button>
                 </div>
                 <div class="policy-modal-body">
                     <div class="policy-actions policy-actions-top">
-                        <button class="btn btn-secondary" onclick="closePolicyModal()">关闭</button>
-                        <button class="btn btn-primary" onclick="acknowledgePrivacyPolicy()">我已知晓</button>
+                        <button class="btn btn-secondary" onclick="closePolicyModal()">Close</button>
+                        <button class="btn btn-primary" onclick="acknowledgePrivacyPolicy()">I Understand</button>
                     </div>
                     
-                    <h4>信息收集</h4>
-                    <p>我们仅收集测试过程中必要的个人信息，包括测试答案和基本用户信息。</p>
+                    <h4>Information Collection</h4>
+                    <p>We only collect necessary personal information during testing, including test answers and basic user information.</p>
                     
-                    <h4>信息使用</h4>
-                    <p>收集的信息仅用于提供MBTI测试服务和改进用户体验，不会用于其他商业目的。</p>
+                    <h4>Information Usage</h4>
+                    <p>Collected information is only used to provide MBTI testing services and improve user experience, not for other commercial purposes.</p>
                     
-                    <h4>信息保护</h4>
-                    <p>我们采用行业标准的安全措施保护您的个人信息，防止未经授权的访问、使用或泄露。</p>
+                    <h4>Information Protection</h4>
+                    <p>We adopt industry-standard security measures to protect your personal information from unauthorized access, use, or disclosure.</p>
                     
-                    <h4>信息共享</h4>
-                    <p>我们不会向第三方出售、交易或转让您的个人信息，除非获得您的明确同意。</p>
+                    <h4>Information Sharing</h4>
+                    <p>We will not sell, trade, or transfer your personal information to third parties without your explicit consent.</p>
                     
-                    <h4>Cookie使用</h4>
-                    <p>我们使用Cookie来改善网站功能和用户体验，您可以在浏览器设置中禁用Cookie。</p>
+                    <h4>Cookie Usage</h4>
+                    <p>We use cookies to improve website functionality and user experience. You can disable cookies in your browser settings.</p>
                 </div>
             </div>
         </div>
 
-        <!-- 服务条款弹窗 -->
+        <!-- Terms of Service Modal -->
         <div class="policy-modal hidden" id="termsModal">
             <div class="policy-modal-content">
                 <div class="policy-modal-header">
-                    <h3>📋 服务条款</h3>
+                    <h3>📋 Terms of Service</h3>
                     <button class="close-btn" onclick="closeTermsModal()">&times;</button>
                 </div>
                 <div class="policy-modal-body">
                     <div class="policy-actions policy-actions-top">
-                        <button class="btn btn-secondary" onclick="showReadReminder()">取消</button>
-                        <button class="btn btn-primary" id="agreeTermsBtn" onclick="acknowledgeTerms()">我已知晓并同意</button>
+                        <button class="btn btn-secondary" onclick="showReadReminder()">Cancel</button>
+                        <button class="btn btn-primary" id="agreeTermsBtn" onclick="acknowledgeTerms()">I Understand and Agree</button>
                     </div>
                     
-                    <h4>服务说明</h4>
-                    <p>本网站提供免费的MBTI人格测试服务，测试结果仅供娱乐和参考使用。</p>
+                    <h4>Service Description</h4>
+                    <p>This website provides free MBTI personality testing services. Test results are for entertainment and reference only.</p>
                     
-                    <h4>用户责任</h4>
-                    <p>用户应确保提供的信息真实准确，不得恶意破坏网站功能或影响其他用户使用。</p>
+                    <h4>User Responsibilities</h4>
+                    <p>Users should ensure the information provided is true and accurate, and must not maliciously damage website functionality or affect other users.</p>
                     
-                    <h4>免责声明</h4>
-                    <p>测试结果仅供参考，不构成专业心理建议。如有需要，请咨询专业心理咨询师。</p>
+                    <h4>Disclaimer</h4>
+                    <p>Test results are for reference only and do not constitute professional psychological advice. Please consult a professional psychologist if needed.</p>
                     
-                    <h4>服务变更</h4>
-                    <p>我们保留随时修改或终止服务的权利，恕不另行通知。</p>
+                    <h4>Service Changes</h4>
+                    <p>We reserve the right to modify or terminate services at any time without prior notice.</p>
                     
-                    <h4>法律适用</h4>
-                    <p>本服务条款受中华人民共和国法律管辖，如有争议，以中文版本为准。</p>
+                    <h4>Governing Law</h4>
+                    <p>These terms of service are governed by the laws of the People's Republic of China. In case of disputes, the Chinese version shall prevail.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // MBTI测试题目 - 渐进式深度 + 多维度交叉验证 + 图文增强
+        // MBTI Test Questions - Progressive Depth + Multi-dimensional Cross-validation + Visual Enhancement
         const questions = [
-            // ===== 第一层：基础偏好测试 =====
+            // ===== Level 1: Basic Preference Testing =====
             {
                 id: 1,
                 level: 1,
-                question: "在社交场合中，你通常：",
-                options: ["A. 主动与他人交谈，享受成为焦点", "B. 倾向于观察他人，在熟悉的环境中才活跃"],
+                question: "In social situations, you usually:",
+                options: ["A. Actively engage in conversations with others, enjoy being the center of attention", "B. Tend to observe others, become active only in familiar environments"],
                 dimension: "EI",
                 category: "social_energy",
                 weight: 1.0,
-                explanation: "这个问题测试你如何获取社交能量",
+                explanation: "This question tests how you gain social energy",
                 image: "🌐",
                 visualType: "emoji",
                 crossTest: ["EI", "SN"],
-                scenario: "想象你参加一个朋友的聚会，房间里有很多陌生人..."
+                scenario: "Imagine you're attending a friend's party with many strangers in the room..."
             },
             {
                 id: 2,
                 level: 1,
-                question: "你更倾向于：",
-                options: ["A. 关注具体细节和现实情况", "B. 思考可能性和未来趋势"],
+                question: "You tend to:",
+                options: ["A. Focus on specific details and current reality", "B. Think about possibilities and future trends"],
                 dimension: "SN",
                 category: "information_processing",
                 weight: 1.0,
-                explanation: "这个问题测试你如何接收和处理信息",
+                explanation: "This question tests how you receive and process information",
                 image: "🔍",
                 visualType: "emoji",
                 crossTest: ["SN", "JP"],
-                scenario: "当你需要做决定时，你会更关注..."
+                scenario: "When you need to make a decision, you focus more on..."
             },
             {
                 id: 3,
                 level: 1,
-                question: "当你需要做决定时，你更依赖：",
-                options: ["A. 逻辑分析和客观事实", "B. 个人价值观和感受"],
+                question: "When you need to make a decision, you rely more on:",
+                options: ["A. Logical analysis and objective facts", "B. Personal values and feelings"],
                 dimension: "TF",
                 category: "decision_making",
                 weight: 1.0,
-                explanation: "这个问题测试你的决策方式",
+                explanation: "This question tests your decision-making style",
                 image: "⚖️",
                 visualType: "emoji",
                 crossTest: ["TF", "SN"],
-                scenario: "面对一个重要的选择，你会..."
+                scenario: "Facing an important choice, you would..."
             },
             {
                 id: 4,
                 level: 1,
-                question: "你更喜欢的工作环境是：",
-                options: ["A. 有明确的结构和计划", "B. 灵活多变，可以随机应变"],
+                question: "You prefer a work environment that is:",
+                options: ["A. Clearly structured and planned", "B. Flexible and adaptable to changes"],
                 dimension: "JP",
                 category: "lifestyle_preference",
                 weight: 1.0,
-                explanation: "这个问题测试你的生活方式偏好",
+                explanation: "This question tests your lifestyle preferences",
                 image: "🏢",
                 visualType: "emoji",
                 crossTest: ["JP", "EI"],
-                scenario: "想象你的理想工作环境..."
+                scenario: "Imagine your ideal work environment..."
             },
 
-            // ===== 第二层：具体行为测试 =====
+            // ===== Level 2: Specific Behavior Testing =====
             {
                 id: 5,
                 level: 2,
-                question: "在团队会议中，你通常：",
-                options: ["A. 积极发言，分享想法和观点", "B. 仔细倾听，在适当时机提出建议"],
+                question: "In team meetings, you usually:",
+                options: ["A. Actively speak up, share ideas and opinions", "B. Listen carefully, offer suggestions at appropriate times"],
                 dimension: "EI",
                 category: "team_communication",
                 weight: 1.2,
-                explanation: "基于你的社交偏好，测试团队中的具体表现",
+                explanation: "Based on your social preferences, testing specific performance in teams",
                 requires: "EI",
                 image: "👥",
                 visualType: "emoji",
                 crossTest: ["EI", "TF"],
-                scenario: "想象你参加一个重要的团队会议，讨论新项目方案...",
-                visualHint: "会议场景，有人积极发言，有人认真倾听"
+                scenario: "Imagine you're attending an important team meeting discussing a new project proposal...",
+                visualHint: "Meeting scene with some people actively speaking and others listening attentively"
             },
             {
                 id: 6,
