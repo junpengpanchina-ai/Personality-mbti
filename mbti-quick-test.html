@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>专业MBTI测试 - 基于荣格理论的16种人格类型</title>
+    <title>Professional MBTI Test - 16 Personality Types (Jungian-based)</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -58,20 +58,20 @@
         .insight.fade { opacity: 0; transform: translateY(6px); }
     </style>
     <script>
-        // 基础题库（12题，均等覆盖四个维度）
+        // Base question set (12 items, evenly covering four dimensions)
         const QUESTIONS = [
-            { d: 'EI', t: '遇到新同事时，你会：', a: { text: '主动打招呼，迅速熟络', v: 'E' }, b: { text: '先观察一阵，慢慢熟悉', v: 'I' } },
-            { d: 'SN', t: '做决策时你更看重：', a: { text: '现实细节与可行性', v: 'S' }, b: { text: '可能性与长远愿景', v: 'N' } },
-            { d: 'TF', t: '讨论分歧时你更关注：', a: { text: '逻辑一致与客观对错', v: 'T' }, b: { text: '他人感受与关系和谐', v: 'F' } },
-            { d: 'JP', t: '处理事务时你倾向：', a: { text: '有计划有条理地推进', v: 'J' }, b: { text: '弹性安排随时调整', v: 'P' } },
-            { d: 'EI', t: '周末聚会对你来说：', a: { text: '让我充电，越热闹越好', v: 'E' }, b: { text: '需要恢复，宁静更舒服', v: 'I' } },
-            { d: 'SN', t: '学习新技能时你：', a: { text: '先从步骤/教程开始', v: 'S' }, b: { text: '先理解原理再上手', v: 'N' } },
-            { d: 'TF', t: '评估方案优劣时你：', a: { text: '列标准算利弊', v: 'T' }, b: { text: '体会影响与价值观', v: 'F' } },
-            { d: 'JP', t: '旅行前的准备：', a: { text: '完整行程清单', v: 'J' }, b: { text: '机动随走随看', v: 'P' } },
-            { d: 'EI', t: '开会时你更常：', a: { text: '发言推动气氛', v: 'E' }, b: { text: '倾听凝练观点', v: 'I' } },
-            { d: 'SN', t: '遇到问题你先：', a: { text: '查证事实逐项排查', v: 'S' }, b: { text: '直觉判断定位关键', v: 'N' } },
-            { d: 'TF', t: '收到反馈你希望：', a: { text: '直接具体、可执行', v: 'T' }, b: { text: '委婉鼓励、顾情绪', v: 'F' } },
-            { d: 'JP', t: '面对截止期你通常：', a: { text: '提前完成留余地', v: 'J' }, b: { text: '临近截点效率更高', v: 'P' } }
+            { d: 'EI', t: 'When meeting a new colleague, you tend to:', a: { text: 'Greet proactively and warm up quickly', v: 'E' }, b: { text: 'Observe first and warm up gradually', v: 'I' } },
+            { d: 'SN', t: 'When making decisions, you value more:', a: { text: 'Practical details and feasibility', v: 'S' }, b: { text: 'Possibilities and long-term vision', v: 'N' } },
+            { d: 'TF', t: 'In disagreements, you focus more on:', a: { text: 'Logical consistency and objective right/wrong', v: 'T' }, b: { text: 'Others’ feelings and relationship harmony', v: 'F' } },
+            { d: 'JP', t: 'When handling tasks, you prefer:', a: { text: 'Planned and orderly progress', v: 'J' }, b: { text: 'Flexible arrangements and adjustments', v: 'P' } },
+            { d: 'EI', t: 'Weekend social events for you are:', a: { text: 'Energizing — the livelier the better', v: 'E' }, b: { text: 'Draining — quiet time is better', v: 'I' } },
+            { d: 'SN', t: 'When learning a new skill, you:', a: { text: 'Start with steps/tutorials', v: 'S' }, b: { text: 'Grasp principles first then practice', v: 'N' } },
+            { d: 'TF', t: 'When evaluating options, you:', a: { text: 'List criteria and weigh pros/cons', v: 'T' }, b: { text: 'Consider impact and values', v: 'F' } },
+            { d: 'JP', t: 'Before traveling, your prep is:', a: { text: 'A complete itinerary checklist', v: 'J' }, b: { text: 'Go with the flow and explore', v: 'P' } },
+            { d: 'EI', t: 'In meetings you more often:', a: { text: 'Speak up and drive the vibe', v: 'E' }, b: { text: 'Listen and refine viewpoints', v: 'I' } },
+            { d: 'SN', t: 'When a problem appears, you first:', a: { text: 'Verify facts and troubleshoot step by step', v: 'S' }, b: { text: 'Use intuition to locate the key', v: 'N' } },
+            { d: 'TF', t: 'Receiving feedback, you prefer:', a: { text: 'Direct, specific, actionable', v: 'T' }, b: { text: 'Tactful, encouraging, emotion-aware', v: 'F' } },
+            { d: 'JP', t: 'Facing a deadline, you usually:', a: { text: 'Finish early to leave buffer', v: 'J' }, b: { text: 'Perform better close to the deadline', v: 'P' } }
         ];
 
         let currentIndex = -1;
@@ -80,23 +80,23 @@
         const scores = { E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0 };
         let autoAdvanceTimer = null;
 
-        // 维度智能解析
+        // Dimension insights
         const INSIGHT = {
             EI: {
-                E: '你偏向外向(E)：从互动中获得能量，主动表达有助于推动协作。',
-                I: '你偏向内向(I)：独立思考更高效，沉淀后表达常更有质量。'
+                E: 'You lean Extraversion (E): you gain energy from interaction; proactive expression helps collaboration.',
+                I: 'You lean Introversion (I): independent thinking is efficient; expressing after reflection has higher quality.'
             },
             SN: {
-                S: '你偏向感觉(S)：重视事实与细节，执行与落地优势明显。',
-                N: '你偏向直觉(N)：善于抽象与联想，擅长洞察趋势与可能性。'
+                S: 'You lean Sensing (S): you value facts and details; strong at execution and grounding.',
+                N: 'You lean Intuition (N): skilled at abstraction and association; good at spotting trends and possibilities.'
             },
             TF: {
-                T: '你偏向思考(T)：讲求逻辑与标准，决策清晰而一致。',
-                F: '你偏向情感(F)：关注人和关系，擅长营造信任与凝聚力。'
+                T: 'You lean Thinking (T): logic and standards matter; decisions are clear and consistent.',
+                F: 'You lean Feeling (F): you care about people and relationships; good at building trust and cohesion.'
             },
             JP: {
-                J: '你偏向判断(J)：计划明确、条理分明，进度可控。',
-                P: '你偏向感知(P)：灵活机动、适应变化，保留探索空间。'
+                J: 'You lean Judging (J): clear plans and structure; progress is controllable.',
+                P: 'You lean Perceiving (P): flexible and adaptive; you keep room for exploration.'
             }
         };
 
@@ -259,7 +259,7 @@
         }
 
         function startTest(){
-            console.log('开始专业MBTI测试');
+            console.log('Start professional MBTI test');
             currentIndex = 0;
             selections.fill(null);
             Object.keys(scores).forEach(k => scores[k] = 0);
@@ -285,7 +285,7 @@
                 opts.appendChild(div);
             });
             $('#prevBtn').disabled = currentIndex === 0;
-            $('#nextBtn').textContent = currentIndex === QUESTIONS.length - 1 ? '提交' : '下一题';
+            $('#nextBtn').textContent = currentIndex === QUESTIONS.length - 1 ? 'Submit' : 'Next';
             $('#nextBtn').disabled = selections[currentIndex] == null;
             const pct = Math.round(((currentIndex) / QUESTIONS.length) * 100);
             $('#pbar').style.width = `${pct}%`;
@@ -328,13 +328,13 @@
             const aPct = aTot? Math.round(100*aCnt/aTot):0;
             const bPct = aTot? Math.round(100*bCnt/aTot):0;
             const label = {
-                EI: ['外向 E','内向 I'],
-                SN: ['感觉 S','直觉 N'],
-                TF: ['思考 T','情感 F'],
-                JP: ['判断 J','感知 P']
+                EI: ['Extraversion E','Introversion I'],
+                SN: ['Sensing S','Intuition N'],
+                TF: ['Thinking T','Feeling F'],
+                JP: ['Judging J','Perceiving P']
             }[dim] || [a,b];
 
-            ins.innerHTML = `${explain}<br><span class="muted">当前维度倾向：${label[0]} ${aPct}% · ${label[1]} ${bPct}%</span>`;
+            ins.innerHTML = `${explain}<br><span class="muted">Current tendency: ${label[0]} ${aPct}% · ${label[1]} ${bPct}%</span>`;
             ins.classList.remove('hidden','fade');
             // 渐隐效果（不阻碍前进）
             setTimeout(()=> ins.classList.add('fade'), 1200);
@@ -357,7 +357,7 @@
         }
 
         function submit(){
-            console.log('提交MBTI测试结果');
+            console.log('Submit MBTI test results');
             
             // 累计分数
             Object.keys(scores).forEach(k => scores[k] = 0);
@@ -382,21 +382,20 @@
             // 渲染结果
             $('#type').textContent = type;
             $('#ztype').textContent = type; // 使用相同的类型，因为这是纯MBTI测试
-            $('#zsummary').innerHTML = '专业MBTI分析结果';
+            $('#zsummary').innerHTML = 'Professional MBTI Analysis';
             
             $('#breakdown').innerHTML = `
                 <div class="grid">
-                    <div class="card"><div class="pill">外向 E / 内向 I</div><p class="muted">E ${pct.E}% · I ${pct.I}%</p></div>
-                    <div class="card"><div class="pill">感觉 S / 直觉 N</div><p class="muted">S ${pct.S}% · N ${pct.N}%</p></div>
-                    <div class="card"><div class="pill">思考 T / 情感 F</div><p class="muted">T ${pct.T}% · F ${pct.F}%</p></div>
-                    <div class="card"><div class="pill">判断 J / 感知 P</div><p class="muted">J ${pct.J}% · P ${pct.P}%</p></div>
+                    <div class="card"><div class="pill">Extraversion E / Introversion I</div><p class="muted">E ${pct.E}% · I ${pct.I}%</p></div>
+                    <div class="card"><div class="pill">Sensing S / Intuition N</div><p class="muted">S ${pct.S}% · N ${pct.N}%</p></div>
+                    <div class="card"><div class="pill">Thinking T / Feeling F</div><p class="muted">T ${pct.T}% · F ${pct.F}%</p></div>
+                    <div class="card"><div class="pill">Judging J / Perceiving P</div><p class="muted">J ${pct.J}% · P ${pct.P}%</p></div>
                 </div>
             `;
             
             // MBTI类型详解
-            const detailHtml = buildTypeDetail(type);
             const detail = document.getElementById('typeDetail');
-            if (detail) detail.innerHTML = detailHtml;
+            if (detail) detail.innerHTML = `<div class="card"><div class="pill">Type Insights</div><p class="muted">Detailed type insights are coming soon.</p></div>`;
 
             show('#result');
         }
@@ -414,73 +413,72 @@
 <body>
             <div class="header">
             <div class="container">
-                <h1>🧠 专业MBTI测试</h1>
-                <p>基于荣格理论的16种人格类型专业测试，快速准确 · 约 3-5 分钟 · 12 题 · 本地计算</p>
+                <h1>🧠 Professional MBTI Test</h1>
+                <p>Jungian-based 16-type professional test, fast and accurate · ~3–5 minutes · 12 questions · local computation</p>
             </div>
         </div>
 
     <div class="container">
-        <!-- 欢迎页 -->
+        <!-- Welcome -->
         <div id="welcome" class="card">
-            <h2 class="center" style="margin-top:0">开始之前</h2>
+            <h2 class="center" style="margin-top:0">Before you start</h2>
             <p class="muted">
-                根据你的偏好在两项中择一。请凭第一反应作答，没有正确或错误的选项。
+                Choose one of two options based on your preference. Answer by first instinct—there are no right or wrong options.
             </p>
             
             <div class="card" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; margin: 16px 0;">
-                <h3 style="margin: 0 0 8px; color: #92400e;">🌟 专业MBTI测试特色</h3>
+                <h3 style="margin: 0 0 8px; color: #92400e;">🌟 Test Highlights</h3>
                 <p style="margin: 0; color: #92400e; font-size: 14px;">
-                    本测试基于荣格理论，通过精心设计的12道题目，快速准确地分析你的MBTI人格类型。测试完成后，你将获得：
+                    This test is based on Jungian theory. With 12 carefully designed questions, it quickly and accurately estimates your MBTI type. You will get:
                 </p>
                 <ul style="margin: 8px 0 0 18px; color: #92400e; font-size: 14px;">
-                    <li>标准MBTI四维度分析</li>
-                    <li>专业的人格类型解读</li>
-                    <li>个性化的发展建议</li>
-                    <li>职业适配性分析</li>
+                    <li>Standard MBTI four-dimension breakdown</li>
+                    <li>Professional type interpretation</li>
+                    <li>Personalized development suggestions</li>
+                    <li>Career fit analysis</li>
                 </ul>
-                
                 <div style="margin-top: 12px;">
                     <p style="color: #92400e; font-size: 14px; margin: 0;">
-                        💡 本测试基于心理学理论，通过科学方法分析你的性格特征
+                        💡 Psychology-informed; uses simple heuristics to analyze your tendencies
                     </p>
                 </div>
             </div>
             
             <div class="center" style="margin-top:16px">
-                <button class="btn" type="button" onclick="startTest()">开始测试</button>
-                <a class="link" href="index.html" style="margin-left:12px">返回首页</a>
+                <button class="btn" type="button" onclick="startTest()">Start Test</button>
+                <a class="link" href="index.html" style="margin-left:12px">Back to Home</a>
             </div>
         </div>
 
-        <!-- 测试页 -->
+        <!-- Testing -->
         <div id="testing" class="card hidden">
             <div class="progress"><div id="pbar" class="progress-bar"></div></div>
             <div class="muted" id="ptext">0/12</div>
-            <div id="qText" class="q-text">题干</div>
+            <div id="qText" class="q-text">Question</div>
             <div id="insight" class="insight hidden"></div>
             <div id="opts"></div>
             <div class="nav">
-                <button id="prevBtn" class="btn btn-secondary" type="button" onclick="prev()">上一题</button>
-                <button id="nextBtn" class="btn" type="button" onclick="next()">下一题</button>
+                <button id="prevBtn" class="btn btn-secondary" type="button" onclick="prev()">Previous</button>
+                <button id="nextBtn" class="btn" type="button" onclick="next()">Next</button>
             </div>
         </div>
 
-        <!-- 结果页 -->
+        <!-- Result -->
         <div id="result" class="card hidden">
             <div class="center">
-                <div class="pill">你的 MBTI 类型</div>
+                <div class="pill">Your MBTI Type</div>
                 <div id="type" class="result-type">XXXX</div>
-                <p class="muted">下面是四个维度的分布情况：</p>
+                <p class="muted">Distribution across four dimensions:</p>
                 <div style="margin-top:8px"></div>
-                <div class="pill">专业分析结果</div>
+                <div class="pill">Professional Analysis</div>
                 <div id="ztype" class="result-type" style="font-size:28px; color:#10b981">XXXX</div>
                 <div id="zsummary" class="muted" style="margin-top:6px"></div>
             </div>
             <div id="breakdown" style="margin-top:12px"></div>
             <div id="typeDetail" style="margin-top:12px"></div>
             <div class="center" style="margin-top:16px">
-                <button class="btn" type="button" onclick="restart()">重新测试</button>
-                <a class="link" href="index.html" style="margin-left:12px">返回首页</a>
+                <button class="btn" type="button" onclick="restart()">Restart</button>
+                <a class="link" href="index.html" style="margin-left:12px">Back to Home</a>
             </div>
         </div>
     </div>

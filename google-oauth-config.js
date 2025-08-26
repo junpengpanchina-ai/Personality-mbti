@@ -88,3 +88,4 @@ if (typeof window !== 'undefined') {
         setTimeout(validateGoogleOAuthConfig, 1000);
     });
 }
+

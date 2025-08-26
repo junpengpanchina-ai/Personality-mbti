@@ -1,19 +1,19 @@
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MBTI Personality Test - Discover Your Personality Type</title>
     
-    <!-- Favicon 设置 -->
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     
-    <!-- 内联 SVG 图标作为备用 -->
+    <!-- Inline SVG icon as fallback -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
     
-    <!-- Google OAuth 配置已删除 -->
+    <!-- Google OAuth configuration removed -->
     
-    <!-- 广告相关已禁用 -->
+    <!-- Ads disabled -->
     <style>
         * {
             margin: 0;
@@ -798,7 +798,6 @@
         .btn-primary:hover {
             box-shadow: 0 8px 25px rgba(66, 133, 244, 0.6);
         }
-
         /* 广告页面样式 */
         .ad-section {
             position: fixed;
@@ -1596,7 +1595,6 @@
             border-radius: 2px;
             overflow: hidden;
         }
-
         .password-strength::before {
             content: '';
             display: block;
@@ -2395,7 +2393,6 @@
             color: white;
             border: none;
         }
-
         .logout-btn:hover {
             background: #c82333;
         }
@@ -3191,7 +3188,6 @@
             padding: 12px 16px;
             font-size: 0.9rem;
         }
-
         .verification-input-group .btn:disabled {
             background: #ccc;
             cursor: not-allowed;
@@ -3303,6 +3299,35 @@
         .google-adsense-ad,
         ins.adsbygoogle { display: none !important; visibility: hidden !important; }
     </style>
+    <!-- Flatpickr (English) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.flatpickr) {
+          const birthDateInput = document.getElementById('birthDate');
+          if (birthDateInput) {
+            window.flatpickr(birthDateInput, {
+              dateFormat: 'Y-m-d',
+              locale: 'en',
+              allowInput: true,
+              maxDate: 'today'
+            });
+          }
+          const birthTimeInput = document.getElementById('birthTime');
+          if (birthTimeInput) {
+            window.flatpickr(birthTimeInput, {
+              enableTime: true,
+              noCalendar: true,
+              dateFormat: 'H:i',
+              time_24hr: true,
+              locale: 'en',
+              minuteIncrement: 1
+            });
+          }
+        }
+      });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -3328,9 +3353,9 @@
             <div class="features-grid">
                 <div class="feature-card" onclick="showMBTIWelcome()">
                     <div class="feature-icon">🧠</div>
-                    <h3>Professional MBTI Test</h3>
-                    <p>Professional test based on Jung's theory of 16 personality types, fast and accurate</p>
-                    <div class="feature-status active">Start Test</div>
+                    <h3 data-i18n="features.mbtitest.title">Professional MBTI Test</h3>
+                    <p data-i18n="features.mbtitest.desc">Professional test based on Jung's theory of 16 personality types, fast and accurate</p>
+                    <div class="feature-status active" data-i18n="common.start_test">Start Test</div>
                 </div>
                 
                 <div class="feature-card" id="zodiacMbtiExperienceCard" onclick="location.href='zodiac-mbti-fusion.html'">
@@ -3384,7 +3409,7 @@
                         <h4>📅 Basic Information Collection</h4>
                         <div class="form-group">
                             <label for="birthDate">Birth Date</label>
-                            <input type="date" id="birthDate" required>
+                            <input type="text" id="birthDate" lang="en" placeholder="YYYY-MM-DD" required>
                         </div>
                         <div class="form-group">
                             <label for="birthTime">Birth Time (Precise to minute)</label>
@@ -3394,10 +3419,7 @@
                             <label for="birthPlace">Birth Place</label>
                             <input type="text" id="birthPlace" placeholder="e.g., Beijing, Shanghai, Guangzhou" required>
                         </div>
-                        <!-- Start test button hidden -->
-                        <!--
                         <button class="btn" onclick="startZodiacTest()" id="startTestBtn">Start Test</button>
-                        -->
                         <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 10px;">
                             💡 Click this button to save your birth information and start the test
                         </p>
@@ -3417,7 +3439,7 @@
                         </div>
                         <div id="mbtiQuestions"></div>
                         <button class="btn btn-secondary" onclick="previousZodiacSection('basicInfoSection')">Back</button>
-                        <button class="btn" onclick="nextZodiacSection('zodiacSection')" id="mbtiNextBtn" disabled>Next</button>
+                        <button class="btn" onclick="nextZodiacSection('zodiacSection')" id="mbtiNextBtn" disabled>Submit</button>
                     </div>
 
                     <!-- Zodiac Traits Test -->
@@ -3447,14 +3469,8 @@
                         <h4>🎯 Your Fusion Test Results</h4>
                         <div id="zodiacFusionResult"></div>
                         <div id="zodiacDetailedReport"></div>
-                        <!-- Restart test button hidden -->
-                        <!--
                         <button class="btn btn-secondary" onclick="restartZodiacTest()">Restart Test</button>
-                        -->
-                        <!-- Share results button hidden -->
-                        <!--
                         <button class="btn" onclick="shareZodiacResults()">Share Results</button>
-                        -->
                     </div>
 
                     <!-- Loading State -->
@@ -3866,26 +3882,26 @@
                                 <div class="ad-progress-fill" id="adProgressFill"></div>
                             </div>
                             <div class="progress-text">
-                                <span id="adCountdown">15</span>秒后解锁结果
+                                <span id="adCountdown">15</span> seconds to unlock results
                             </div>
                         </div>
                         
                         <div class="ad-benefits">
-                            <h3>观看广告的好处：</h3>
+                            <h3>Benefits of watching ads:</h3>
                             <ul>
-                                <li>✅ 继续完成MBTI测试</li>
-                                <li>✅ 获得完整性格分析结果</li>
-                                <li>✅ 支持我们继续提供免费服务</li>
-                                <li>✅ 无任何隐藏费用</li>
+                                <li>✅ Continue completing the MBTI test</li>
+                                <li>✅ Get full personality analysis results</li>
+                                <li>✅ Support us to keep the service free</li>
+                                <li>✅ No hidden fees</li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 
                 <div class="ad-actions">
-                    <button class="btn btn-secondary" onclick="skipAd()">跳过广告</button>
-                    <button class="btn" onclick="watchAd()" id="watchAdBtn">开始观看</button>
-                    <button class="btn btn-info" onclick="toggleAdConfig()" style="margin-top: 10px; font-size: 0.9rem;">广告配置</button>
+                    <button class="btn btn-secondary" onclick="skipAd()">Skip Ad</button>
+                    <button class="btn" onclick="watchAd()" id="watchAdBtn">Start Watching</button>
+                    <button class="btn btn-info" onclick="toggleAdConfig()" style="margin-top: 10px; font-size: 0.9rem;">Ad Configuration</button>
                     <!-- 测试按钮已隐藏 -->
                     <!--
                     <button class="btn btn-success" onclick="testAdSense()" style="margin-top: 10px; font-size: 0.9rem;">测试AdSense</button>
@@ -3938,7 +3954,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Forgot Password Page -->
         <div class="forgot-password-section hidden" id="forgotPasswordSection">
             <div class="login-card">
@@ -4732,7 +4747,6 @@
         let testLevel = 1; // 当前测试层级
 
         // Google AdSense 配置已删除
-
         // 页面状态管理
         const PAGE_STATES = {
             HOME: 'home',
@@ -4816,6 +4830,11 @@
             showPage(page);
             
             console.log(`页面切换完成: ${page}`);
+            // Ensure i18n after navigation
+            if (window.i18n && typeof i18n.apply === 'function') {
+                if (typeof i18n.setLanguage === 'function') i18n.setLanguage('en');
+                i18n.apply();
+            }
         }
 
         // 隐藏所有页面
@@ -4871,6 +4890,11 @@
                 targetElement.classList.remove('hidden');
                 targetElement.style.display = 'block';
                 console.log(`显示页面: ${page}`);
+                // Apply i18n for newly shown content
+                if (window.i18n && typeof i18n.apply === 'function') {
+                    if (typeof i18n.setLanguage === 'function') i18n.setLanguage('en');
+                    i18n.apply();
+                }
                 
                 // 如果是广告页面，初始化广告
                 if (page === PAGE_STATES.AD) {
@@ -4911,7 +4935,7 @@
             
             // 更新用户显示名称
             if (currentUser) {
-                document.getElementById('userDisplayName').textContent = `欢迎回来，${currentUser.username}！`;
+                document.getElementById('userDisplayName').textContent = `Welcome back, ${currentUser.username}!`;
             }
         }
 
@@ -4961,6 +4985,8 @@
                 const userInput = document.getElementById('username');
                 if (userInput) setTimeout(() => userInput.focus(), 50);
                 if (typeof showToast === 'function') showToast('请登录以继续', 'info');
+                // Force EN
+                if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
             } catch (e) {
                 console.error('showLogin error', e);
                 const el = document.getElementById('loginSection');
@@ -5532,7 +5558,6 @@
                 
             console.log('手机号注册成功:', phoneUser);
         }
-
         // 退出登录
         function logout() {
             try {
@@ -5754,6 +5779,7 @@
         }
 
         function startTest() {
+            if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
             navigateToPage(PAGE_STATES.TEST);
             initializeTest();
             showQuestion();
@@ -6321,7 +6347,6 @@
                 nextBtn.disabled = false;
             }
         }
-
         function showResults() {
             navigateToPage(PAGE_STATES.RESULT);
             
@@ -6423,6 +6448,11 @@
                 featuresSection.style.display = 'block';
                 console.log('功能卡片区域已显示');
             }
+            // Force English on features
+            if (window.i18n && typeof i18n.setLanguage === 'function') {
+                i18n.setLanguage('en');
+                if (typeof i18n.apply === 'function') i18n.apply();
+            }
             
             // 确保功能卡片区域可见
             console.log('功能卡片区域状态:', {
@@ -6440,10 +6470,12 @@
 
 
         function showMBTIInfo() {
+            if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
             navigateToPage(PAGE_STATES.MBTI_INFO);
         }
 
         function hideMBTIInfo() {
+            if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
             navigateToPage(PAGE_STATES.HOME);
         }
 
@@ -7108,7 +7140,6 @@
                 }
             }, 1000);
         }
-
         // 显示阅读提醒
         function showReadReminder() {
             // 创建提醒弹窗
@@ -7273,12 +7304,12 @@
             // 初始化反馈表单
             initFeedbackForms();
 
-            // 绑定“立即体验”卡片点击事件（冗余绑定，防止inline无效）
+            // 绑定"立即体验"卡片点击事件（冗余绑定，防止inline无效）
             const experienceCard = document.getElementById('zodiacMbtiExperienceCard');
             if (experienceCard) {
                 experienceCard.addEventListener('click', function(e) {
                     try {
-                        console.log('“立即体验”卡片被点击（监听器）');
+                        console.log('"立即体验"卡片被点击（监听器）');
                         // 不阻止默认，让 inline 与监听器都能触发；如需单通道，可取消下一行注释
                         // e.stopPropagation();
                         startZodiacMBTITest();
@@ -7287,9 +7318,9 @@
                         alert('启动体验失败: ' + err.message);
                     }
                 }, { passive: true });
-                console.log('已绑定“立即体验”卡片点击事件');
+                console.log('已绑定"立即体验"卡片点击事件');
             } else {
-                console.warn('未找到“立即体验”卡片进行事件绑定');
+                console.warn('未找到"立即体验"卡片进行事件绑定');
             }
             
             // 添加服务条款按钮的事件监听器
@@ -7900,7 +7931,6 @@
                 alert('弹窗元素不存在！');
             }
         }
-
         // 测试开始测试按钮功能
         function testStartZodiacTest() {
             console.log('=== 测试开始测试按钮功能 ===');
@@ -8589,6 +8619,9 @@
 
         // 下一步
         function nextZodiacSection(sectionId) {
+            if (window.i18n && typeof i18n.setLanguage === 'function') {
+                i18n.setLanguage('en');
+            }
             showZodiacSection(sectionId);
             if (sectionId === 'zodiacSection') {
                 renderZodiacZodiacQuestions();
@@ -8620,6 +8653,8 @@
                 `;
                 container.appendChild(questionDiv);
             });
+            // enforce EN after dynamic insert
+            if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
         }
 
         // 渲染星座问题
@@ -8645,6 +8680,8 @@
                 `;
                 container.appendChild(questionDiv);
             });
+            // enforce EN after dynamic insert
+            if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
         }
 
         // 渲染融合问题
@@ -8670,6 +8707,8 @@
                 `;
                 container.appendChild(questionDiv);
             });
+            // enforce EN after dynamic insert
+            if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
         }
 
         // 更新进度
@@ -8699,7 +8738,6 @@
             document.getElementById('fusionProgress').style.width = progress + '%';
             document.getElementById('fusionNextBtn').disabled = answered < total;
         }
-
         // 生成结果
         function generateZodiacResults() {
             collectZodiacAnswers();
@@ -8915,5 +8953,37 @@
             }
         }
     </script>
+<script>
+  // Minimal i18n runtime (EN default)
+  (function(){
+    const dict = {
+      en: {
+        home: { title: '🧠 MBTI Personality Test', subtitle: 'Discover your personality type and understand yourself better' },
+        features: {
+          mbtitest: { title: 'Professional MBTI Test', desc: "Professional test based on Jung's theory of 16 personality types, fast and accurate" },
+        },
+        common: { start_test: 'Start Test' }
+      },
+      zh: {
+        home: { title: '🧠 MBTI人格测试', subtitle: '探索你的性格类型，了解真实的自己' },
+        features: {
+          mbtitest: { title: '专业MBTI测试', desc: '基于荣格理论的16种人格类型专业测试，快速准确' },
+        },
+        common: { start_test: '开始测试' }
+      }
+    };
+    let lang = 'en';
+    function t(key){
+      return key.split('.').reduce((o,k)=>o&&o[k], dict[lang]) || key;
+    }
+    function apply(){
+      document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = t(el.getAttribute('data-i18n')); });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{ el.placeholder = t(el.getAttribute('data-i18n-placeholder')); });
+      document.documentElement.setAttribute('lang', lang);
+    }
+    window.i18n = { setLanguage:l=>{ if(dict[l]){ lang=l; apply(); } }, t, apply };
+    document.addEventListener('DOMContentLoaded', apply);
+  })();
+</script>
 </body>
 </html>
