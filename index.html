@@ -3409,11 +3409,17 @@
                         <h4>📅 Basic Information Collection</h4>
                         <div class="form-group">
                             <label for="birthDate">Birth Date</label>
-                            <input type="text" id="birthDate" lang="en" placeholder="YYYY-MM-DD" required>
+                            <input type="text" id="birthDate" lang="en" placeholder="YYYY-MM-DD 或 农历2020年十月初三" required>
+                            <div class="muted" style="margin-top:6px">支持：YYYY-MM-DD / YYYY/MM/DD / MM/DD/YYYY / YYYYMMDD / YYYY.M.D / YYYY年M月D日 / 农历/阴历（含闰月）。示例：农历2020年闰四月初一</div>
                         </div>
                         <div class="form-group">
                             <label for="birthTime">Birth Time (Precise to minute)</label>
                             <input type="time" id="birthTime" required>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn" type="button" onclick="setIndexSample('gregorian')" style="background:#10b981">示例(公历)</button>
+                            <button class="btn" type="button" onclick="setIndexSample('lunar')" style="background:#8b5cf6; margin-left:8px">示例(农历)</button>
+                            <button class="btn" type="button" onclick="setIndexSample('leap')" style="background:#ef4444; margin-left:8px">示例(闰月)</button>
                         </div>
                         <div class="form-group">
                             <label for="birthPlace">Birth Place</label>
@@ -8984,6 +8990,71 @@
     window.i18n = { setLanguage:l=>{ if(dict[l]){ lang=l; apply(); } }, t, apply };
     document.addEventListener('DOMContentLoaded', apply);
   })();
+  // Sample fill for index modal
+  function setIndexSample(type){
+    const d = document.getElementById('birthDate');
+    if (!d) return;
+    if (type === 'gregorian') d.value = '2020-01-01';
+    else if (type === 'lunar') d.value = '农历2020年十月初三';
+    else if (type === 'leap') d.value = '农历2020年闰四月初一';
+    if (typeof showToast === 'function') showToast('示例已填充，可直接开始测试', 'success');
+  }
+
+  // —— Shared date parsing and lunar conversion (from bazi-test.html) ——
+  const CN_DIGIT = { '零':0,'〇':0,'一':1,'二':2,'两':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'正':1 };
+  function cnNumToInt(token){
+    if (!token) return NaN;
+    if (token.startsWith('初')) { const d = CN_DIGIT[token.slice(1)] || (token === '初十' ? 10 : undefined); return typeof d === 'number' ? d : NaN; }
+    if (token.startsWith('廿')) { const val = CN_DIGIT[token.slice(1)] || 0; return 20 + val; }
+    if (token.startsWith('卅')) { const val = CN_DIGIT[token.slice(1)] || 0; return 30 + val; }
+    if (token === '十') return 10;
+    const tenIdx = token.indexOf('十');
+    if (tenIdx >= 0) { const left = token.slice(0, tenIdx); const right = token.slice(tenIdx + 1); const tens = left ? (CN_DIGIT[left] || 0) : 1; const ones = right ? (CN_DIGIT[right] || 0) : 0; return tens * 10 + ones; }
+    if (token.length === 1 && token in CN_DIGIT) return CN_DIGIT[token];
+    return NaN;
+  }
+  function hasLunarKeywords(input){ return /(农历|陰曆|阴历|闰|閏)/.test(String(input||'')); }
+  function convertToISOFormat(dateString){
+    if (!dateString) return '';
+    let s = String(dateString).trim();
+    s = s.replace(/,/g, ' ').replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi, '$1');
+    const MONTHS_EN = { january:'01', jan:'01', february:'02', feb:'02', march:'03', mar:'03', april:'04', apr:'04', may:'05', june:'06', jun:'06', july:'07', jul:'07', august:'08', aug:'08', september:'09', sept:'09', sep:'09', october:'10', oct:'10', november:'11', nov:'11', december:'12', dec:'12' };
+    Object.keys(MONTHS_EN).forEach(k => { s = s.replace(new RegExp(`\\b${k}\\.?\\b`, 'gi'), MONTHS_EN[k]); });
+    const MONTHS_ZH = { '一月':'01','二月':'02','三月':'03','四月':'04','五月':'05','六月':'06','七月':'07','八月':'08','九月':'09','十月':'10','十一月':'11','十二月':'12' };
+    Object.keys(MONTHS_ZH).forEach(k => { s = s.replace(new RegExp(k, 'g'), MONTHS_ZH[k]); });
+    if (/^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(s)) { const [y,m,d] = s.replaceAll('/', '-').split('-'); return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`; }
+    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) { const [mm,dd,yy] = s.split('/'); return `${yy}-${mm.padStart(2,'0')}-${dd.padStart(2,'0')}`; }
+    if (/^\d{8}$/.test(s)) { return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`; }
+    const zh = s.match(/(\d{4})年([正一二三四五六七八九十]{1,3})月([初廿卅一二三四五六七八九十]{1,3})日?/);
+    if (zh) { const y=zh[1]; const mVal=cnNumToInt(zh[2]); const dVal=cnNumToInt(zh[3]); if (!isNaN(mVal)&&!isNaN(dVal)) return `${y}-${String(mVal).padStart(2,'0')}-${String(dVal).padStart(2,'0')}`; }
+    const normalized = s.replace(/年/g,'-').replace(/月/g,'-').replace(/日/g,'').replace(/[．。··]/g,'-').replace(/[，、]/g,'-').replace(/[\s]+/g,'-').replace(/—/g,'-').replace(/\\/g,'-').replace(/\uFF0F/g,'/').replace(/-{2,}/g,'-');
+    const nums = normalized.match(/\d{1,4}/g) || [];
+    if (nums.length >= 3) { let y='',m='',d=''; if (nums[0].length===4) [y,m,d]=[nums[0],nums[1],nums[2]]; else if (nums[2] && nums[2].length===4) [y,m,d]=[nums[2],nums[0],nums[1]]; else if (parseInt(nums[0],10)>1900 && parseInt(nums[0],10)<=2100) [y,m,d]=[nums[0],nums[1],nums[2]]; else return s; return `${String(y).padStart(4,'0')}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+    return s;
+  }
+  function validateDateFormat(dateString){ if (!dateString) return false; const iso = convertToISOFormat(dateString); if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return false; const [yStr,mStr,dStr] = iso.split('-'); const y=+yStr,m=+mStr,d=+dStr; if (y<1900||y>2100||m<1||m>12||d<1||d>31) return false; const dt = new Date(`${yStr}-${mStr}-${dStr}T00:00:00Z`); return dt.getUTCFullYear()===y && (dt.getUTCMonth()+1)===m && dt.getUTCDate()===d; }
+  const LUNAR_SOURCES_IDX = [ './libs/lunar.min.js','https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.min.js','https://cdn.jsdelivr.net/npm/lunar-javascript/dist/lunar.min.js','https://cdn.jsdelivr.net/npm/lunar-javascript/umd/lunar.js','https://unpkg.com/lunar-javascript/lunar.min.js','https://unpkg.com/lunar-javascript/dist/lunar.min.js','https://unpkg.com/lunar-javascript/umd/lunar.js' ];
+  function loadScriptOnceIdx(src, timeoutMs=6000){ return new Promise((resolve,reject)=>{ const s=document.createElement('script'); const bust=(src.startsWith('./')||src.startsWith('/'))?(`${src}?v=${Date.now()}`):src; s.src=bust; s.async=true; s.crossOrigin='anonymous'; let done=false; const timer=setTimeout(()=>{ if(!done){ done=true; s.remove(); reject(new Error('timeout')); } }, timeoutMs); s.onload=()=>{ if(!done){ done=true; clearTimeout(timer); resolve(true); } }; s.onerror=()=>{ if(!done){ done=true; clearTimeout(timer); reject(new Error('load error')); } }; document.head.appendChild(s); }); }
+  async function waitForLunarIdx(tries=40, intervalMs=150){ for (let i=0;i<tries;i++){ if ((window.Solar && (window.Solar.fromYmdHms || window.Solar.fromDate)) || (window.Lunar && window.Lunar.Solar && (window.Lunar.Solar.fromYmdHms || window.Lunar.Solar.fromDate)) || (window.Lunar && (window.Lunar.fromYmd || (window.Lunar.Lunar && window.Lunar.Lunar.fromYmd)))) return true; await new Promise(r=>setTimeout(r, intervalMs)); } return false; }
+  async function loadLunarFromFallbacksIdx(){ for (const url of LUNAR_SOURCES_IDX){ try { await loadScriptOnceIdx(url); const ok = await waitForLunarIdx(20,100); if (ok) return true; } catch(e){} } return false; }
+  async function tryConvertLunarToSolarISOIdx(input){ const s=String(input).trim(); const zh=s.match(/(\d{4})年\s*(闰|閏)?\s*([正一二三四五六七八九十\d]{1,3})月\s*([初廿卅一二三四五六七八九十\d]{1,3})日?/); if (!zh) return ''; const year=+zh[1]; const isLeap=!!zh[2]; const mToken=zh[3]; const dToken=zh[4]; const month=/^\d+$/.test(mToken)?+mToken:cnNumToInt(mToken); const day=/^\d+$/.test(dToken)?+dToken:cnNumToInt(dToken); if (!month||!day) return ''; try { if (!(window.Lunar && (window.Lunar.fromYmd || (window.Lunar.Lunar && window.Lunar.Lunar.fromYmd)))){ const ok = await loadLunarFromFallbacksIdx(); if (!ok) return ''; } const L=(window.Lunar && window.Lunar.Lunar)?window.Lunar.Lunar:window.Lunar; const lunar=(typeof L.fromYmdHms==='function')?L.fromYmdHms(year,month,day,12,0,0,isLeap):(typeof L.fromYmd==='function'?L.fromYmd(year,month,day,isLeap):null); if (!lunar||!lunar.getSolar) return ''; const solar=lunar.getSolar(); if (!solar) return ''; if (typeof solar.toYmd==='function') return solar.toYmd(); const y=solar.getYear?solar.getYear():year; const m=solar.getMonth?solar.getMonth():month; const d=solar.getDay?solar.getDay():day; return `${String(y).padStart(4,'0')}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`; } catch(e){ return ''; } }
+  async function validateAndNormalizeDateAsyncIdx(input){ if (!input) return ''; if (hasLunarKeywords(input)){ const isoL = await tryConvertLunarToSolarISOIdx(input); if (isoL && /^\d{4}-\d{2}-\d{2}$/.test(isoL)) return isoL; }
+    const iso = convertToISOFormat(input); if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return ''; return validateDateFormat(iso) ? iso : '';
+  }
+
+  // Attach async normalization to index birthDate
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const d = document.getElementById('birthDate');
+    if (!d) return;
+    d.addEventListener('blur', async function(){
+      if (!this.value) return;
+      const before = this.value;
+      const iso = await validateAndNormalizeDateAsyncIdx(before);
+      if (!iso) { if (typeof showToast==='function') showToast('Invalid date（支持公历/农历，含闰月）', 'error'); this.focus(); return; }
+      if (typeof showToast==='function' && hasLunarKeywords(before)) showToast(`已转换为阳历：${iso}`, 'success');
+      this.dataset.iso = iso;
+    });
+  });
 </script>
 </body>
 </html>

@@ -327,8 +327,8 @@
                         <label for="name">Name (Optional)</label>
                         <input type="text" id="name" placeholder="Enter your name">
                         <div style="margin-top:20px">
-                                                    <button class="btn" type="button" onclick="startTarotTest()">Start Tarot Test</button>
-                        <button class="btn btn-secondary" type="button" onclick="location.href='index.html'" style="margin-left:12px">Back to Home</button>
+                            <button class="btn" type="button" onclick="startTarotTest()">Start Tarot Test</button>
+                            <button class="btn btn-secondary" type="button" onclick="location.href='index.html'" style="margin-left:12px">Back to Home</button>
                         </div>
                         <p class="muted" style="margin-top:12px">Based on classic tarot works such as "You Are Already Tarot", "Tarot Sunflower Treasure", "78 Degrees of Wisdom", combined with MBTI theory for personality deep analysis.</p>
                     </div>
@@ -686,8 +686,6 @@
         let selectedDate = null;
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
-
-
         
         // Toggle basic info visibility
         function toggleBasicInfo() {
@@ -707,7 +705,7 @@
                 toggleText.textContent = 'Show';
             }
         }
-        
+
         // Date picker functions
         function openDatePicker() {
             document.getElementById('datePickerModal').classList.remove('hidden');
@@ -797,12 +795,9 @@
         }
         
         function startTarotTest() {
-            console.log('startTarotTest function called');
             const date = document.getElementById('bDate').value;
             const time = document.getElementById('bTime').value;
             const name = document.getElementById('name').value;
-            
-            console.log('Date:', date, 'Time:', time, 'Name:', name);
             
             if (!date || !time) {
                 alert('Please fill in your birth date and time');
@@ -811,23 +806,15 @@
             
             // Redirect to MBTI test page with user information
             const url = `mbti-test.html?birthDate=${encodeURIComponent(date)}&birthTime=${encodeURIComponent(time)}&name=${encodeURIComponent(name)}`;
-            console.log('Redirecting to:', url);
             window.location.href = url;
         }
 
         function showSection(sectionId) {
-            console.log('showSection called with:', sectionId);
             // Hide all sections
             document.querySelectorAll('[id$="Section"]').forEach(el => el.classList.add('hidden'));
             // Show target section
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.remove('hidden');
-                currentSection = sectionId;
-                console.log('Section shown:', sectionId);
-            } else {
-                console.error('Section not found:', sectionId);
-            }
+            document.getElementById(sectionId).classList.remove('hidden');
+            currentSection = sectionId;
         }
 
         function previousSection(targetSection) {
@@ -839,17 +826,9 @@
         }
 
         function renderMBTIQuestions() {
-            console.log('renderMBTIQuestions called');
             const container = document.getElementById('mbtiQuestions');
-            if (!container) {
-                console.error('mbtiQuestions container not found');
-                return;
-            }
-            
-            console.log('Container found, clearing content');
             container.innerHTML = '';
             
-            console.log('MBTI_QUESTIONS length:', MBTI_QUESTIONS.length);
             MBTI_QUESTIONS.forEach((q, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'q';
@@ -867,7 +846,6 @@
                 container.appendChild(questionDiv);
             });
             
-            console.log('Questions rendered, updating progress');
             updateMBTIProgress();
         }
 
@@ -1010,9 +988,6 @@
             const baseCard = TAROT_CARDS[selectedCards.base];
             const futureCard = TAROT_CARDS[selectedCards.future];
             
-            // Get MBTI type from global variable or calculate it
-            const finalMbtiType = window.mbtiType || mbtiType;
-            
             // Analyze element and MBTI correlation
             const elementAnalysis = analyzeElementMBTI();
             
@@ -1021,10 +996,10 @@
                 Center Card (${centerCard.element}) + Cross Card (${crossCard.element}) + Base Card (${baseCard.element}) + Future Card (${futureCard.element})<br><br>
                 
                 <strong>MBTI Type Characteristics:</strong><br>
-                ${finalMbtiType} Type: ${getMBTIDescription(finalMbtiType)}<br><br>
+                ${mbtiType} Type: ${getMBTIDescription(mbtiType)}<br><br>
                 
                 <strong>Fusion Interpretation:</strong><br>
-                Your ${finalMbtiType} personality traits combined with the ${elementAnalysis} elemental energy revealed by tarot cards form a unique personality combination.
+                Your ${mbtiType} personality traits combined with the ${elementAnalysis} elemental energy revealed by tarot cards form a unique personality combination.
                 Currently you are in a state of ${centerCard.meaning}, possessing inner traits of ${crossCard.meaning},
                 need to face challenges of ${baseCard.meaning}, and will develop towards the direction of ${futureCard.meaning} in the future.
             `;
@@ -1055,9 +1030,6 @@
             const baseCard = TAROT_CARDS[selectedCards.base];
             const futureCard = TAROT_CARDS[selectedCards.future];
             
-            // Get MBTI type from global variable or calculate it
-            const finalMbtiType = window.mbtiType || mbtiType;
-            
             return `
                 <strong>Based on your MBTI type and tarot interpretation, we suggest you:</strong><br><br>
                 
@@ -1074,7 +1046,7 @@
                 ${futureCard.advice}<br><br>
                 
                 <strong>Overall Advice:</strong><br>
-                Combining your ${finalMbtiType} personality traits, maintain your individuality while learning to balance various energies.
+                Combining your ${mbtiType} personality traits, maintain your individuality while learning to balance various energies.
                 In the current stage, you should ${centerCard.advice.toLowerCase()}, leverage your ${crossCard.meaning} advantages,
                 bravely face challenges of ${baseCard.meaning}, and move towards the goal of ${futureCard.meaning}.
             `;
@@ -1117,52 +1089,39 @@
 
         // Initialize after page loads
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing...');
+            // Set default time to current time
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('bTime').value = timeString;
             
-            try {
-                // Set default time to current time
-                const now = new Date();
-                const timeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-                document.getElementById('bTime').value = timeString;
+            // Set today's date as placeholder
+            const today = new Date();
+            const todayString = today.toISOString().split('T')[0];
+            document.getElementById('bDate').placeholder = todayString;
+            
+            // Check if returning from MBTI test
+            const urlParams = new URLSearchParams(window.location.search);
+            const mbtiType = urlParams.get('mbtiType');
+            const birthDate = urlParams.get('birthDate');
+            const birthTime = urlParams.get('birthTime');
+            const name = urlParams.get('name');
+            
+            if (mbtiType && birthDate && birthTime) {
+                console.log('Returning from MBTI test with type:', mbtiType);
                 
-                // Set today's date as placeholder
-                const today = new Date();
-                const todayString = today.toISOString().split('T')[0];
-                document.getElementById('bDate').placeholder = todayString;
-                
-                // Check if returning from MBTI test
-                const urlParams = new URLSearchParams(window.location.search);
-                const mbtiType = urlParams.get('mbtiType');
-                const birthDate = urlParams.get('birthDate');
-                const birthTime = urlParams.get('birthTime');
-                const name = urlParams.get('name');
-                
-                if (mbtiType && birthDate && birthTime) {
-                    console.log('Returning from MBTI test with type:', mbtiType);
-                    
-                    // Pre-fill the form with returned data
-                    document.getElementById('bDate').value = birthDate;
-                    document.getElementById('bTime').value = birthTime;
-                    if (name) {
-                        document.getElementById('name').value = name;
-                    }
-                    
-                    // Store MBTI type globally
-                    window.mbtiType = mbtiType;
-                    
-                    // Show tarot section directly
-                    showSection('tarotSection');
+                // Pre-fill the form with returned data
+                document.getElementById('bDate').value = birthDate;
+                document.getElementById('bTime').value = birthTime;
+                if (name) {
+                    document.getElementById('name').value = name;
                 }
                 
-                console.log('Initialization completed successfully');
-            } catch (error) {
-                console.error('Error during initialization:', error);
+                // Store MBTI type globally
+                window.mbtiType = mbtiType;
+                
+                // Show tarot section directly
+                showSection('tarotSection');
             }
-        });
-        
-        // Global error handler
-        window.addEventListener('error', function(e) {
-            console.error('Global error:', e.error);
         });
     </script>
 </body>
