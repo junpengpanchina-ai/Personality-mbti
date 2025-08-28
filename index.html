@@ -3381,8 +3381,8 @@
                 
                 <div class="feature-card" onclick="showFeatureInfo('numerology')">
                     <div class="feature-icon">🔢</div>
-                    <h3>Numerology</h3>
-                    <p>Interpret your personality and destiny through numbers</p>
+                    <h3>Numerology Analysis</h3>
+                    <p>Discover your personality traits and life path through the mystical power of numbers</p>
                     <div class="feature-status active">Start Test</div>
                 </div>
                 
@@ -7600,39 +7600,39 @@
         function showFeatureInfo(featureType) {
             const featureInfo = {
                 'mbti': {
-                    title: '🧠 MBTI人格测试',
-                    description: '基于荣格类型学理论的16种人格类型测试，帮助你了解自己的性格偏好和优势。',
-                    status: '当前可用',
+                    title: '🧠 MBTI Personality Test',
+                    description: 'Based on Jungian typology theory, discover your personality preferences and strengths through 16 personality types.',
+                    status: 'Available Now',
                     action: () => startTest()
                 },
                 'zodiac': {
-                    title: '♈ 星座性格测试',
-                    description: '探索你的星座特质、性格倾向和潜在天赋，了解星座如何影响你的个性。',
-                    status: '即将推出',
-                    action: () => showToast('星座测试功能即将推出，敬请期待！', 'info')
+                    title: '♈ Zodiac Personality Test',
+                    description: 'Explore your zodiac traits, personality tendencies, and potential talents. Discover how your zodiac sign influences your character.',
+                    status: 'Coming Soon',
+                    action: () => showToast('Zodiac test feature coming soon, stay tuned!', 'info')
                 },
                 'bazi': {
-                    title: '📅 八字算命',
-                    description: '传统命理学测试，通过出生年月日时解读你的命运密码和人生轨迹。',
-                    status: '即将推出',
-                    action: () => showToast('八字算命功能即将推出，敬请期待！', 'info')
+                    title: '📅 Bazi Fortune Telling',
+                    description: 'Traditional Chinese astrology test that interprets your destiny code and life path through birth year, month, day, and time.',
+                    status: 'Coming Soon',
+                    action: () => showToast('Bazi fortune telling feature coming soon, stay tuned!', 'info')
                 },
                 'tarot': {
-                    title: '🔮 塔罗牌测试',
-                    description: '神秘的塔罗牌测试，揭示你的内心世界、潜在能力和未来发展方向。',
-                    status: '当前可用',
+                    title: '🔮 Tarot Card Test',
+                    description: 'Mysterious tarot card test that reveals your inner world, potential abilities, and future development direction.',
+                    status: 'Available Now',
                     action: () => window.location.href = 'tarot-test.html'
                 },
                 'numerology': {
-                    title: '🔢 数字命理',
-                    description: '通过数字解读你的性格特征、天赋才能和人生使命。',
-                    status: '当前可用',
+                    title: '🔢 Numerology Analysis',
+                    description: 'Discover your personality traits, innate talents, and life mission through the mystical power of numbers.',
+                    status: 'Available Now',
                     action: () => window.location.href = 'test-numerology.html'
                 },
                 'chinese-zodiac': {
-                    title: '🐉 生肖测试',
-                    description: '十二生肖性格特征深度解析，了解你的生肖特质和潜在优势。',
-                    status: '当前可用',
+                    title: '🐉 Chinese Zodiac Test',
+                    description: 'Deep analysis of the twelve zodiac animal personality traits. Discover your zodiac characteristics and potential advantages.',
+                    status: 'Available Now',
                     action: () => window.location.href = 'chinese-zodiac-test.html'
                 }
             };
@@ -7651,12 +7651,12 @@
                         </div>
                         <div class="feature-modal-body">
                             <p>${feature.description}</p>
-                            <div class="feature-status-badge ${feature.status === '当前可用' ? 'active' : 'coming-soon'}">
+                            <div class="feature-status-badge ${feature.status === 'Available Now' ? 'active' : 'coming-soon'}">
                                 ${feature.status}
                             </div>
                             <div class="feature-actions">
-                                <button class="btn" onclick="this.closest('.feature-modal').remove(); ${feature.status === '当前可用' ? 'executeFeatureAction()' : 'showToast(\'功能即将推出，敬请期待！\', \'info\')'}">
-                                    ${feature.status === '当前可用' ? '开始测试' : '我知道了'}
+                                <button class="btn" onclick="this.closest('.feature-modal').remove(); ${feature.status === 'Available Now' ? 'executeFeatureAction()' : 'showToast(\'Feature coming soon, stay tuned!\', \'info\')'}">
+                                    ${feature.status === 'Available Now' ? 'Start Test' : 'Got it'}
                                 </button>
                             </div>
                         </div>

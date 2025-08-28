@@ -37,7 +37,7 @@
             <h1>🔢 Numerology × MBTI Test</h1>
             <p class="muted">Based on classic works such as "Numerology: A Guide to Self-Discovery Through Numbers" and "Life Numbers: Revealing Your Life Blueprint"</p>
             
-            <!-- Navigation -->
+            <!-- Navigation buttons -->
             <div style="margin-top: 20px;">
                 <button class="btn" onclick="location.href='index.html'" style="background: #6b7280; margin-right: 10px;">🏠 Back to Home</button>
                 <button class="btn" onclick="location.href='bazi-test.html'" style="background: #059669;">📅 Bazi Test</button>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="container">
-        <!-- Basic Info -->
+        <!-- Basic Information Input -->
         <div class="card">
             <h3>🔢 Numerology × MBTI Test</h3>
             <p class="muted">Based on classic works such as "Numerology: A Guide to Self-Discovery Through Numbers" and "Life Numbers: Revealing Your Life Blueprint"</p>
@@ -54,13 +54,9 @@
             <div class="grid">
                 <div>
                     <label for="nDate">Birth Date</label>
-                    <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                        <select id="nYear"></select>
-                        <select id="nMonth"></select>
-                        <select id="nDay"></select>
-                    </div>
+                    <input type="date" id="nDate">
                     <label for="nName">Full Name</label>
-                    <input type="text" id="nName" placeholder="Enter your full name" />
+                    <input type="text" id="nName" placeholder="Enter your full name">
                     <div style="margin-top:12px">
                         <button class="btn" type="button" onclick="analyzeNumerology()">Start Numerology Analysis</button>
                     </div>
@@ -77,7 +73,7 @@
             </div>
         </div>
 
-        <!-- Numerology Analysis -->
+        <!-- Numerology Analysis Results -->
         <div class="card hidden" id="numerologyAnalysis">
             <h3>🔢 Numerology Analysis</h3>
             <div class="grid">
@@ -100,12 +96,12 @@
             </div>
         </div>
 
-        <!-- Fusion Analysis -->
+        <!-- Numerology × MBTI Fusion Analysis -->
         <div class="card hidden" id="numerologyMBTIAnalysis">
             <h3>🌟 Numerology × MBTI Fusion Analysis</h3>
             <div class="grid">
                 <div class="card integration">
-                    <div class="pill">Number–MBTI Mapping</div>
+                    <div class="pill">Number-MBTI Mapping</div>
                     <div id="numberMBTIMapping" class="muted"></div>
                 </div>
                 <div class="card integration">
@@ -123,7 +119,7 @@
             </div>
         </div>
 
-        <!-- Quiz -->
+        <!-- Numerology Test Questions -->
         <div class="card hidden" id="numerologyTest">
             <h3>🧩 Numerology × MBTI Fusion Assessment</h3>
             <div id="numerologyQuiz"></div>
@@ -133,7 +129,7 @@
             </div>
         </div>
 
-        <!-- Result -->
+        <!-- Test Results -->
         <div class="card hidden" id="testResult">
             <h3>🎯 Test Results</h3>
             <div id="resultContent"></div>
@@ -141,7 +137,7 @@
     </div>
 
     <script>
-        // Numerology mapping
+        // Numerology mappings
         const NUMBER_MEANINGS = {
             1: { traits: 'Leadership, Independence, Innovation', mbti: 'ENTJ,ENTP,INTJ', element: 'Fire', career: 'Entrepreneur, Leader, Innovator' },
             2: { traits: 'Cooperation, Sensitivity, Harmony', mbti: 'INFJ,INFP,ENFJ', element: 'Water', career: 'Counselor, Coordinator, Artist' },
@@ -154,13 +150,14 @@
             9: { traits: 'Humanitarianism, Idealism, Wisdom', mbti: 'INFJ,ENFJ,INFP', element: 'Fire', career: 'Humanitarian, Artist, Mentor' }
         };
 
-        // Name to number (supports any letters; fallback if no mapping)
-        const EN_NAME_MAP = {
-            'A':1,'B':2,'C':3,'D':4,'E':5,'F':6,'G':7,'H':8,'I':9,
-            'J':1,'K':2,'L':3,'M':4,'N':5,'O':6,'P':7,'Q':8,'R':9,
-            'S':1,'T':2,'U':3,'V':4,'W':5,'X':6,'Y':7,'Z':8
+        // English name number mapping
+        const ENGLISH_NAME_NUMBERS = {
+            'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9,
+            'J': 1, 'K': 2, 'L': 3, 'M': 4, 'N': 5, 'O': 6, 'P': 7, 'Q': 8, 'R': 9,
+            'S': 1, 'T': 2, 'U': 3, 'V': 4, 'W': 5, 'X': 6, 'Y': 7, 'Z': 8
         };
 
+        // Numerology analysis
         function analyzeNumerology() {
             const birthDate = document.getElementById('nDate').value;
             const name = document.getElementById('nName').value;
@@ -170,123 +167,168 @@
                 return;
             }
 
+            // Calculate life numbers
             const lifeNumber = calculateLifeNumber(birthDate);
             const destinyNumber = calculateDestinyNumber(birthDate);
             const soulNumber = calculateSoulNumber(name);
 
+            // Display basic numbers
             document.getElementById('lifeNumber').textContent = lifeNumber;
             document.getElementById('destinyNumber').textContent = destinyNumber;
             document.getElementById('soulNumber').textContent = soulNumber;
 
+            // Analyze number traits
             analyzeNumberTraits(lifeNumber, destinyNumber, soulNumber);
 
+            // Show analysis results
             document.getElementById('numerologyAnalysis').classList.remove('hidden');
             document.getElementById('numerologyMBTIAnalysis').classList.remove('hidden');
 
+            // Generate numerology quiz
             generateNumerologyQuiz(lifeNumber, destinyNumber, soulNumber);
         }
 
+        // Calculate life number
         function calculateLifeNumber(birthDate) {
             const dateStr = birthDate.replace(/-/g, '');
             let sum = 0;
-            for (let i = 0; i < dateStr.length; i++) sum += parseInt(dateStr[i]);
-            while (sum > 9) sum = Math.floor(sum / 10) + (sum % 10);
+            for (let i = 0; i < dateStr.length; i++) {
+                sum += parseInt(dateStr[i]);
+            }
+            while (sum > 9) {
+                sum = Math.floor(sum / 10) + (sum % 10);
+            }
             return sum;
         }
 
+        // Calculate destiny number
         function calculateDestinyNumber(birthDate) {
             const dateStr = birthDate.replace(/-/g, '');
             let sum = 0;
-            for (let i = 0; i < dateStr.length; i++) sum += parseInt(dateStr[i]);
+            for (let i = 0; i < dateStr.length; i++) {
+                sum += parseInt(dateStr[i]);
+            }
             return sum;
         }
 
+        // Calculate soul number
         function calculateSoulNumber(name) {
             if (!name) return 0;
-            let sum = 0; let mapped = false;
+            let sum = 0;
+            
             for (let i = 0; i < name.length; i++) {
-                const ch = name[i].toUpperCase();
-                if (EN_NAME_MAP[ch]) { sum += EN_NAME_MAP[ch]; mapped = true; }
+                const char = name[i].toUpperCase();
+                if (ENGLISH_NAME_NUMBERS[char]) {
+                    sum += ENGLISH_NAME_NUMBERS[char];
+                }
             }
-            if (!mapped) {
-                for (let i = 0; i < name.length; i++) sum += (name.charCodeAt(i) % 9) + 1;
+            
+            while (sum > 9) {
+                sum = Math.floor(sum / 10) + (sum % 10);
             }
-            while (sum > 9) sum = Math.floor(sum / 10) + (sum % 10);
+            
             return sum;
         }
 
+        // Analyze number traits
         function analyzeNumberTraits(lifeNumber, destinyNumber, soulNumber) {
             const lifeInfo = NUMBER_MEANINGS[lifeNumber] || {};
             const destinyInfo = NUMBER_MEANINGS[destinyNumber] || {};
             const soulInfo = NUMBER_MEANINGS[soulNumber] || {};
 
+            // Life number traits
             const lifeTraits = lifeInfo.traits || 'Traits not obvious';
             const lifeElement = lifeInfo.element || '';
             const lifeCareer = lifeInfo.career || '';
+            
             document.getElementById('lifeNumberTraits').innerHTML = 
-                `<strong>Number ${lifeNumber} Traits:</strong>${lifeTraits}<br><small>Element: ${lifeElement} | Careers: ${lifeCareer}</small>`;
-
+                `<strong>Number ${lifeNumber} Traits:</strong>${lifeTraits}<br>
+                 <small>Element: ${lifeElement} | Career: ${lifeCareer}</small>`;
+            
+            // Destiny number guidance
             const destinyTraits = destinyInfo.traits || 'Guidance not obvious';
             const destinyElement = destinyInfo.element || '';
+            
             document.getElementById('destinyNumberGuidance').innerHTML = 
-                `<strong>Destiny Guidance:</strong>${destinyTraits}<br><small>Element: ${destinyElement}</small>`;
-
+                `<strong>Destiny Guidance:</strong>${destinyTraits}<br>
+                 <small>Element: ${destinyElement}</small>`;
+            
+            // Soul number meaning
             const soulTraits = soulInfo.traits || 'Meaning not obvious';
             const soulElement = soulInfo.element || '';
+            
             document.getElementById('soulNumberMeaning').innerHTML = 
-                `<strong>Soul Meaning:</strong>${soulTraits}<br><small>Element: ${soulElement}</small>`;
+                `<strong>Soul Meaning:</strong>${soulTraits}<br>
+                 <small>Element: ${soulElement}</small>`;
 
+            // Number combination analysis
             const combination = analyzeNumberCombination(lifeNumber, destinyNumber, soulNumber);
             document.getElementById('numberCombination').innerHTML = combination;
 
+            // MBTI mapping analysis
             const mbtiMapping = analyzeNumberMBTIMapping(lifeNumber, destinyNumber, soulNumber);
             document.getElementById('numberMBTIMapping').innerHTML = mbtiMapping;
 
+            // Personality strengths
             const strengths = analyzeNumerologyStrengths(lifeNumber, destinyNumber, soulNumber);
             document.getElementById('numerologyStrengths').innerHTML = strengths;
 
+            // Development advice
             const advice = analyzeNumerologyAdvice(lifeNumber, destinyNumber, soulNumber);
             document.getElementById('numerologyAdvice').innerHTML = advice;
 
+            // Career compatibility
             const career = analyzeNumerologyCareer(lifeNumber, destinyNumber, soulNumber);
             document.getElementById('numerologyCareer').innerHTML = career;
         }
 
+        // Analyze number combination
         function analyzeNumberCombination(life, destiny, soul) {
-            let analysis = '', energyLevel = '', compatibility = '';
+            let analysis = '';
+            let energyLevel = '';
+            let compatibility = '';
+            
             if (life === destiny && destiny === soul) {
-                analysis = 'All three numbers match: highly concentrated energy; very pronounced traits';
-                energyLevel = 'Energy concentration: Very high';
-                compatibility = 'Compatibility: Very strong, may be overly singular';
+                analysis = 'Three numbers united, concentrated energy, very prominent personality traits';
+                energyLevel = 'Energy concentration: Extremely high';
+                compatibility = 'Compatibility: Very strong, but may be too singular';
             } else if (life === destiny || destiny === soul || life === soul) {
-                analysis = 'Two numbers match: complementary energy; clear traits';
+                analysis = 'Two numbers same, complementary energy, obvious personality traits';
                 energyLevel = 'Energy concentration: High';
-                compatibility = 'Compatibility: Strong; major features stand out';
+                compatibility = 'Compatibility: Strong, main features prominent';
             } else if (Math.abs(life - destiny) <= 2 && Math.abs(destiny - soul) <= 2) {
-                analysis = 'Numbers are close: harmonious energy; balanced traits';
+                analysis = 'Three numbers similar, harmonious energy, balanced personality traits';
                 energyLevel = 'Energy concentration: Medium';
-                compatibility = 'Compatibility: Good; features coordinated';
+                compatibility = 'Compatibility: Good, features coordinated';
             } else {
-                analysis = 'Numbers are dispersed: diverse energy; rich traits';
+                analysis = 'Three numbers scattered, diverse energy, rich personality traits';
                 energyLevel = 'Energy concentration: Low';
-                compatibility = 'Compatibility: Diverse; needs integration';
+                compatibility = 'Diverse, needs integration';
             }
 
             const lifeElement = NUMBER_MEANINGS[life]?.element || '';
             const destinyElement = NUMBER_MEANINGS[destiny]?.element || '';
             const soulElement = NUMBER_MEANINGS[soul]?.element || '';
+            
             let elementAnalysis = '';
             if (lifeElement && destinyElement && soulElement) {
                 elementAnalysis = `<br><small>Element combination: ${lifeElement} + ${destinyElement} + ${soulElement}</small>`;
             }
-            return `<strong>Combination Features:</strong>${analysis}<br><small>${energyLevel} | ${compatibility}${elementAnalysis}</small>`;
+
+            return `<strong>Combination features:</strong>${analysis}<br>
+                    <small>${energyLevel} | ${compatibility}${elementAnalysis}</small>`;
         }
 
+        // Analyze number-MBTI mapping
         function analyzeNumberMBTIMapping(life, destiny, soul) {
             const lifeMBTI = NUMBER_MEANINGS[life]?.mbti || '';
             const destinyMBTI = NUMBER_MEANINGS[destiny]?.mbti || '';
             const soulMBTI = NUMBER_MEANINGS[soul]?.mbti || '';
-            let mapping = '', dominantType = '', compatibility = '';
+
+            let mapping = '';
+            let dominantType = '';
+            let compatibility = '';
+            
             if (lifeMBTI) mapping += `Life Number: ${lifeMBTI}<br>`;
             if (destinyMBTI) mapping += `Destiny Number: ${destinyMBTI}<br>`;
             if (soulMBTI) mapping += `Soul Number: ${soulMBTI}`;
@@ -294,326 +336,361 @@
             const allTypes = [lifeMBTI, destinyMBTI, soulMBTI].filter(Boolean);
             if (allTypes.length > 0) {
                 const typeCounts = {};
-                allTypes.forEach(type => type.split(',').forEach(t => { typeCounts[t] = (typeCounts[t] || 0) + 1; }));
-                const dominantTypes = Object.entries(typeCounts).sort((a,b) => b[1]-a[1]).slice(0,2).map(([t,c]) => `${t}(${c} times)`);
+                allTypes.forEach(type => {
+                    const types = type.split(',');
+                    types.forEach(t => {
+                        typeCounts[t] = (typeCounts[t] || 0) + 1;
+                    });
+                });
+                
+                const dominantTypes = Object.entries(typeCounts)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 2)
+                    .map(([type, count]) => `${type}(${count} times)`);
+                
                 dominantType = `Dominant types: ${dominantTypes.join(', ')}`;
-                if (Object.keys(typeCounts).length <= 2) compatibility = 'Compatibility: High, focused types';
-                else if (Object.keys(typeCounts).length <= 4) compatibility = 'Compatibility: Medium, diverse types';
-                else compatibility = 'Compatibility: Low, scattered types';
+                
+                if (Object.keys(typeCounts).length <= 2) {
+                    compatibility = 'Compatibility: High, types concentrated';
+                } else if (Object.keys(typeCounts).length <= 4) {
+                    compatibility = 'Compatibility: Medium, types diverse';
+                } else {
+                    compatibility = 'Compatibility: Low, types scattered';
+                }
             }
-            return `${mapping || 'No MBTI mapping information'}<br><small><strong>${dominantType}</strong><br><strong>${compatibility}</strong></small>`;
+
+            return `${mapping || 'No MBTI mapping information'}<br>
+                    <small><strong>${dominantType}</strong><br>
+                    <strong>${compatibility}</strong></small>`;
         }
 
+        // Analyze numerology strengths
         function analyzeNumerologyStrengths(life, destiny, soul) {
             const strengths = [];
             const lifeInfo = NUMBER_MEANINGS[life] || {};
             const destinyInfo = NUMBER_MEANINGS[destiny] || {};
             const soulInfo = NUMBER_MEANINGS[soul] || {};
+            
+            if (life <= 3) {
+                strengths.push(`Innovative thinking (Number ${life} traits)`);
+                strengths.push('Communication skills, flexibility');
+            } else if (life >= 4 && life <= 6) {
+                strengths.push(`Organizational ability (Number ${life} traits)`);
+                strengths.push('Responsibility, stability');
+            } else if (life >= 7 && life <= 9) {
+                strengths.push(`Analytical ability (Number ${life} traits)`);
+                strengths.push('Leadership, professionalism');
+            }
 
-            if (life <= 3) { strengths.push(`Innovative thinking (No. ${life})`, 'Communication, Flexibility'); }
-            else if (life <= 6) { strengths.push(`Organization (No. ${life})`, 'Responsibility, Stability'); }
-            else { strengths.push(`Analytical ability (No. ${life})`, 'Leadership, Professionalism'); }
+            if (destiny <= 3) {
+                strengths.push(`Flexibility (Number ${destiny} traits)`);
+                strengths.push('Adaptability, innovation');
+            } else if (destiny >= 4 && destiny <= 6) {
+                strengths.push(`Stability (Number ${destiny} traits)`);
+                strengths.push('Reliability, organization');
+            } else if (destiny >= 7 && destiny <= 9) {
+                strengths.push(`Deep thinking (Number ${destiny} traits)`);
+                strengths.push('Professional ability, insight');
+            }
 
-            if (destiny <= 3) { strengths.push(`Flexibility (No. ${destiny})`, 'Adaptability, Innovation'); }
-            else if (destiny <= 6) { strengths.push(`Stability (No. ${destiny})`, 'Reliability, Organization'); }
-            else { strengths.push(`Deep thinking (No. ${destiny})`, 'Professional ability, Insight'); }
-
-            if (soul > 0) { strengths.push(`Inner traits (No. ${soul} soul)`, soulInfo.traits ? soulInfo.traits.split(',')[0] : 'Unique personality'); }
+            if (soul > 0) {
+                strengths.push(`Inner traits (Number ${soul} soul)`);
+                strengths.push(soulInfo.traits ? soulInfo.traits.split(',')[0] : 'Unique personality');
+            }
 
             const elements = [lifeInfo.element, destinyInfo.element, soulInfo.element].filter(Boolean);
             if (elements.length > 0) {
-                const unique = [...new Set(elements)];
-                strengths.push(unique.length === 1 ? `${unique[0]} element mastery, concentrated energy` : `${unique.join('+')} elements, diverse energy`);
+                const uniqueElements = [...new Set(elements)];
+                if (uniqueElements.length === 1) {
+                    strengths.push(`${uniqueElements[0]} element mastery, concentrated energy`);
+                } else {
+                    strengths.push(`${uniqueElements.join('+')} element combination, diverse energy`);
+                }
             }
+
             return `<strong>Core strengths:</strong>${strengths.join(', ')}`;
         }
 
+        // Analyze numerology advice
         function analyzeNumerologyAdvice(life, destiny, soul) {
-            let advice = '', focus = '', warning = '';
+            let advice = '';
+            let focus = '';
+            let warning = '';
+            
             if (life <= 3) {
-                advice = 'Leverage creativity; mind the details';
-                focus = 'Innovative thinking, communication, flexibility';
-                warning = 'Detail management, execution, stability';
-            } else if (life <= 6) {
-                advice = 'Maintain stability; cultivate innovation';
-                focus = 'Organization, responsibility, stability';
-                warning = 'Innovation, flexibility, breakthroughs';
+                advice = 'Develop creativity, pay attention to detail management';
+                focus = 'Focus on: Innovative thinking, communication skills, flexibility';
+                warning = 'Watch out for: Detail management, execution, stability';
+            } else if (life >= 4 && life <= 6) {
+                advice = 'Maintain stability, cultivate innovative thinking';
+                focus = 'Focus on: Organizational ability, responsibility, stability';
+                warning = 'Watch out for: Innovative thinking, flexibility, breakthrough';
             } else {
-                advice = 'Leverage expertise; mind teamwork';
-                focus = 'Analysis, leadership, professionalism';
-                warning = 'Teamwork, communication, inclusiveness';
+                advice = 'Develop professional ability, pay attention to teamwork';
+                focus = 'Focus on: Analytical ability, leadership, professionalism';
+                warning = 'Watch out for: Teamwork, communication, inclusiveness';
             }
 
             let destinyAdvice = '';
-            if (destiny <= 3) destinyAdvice = 'Build adaptability; improve persistence';
-            else if (destiny <= 6) destinyAdvice = 'Leverage stability; stay flexible';
-            else destinyAdvice = 'Deepen expertise; stay practical';
+            if (destiny <= 3) {
+                destinyAdvice = 'Cultivate adaptability, pay attention to persistence';
+            } else if (destiny >= 4 && destiny <= 6) {
+                destinyAdvice = 'Leverage stability advantages, pay attention to flexibility';
+            } else {
+                destinyAdvice = 'Deepen professional ability, pay attention to practicality';
+            }
 
             let soulAdvice = '';
             if (soul > 0) {
-                if (soul <= 3) soulAdvice = 'Focus on inner growth; build self-awareness';
-                else if (soul <= 6) soulAdvice = 'Balance inner and outer needs; self-regulation';
-                else soulAdvice = 'Deepen inner wisdom; seek transcendence';
+                if (soul <= 3) {
+                    soulAdvice = 'Focus on inner growth, cultivate self-awareness';
+                } else if (soul >= 4 && soul <= 6) {
+                    soulAdvice = 'Balance inner and outer needs, cultivate self-regulation';
+                } else {
+                    soulAdvice = 'Deepen inner wisdom, cultivate self-transcendence';
+                }
             }
 
             return `<strong>Development advice:</strong>${advice}<br>
-                    <small><strong>Focus:</strong>${focus}<br>
+                    <small><strong>Focus on:</strong>${focus}<br>
                     <strong>Watch out for:</strong>${warning}<br>
                     <strong>Destiny guidance:</strong>${destinyAdvice}<br>
                     <strong>Soul growth:</strong>${soulAdvice}</small>`;
         }
 
+        // Analyze numerology career
         function analyzeNumerologyCareer(life, destiny, soul) {
             const lifeCareer = NUMBER_MEANINGS[life]?.career || '';
             const destinyCareer = NUMBER_MEANINGS[destiny]?.career || '';
             const soulCareer = NUMBER_MEANINGS[soul]?.career || '';
-            const careers = [];
-            const types = [];
-            let path = '';
-
+            
+            let careers = [];
+            let careerTypes = [];
+            let developmentPath = '';
+            
             if (lifeCareer) careers.push(lifeCareer);
             if (destinyCareer && destinyCareer !== lifeCareer) careers.push(destinyCareer);
             if (soulCareer && !careers.includes(soulCareer)) careers.push(soulCareer);
 
-            if (life <= 3 || destiny <= 3) types.push('Innovation & Creative');
-            if ((life >= 4 && life <= 6) || (destiny >= 4 && destiny <= 6)) types.push('Management & Organization');
-            if (life >= 7 || destiny >= 7) types.push('Professional & Analysis');
+            if (life <= 3 || destiny <= 3) {
+                careerTypes.push('Innovation & Creative');
+            }
+            if (life >= 4 && life <= 6 || destiny >= 4 && destiny <= 6) {
+                careerTypes.push('Management & Organization');
+            }
+            if (life >= 7 || destiny >= 7) {
+                careerTypes.push('Professional & Analysis');
+            }
 
-            if (life <= 3 && destiny <= 3) path = 'Start in creative roles; grow management skills';
-            else if (life >= 7 && destiny >= 7) path = 'Start in expert roles; grow leadership skills';
-            else if ((life >= 4 && life <= 6) && (destiny >= 4 && destiny <= 6)) path = 'Start in management roles; grow innovation';
-            else path = 'Start in general roles; grow expertise over time';
+            if (life <= 3 && destiny <= 3) {
+                developmentPath = 'Suitable to start from creative positions, gradually develop management skills';
+            } else if (life >= 7 && destiny >= 7) {
+                developmentPath = 'Suitable to start from professional positions, gradually develop leadership skills';
+            } else if (life >= 4 && life <= 6 && destiny >= 4 && destiny <= 6) {
+                developmentPath = 'Suitable to start from management positions, gradually develop innovation skills';
+            } else {
+                developmentPath = 'Suitable to start from comprehensive positions, gradually develop professional skills';
+            }
 
-            return `<strong>Compatible careers:</strong>${careers.join(', ') || 'Choose by interest'}<br>
-                    <small><strong>Career types:</strong>${types.join(', ')}<br>
-                    <strong>Development path:</strong>${path}</small>`;
+            return `<strong>Compatible careers:</strong>${careers.join(', ') || 'Choose based on interest'}<br>
+                    <small><strong>Career types:</strong>${careerTypes.join(', ')}<br>
+                    <strong>Development path:</strong>${developmentPath}</small>`;
         }
 
+        // Generate numerology quiz
         function generateNumerologyQuiz(life, destiny, soul) {
             const quizContainer = document.getElementById('numerologyQuiz');
             quizContainer.innerHTML = '';
+
             const questions = [
-                { id: 1, question: 'When facing a new challenge, you prefer to:', options: [
-                    { text: 'Make a detailed plan and follow steps', score: { S: 1, J: 1, number: { 4: 0.5, 6: 0.5 } } },
-                    { text: 'Respond flexibly and adapt on the fly', score: { N: 1, P: 1, number: { 5: 0.5, 3: 0.5 } } }
-                ]},
-                { id: 2, question: 'In a team, you tend to be the:', options: [
-                    { text: 'Leader, setting direction and strategy', score: { E: 1, J: 1, number: { 1: 0.5, 8: 0.5 } } },
-                    { text: 'Supporter, helping others complete tasks', score: { I: 1, F: 1, number: { 2: 0.5, 6: 0.5 } } }
-                ]},
-                { id: 3, question: 'When solving problems, you rely more on:', options: [
-                    { text: 'Logical analysis and data', score: { T: 1, S: 1, number: { 7: 0.5, 4: 0.5 } } },
-                    { text: 'Intuition and creative inspiration', score: { F: 1, N: 1, number: { 3: 0.5, 9: 0.5 } } }
-                ]},
-                { id: 4, question: 'Your attitude toward rules and traditions:', options: [
-                    { text: 'Respect and follow to maintain order', score: { S: 1, J: 1, number: { 4: 0.5, 6: 0.5 } } },
-                    { text: 'Use flexibly and break when necessary', score: { N: 1, P: 1, number: { 5: 0.5, 1: 0.5 } } }
-                ]},
-                { id: 5, question: 'In social situations, you are more likely to:', options: [
-                    { text: 'Proactively communicate and expand your network', score: { E: 1, number: { 1: 0.5, 3: 0.5 } } },
-                    { text: 'Observe and listen for deeper conversations', score: { I: 1, number: { 2: 0.5, 7: 0.5 } } }
-                ]},
+                {
+                    id: 1,
+                    question: 'When facing new challenges, you tend to:',
+                    options: [
+                        { text: 'Make detailed plans and follow step by step', score: { S: 1, J: 1, number: { 4: 0.5, 6: 0.5 } } },
+                        { text: 'Respond flexibly and adapt to situations', score: { N: 1, P: 1, number: { 5: 0.5, 3: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: 'In a team, you prefer to play the role of:',
+                    options: [
+                        { text: 'Leader, setting direction and strategy', score: { E: 1, J: 1, number: { 1: 0.5, 8: 0.5 } } },
+                        { text: 'Supporter, helping others complete tasks', score: { I: 1, F: 1, number: { 2: 0.5, 6: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: 'When solving problems, you rely more on:',
+                    options: [
+                        { text: 'Logical analysis and data support', score: { T: 1, S: 1, number: { 7: 0.5, 4: 0.5 } } },
+                        { text: 'Intuition and creative inspiration', score: { F: 1, N: 1, number: { 3: 0.5, 9: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 4,
+                    question: 'Your attitude towards rules and traditions is:',
+                    options: [
+                        { text: 'Respect and follow, maintain order', score: { S: 1, J: 1, number: { 4: 0.5, 6: 0.5 } } },
+                        { text: 'Apply flexibly, break when necessary', score: { N: 1, P: 1, number: { 5: 0.5, 1: 0.5 } } }
+                    ]
+                },
+                {
+                    id: 5,
+                    question: 'In social situations, you are more:',
+                    options: [
+                        { text: 'Actively communicate, expand network', score: { E: 1, number: { 1: 0.5, 3: 0.5 } } },
+                        { text: 'Observe and listen, deep communication', score: { I: 1, number: { 2: 0.5, 7: 0.5 } } }
+                    ]
+                }
             ];
+
             window._numerologyQuestions = questions;
 
-            questions.forEach((q, idx) => {
-                const div = document.createElement('div');
-                div.className = 'q';
-                div.style.border = '1px solid #e5e7eb';
-                div.style.borderRadius = '12px';
-                div.style.padding = '12px';
-                div.style.marginBottom = '12px';
-                div.innerHTML = `<div style="font-weight:700">${idx + 1}. ${q.question}</div>`;
-                q.options.forEach((opt, oi) => {
-                    const odiv = document.createElement('div');
-                    odiv.style.margin = '6px 0';
-                    odiv.innerHTML = `<label><input type="radio" name="nq${q.id}" value="${oi}"> ${opt.text}</label>`;
-                    div.appendChild(odiv);
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'q';
+                questionDiv.style.border = '1px solid #e5e7eb';
+                questionDiv.style.borderRadius = '12px';
+                questionDiv.style.padding = '12px';
+                questionDiv.style.marginBottom = '12px';
+                questionDiv.innerHTML = `<div style="font-weight:700">${index + 1}. ${q.question}</div>`;
+                
+                q.options.forEach((option, optIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.style.margin = '6px 0';
+                    optionDiv.innerHTML = `<label><input type="radio" name="nq${q.id}" value="${optIndex}"> ${option.text}</label>`;
+                    questionDiv.appendChild(optionDiv);
                 });
-                quizContainer.appendChild(div);
+                
+                quizContainer.appendChild(questionDiv);
             });
+
             document.getElementById('numerologyTest').classList.remove('hidden');
         }
 
+        // Submit numerology test
         function submitNumerologyTest() {
             const questions = document.querySelectorAll('#numerologyQuiz .q');
             let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
             let numberScores = {};
+
             questions.forEach((q, index) => {
-                const sel = q.querySelector('input:checked');
-                if (!sel) return;
-                const optIndex = parseInt(sel.value);
-                const question = window._numerologyQuestions ? window._numerologyQuestions[index] : null;
-                if (!question || !question.options[optIndex]) return;
-                const option = question.options[optIndex];
-                Object.entries(option.score).forEach(([k, v]) => {
-                    if (k === 'number') {
-                        Object.entries(v).forEach(([num, sc]) => { numberScores[num] = (numberScores[num] || 0) + sc; });
-                    } else {
-                        scores[k] = (scores[k] || 0) + v;
+                const selected = q.querySelector('input:checked');
+                if (selected) {
+                    const optionIndex = parseInt(selected.value);
+                    const question = window._numerologyQuestions ? window._numerologyQuestions[index] : null;
+                    if (question && question.options[optionIndex]) {
+                        const option = question.options[optionIndex];
+                        Object.entries(option.score).forEach(([key, value]) => {
+                            if (key === 'number') {
+                                Object.entries(value).forEach(([num, score]) => {
+                                    numberScores[num] = (numberScores[num] || 0) + score;
+                                });
+                            } else {
+                                scores[key] = (scores[key] || 0) + value;
+                            }
+                        });
                     }
-                });
+                }
             });
 
             const mbtiType = determineMBTIType(scores);
+            const result = `Numerology MBTI Type: ${mbtiType}`;
+            
             const numberAnalysis = analyzeNumberEnergy(numberScores);
             const resultDiv = document.getElementById('numerologyResult');
             resultDiv.innerHTML = `
                 <div style="margin-bottom: 8px;"><strong>Numerology MBTI Type: ${mbtiType}</strong></div>
                 <div style="font-size: 12px; color: #6b7280;">${numberAnalysis}</div>
             `;
+
+            // Show detailed results
             showTestResult(mbtiType, scores, numberScores);
         }
 
+        // Determine MBTI type
         function determineMBTIType(scores) {
-            const E = scores.E || 0, I = scores.I || 0, S = scores.S || 0, N = scores.N || 0, T = scores.T || 0, F = scores.F || 0, J = scores.J || 0, P = scores.P || 0;
+            const E = scores.E || 0;
+            const I = scores.I || 0;
+            const S = scores.S || 0;
+            const N = scores.N || 0;
+            const T = scores.T || 0;
+            const F = scores.F || 0;
+            const J = scores.J || 0;
+            const P = scores.P || 0;
+
             const first = E > I ? 'E' : 'I';
             const second = S > N ? 'S' : 'N';
             const third = T > F ? 'T' : 'F';
             const fourth = J > P ? 'J' : 'P';
+
             return first + second + third + fourth;
         }
 
+        // Analyze number energy
         function analyzeNumberEnergy(numberScores) {
             if (Object.keys(numberScores).length === 0) return 'Please complete the test';
-            const top = Object.entries(numberScores).sort((a,b) => b[1]-a[1]).slice(0,3).map(([n, s]) => `No. ${n} energy (${s.toFixed(1)})`);
-            return `Number energy: ${top.join(', ')}`;
+            
+            const topNumbers = Object.entries(numberScores)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 3)
+                .map(([num, score]) => `Number ${num} energy(${score.toFixed(1)})`);
+            
+            return `Number energy: ${topNumbers.join(', ')}`;
         }
 
+        // Show test results
         function showTestResult(mbtiType, scores, numberScores) {
             const resultContent = document.getElementById('resultContent');
-            const top = Object.entries(numberScores).sort((a,b) => b[1]-a[1]).slice(0,3);
-            let html = `
+            const topNumbers = Object.entries(numberScores)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 3);
+
+            let resultHTML = `
                 <div style="text-align: center; margin-bottom: 20px;">
                     <h2 style="color: #4f46e5;">🎯 Your Test Results</h2>
                     <div class="kpi" style="font-size: 32px; margin: 10px 0;">${mbtiType}</div>
                     <p class="muted">Based on Numerology × MBTI fusion analysis</p>
                 </div>
+                
                 <div class="grid">
                     <div class="card numerology">
                         <h4>📊 MBTI Dimension Scores</h4>
-                        <p><strong>Extraversion (E):</strong> ${scores.E || 0} | <strong>Introversion (I):</strong> ${scores.I || 0}</p>
-                        <p><strong>Sensing (S):</strong> ${scores.S || 0} | <strong>Intuition (N):</strong> ${scores.N || 0}</p>
-                        <p><strong>Thinking (T):</strong> ${scores.T || 0} | <strong>Feeling (F):</strong> ${scores.F || 0}</p>
-                        <p><strong>Judging (J):</strong> ${scores.J || 0} | <strong>Perceiving (P):</strong> ${scores.P || 0}</p>
+                        <p><strong>Extraversion(E):</strong> ${scores.E || 0} | <strong>Introversion(I):</strong> ${scores.I || 0}</p>
+                        <p><strong>Sensing(S):</strong> ${scores.S || 0} | <strong>Intuition(N):</strong> ${scores.N || 0}</p>
+                        <p><strong>Thinking(T):</strong> ${scores.T || 0} | <strong>Feeling(F):</strong> ${scores.F || 0}</p>
+                        <p><strong>Judging(J):</strong> ${scores.J || 0} | <strong>Perceiving(P):</strong> ${scores.P || 0}</p>
                     </div>
+                    
                     <div class="card numerology">
                         <h4>🔢 Number Energy Analysis</h4>
-                        ${top.map(([num, sc]) => `<p><strong>No. ${num} energy:</strong> ${sc.toFixed(1)}</p>`).join('')}
+                        ${topNumbers.map(([num, score]) => `
+                            <p><strong>Number ${num} energy:</strong> ${score.toFixed(1)}</p>
+                        `).join('')}
                     </div>
                 </div>
+                
                 <div class="card integration" style="margin-top: 20px;">
                     <h4>💡 Personalized Recommendations</h4>
                     <p>Based on your ${mbtiType} type and number energy, we recommend:</p>
                     <ul>
-                        <li>Leverage your core ${mbtiType} strengths</li>
-                        <li>Balance your top number energies</li>
+                        <li>Leverage your ${mbtiType} type core strengths</li>
+                        <li>Focus on balanced development of number energy</li>
                         <li>Combine traditional numerology with modern psychology</li>
-                        <li>Find a development path that fits you</li>
+                        <li>Find your own development path</li>
                     </ul>
-                </div>`;
-            resultContent.innerHTML = html;
+                </div>
+            `;
+
+            resultContent.innerHTML = resultHTML;
             document.getElementById('testResult').classList.remove('hidden');
         }
 
-        function openDatePicker() {
-            const native = document.getElementById('nDateNative');
-            if (!native) return;
-            native.showPicker ? native.showPicker() : native.click();
-        }
-
-        (function attachDateSync(){
-            const native = document.getElementById('nDateNative');
-            const display = document.getElementById('nDate');
-            if (!native || !display) return;
-            native.addEventListener('change', function(){
-                const val = this.value; // already YYYY-MM-DD
-                display.value = val;
-            });
-        })();
-
-        // Dropdown date helpers
-        function pad2(n){ return String(n).padStart(2,'0'); }
-        function isLeap(y){ return (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0); }
-        function daysInMonth(y,m){ return [31, (isLeap(y)?29:28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m-1]; }
-        function fillYearMonthDay(){
-            const ySel = document.getElementById('nYear');
-            const mSel = document.getElementById('nMonth');
-            const dSel = document.getElementById('nDay');
-            if (!ySel || !mSel || !dSel) return;
-            const now = new Date();
-            const yearNow = now.getFullYear();
-            // years range: 1900..yearNow
-            ySel.innerHTML = '';
-            for (let y = yearNow; y >= 1900; y--) {
-                const opt = document.createElement('option');
-                opt.value = String(y);
-                opt.textContent = String(y);
-                ySel.appendChild(opt);
-            }
-            // months 01..12
-            mSel.innerHTML = '';
-            for (let m = 1; m <= 12; m++) {
-                const opt = document.createElement('option');
-                opt.value = pad2(m);
-                opt.textContent = pad2(m);
-                mSel.appendChild(opt);
-            }
-            // days based on selected y/m
-            function refillDays(){
-                const y = parseInt(ySel.value, 10);
-                const m = parseInt(mSel.value, 10);
-                const maxD = daysInMonth(y, m);
-                const prev = dSel.value;
-                dSel.innerHTML = '';
-                for (let d = 1; d <= maxD; d++) {
-                    const opt = document.createElement('option');
-                    opt.value = pad2(d);
-                    opt.textContent = pad2(d);
-                    dSel.appendChild(opt);
-                }
-                if (prev && parseInt(prev,10) <= maxD) dSel.value = prev.padStart(2,'0');
-            }
-            ySel.addEventListener('change', refillDays);
-            mSel.addEventListener('change', refillDays);
-            // set defaults to today
-            ySel.value = String(yearNow);
-            mSel.value = pad2(now.getMonth()+1);
-            refillDays();
-            dSel.value = pad2(now.getDate());
-        }
-
-        function getSelectedDate(){
-            const ySel = document.getElementById('nYear');
-            const mSel = document.getElementById('nMonth');
-            const dSel = document.getElementById('nDay');
-            if (!ySel || !mSel || !dSel) return '';
-            return `${ySel.value}-${mSel.value}-${dSel.value}`;
-        }
-
-        // Patch analyzeNumerology to read dropdowns
-        (function patchAnalyzeForDropdown(){
-            const orig = analyzeNumerology;
-            window.analyzeNumerology = function(){
-                const dateFromDropdown = getSelectedDate();
-                const display = document.getElementById('nDate');
-                // back-compat: if there is an old text field, sync it
-                if (display) display.value = dateFromDropdown;
-                // temporarily inject into hidden variable expected by orig
-                const birthDateInput = { value: dateFromDropdown };
-                const oldGetElementById = document.getElementById.bind(document);
-                document.getElementById = function(id){
-                    if (id === 'nDate') return birthDateInput;
-                    return oldGetElementById(id);
-                };
-                try { return orig.apply(this, arguments); }
-                finally { document.getElementById = oldGetElementById; }
-            };
-        })();
-
+        // Page initialization
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Numerology × MBTI test loaded');
-            fillYearMonthDay();
+            console.log('Numerology × MBTI test system loaded successfully!');
+            console.log('Features include: Life number calculation, destiny number analysis, soul number interpretation, MBTI fusion analysis, etc.');
         });
     </script>
 </body>
