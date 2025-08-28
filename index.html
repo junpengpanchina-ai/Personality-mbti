@@ -2396,7 +2396,6 @@
         .logout-btn:hover {
             background: #c82333;
         }
-
         /* 功能栏目样式 */
         .features-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -3193,7 +3192,6 @@
             cursor: not-allowed;
             opacity: 0.6;
         }
-
         .phone-actions {
             display: flex;
             gap: 15px;
@@ -3417,9 +3415,9 @@
                             <input type="time" id="birthTime" required>
                         </div>
                         <div class="form-group">
-                            <button class="btn" type="button" onclick="setIndexSample('gregorian')" style="background:#10b981">示例(公历)</button>
-                            <button class="btn" type="button" onclick="setIndexSample('lunar')" style="background:#8b5cf6; margin-left:8px">示例(农历)</button>
-                            <button class="btn" type="button" onclick="setIndexSample('leap')" style="background:#ef4444; margin-left:8px">示例(闰月)</button>
+                            <button class="btn" type="button" onclick="setIndexSample('gregorian')" style="background:#10b981">Example (Gregorian)</button>
+                            <button class="btn" type="button" onclick="setIndexSample('lunar')" style="background:#8b5cf6; margin-left:8px">Example (Lunar)</button>
+                            <button class="btn" type="button" onclick="setIndexSample('leap')" style="background:#ef4444; margin-left:8px">Example (Leap Month)</button>
                         </div>
                         <div class="form-group">
                             <label for="birthPlace">Birth Place</label>
@@ -4751,7 +4749,6 @@
         let questionSequence = []; // 动态问题序列
         let dimensionProgress = { EI: 0, SN: 0, TF: 0, JP: 0 }; // 各维度进度
         let testLevel = 1; // 当前测试层级
-
         // Google AdSense 配置已删除
         // 页面状态管理
         const PAGE_STATES = {
@@ -5499,7 +5496,6 @@
             document.getElementById('phoneStep2').style.display = 'none';
             document.getElementById('phoneStep1').style.display = 'block';
         }
-
         // 验证手机号并完成注册
         function verifyPhoneAndRegister() {
             const code = document.getElementById('phoneVerificationCode').value;
@@ -6286,7 +6282,6 @@
             // 更新各维度进度
             updateDimensionProgress();
         }
-
         // 更新各维度进度
         function updateDimensionProgress() {
             const progressInfo = document.querySelector('.test-progress-info');
@@ -7071,7 +7066,6 @@
             document.getElementById('privacyPolicyModal').classList.add('hidden');
             document.getElementById('privacyPolicyModal').style.display = 'none';
         }
-
         // 知晓隐私政策并返回首页
         function acknowledgePrivacyPolicy() {
             // 记录用户已阅读隐私政策
@@ -7831,7 +7825,6 @@
             air: { name: '风象', traits: ['智慧', '沟通', '灵活', '创新'] },
             water: { name: '水象', traits: ['情感', '直觉', '同情心', '深度'] }
         };
-
         // 测试题目
         const zodiacMBTIQuestions = {
             mbti: [
@@ -8622,7 +8615,6 @@
         function previousZodiacSection(sectionId) {
             showZodiacSection(sectionId);
         }
-
         // 下一步
         function nextZodiacSection(sectionId) {
             if (window.i18n && typeof i18n.setLanguage === 'function') {
