@@ -123,6 +123,7 @@
                         </select>
                         <div style="margin-top:12px">
                             <button class="btn" type="button" onclick="analyzePersonality()">Start Analysis</button>
+                            <button class="btn btn-secondary" type="button" onclick="testAnalyzePersonality()" style="margin-left:8px">🧪 Test Function</button>
                             <button class="btn btn-secondary" type="button" onclick="location.href='index.html'" style="margin-left:8px">Back to Home</button>
                             <div style="margin-top:10px; display:none">
                                 <button class="btn" type="button" onclick="setSampleDate('gregorian')" style="background:#10b981">示例(公历)</button>
@@ -2303,38 +2304,36 @@
                 try {
                     const loaded = await loadLunarFromFallbacks();
                     if (!loaded) {
-                        showToast('Metaphysics library loading failed, please refresh the page and try again', 'error');
+                        alert('Metaphysics library loading failed, please refresh the page and try again');
                         return;
                     }
                 } catch (error) {
                     console.error('Failed to load lunar library:', error);
-                    showToast('Metaphysics library loading failed, please refresh the page and try again', 'error');
+                    alert('Metaphysics library loading failed, please refresh the page and try again');
                     return;
                 }
             }
             
             // Get input data
-            const birthDateRaw = document.getElementById('bDate').value;
-            const birthDate = await validateAndNormalizeDateAsync(birthDateRaw);
+            const birthDate = document.getElementById('bDate').value;
             const birthTime = document.getElementById('bTime').value;
             
-            if (!birthDate) {
-                showToast('Invalid or unsupported date. Try formats like 2020-01-01 / 20200101 / 农历2020年闰四月初一', 'error');
-                return;
-            }
-            if (!birthTime) {
-                showToast('Please enter birth time', 'error');
+            if (!birthDate || !birthTime) {
+                alert('Please fill in complete birth information (date and time)');
                 return;
             }
             
             // Validate date format
-            // Already validated in validateAndNormalizeDateAsync
+            if (!validateDateFormat(birthDate)) {
+                alert('Please enter a valid date in MM/DD/YYYY format (e.g., 12/25/1990)');
+                return;
+            }
             
             try {
                 console.log('Parsing birth time:', { birthDate, birthTime });
                 
                 // Convert MM/DD/YYYY to YYYY-MM-DD for internal processing
-                const isoDate = birthDate; // already normalized ISO
+                const isoDate = convertToISOFormat(birthDate);
                 console.log('Converted to ISO format:', isoDate);
                 
                 // Parse birth time
@@ -2370,13 +2369,14 @@
                     performIntegrationAnalysis(pillarText);
                     
                     console.log('✅ Personality analysis completed');
+                    alert('✅ Analysis completed successfully! Check the results below.');
                 } else {
                     throw new Error('Bazi calculation failed');
                 }
                 
             } catch (error) {
                 console.error('Personality analysis failed:', error);
-                showToast('Analysis failed, please check if the input information is correct', 'error');
+                alert('Analysis failed, please check if the input information is correct');
             }
         }
         // Ensure global exposure for inline onclick
@@ -2645,57 +2645,106 @@
              });
          }
          
-         // Test numerology functions
-         function testNumerologyFunctions() {
-             console.log('🧪 Test numerology functions');
-             
-             // Test if basic functions exist
-             const functions = [
-                 'analyzePersonality',
-                 'analyzeNumerology',
-                 'calculateLifeNumber', 
-                 'calculateDestinyNumber',
-                 'calculateSoulNumber',
-                 'analyzeNumberTraits'
-             ];
-             
-             functions.forEach(funcName => {
-                 if (typeof window[funcName] === 'function') {
-                     console.log(`✅ ${funcName} function exists`);
-                 } else {
-                     console.error(`❌ ${funcName} function does not exist`);
-                 }
-             });
-             
-             // Test data objects
-             if (typeof NUMBER_MEANINGS !== 'undefined') {
-                 console.log('✅ NUMBER_MEANINGS object exists, containing', Object.keys(NUMBER_MEANINGS).length, 'numbers');
-             } else {
-                 console.error('❌ NUMBER_MEANINGS object does not exist');
-             }
-             
-             if (typeof CHINESE_NAME_NUMBERS !== 'undefined') {
-                 console.log('✅ CHINESE_NAME_NUMBERS object exists, containing', Object.keys(CHINESE_NAME_NUMBERS).length, 'characters');
-             } else {
-                 console.error('❌ CHINESE_NAME_NUMBERS object does not exist');
-             }
-             
-             // Test input elements
-             const nDate = document.getElementById('nDate');
-             const nName = document.getElementById('nName');
-             
-             if (nDate) {
-                 console.log('✅ Birth date input box exists');
-             } else {
-                 console.error('❌ Birth date input box does not exist');
-             }
-             
-             if (nName) {
-                 console.log('✅ Name input box exists');
-             } else {
-                 console.error('❌ Name input box does not exist');
-             }
-         }
+                 // Test numerology functions
+        function testNumerologyFunctions() {
+            console.log('🧪 Test numerology functions');
+            
+            // Test if basic functions exist
+            const functions = [
+                'analyzePersonality',
+                'analyzeNumerology',
+                'calculateLifeNumber', 
+                'calculateDestinyNumber',
+                'calculateSoulNumber',
+                'analyzeNumberTraits'
+            ];
+            
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    console.log(`✅ ${funcName} function exists`);
+                } else {
+                    console.error(`❌ ${funcName} function does not exist`);
+                }
+            });
+            
+            // Test data objects
+            if (typeof NUMBER_MEANINGS !== 'undefined') {
+                console.log('✅ NUMBER_MEANINGS object exists, containing', Object.keys(NUMBER_MEANINGS).length, 'numbers');
+            } else {
+                console.error('❌ NUMBER_MEANINGS object does not exist');
+            }
+            
+            if (typeof CHINESE_NAME_NUMBERS !== 'undefined') {
+                console.log('✅ CHINESE_NAME_NUMBERS object exists, containing', Object.keys(CHINESE_NAME_NUMBERS).length, 'characters');
+            } else {
+                console.error('❌ CHINESE_NAME_NUMBERS object does not exist');
+            }
+            
+            // Test input elements
+            const nDate = document.getElementById('nDate');
+            const nName = document.getElementById('nDate');
+            
+            if (nDate) {
+                console.log('✅ Birth date input box exists');
+            } else {
+                console.error('❌ Birth date input box does not exist');
+            }
+            
+            if (nName) {
+                console.log('✅ Name input box exists');
+            } else {
+                console.error('❌ Name input box does not exist');
+            }
+        }
+
+        // Test analyzePersonality function specifically
+        function testAnalyzePersonality() {
+            console.log('🧪 Testing analyzePersonality function...');
+            
+            // Check if function exists
+            if (typeof analyzePersonality === 'function') {
+                console.log('✅ analyzePersonality function exists');
+            } else {
+                console.error('❌ analyzePersonality function does not exist');
+                return;
+            }
+            
+            // Check input elements
+            const bDate = document.getElementById('bDate');
+            const bTime = document.getElementById('bTime');
+            
+            if (bDate) {
+                console.log('✅ Birth date input exists:', bDate.value);
+            } else {
+                console.error('❌ Birth date input not found');
+            }
+            
+            if (bTime) {
+                console.log('✅ Birth time input exists:', bTime.value);
+            } else {
+                console.error('❌ Birth time input not found');
+            }
+            
+            // Check result elements
+            const resultElements = ['pillars', 'stemsBranches', 'wuxing', 'mbtiAnalysis', 'baziAnalysis', 'integrationAnalysis'];
+            resultElements.forEach(elementId => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    console.log(`✅ ${elementId} element exists`);
+                } else {
+                    console.error(`❌ ${elementId} element not found`);
+                }
+            });
+            
+            // Check lunar library
+            if (window.Solar || (window.Lunar && window.Lunar.Solar)) {
+                console.log('✅ Lunar library loaded');
+            } else {
+                console.log('⚠️ Lunar library not loaded');
+            }
+            
+            console.log('🧪 Test completed. Check console for results.');
+        }
 
         // Sample setters for quick testing
         function setSampleDate(type){
