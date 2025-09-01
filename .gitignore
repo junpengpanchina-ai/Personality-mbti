@@ -1,3 +1,6 @@
+cat > .gitignore
+<< EOF
+# 忽略操作系统文件
 .DS_Store
 .DS_Store?
 ._*
@@ -5,20 +8,32 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# 忽略日志和数据库文件
 *.log
 *.sqlite
 *.db
+
+# 忽略依赖目录
 node_modules/
 npm-debug.log*
+
+# 忽略环境变量文件
 .env
 .env.local
 .env.production
+
+# 忽略构建输出
 dist/
 build/
 .out/
 .next/
+
+# 忽略 IDE 文件
 .vscode/
 .idea/
 *.swp
 *.swo
+
+# 忽略 macOS 系统文件
 Library/
