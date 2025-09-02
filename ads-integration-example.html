@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>广告集成示例 - MBTI测试</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4198974976257818"
+         crossorigin="anonymous"></script>
+    
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e8e8e8;
+            min-height: 100vh;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+        .header { text-align: center; color: #fff; margin: 24px 0; }
+        .header h1 { margin: 0 0 8px; font-size: 32px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        
+        .card { 
+            background: rgba(255,255,255,0.05); 
+            border-radius: 20px; 
+            padding: 24px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3); 
+            margin-bottom: 20px; 
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn { 
+            display:inline-block; 
+            background: linear-gradient(135deg, #667eea, #764ba2); 
+            color:#fff; 
+            border:none; 
+            padding:12px 24px; 
+            border-radius:25px; 
+            cursor:pointer; 
+            font-weight:600; 
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4); }
+        
+        .question { margin-bottom: 20px; }
+        .question h3 { color: #e2e8f0; margin-bottom: 15px; }
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option { 
+            background: rgba(255,255,255,0.1); 
+            padding: 15px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .option:hover { 
+            background: rgba(255,255,255,0.15); 
+            border-color: #667eea;
+        }
+        .option.selected { 
+            background: rgba(102, 126, 234, 0.3); 
+            border-color: #667eea;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .result { 
+            text-align: center; 
+            padding: 40px; 
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+        .result h2 { color: #fff; margin-bottom: 20px; }
+        .result p { font-size: 18px; line-height: 1.6; }
+        
+        .hidden { display: none; }
+        
+        /* 广告容器样式 */
+        .ad-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .ad-container.sidebar-ad {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            z-index: 1000;
+        }
+        .ad-container.native-ad {
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .ad-container.sidebar-ad {
+                position: static;
+                width: 100%;
+                margin: 20px 0;
+            }
+            .container { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🧠 MBTI测试 - 广告集成示例</h1>
+            <p>展示如何在测试过程中集成各种类型的广告</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 测试开始页面 -->
+        <div id="start-page" class="card">
+            <h2>开始你的MBTI测试</h2>
+            <p>这个测试将帮助你了解自己的性格类型。测试过程中会显示相关广告来支持我们的服务。</p>
+            <button class="btn" onclick="startTest()">开始测试</button>
+        </div>
+
+        <!-- 测试进行页面 -->
+        <div id="test-page" class="card hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div id="question-container">
+                <!-- 问题将在这里动态生成 -->
+            </div>
+            <div id="test-actions" class="hidden">
+                <button class="btn" onclick="nextQuestion()">下一题</button>
+                <button class="btn" onclick="finishTest()">完成测试</button>
+            </div>
+        </div>
+
+        <!-- 结果页面 -->
+        <div id="result-page" class="card hidden">
+            <div class="result">
+                <h2>🎉 测试完成！</h2>
+                <p>你的MBTI类型是：<strong id="result-type">INTJ</strong></p>
+                <p id="result-description">你是一个富有想象力和战略性的思想家，一切皆在计划之中。</p>
+                <button class="btn" onclick="restartTest()">重新测试</button>
+            </div>
+        </div>
+
+        <!-- 广告容器 -->
+        <div id="result-container"></div>
+    </div>
+
+    <!-- 引入广告配置文件 -->
+    <script src="ad-config.js"></script>
+    <!-- 引入广告管理器 -->
+    <script src="ads-manager.js"></script>
+    
+    <script>
+        // 测试数据
+        const testQuestions = [
+            {
+                question: "在社交聚会中，你更倾向于：",
+                options: [
+                    "与很多人交谈，认识新朋友",
+                    "与几个亲密朋友深入交流"
+                ],
+                type: "E/I"
+            },
+            {
+                question: "你更喜欢：",
+                options: [
+                    "具体的事实和数据",
+                    "可能性和理论"
+                ],
+                type: "S/N"
+            },
+            {
+                question: "做决定时，你更依赖：",
+                options: [
+                    "逻辑分析",
+                    "个人价值观和感受"
+                ],
+                type: "T/F"
+            },
+            {
+                question: "你更喜欢：",
+                options: [
+                    "有计划的、有序的生活",
+                    "灵活、自发的生活方式"
+                ],
+                type: "J/P"
+            },
+            {
+                question: "在工作中，你更注重：",
+                options: [
+                    "完成任务和达成目标",
+                    "团队合作和人际关系"
+                ],
+                type: "T/F"
+            },
+            {
+                question: "学习新技能时，你更喜欢：",
+                options: [
+                    "通过实践和体验",
+                    "通过阅读和理论学习"
+                ],
+                type: "S/N"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = {};
+        let testStarted = false;
+
+        // 开始测试
+        function startTest() {
+            document.getElementById('start-page').classList.add('hidden');
+            document.getElementById('test-page').classList.remove('hidden');
+            testStarted = true;
+            
+            // 显示侧边栏广告
+            if (window.adManager) {
+                window.adManager.createSidebarAd();
+            }
+            
+            showQuestion();
+        }
+
+        // 显示问题
+        function showQuestion() {
+            const question = testQuestions[currentQuestion];
+            const container = document.getElementById('question-container');
+            
+            container.innerHTML = `
+                <div class="question">
+                    <h3>问题 ${currentQuestion + 1} / ${testQuestions.length}</h3>
+                    <p>${question.question}</p>
+                    <div class="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // 更新进度条
+            const progress = ((currentQuestion + 1) / testQuestions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            
+            // 检查是否需要在测试过程中插入广告
+            if (window.adManager) {
+                window.adManager.insertAdDuringTest(currentQuestion, 'question-container');
+            }
+        }
+
+        // 选择选项
+        function selectOption(optionIndex) {
+            // 移除之前的选择
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            // 添加当前选择
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+            
+            // 保存答案
+            const question = testQuestions[currentQuestion];
+            answers[question.type] = optionIndex === 0 ? question.type[0] : question.type[1];
+            
+            // 显示下一题按钮
+            document.getElementById('test-actions').classList.remove('hidden');
+        }
+
+        // 下一题
+        function nextQuestion() {
+            if (currentQuestion < testQuestions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+                document.getElementById('test-actions').classList.add('hidden');
+            } else {
+                finishTest();
+            }
+        }
+
+        // 完成测试
+        function finishTest() {
+            // 显示视频广告
+            if (window.adManager) {
+                window.adManager.createVideoAd().then(() => {
+                    showResult();
+                });
+            } else {
+                showResult();
+            }
+        }
+
+        // 显示结果
+        function showResult() {
+            document.getElementById('test-page').classList.add('hidden');
+            document.getElementById('result-page').classList.remove('hidden');
+            
+            // 计算MBTI类型
+            const mbtiType = calculateMBTI();
+            document.getElementById('result-type').textContent = mbtiType;
+            document.getElementById('result-description').textContent = getMBTIDescription(mbtiType);
+            
+            // 显示结果页广告
+            if (window.adManager) {
+                window.adManager.showResultPageAds();
+            }
+        }
+
+        // 计算MBTI类型
+        function calculateMBTI() {
+            const types = ['E', 'I', 'S', 'N', 'T', 'F', 'J', 'P'];
+            let result = '';
+            
+            for (let i = 0; i < types.length; i += 2) {
+                const type1 = types[i];
+                const type2 = types[i + 1];
+                result += answers[type1 + type2] || type1;
+            }
+            
+            return result;
+        }
+
+        // 获取MBTI描述
+        function getMBTIDescription(type) {
+            const descriptions = {
+                'INTJ': '你是一个富有想象力和战略性的思想家，一切皆在计划之中。',
+                'INTP': '你是一个具有创新精神的发明家，对知识有着止不住的渴望。',
+                'ENTJ': '你是一个大胆的、富有想象力的、意志坚强的领导者。',
+                'ENTP': '你是一个聪明好奇的思想家，不会放弃任何智力挑战。',
+                'INFJ': '你是一个安静而神秘的人，同时鼓舞人心且不知疲倦的理想主义者。',
+                'INFP': '你是一个富有诗意、善良且利他主义的人，总是热切地想要帮助正当理由。',
+                'ENFJ': '你是一个富有魅力、鼓舞人心的领导者，有着迷人的魅力。',
+                'ENFP': '你是一个热情、有创造力、社交能力强、自由奔放的人。'
+            };
+            return descriptions[type] || '你是一个独特的人，有着自己的性格特点。';
+        }
+
+        // 重新开始测试
+        function restartTest() {
+            currentQuestion = 0;
+            answers = {};
+            testStarted = false;
+            
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById('start-page').classList.remove('hidden');
+            
+            // 移除广告
+            const sidebarAd = document.getElementById('sidebar-ad');
+            if (sidebarAd) sidebarAd.remove();
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('广告集成示例页面已加载');
+            
+            // 检查广告管理器是否可用
+            if (window.adManager) {
+                console.log('广告管理器已初始化');
+            } else {
+                console.warn('广告管理器未初始化');
+            }
+        });
+    </script>
+</body>
+</html>

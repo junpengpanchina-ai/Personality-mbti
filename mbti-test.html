@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧠 MBTI Four Dimensions Test - Tarot × MBTI</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4198974976257818"
+         crossorigin="anonymous"></script>
+    
+    <!-- 引入广告配置文件 -->
+    <script src="ad-config.js"></script>
+    <script src="ads-manager.js"></script>
+    
     <style>
         * { box-sizing: border-box; }
         body {
@@ -109,9 +118,41 @@
             margin-bottom: 8px;
         }
         
+        /* 广告容器样式 */
+        .ad-container {
+            margin: 20px 0;
+            text-align: center;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .ad-container.sidebar-ad {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .ad-container.native-ad {
+            margin: 20px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .ad-container.result-ad {
+            margin: 30px 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
         @media (max-width: 768px) {
             .container { padding: 16px; }
             .header h1 { font-size: 24px; }
+            .ad-container.sidebar-ad {
+                position: static;
+                width: 100%;
+                margin: 20px 0;
+            }
         }
     </style>
 </head>
@@ -135,6 +176,11 @@
         <!-- MBTI Test Section -->
         <div class="card">
             <h3 class="section-title">🧠 MBTI Four Dimensions Test</h3>
+            
+            <!-- 测试开始前的广告 -->
+            <div id="pre-test-ad" class="ad-container native-ad">
+                <!-- 广告将在这里动态加载 -->
+            </div>
             <p class="muted">Answer all 8 questions to discover your personality type. Each question helps determine one of the four MBTI dimensions.</p>
             
             <div class="progress-bar">
@@ -143,6 +189,11 @@
             
             <div id="mbtiQuestions">
                 <!-- Questions will be populated by JavaScript -->
+            </div>
+            
+            <!-- 测试完成后的广告 -->
+            <div id="post-test-ad" class="ad-container result-ad" style="display: none;">
+                <!-- 广告将在这里动态加载 -->
             </div>
             
             <div style="margin-top:20px">
@@ -260,6 +311,9 @@
             if (answeredQuestions === totalQuestions) {
                 nextBtn.disabled = false;
                 calculateMBTI();
+                
+                // 显示测试完成后的广告
+                showPostTestAd();
             } else {
                 nextBtn.disabled = true;
             }
@@ -298,9 +352,20 @@
 
         // Proceed to tarot card selection
         function proceedToTarot() {
-            const userInfo = getUserInfo();
-            const url = `tarot-test.html?mbtiType=${mbtiType}&birthDate=${encodeURIComponent(userInfo.birthDate)}&birthTime=${encodeURIComponent(userInfo.birthTime)}&name=${encodeURIComponent(userInfo.name)}`;
-            window.location.href = url;
+            // 显示视频广告
+            if (window.adManager) {
+                window.adManager.createVideoAd().then(() => {
+                    // 广告播放完成后跳转
+                    const userInfo = getUserInfo();
+                    const url = `tarot-test.html?mbtiType=${mbtiType}&birthDate=${encodeURIComponent(userInfo.birthDate)}&birthTime=${encodeURIComponent(userInfo.birthTime)}&name=${encodeURIComponent(userInfo.name)}`;
+                    window.location.href = url;
+                });
+            } else {
+                // 没有广告管理器时直接跳转
+                const userInfo = getUserInfo();
+                const url = `tarot-test.html?mbtiType=${mbtiType}&birthDate=${encodeURIComponent(userInfo.birthDate)}&birthTime=${encodeURIComponent(userInfo.birthTime)}&name=${encodeURIComponent(userInfo.name)}`;
+                window.location.href = url;
+            }
         }
 
         // Initialize page
@@ -308,7 +373,38 @@
             console.log('MBTI Test page loaded');
             displayUserInfo();
             renderMBTIQuestions();
+            
+            // 初始化广告
+            initializeAds();
         });
+        
+        // 初始化广告系统
+        function initializeAds() {
+            if (window.adManager) {
+                // 显示侧边栏广告
+                window.adManager.createSidebarAd();
+                
+                // 显示测试前广告
+                window.adManager.createNativeAd('pre-test-ad');
+                
+                console.log('广告系统已初始化');
+            } else {
+                console.warn('广告管理器未加载');
+            }
+        }
+        
+        // 显示测试完成后的广告
+        function showPostTestAd() {
+            const postTestAd = document.getElementById('post-test-ad');
+            if (postTestAd) {
+                postTestAd.style.display = 'block';
+                
+                // 加载结果页广告
+                if (window.adManager) {
+                    window.adManager.createNativeAd('post-test-ad');
+                }
+            }
+        }
     </script>
 </body>
 </html>
