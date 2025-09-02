@@ -7624,15 +7624,15 @@
                     action: () => window.location.href = 'tarot-test.html'
                 },
                 'numerology': {
-                    title: '🔢 数字命理',
-                    description: '通过数字解读你的性格特征、天赋才能和人生使命。',
-                    status: '当前可用',
+                    title: '🔢 Numerology',
+                    description: 'Discover your personality traits, talents, and life purpose through the power of numbers.',
+                    status: 'Available Now',
                     action: () => window.location.href = 'test-numerology.html'
                 },
                 'chinese-zodiac': {
-                    title: '🐉 生肖测试',
-                    description: '十二生肖性格特征深度解析，了解你的生肖特质和潜在优势。',
-                    status: '当前可用',
+                    title: '🐉 Chinese Zodiac',
+                    description: 'Deep analysis of the 12 zodiac animal personality traits, discover your zodiac characteristics and potential strengths.',
+                    status: 'Available Now',
                     action: () => window.location.href = 'chinese-zodiac-test.html'
                 }
             };
@@ -7651,12 +7651,12 @@
                         </div>
                         <div class="feature-modal-body">
                             <p>${feature.description}</p>
-                            <div class="feature-status-badge ${feature.status === '当前可用' ? 'active' : 'coming-soon'}">
+                            <div class="feature-status-badge ${feature.status === 'Available Now' ? 'active' : 'coming-soon'}">
                                 ${feature.status}
                             </div>
                             <div class="feature-actions">
-                                <button class="btn" onclick="this.closest('.feature-modal').remove(); ${feature.status === '当前可用' ? 'executeFeatureAction()' : 'showToast(\'功能即将推出，敬请期待！\', \'info\')'}">
-                                    ${feature.status === '当前可用' ? '开始测试' : '我知道了'}
+                                <button class="btn" onclick="this.closest('.feature-modal').remove(); ${feature.status === 'Available Now' ? 'executeFeatureAction()' : 'showToast(\'功能即将推出，敬请期待！\', \'info\')'}">
+                                    ${feature.status === 'Available Now' ? 'Start Test' : '我知道了'}
                                 </button>
                             </div>
                         </div>
