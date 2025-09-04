@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件加载诊断 - Personality MBTI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .loading { background-color: #fff3cd; color: #856404; }
+        .file-list {
+            margin: 20px 0;
+        }
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .file-name { font-family: monospace; }
+        .status-icon { font-size: 18px; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover { background: #0056b3; }
+        #log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 文件加载诊断</h1>
+        <p>这个页面用于诊断所有必需文件的加载状态。</p>
+        
+        <div class="file-list">
+            <h3>📁 必需文件列表</h3>
+            <div id="fileList"></div>
+        </div>
+        
+        <div>
+            <button onclick="testAllFiles()">🧪 测试所有文件</button>
+            <button onclick="clearLog()">🗑️ 清空日志</button>
+            <button onclick="location.reload()">🔄 重新加载页面</button>
+        </div>
+        
+        <div id="log"></div>
+        
+        <div id="summary"></div>
+    </div>
+
+    <script>
+        // 必需文件列表
+        const requiredFiles = [
+            'ad-config.js',
+            'ads-manager.js',
+            'amp-ad-config.js',
+            'amp-ad-manager.js',
+            'ad-analytics.js',
+            'ad-optimizer.js',
+            'ads.txt'
+        ];
+        
+        let testResults = {};
+        
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logEntry.style.color = type === 'error' ? '#dc3545' : type === 'success' ? '#28a745' : '#6c757d';
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+        
+        function updateFileList() {
+            const fileListDiv = document.getElementById('fileList');
+            fileListDiv.innerHTML = '';
+            
+            requiredFiles.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <span class="file-name">${file}</span>
+                    <span class="status-icon" id="status-${file}">⏳</span>
+                `;
+                fileListDiv.appendChild(fileItem);
+            });
+        }
+        
+        async function testFile(fileName) {
+            const statusIcon = document.getElementById(`status-${fileName}`);
+            statusIcon.textContent = '⏳';
+            statusIcon.style.color = '#ffc107';
+            
+            try {
+                log(`测试文件: ${fileName}`, 'info');
+                
+                const response = await fetch(fileName, {
+                    method: 'HEAD',
+                    cache: 'no-cache'
+                });
+                
+                if (response.ok) {
+                    statusIcon.textContent = '✅';
+                    statusIcon.style.color = '#28a745';
+                    testResults[fileName] = 'success';
+                    log(`✅ ${fileName} 加载成功 (${response.status})`, 'success');
+                } else {
+                    statusIcon.textContent = '❌';
+                    statusIcon.style.color = '#dc3545';
+                    testResults[fileName] = 'error';
+                    log(`❌ ${fileName} 加载失败 (${response.status})`, 'error');
+                }
+            } catch (error) {
+                statusIcon.textContent = '❌';
+                statusIcon.style.color = '#dc3545';
+                testResults[fileName] = 'error';
+                log(`❌ ${fileName} 网络错误: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testAllFiles() {
+            log('开始测试所有文件...', 'info');
+            clearLog();
+            updateFileList();
+            
+            // 并行测试所有文件
+            const promises = requiredFiles.map(file => testFile(file));
+            await Promise.all(promises);
+            
+            // 显示总结
+            showSummary();
+        }
+        
+        function showSummary() {
+            const summaryDiv = document.getElementById('summary');
+            const successCount = Object.values(testResults).filter(status => status === 'success').length;
+            const totalCount = requiredFiles.length;
+            const errorCount = totalCount - successCount;
+            
+            let summaryHTML = '<h3>📊 测试总结</h3>';
+            summaryHTML += `<div class="status ${errorCount === 0 ? 'success' : 'error'}">`;
+            summaryHTML += `成功: ${successCount}/${totalCount} 个文件`;
+            if (errorCount > 0) {
+                summaryHTML += ` | 失败: ${errorCount} 个文件`;
+            }
+            summaryHTML += '</div>';
+            
+            if (errorCount > 0) {
+                summaryHTML += '<h4>❌ 失败的文件:</h4><ul>';
+                Object.entries(testResults).forEach(([file, status]) => {
+                    if (status === 'error') {
+                        summaryHTML += `<li>${file}</li>`;
+                    }
+                });
+                summaryHTML += '</ul>';
+                
+                summaryHTML += '<h4>🔧 建议解决方案:</h4>';
+                summaryHTML += '<ol>';
+                summaryHTML += '<li>清除浏览器缓存 (Ctrl+Shift+R 或 Cmd+Shift+R)</li>';
+                summaryHTML += '<li>检查网络连接</li>';
+                summaryHTML += '<li>确认文件存在于服务器上</li>';
+                summaryHTML += '<li>检查控制台是否有其他错误</li>';
+                summaryHTML += '</ol>';
+            } else {
+                summaryHTML += '<div class="status success">🎉 所有文件加载正常！</div>';
+            }
+            
+            summaryDiv.innerHTML = summaryHTML;
+        }
+        
+        // 页面加载时自动测试
+        window.addEventListener('load', () => {
+            log('页面加载完成，开始自动测试...', 'info');
+            testAllFiles();
+        });
+    </script>
+</body>
+</html>
