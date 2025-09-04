@@ -286,10 +286,9 @@ class AdManager {
                         <!-- 展示广告 -->
                         <ins class="adsbygoogle"
                              style="display:block"
+                             data-ad-format="autorelaxed"
                              data-ad-client="ca-pub-4198974976257818"
-                             data-ad-slot="9310887265"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
+                             data-ad-slot="7986197300"></ins>
                     </div>
                     ${this.config.adStrategy.showProgress ? '<div class="video-ad-progress"><div class="progress-bar"></div></div>' : ''}
                 </div>

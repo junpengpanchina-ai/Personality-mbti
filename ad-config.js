@@ -25,28 +25,28 @@ const AD_CONFIG = {
         adSlots: {
             // 侧边栏广告
             sidebar: {
-                slotId: '9310887265',
+                slotId: '7986197300',
                 format: 'auto',
                 responsive: true,
                 style: { display: 'block' }
             },
             // 测试结果页广告
             resultPage: {
-                slotId: '9310887265',
+                slotId: '7986197300',
                 format: 'auto',
                 responsive: true,
                 style: { display: 'block' }
             },
             // 信息流广告
             native: {
-                slotId: '9310887265',
+                slotId: '7986197300',
                 format: 'fluid',
                 responsive: true,
                 style: { display: 'block' }
             },
             // 视频广告
             video: {
-                slotId: '9310887265',
+                slotId: '7986197300',
                 format: 'auto',
                 responsive: true,
                 style: { display: 'block' }

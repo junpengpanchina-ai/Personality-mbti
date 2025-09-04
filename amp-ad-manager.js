@@ -86,8 +86,8 @@ class AMPAdManager {
         ampAd.setAttribute('height', '320');
         ampAd.setAttribute('type', 'adsense');
         ampAd.setAttribute('data-ad-client', 'ca-pub-4198974976257818');
-        ampAd.setAttribute('data-ad-slot', '9310887265');
-        ampAd.setAttribute('data-auto-format', 'rspv');
+        ampAd.setAttribute('data-ad-slot', '7986197300');
+        ampAd.setAttribute('data-auto-format', 'mcrspv');
         ampAd.setAttribute('data-full-width', '');
         
         // 应用样式

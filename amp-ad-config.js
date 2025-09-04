@@ -6,36 +6,41 @@ const AMP_AD_CONFIG = {
         topBanner: {
             width: 320,
             height: 50,
-            slotId: '9310887265', // 真实 slot ID
-            type: 'adsense'
+            slotId: '7986197300', // 真实 slot ID
+            type: 'adsense',
+            format: 'mcrspv'
         },
         // 侧边栏
         sidebar: {
             width: 300,
             height: 250,
-            slotId: '9310887265', // 真实 slot ID
-            type: 'adsense'
+            slotId: '7986197300', // 真实 slot ID
+            type: 'adsense',
+            format: 'mcrspv'
         },
         // 信息流
         native: {
             width: 320,
             height: 100,
-            slotId: '9310887265', // 真实 slot ID
-            type: 'adsense'
+            slotId: '7986197300', // 真实 slot ID
+            type: 'adsense',
+            format: 'mcrspv'
         },
         // 底部粘性
         stickyBottom: {
             width: 320,
             height: 50,
-            slotId: '9310887265', // 真实 slot ID
-            type: 'adsense'
+            slotId: '7986197300', // 真实 slot ID
+            type: 'adsense',
+            format: 'mcrspv'
         },
         // 测试中插播
         testInterstitial: {
             width: 300,
             height: 250,
             slotId: '1234567894', // 替换为你的真实 slot ID
-            type: 'adsense'
+            type: 'adsense',
+            format: 'mcrspv'
         }
     },
     
