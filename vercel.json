@@ -6,6 +6,22 @@
       "use": "@vercel/static"
     },
     {
+      "src": "*.txt",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.json",
+      "use": "@vercel/static"
+    },
+    {
       "src": "api/*.js",
       "use": "@vercel/node"
     }
@@ -41,6 +57,12 @@
           "value": "public, max-age=31536000"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/ads.txt",
+      "destination": "/ads.txt"
     }
   ]
 }
