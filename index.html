@@ -17,6 +17,14 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4198974976257818"
          crossorigin="anonymous"></script>
     
+    <!-- Ad Configuration -->
+    <script src="ad-config.js"></script>
+    <script src="ads-manager.js"></script>
+    <script src="amp-ad-config.js"></script>
+    <script src="amp-ad-manager.js"></script>
+    <script src="ad-analytics.js"></script>
+    <script src="ad-optimizer.js"></script>
+    
     <!-- Ads enabled -->
     <style>
         * {
@@ -214,7 +222,11 @@
             font-size: 0.9rem;
         }
 
-        /* Google 按钮样式已删除 */
+        /*
+        
+        Google 按钮样式已删除 */
+
+        
 
         .register-link {
             text-align: center;
@@ -2676,6 +2688,87 @@
             list-style: none;
             padding: 0;
         }
+        
+        /* 新的逐题测试样式 */
+        .question-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            min-height: 200px;
+        }
+        
+        .question-container h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.2rem;
+        }
+        
+        .question-container p {
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        
+        .question-container .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .question-container .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .question-container .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .question-container .option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        
+        .question-container .option.selected {
+            border-color: #667eea;
+            background: #e8f0fe;
+        }
+        
+        .test-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .test-navigation .btn {
+            min-width: 120px;
+        }
+        
+        /* 广告容器样式 */
+        .ad-container {
+            margin: 20px 0;
+            text-align: center;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .ad-container.native-ad {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
 
         .zodiac-mbti-modal .option-item {
             margin-bottom: 12px;
@@ -3447,9 +3540,22 @@
                         <div class="progress-bar">
                             <div class="progress-fill" id="mbtiProgress"></div>
                         </div>
-                        <div id="mbtiQuestions"></div>
-                        <button class="btn btn-secondary" onclick="previousZodiacSection('basicInfoSection')">Back</button>
-                        <button class="btn" onclick="nextZodiacSection('zodiacSection')" id="mbtiNextBtn" disabled>Submit</button>
+                        
+                        <!-- 当前题目显示区域 -->
+                        <div id="currentQuestion" class="question-container">
+                            <!-- 题目将在这里动态显示 -->
+                        </div>
+                        
+                        <!-- 广告容器 -->
+                        <div id="mbti-ad-container" class="ad-container native-ad" style="display: none;">
+                            <!-- 广告将在这里显示 -->
+                        </div>
+                        
+                        <!-- 导航按钮 -->
+                        <div class="test-navigation">
+                            <button class="btn btn-secondary" onclick="previousZodiacSection('basicInfoSection')">Back</button>
+                            <button class="btn" onclick="nextMBTIQuestion()" id="mbtiNextBtn" disabled>Next Question</button>
+                        </div>
                     </div>
 
                     <!-- Zodiac Traits Test -->
@@ -4822,6 +4928,12 @@
         // 导航到指定页面
         function navigateToPage(page, addToHistory = true) {
             console.log(`导航到页面: ${page}`);
+            // 强制结果页走广告门槛
+            if (page === PAGE_STATES.RESULT && !window.__adGatePassed) {
+                console.log('结果页被拦截，触发广告门槛');
+                showResults();
+                return;
+            }
             
             // 保存当前页面到历史记录
             if (addToHistory && currentPage !== page) {
@@ -5790,6 +5902,8 @@
 
         function startTest() {
             if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
+            // 重置广告门槛状态
+            window.__adGatePassed = false;
             navigateToPage(PAGE_STATES.TEST);
             initializeTest();
             showQuestion();
@@ -6357,7 +6471,44 @@
                 nextBtn.disabled = false;
             }
         }
-        function showResults() {
+        async function showResults() {
+            // 先显示广告，然后显示结果
+            try {
+                console.log('开始显示广告...');
+                
+                // 检查广告管理器是否存在
+                if (!window.adManager) {
+                    console.log('广告管理器不存在，显示 fallback');
+                    showFallbackAd();
+                    return;
+                }
+                
+                // 检查用户是否已同意
+                const consent = localStorage.getItem('adsConsent');
+                if (consent !== 'accepted') {
+                    console.log('用户未同意，显示 fallback');
+                    showFallbackAd();
+                    return;
+                }
+                
+                // 尝试显示 AdSense 广告
+                if (window.AD_CONFIG?.googleAdsense?.enabled) {
+                    console.log('尝试显示 AdSense 广告...');
+                    await window.adManager.createVideoAd();
+                    // 标记已通过广告门槛
+                    window.__adGatePassed = true;
+                } else {
+                    console.log('AdSense 未启用，显示 fallback');
+                    showFallbackAd();
+                    return;
+                }
+            } catch (e) {
+                // 广告失败，显示 fallback
+                console.log('广告加载失败，显示 fallback:', e);
+                showFallbackAd();
+                return;
+            }
+            
             navigateToPage(PAGE_STATES.RESULT);
             
             // 计算性格类型
@@ -6399,6 +6550,97 @@
             return depthDescriptions[level] || "未知层级";
         }
 
+        // 显示 Fallback 广告
+        function showFallbackAd() {
+            console.log('显示 Fallback 广告...');
+            
+            const overlay = document.createElement('div');
+            overlay.id = 'fallback-ad-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.88);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 99999;
+                color: white;
+            `;
+            
+            overlay.innerHTML = `
+                <div style="width: min(92vw, 520px); background: #111827; border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.4)">
+                    <div style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; background: #1f2937; border-bottom: 1px solid #374151;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="font-size: 14px; opacity: .9;">Personality MBTI</div>
+                        </div>
+                        <span style="font-size: 12px; opacity: .7;">Sponsorship</span>
+                    </div>
+                    <div style="padding: 18px 16px; text-align: center;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Your result unlocks after a brief message</div>
+                        <div id="fallback-countdown" style="font-size: 28px; font-weight: 800; color: #10b981;">30</div>
+                        <div style="margin-top: 8px; font-size: 13px; opacity: .8;">We keep tests free by showing a short sponsorship message.</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(overlay);
+            
+            // 开始倒计时
+            let remaining = 30;
+            const countdown = setInterval(() => {
+                remaining--;
+                const countdownEl = document.getElementById('fallback-countdown');
+                if (countdownEl) {
+                    countdownEl.textContent = remaining;
+                }
+                
+                if (remaining <= 0) {
+                    clearInterval(countdown);
+                    overlay.remove();
+                    console.log('Fallback 广告播放完成，显示结果');
+                    // 标记已通过广告门槛
+                    window.__adGatePassed = true;
+                    
+                    // 显示结果
+                    setTimeout(() => {
+                        navigateToPage(PAGE_STATES.RESULT);
+                        showResultsContent();
+                    }, 500);
+                }
+            }, 1000);
+        }
+
+        // 显示结果内容
+        function showResultsContent() {
+            // 计算性格类型
+            const type = (scores.E > scores.I ? 'E' : 'I') +
+                        (scores.S > scores.N ? 'S' : 'N') +
+                        (scores.T > scores.F ? 'T' : 'F') +
+                        (scores.J > scores.P ? 'J' : 'P');
+            
+            document.getElementById('personalityType').textContent = type;
+            
+            // 显示维度分析
+            showDimensions();
+            
+            // 显示类型描述
+            document.getElementById('typeDescription').innerHTML = `
+                <p><strong>${type}</strong> - ${typeDescriptions[type] || '这是一个独特的性格类型组合。'}</p>
+                <p>基于你的回答，我们分析了你在四个维度上的偏好：</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>外向(E) vs 内向(I)</strong>：你倾向于${scores.E > scores.I ? '外向' : '内向'}，得分为 ${scores.E.toFixed(1)}:${scores.I.toFixed(1)}</li>
+                    <li><strong>感觉(S) vs 直觉(N)</strong>：你倾向于${scores.S > scores.N ? '感觉' : '直觉'}，得分为 ${scores.S.toFixed(1)}:${scores.N.toFixed(1)}</li>
+                    <li><strong>思考(T) vs 情感(F)</strong>：你倾向于${scores.T > scores.F ? '思考' : '情感'}，得分为 ${scores.T.toFixed(1)}:${scores.F.toFixed(1)}</li>
+                    <li><strong>判断(J) vs 感知(P)</strong>：你倾向于${scores.J > scores.P ? '判断' : '感知'}，得分为 ${scores.J.toFixed(1)}:${scores.P.toFixed(1)}</li>
+                </ul>
+                <p><strong>测试完成度：</strong>你完成了 ${answers.length} 道题目，涵盖了 ${Object.values(dimensionProgress).filter(p => p > 0).length} 个维度的深度测试。</p>
+                <p><strong>测试层级：</strong>最高达到第 ${Math.max(...answers.map(a => a.level))} 层级，测试深度：${getTestDepthDescription(Math.max(...answers.map(a => a.level)))}</p>
+            `;
+        }
+
         function showDimensions() {
             const container = document.getElementById('dimensionsContainer');
             container.innerHTML = '';
@@ -6434,6 +6676,8 @@
             currentQuestion = 0;
             answers = [];
             scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+            // 重置广告门槛状态
+            window.__adGatePassed = false;
             
             navigateToPage(PAGE_STATES.HOME);
         }
@@ -8074,12 +8318,15 @@
                 restartZodiacTest();
                 console.log('测试状态已重置');
                 
+                // 开始逐题MBTI测试
+                startMBTITest();
+                
                 // 设置为立即体验模式：显示测试题目
                 const startTestBtn = document.getElementById('startTestBtn');
                 if (startTestBtn) {
                     startTestBtn.textContent = '开始测试';
                     startTestBtn.onclick = function() {
-                        startZodiacTestExperience();
+                        showZodiacSection('mbtiSection');
                     };
                     console.log('设置为立即体验模式');
                 }
@@ -8721,7 +8968,124 @@
             if (window.i18n && typeof i18n.setLanguage === 'function') { i18n.setLanguage('en'); if (typeof i18n.apply==='function') i18n.apply(); }
         }
 
-        // 更新进度
+        // 新的逐题测试变量
+        let currentMBTIQuestion = 0;
+        let mbtiAnswers = {};
+        let mbtiTestStarted = false;
+        
+        // 开始MBTI逐题测试
+        function startMBTITest() {
+            currentMBTIQuestion = 0;
+            mbtiAnswers = {};
+            mbtiTestStarted = true;
+            showCurrentMBTIQuestion();
+            
+            // 初始化广告
+            if (window.adManager) {
+                window.adManager.createSidebarAd();
+            }
+        }
+        
+        // 显示当前MBTI题目
+        function showCurrentMBTIQuestion() {
+            const container = document.getElementById('currentQuestion');
+            const question = zodiacMBTIQuestions.mbti[currentMBTIQuestion];
+            
+            if (!question) {
+                finishMBTITest();
+                return;
+            }
+            
+            container.innerHTML = `
+                <h3>Question ${currentMBTIQuestion + 1} of ${zodiacMBTIQuestions.mbti.length}</h3>
+                <p>${question.question}</p>
+                <div class="options">
+                    ${question.options.map((option, index) => `
+                        <label class="option" onclick="selectMBTIOption('${option.value}', '${option.category}')">
+                            <input type="radio" name="mbti_${currentMBTIQuestion}" value="${option.value}" 
+                                   ${mbtiAnswers[option.category] === option.value ? 'checked' : ''}>
+                            ${option.text}
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+            
+            // 更新进度条
+            updateMBTIProgress();
+            
+            // 检查是否需要在题目间插入广告
+            if (window.adManager && currentMBTIQuestion > 0 && currentMBTIQuestion % 3 === 0) {
+                showMBTIAd();
+            }
+        }
+        
+        // 选择MBTI选项
+        function selectMBTIOption(value, category) {
+            mbtiAnswers[category] = value;
+            
+            // 更新UI选中状态
+            document.querySelectorAll('#currentQuestion .option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            event.target.closest('.option').classList.add('selected');
+            
+            // 启用下一题按钮
+            document.getElementById('mbtiNextBtn').disabled = false;
+        }
+        
+        // 下一题
+        function nextMBTIQuestion() {
+            if (currentMBTIQuestion < zodiacMBTIQuestions.mbti.length - 1) {
+                currentMBTIQuestion++;
+                showCurrentMBTIQuestion();
+                document.getElementById('mbtiNextBtn').disabled = true;
+            } else {
+                finishMBTITest();
+            }
+        }
+        
+        // 完成MBTI测试
+        function finishMBTITest() {
+            // 显示视频广告
+            if (window.adManager) {
+                window.adManager.createVideoAd().then(() => {
+                    proceedToZodiacTest();
+                });
+            } else {
+                proceedToZodiacTest();
+            }
+        }
+        
+        // 进入星座测试
+        function proceedToZodiacTest() {
+            // 保存MBTI答案
+            zodiacTestAnswers.mbti = mbtiAnswers;
+            
+            // 跳转到星座测试
+            showZodiacSection('zodiacSection');
+        }
+        
+        // 显示MBTI广告
+        function showMBTIAd() {
+            const adContainer = document.getElementById('mbti-ad-container');
+            if (adContainer && window.adManager) {
+                adContainer.style.display = 'block';
+                window.adManager.createNativeAd('mbti-ad-container');
+                
+                // 3秒后隐藏广告
+                setTimeout(() => {
+                    adContainer.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        // 更新MBTI进度
+        function updateMBTIProgress() {
+            const progress = ((currentMBTIQuestion + 1) / zodiacMBTIQuestions.mbti.length) * 100;
+            document.getElementById('mbtiProgress').style.width = progress + '%';
+        }
+        
+        // 更新进度（保留原函数以兼容）
         function updateZodiacMBTIProgress() {
             const answered = document.querySelectorAll('#mbtiQuestions input[type="radio"]:checked').length;
             const total = zodiacMBTIQuestions.mbti.length;

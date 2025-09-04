@@ -260,6 +260,7 @@
 
         function startTest(){
             console.log('Start professional MBTI test');
+            window.__adGatePassed = false;
             currentIndex = 0;
             selections.fill(null);
             Object.keys(scores).forEach(k => scores[k] = 0);
@@ -356,12 +357,12 @@
             renderQuestion();
         }
 
-        function submit(){
+        async function submit(){
             console.log('Submit MBTI test results');
             
             // 累计分数
             Object.keys(scores).forEach(k => scores[k] = 0);
-            selections.forEach((val, i) => { if (val) scores[val] += 1; });
+            selections.forEach((val) => { if (val) scores[val] += 1; });
             const getPair = (a,b) => scores[a] >= scores[b] ? a : b;
             const type = [ getPair('E','I'), getPair('S','N'), getPair('T','F'), getPair('J','P') ].join('');
 
@@ -379,11 +380,40 @@
                 P: Math.round(100 * scores.P / countByDim.JP)
             };
 
-            // 渲染结果
+            // 广告门槛
+            try {
+                // 等待 adManager 初始化
+                if (!window.adManager) {
+                    console.log('Waiting for adManager to initialize...');
+                    await new Promise(resolve => {
+                        const checkAdManager = () => {
+                            if (window.adManager) {
+                                resolve();
+                            } else {
+                                setTimeout(checkAdManager, 100);
+                            }
+                        };
+                        checkAdManager();
+                    });
+                }
+                
+                const consent = localStorage.getItem('adsConsent');
+                if (consent !== 'accepted') throw new Error('consent not accepted');
+                if (window.AD_CONFIG?.googleAdsense?.enabled) {
+                    await window.adManager.createVideoAd();
+                    window.__adGatePassed = true;
+                } else {
+                    return showFallbackAdQuickTest(type, pct);
+                }
+            } catch (e) {
+                console.log('Ad gate fallback in quick test:', e && e.message);
+                return showFallbackAdQuickTest(type, pct);
+            }
+
+            // 渲染结果（广告完成后）
             $('#type').textContent = type;
-            $('#ztype').textContent = type; // 使用相同的类型，因为这是纯MBTI测试
+            $('#ztype').textContent = type;
             $('#zsummary').innerHTML = 'Professional MBTI Analysis';
-            
             $('#breakdown').innerHTML = `
                 <div class="grid">
                     <div class="card"><div class="pill">Extraversion E / Introversion I</div><p class="muted">E ${pct.E}% · I ${pct.I}%</p></div>
@@ -392,11 +422,48 @@
                     <div class="card"><div class="pill">Judging J / Perceiving P</div><p class="muted">J ${pct.J}% · P ${pct.P}%</p></div>
                 </div>
             `;
-            
-            // MBTI类型详解
             const detail = document.getElementById('typeDetail');
             if (detail) detail.innerHTML = `<div class="card"><div class="pill">Type Insights</div><p class="muted">Detailed type insights are coming soon.</p></div>`;
+            show('#result');
+        }
 
+        function showFallbackAdQuickTest(type, pct){
+            // 30s 品牌化倒计时
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;z-index:99999;color:#fff';
+            overlay.innerHTML = `
+                <div style="width:min(92vw,520px);background:#111827;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4)">
+                    <div style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;background:#1f2937;border-bottom:1px solid #374151;">
+                        <div style="font-size:14px;opacity:.9;">Personality MBTI</div>
+                        <span style="font-size:12px;opacity:.7;">Sponsorship</span>
+                    </div>
+                    <div style="padding:18px 16px;text-align:center;">
+                        <div style="font-size:16px;font-weight:600;margin-bottom:8px;">Your result unlocks after a brief message</div>
+                        <div id="qt-countdown" style="font-size:28px;font-weight:800;color:#10b981;">30</div>
+                        <div style="margin-top:8px;font-size:13px;opacity:.8;">We keep tests free by showing a short sponsorship message.</div>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+            let left = 30;
+            const t = setInterval(()=>{
+                left--; const el = document.getElementById('qt-countdown'); if (el) el.textContent = String(left);
+                if (left <= 0) { clearInterval(t); overlay.remove(); window.__adGatePassed = true; renderQuickTestResult(type, pct); }
+            },1000);
+        }
+
+        function renderQuickTestResult(type, pct){
+            $('#type').textContent = type;
+            $('#ztype').textContent = type;
+            $('#zsummary').innerHTML = 'Professional MBTI Analysis';
+            $('#breakdown').innerHTML = `
+                <div class="grid">
+                    <div class="card"><div class="pill">Extraversion E / Introversion I</div><p class="muted">E ${pct.E}% · I ${pct.I}%</p></div>
+                    <div class="card"><div class="pill">Sensing S / Intuition N</div><p class="muted">S ${pct.S}% · N ${pct.N}%</p></div>
+                    <div class="card"><div class="pill">Thinking T / Feeling F</div><p class="muted">T ${pct.T}% · F ${pct.F}%</p></div>
+                    <div class="card"><div class="pill">Judging J / Perceiving P</div><p class="muted">J ${pct.J}% · P ${pct.P}%</p></div>
+                </div>`;
+            const detail = document.getElementById('typeDetail');
+            if (detail) detail.innerHTML = `<div class="card"><div class="pill">Type Insights</div><p class="muted">Detailed type insights are coming soon.</p></div>`;
             show('#result');
         }
 
@@ -407,6 +474,8 @@
             show('#welcome');
         }
     </script>
+    <script src="ad-config.js"></script>
+    <script src="ads-manager.js"></script>
     <link rel="icon" href="data:,">
     <meta name="color-scheme" content="light dark">
 </head>

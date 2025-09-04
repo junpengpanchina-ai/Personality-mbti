@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdSense 配置助手</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 8px; padding: 20px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .step { margin: 15px 0; padding: 15px; background: #f8f9fa; border-left: 4px solid #007bff; border-radius: 4px; }
+        .code { background: #f1f3f4; padding: 10px; border-radius: 4px; font-family: 'Courier New', monospace; margin: 10px 0; }
+        .btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        .btn:hover { background: #0056b3; }
+        .input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px 0; }
+        .highlight { background: #fff3cd; padding: 10px; border-radius: 4px; border: 1px solid #ffeaa7; }
+    </style>
+</head>
+<body>
+    <h1>🚀 AdSense 配置助手</h1>
+    
+    <div class="card">
+        <h2>步骤1：创建广告单元</h2>
+        <div class="step">
+            <strong>1.1 登录 AdSense</strong>
+            <p>访问 <a href="https://www.google.com/adsense/" target="_blank">AdSense 控制台</a></p>
+        </div>
+        
+        <div class="step">
+            <strong>1.2 创建广告单元</strong>
+            <p>点击 "广告" → "按广告单元" → "创建广告单元"</p>
+            <p>选择以下格式：</p>
+            <ul>
+                <li><strong>展示广告</strong> - 用于侧边栏和结果页</li>
+                <li><strong>信息流广告</strong> - 用于内容中</li>
+                <li><strong>视频广告</strong> - 用于视频插播</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <strong>1.3 获取 Slot ID</strong>
+            <p>创建完成后，复制每个广告单元的 Slot ID（10位数字）</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>步骤2：配置 Slot ID</h2>
+        <p>将获取到的 Slot ID 填入下方，点击生成配置：</p>
+        
+        <div class="highlight">
+            <strong>Publisher ID:</strong> ca-pub-4198974976257818<br>
+            <small>（这个已经配置好了）</small>
+        </div>
+        
+        <form id="slotForm">
+            <label>侧边栏广告 Slot ID:</label>
+            <input type="text" id="sidebarSlot" class="input" placeholder="例如: 1234567890">
+            
+            <label>结果页广告 Slot ID:</label>
+            <input type="text" id="resultPageSlot" class="input" placeholder="例如: 1234567891">
+            
+            <label>信息流广告 Slot ID:</label>
+            <input type="text" id="nativeSlot" class="input" placeholder="例如: 1234567892">
+            
+            <label>视频广告 Slot ID:</label>
+            <input type="text" id="videoSlot" class="input" placeholder="例如: 1234567893">
+            
+            <button type="button" class="btn" onclick="generateConfig()">生成配置</button>
+        </form>
+    </div>
+
+    <div class="card" id="configOutput" style="display: none;">
+        <h2>步骤3：更新配置文件</h2>
+        <p>将以下代码复制到 <code>ad-config.js</code> 文件中：</p>
+        <textarea id="configCode" class="code" rows="20" style="width: 100%; height: 300px;"></textarea>
+        <button class="btn" onclick="copyConfig()">复制配置</button>
+    </div>
+
+    <div class="card">
+        <h2>步骤4：测试广告</h2>
+        <p>更新配置后，刷新测试页面查看广告是否正常显示。</p>
+        <div class="highlight">
+            <strong>注意：</strong>
+            <ul>
+                <li>新创建的广告单元可能需要几分钟才能生效</li>
+                <li>本地测试可能不显示广告，建议部署到线上域名测试</li>
+                <li>确保 <code>ads.txt</code> 文件已正确配置</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function generateConfig() {
+            const sidebarSlot = document.getElementById('sidebarSlot').value;
+            const resultPageSlot = document.getElementById('resultPageSlot').value;
+            const nativeSlot = document.getElementById('nativeSlot').value;
+            const videoSlot = document.getElementById('videoSlot').value;
+            
+            if (!sidebarSlot || !resultPageSlot || !nativeSlot || !videoSlot) {
+                alert('请填写所有 Slot ID');
+                return;
+            }
+            
+            const config = `// 广告配置文件
+const AD_CONFIG = {
+    // 站点品牌样式与文案
+    branding: {
+        siteName: 'Personality MBTI',
+        logoUrl: '/android-chrome-192x192.png',
+        colors: {
+            primary: '#667eea',
+            surface: '#111827',
+            header: '#1f2937',
+            border: '#374151',
+            text: '#ffffff'
+        },
+        messages: {
+            consentText: 'We use cookies to improve experience and show ads. See our Privacy Policy.',
+            privacyUrl: '/privacy.html',
+            fallbackTitle: 'Your result unlocks after a brief message',
+            fallbackSubtitle: 'We keep tests free by showing a short sponsorship message.'
+        }
+    },
+    
+    // Google AdSense 配置
+    googleAdsense: {
+        enabled: true,
+        publisherId: 'ca-pub-4198974976257818', // 你的发布商ID
+        adSlots: {
+            // 侧边栏广告
+            sidebar: {
+                slotId: '${sidebarSlot}',
+                format: 'auto',
+                responsive: true,
+                width: 300,
+                height: 250
+            },
+            // 测试结果页广告
+            resultPage: {
+                slotId: '${resultPageSlot}',
+                format: 'auto',
+                responsive: true,
+                width: 728,
+                height: 90
+            },
+            // 信息流广告
+            native: {
+                slotId: '${nativeSlot}',
+                format: 'fluid',
+                responsive: true
+            },
+            // 粘性底部横幅
+            stickyBottom: {
+                slotId: '${sidebarSlot}', // 复用侧边栏
+                format: 'auto',
+                responsive: true,
+                width: 320,
+                height: 50
+            },
+            // 视频广告
+            video: {
+                slotId: '${videoSlot}',
+                format: 'auto',
+                responsive: true
+            }
+        }
+    },
+    
+    // 广告策略配置
+    adStrategy: {
+        // 是否允许跳过广告
+        allowSkip: false,
+        // 视频广告时长（秒）
+        videoAdDuration: 30,
+        // 广告刷新间隔（毫秒）
+        refreshInterval: 30000,
+        // 每个用户最大刷新次数
+        maxRefreshPerUser: 3,
+        // 懒加载阈值（像素）
+        lazyLoadThreshold: 300
+    },
+    
+    // 跟踪和分析
+    tracking: {
+        // 是否启用点击跟踪
+        enableClickTracking: true,
+        // 是否启用展示跟踪
+        enableImpressionTracking: true,
+        // 自定义事件跟踪
+        customEvents: ['ad_loaded', 'ad_clicked', 'ad_skipped', 'ad_completed']
+    }
+};
+
+// 导出配置
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = AD_CONFIG;
+}`;
+            
+            document.getElementById('configCode').value = config;
+            document.getElementById('configOutput').style.display = 'block';
+        }
+        
+        function copyConfig() {
+            const configCode = document.getElementById('configCode');
+            configCode.select();
+            document.execCommand('copy');
+            alert('配置已复制到剪贴板！');
+        }
+    </script>
+</body>
+</html>

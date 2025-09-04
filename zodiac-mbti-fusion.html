@@ -309,11 +309,11 @@
                         <p style="margin-bottom: 15px; font-size: 16px;">${q.question}</p>
                         <div class="options">
                             <label class="option">
-                                <input type="radio" name="q${index}" value="${q.options[0].charAt(0)}" onchange="updateProgress()" style="margin-right: 8px;">
+                                <input type="radio" name="q${index}" value="${q.options[0].charAt(0)}" onchange="onOptionChange(this)" style="margin-right: 8px;">
                                 ${q.options[0]}
                             </label>
                             <label class="option">
-                                <input type="radio" name="q${index}" value="${q.options[1].charAt(0)}" onchange="updateProgress()" style="margin-right: 8px;">
+                                <input type="radio" name="q${index}" value="${q.options[1].charAt(0)}" onchange="onOptionChange(this)" style="margin-right: 8px;">
                                 ${q.options[1]}
                             </label>
                         </div>
@@ -322,6 +322,36 @@
             });
             
             questionsDiv.innerHTML = questionsHTML;
+        }
+        
+        function onOptionChange(input) {
+            updateProgress();
+            advanceToNext(input);
+        }
+
+        function advanceToNext(input) {
+            try {
+                const name = input && input.name;
+                if (!name || !name.startsWith('q')) return;
+                const currentIndex = parseInt(name.slice(1), 10);
+                if (Number.isNaN(currentIndex)) return;
+                const nextIndex = currentIndex + 1;
+                const next = document.querySelector(`input[name="q${nextIndex}"]`);
+                if (next) {
+                    const card = next.closest('.question-card');
+                    if (card && typeof card.scrollIntoView === 'function') {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    next.focus();
+                } else {
+                    const submitBtn = document.getElementById('submit-mbti-btn');
+                    if (submitBtn && typeof submitBtn.scrollIntoView === 'function') {
+                        submitBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            } catch (e) {
+                // no-op
+            }
         }
         
         // Update Progress Bar
@@ -336,7 +366,7 @@
         }
         
         // Submit MBTI Test
-        function submitMBTI() {
+        async function submitMBTI() {
             // Calculate MBTI scores
             mbtiScores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
             
@@ -370,6 +400,13 @@
             
             // Analyze fusion results of zodiac and MBTI
             const result = getZodiacMBTIAnalysis(selectedZodiac, mbtiType, mbtiScores);
+            try {
+                if (window.adManager && window.AD_CONFIG?.googleAdsense?.enabled) {
+                    await window.adManager.createVideoAd();
+                }
+            } catch (e) {
+                // Ignore ad errors and continue
+            }
             displayResult(result);
         }
         
@@ -522,6 +559,16 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Fun Zodiac Test System loaded successfully!');
         });
+    </script>
+    <script src="ad-config.js"></script>
+    <script src="ads-manager.js"></script>
+    <script>
+        window.resetAdConsent = function() {
+            try {
+                localStorage.removeItem('adsConsent');
+                location.reload();
+            } catch (e) {}
+        };
     </script>
 </body>
 </html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdSense 自动化配置工具</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0 0 10px;
+            font-size: 28px;
+        }
+        .header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f9fafb;
+        }
+        .section h2 {
+            margin: 0 0 15px;
+            color: #374151;
+            font-size: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-success {
+            background: #10b981;
+        }
+        .btn-warning {
+            background: #f59e0b;
+        }
+        .btn-danger {
+            background: #ef4444;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .console-output {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .card h3 {
+            margin: 0 0 15px;
+            color: #374151;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 AdSense 自动化配置工具</h1>
+            <p>一键配置 AdSense 广告系统，自动生成配置文件和测试报告</p>
+        </div>
+        
+        <div class="content">
+            <!-- 快速开始 -->
+            <div class="section">
+                <h2>📋 快速开始</h2>
+                <p>点击下面的按钮开始自动化配置流程：</p>
+                <button class="btn" onclick="startAutomation()">开始自动化配置</button>
+                <button class="btn btn-secondary" onclick="clearConsole()">清空控制台</button>
+            </div>
+
+            <!-- Slot ID 配置 -->
+            <div class="section">
+                <h2>🔧 Slot ID 配置</h2>
+                <p>在 AdSense 后台创建广告单元后，在这里填入你的 Slot ID：</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>顶部横幅</h3>
+                        <div class="input-group">
+                            <label>Slot ID:</label>
+                            <input type="text" id="topBanner" placeholder="1234567890">
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>侧边栏</h3>
+                        <div class="input-group">
+                            <label>Slot ID:</label>
+                            <input type="text" id="sidebar" placeholder="1234567891">
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>信息流</h3>
+                        <div class="input-group">
+                            <label>Slot ID:</label>
+                            <input type="text" id="native" placeholder="1234567892">
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>底部粘性</h3>
+                        <div class="input-group">
+                            <label>Slot ID:</label>
+                            <input type="text" id="stickyBottom" placeholder="1234567893">
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>测试插播</h3>
+                        <div class="input-group">
+                            <label>Slot ID:</label>
+                            <input type="text" id="testInterstitial" placeholder="1234567894">
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>结果页</h3>
+                        <div class="input-group">
+                            <label>Slot ID:</label>
+                            <input type="text" id="resultPage" placeholder="1234567895">
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>视频广告</h3>
+                        <div class="input-group">
+                            <label>Slot ID:</label>
+                            <input type="text" id="video" placeholder="1234567896">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success" onclick="updateSlotIds()">更新 Slot ID</button>
+                <button class="btn btn-secondary" onclick="validateConfig()">验证配置</button>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="section">
+                <h2>🛠️ 操作工具</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>配置生成</h3>
+                        <button class="btn" onclick="generateConsoleGuide()">生成控制台指南</button>
+                        <button class="btn" onclick="generateConfigFiles()">生成配置文件</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>测试验证</h3>
+                        <button class="btn btn-warning" onclick="testAdDisplay()">测试广告显示</button>
+                        <button class="btn btn-success" onclick="runFullTest()">运行完整测试</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>优化建议</h3>
+                        <button class="btn" onclick="generateOptimizationSuggestions()">生成优化建议</button>
+                        <button class="btn" onclick="generateTestReport()">生成测试报告</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>导出工具</h3>
+                        <button class="btn btn-secondary" onclick="exportConfig()">导出配置</button>
+                        <button class="btn btn-danger" onclick="resetAll()">重置所有</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 进度显示 -->
+            <div class="section">
+                <h2>📊 进度状态</h2>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div id="status-message" class="status info">准备开始配置...</div>
+            </div>
+
+            <!-- 控制台输出 -->
+            <div class="section">
+                <h2>📺 控制台输出</h2>
+                <div id="console-output" class="console-output">
+                    <div>AdSense 自动化配置工具已加载</div>
+                    <div>点击"开始自动化配置"开始使用</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载自动化脚本 -->
+    <script src="adsense-automation-script.js"></script>
+    <script>
+        // 重写 console.log 以显示在页面上
+        const originalLog = console.log;
+        const consoleOutput = document.getElementById('console-output');
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            consoleOutput.innerHTML += `<div>${message}</div>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+
+        // 更新状态消息
+        function updateStatus(message, type = 'info') {
+            const statusElement = document.getElementById('status-message');
+            statusElement.textContent = message;
+            statusElement.className = `status ${type}`;
+        }
+
+        // 更新进度条
+        function updateProgress(percent) {
+            const progressFill = document.getElementById('progress-fill');
+            progressFill.style.width = percent + '%';
+        }
+
+        // 开始自动化配置
+        async function startAutomation() {
+            updateStatus('开始自动化配置...', 'info');
+            updateProgress(10);
+            
+            try {
+                console.log('🚀 开始 AdSense 自动化配置...');
+                
+                // 生成控制台指南
+                updateProgress(20);
+                adsenseAutomation.generateConsoleGuide();
+                
+                // 验证配置
+                updateProgress(40);
+                const configValid = adsenseAutomation.validateConfig();
+                
+                if (!configValid) {
+                    updateStatus('配置验证失败，请先填入 Slot ID', 'error');
+                    updateProgress(0);
+                    return;
+                }
+                
+                // 测试广告显示
+                updateProgress(60);
+                await adsenseAutomation.testAdDisplay();
+                
+                // 生成测试报告
+                updateProgress(80);
+                adsenseAutomation.generateTestReport();
+                
+                // 生成优化建议
+                updateProgress(90);
+                adsenseAutomation.generateOptimizationSuggestions();
+                
+                updateProgress(100);
+                updateStatus('自动化配置完成！', 'success');
+                
+            } catch (error) {
+                console.error('自动化配置失败:', error);
+                updateStatus('配置失败: ' + error.message, 'error');
+                updateProgress(0);
+            }
+        }
+
+        // 更新 Slot ID
+        function updateSlotIds() {
+            const slotIds = {
+                topBanner: document.getElementById('topBanner').value,
+                sidebar: document.getElementById('sidebar').value,
+                native: document.getElementById('native').value,
+                stickyBottom: document.getElementById('stickyBottom').value,
+                testInterstitial: document.getElementById('testInterstitial').value,
+                resultPage: document.getElementById('resultPage').value,
+                video: document.getElementById('video').value
+            };
+            
+            // 过滤空值
+            const filteredSlotIds = {};
+            Object.keys(slotIds).forEach(key => {
+                if (slotIds[key].trim()) {
+                    filteredSlotIds[key] = slotIds[key].trim();
+                }
+            });
+            
+            if (Object.keys(filteredSlotIds).length === 0) {
+                updateStatus('请至少填入一个 Slot ID', 'error');
+                return;
+            }
+            
+            adsenseAutomation.updateSlotIds(filteredSlotIds);
+            updateStatus('Slot ID 已更新', 'success');
+        }
+
+        // 验证配置
+        function validateConfig() {
+            const isValid = adsenseAutomation.validateConfig();
+            if (isValid) {
+                updateStatus('配置验证通过', 'success');
+            } else {
+                updateStatus('配置验证失败', 'error');
+            }
+        }
+
+        // 生成控制台指南
+        function generateConsoleGuide() {
+            adsenseAutomation.generateConsoleGuide();
+            updateStatus('控制台指南已生成', 'info');
+        }
+
+        // 生成配置文件
+        function generateConfigFiles() {
+            adsenseAutomation.generateConfigFiles();
+            updateStatus('配置文件已生成', 'success');
+        }
+
+        // 测试广告显示
+        async function testAdDisplay() {
+            updateStatus('测试广告显示...', 'info');
+            await adsenseAutomation.testAdDisplay();
+            updateStatus('广告显示测试完成', 'success');
+        }
+
+        // 运行完整测试
+        async function runFullTest() {
+            updateStatus('运行完整测试...', 'info');
+            await adsenseAutomation.runFullTest();
+            updateStatus('完整测试完成', 'success');
+        }
+
+        // 生成优化建议
+        function generateOptimizationSuggestions() {
+            adsenseAutomation.generateOptimizationSuggestions();
+            updateStatus('优化建议已生成', 'info');
+        }
+
+        // 生成测试报告
+        function generateTestReport() {
+            adsenseAutomation.generateTestReport();
+            updateStatus('测试报告已生成', 'success');
+        }
+
+        // 导出配置
+        function exportConfig() {
+            adsenseAutomation.exportConfig();
+            updateStatus('配置已导出', 'success');
+        }
+
+        // 清空控制台
+        function clearConsole() {
+            consoleOutput.innerHTML = '';
+            updateStatus('控制台已清空', 'info');
+        }
+
+        // 重置所有
+        function resetAll() {
+            if (confirm('确定要重置所有配置吗？')) {
+                // 清空输入框
+                const inputs = document.querySelectorAll('input[type="text"]');
+                inputs.forEach(input => input.value = '');
+                
+                // 重置状态
+                updateStatus('已重置所有配置', 'info');
+                updateProgress(0);
+                clearConsole();
+                
+                console.log('🔄 所有配置已重置');
+            }
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ AdSense 自动化配置工具已加载');
+            console.log('📋 使用说明:');
+            console.log('1. 在 AdSense 后台创建广告单元');
+            console.log('2. 填入 Slot ID');
+            console.log('3. 点击"开始自动化配置"');
+            console.log('4. 查看生成的配置和测试结果');
+        });
+    </script>
+</body>
+</html>

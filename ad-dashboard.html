@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>广告监控仪表板</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .metric { text-align: center; }
+        .metric-value { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 5px; }
+        .metric-label { color: #6b7280; font-size: 0.9em; }
+        .chart { height: 200px; background: #f9fafb; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #6b7280; }
+        .btn { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        .btn:hover { background: #1d4ed8; }
+        .btn-secondary { background: #6b7280; }
+        .btn-secondary:hover { background: #4b5563; }
+        .status-good { color: #059669; }
+        .status-warning { color: #d97706; }
+        .status-error { color: #dc2626; }
+        .recommendations { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 4px; padding: 15px; margin: 10px 0; }
+        .recommendation { margin: 5px 0; padding: 5px 0; border-bottom: 1px solid #fbbf24; }
+        .recommendation:last-child { border-bottom: none; }
+        .priority-high { border-left: 4px solid #dc2626; padding-left: 10px; }
+        .priority-medium { border-left: 4px solid #d97706; padding-left: 10px; }
+        .priority-low { border-left: 4px solid #059669; padding-left: 10px; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .table th, .table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        .table th { background: #f9fafb; font-weight: 600; }
+        .refresh-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 广告监控仪表板</h1>
+            <p>实时监控广告表现和收益数据</p>
+            <button class="btn refresh-btn" onclick="refreshDashboard()">🔄 刷新数据</button>
+        </div>
+
+        <div class="grid">
+            <!-- 核心指标 -->
+            <div class="card metric">
+                <div class="metric-value" id="totalImpressions">0</div>
+                <div class="metric-label">总展示次数</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value" id="totalClicks">0</div>
+                <div class="metric-label">总点击次数</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value" id="clickRate">0%</div>
+                <div class="metric-label">点击率</div>
+            </div>
+            <div class="card metric">
+                <div class="metric-value" id="totalRevenue">$0.00</div>
+                <div class="metric-label">总收益</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- 广告类型分布 -->
+            <div class="card">
+                <h3>📈 广告类型分布</h3>
+                <div class="chart" id="adTypeChart">
+                    <div>加载中...</div>
+                </div>
+            </div>
+
+            <!-- 性能指标 -->
+            <div class="card">
+                <h3>⚡ 性能指标</h3>
+                <div class="table">
+                    <tr>
+                        <td>平均加载时间</td>
+                        <td id="avgLoadTime">-</td>
+                    </tr>
+                    <tr>
+                        <td>填充率</td>
+                        <td id="fillRate">-</td>
+                    </tr>
+                    <tr>
+                        <td>错误率</td>
+                        <td id="errorRate">-</td>
+                    </tr>
+                </div>
+            </div>
+        </div>
+
+        <!-- 优化建议 -->
+        <div class="card">
+            <h3>🎯 优化建议</h3>
+            <div id="recommendations">
+                <div class="recommendations">
+                    <p>正在分析数据...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 详细数据表格 -->
+        <div class="card">
+            <h3>📋 详细数据</h3>
+            <div style="margin-bottom: 10px;">
+                <button class="btn" onclick="exportData()">📥 导出数据</button>
+                <button class="btn btn-secondary" onclick="resetData()">🗑️ 重置数据</button>
+                <button class="btn btn-secondary" onclick="autoOptimize()">🚀 自动优化</button>
+            </div>
+            <table class="table" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>指标</th>
+                        <th>数值</th>
+                        <th>状态</th>
+                        <th>建议</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    <tr><td colspan="4">加载中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 加载脚本 -->
+    <script src="ad-config.js"></script>
+    <script src="ad-analytics.js"></script>
+    <script src="ad-optimizer.js"></script>
+    
+    <script>
+        // 刷新仪表板
+        function refreshDashboard() {
+            if (!window.adAnalytics) {
+                console.error('AdAnalytics not loaded');
+                return;
+            }
+
+            const report = window.adAnalytics.getReport();
+            updateMetrics(report);
+            updateRecommendations();
+            updateDataTable();
+        }
+
+        // 更新指标
+        function updateMetrics(report) {
+            document.getElementById('totalImpressions').textContent = report.summary.totalImpressions;
+            document.getElementById('totalClicks').textContent = report.summary.totalClicks;
+            document.getElementById('clickRate').textContent = report.summary.clickRate;
+            document.getElementById('totalRevenue').textContent = `$${report.summary.totalRevenue.toFixed(2)}`;
+            
+            // 更新性能指标
+            document.getElementById('avgLoadTime').textContent = `${report.summary.avgLoadTime}ms`;
+            
+            const fillRate = 100 - parseFloat(report.summary.fallbackRate);
+            document.getElementById('fillRate').textContent = `${fillRate.toFixed(1)}%`;
+            
+            const errorRate = report.breakdown.errors / report.summary.totalImpressions * 100;
+            document.getElementById('errorRate').textContent = `${errorRate.toFixed(1)}%`;
+            
+            // 更新广告类型图表
+            updateAdTypeChart(report.breakdown.adTypes);
+        }
+
+        // 更新广告类型图表
+        function updateAdTypeChart(adTypes) {
+            const chart = document.getElementById('adTypeChart');
+            const total = adTypes.adsense + adTypes.fallback;
+            
+            if (total === 0) {
+                chart.innerHTML = '<div>暂无数据</div>';
+                return;
+            }
+            
+            const adsensePercent = (adTypes.adsense / total * 100).toFixed(1);
+            const fallbackPercent = (adTypes.fallback / total * 100).toFixed(1);
+            
+            chart.innerHTML = `
+                <div style="width: 100%; text-align: center;">
+                    <div style="margin-bottom: 10px;">
+                        <span style="color: #2563eb;">AdSense: ${adsensePercent}%</span>
+                    </div>
+                    <div style="background: #e5e7eb; height: 20px; border-radius: 10px; overflow: hidden;">
+                        <div style="background: #2563eb; height: 100%; width: ${adsensePercent}%; transition: width 0.3s;"></div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <span style="color: #6b7280;">Fallback: ${fallbackPercent}%</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 更新优化建议
+        function updateRecommendations() {
+            if (!window.adOptimizer) {
+                document.getElementById('recommendations').innerHTML = '<div class="recommendations"><p>优化器未加载</p></div>';
+                return;
+            }
+
+            const analysis = window.adOptimizer.analyzePerformance();
+            if (!analysis || !analysis.recommendations.length) {
+                document.getElementById('recommendations').innerHTML = '<div class="recommendations"><p>暂无优化建议</p></div>';
+                return;
+            }
+
+            const recommendationsHtml = analysis.recommendations.map(rec => `
+                <div class="recommendation priority-${rec.priority}">
+                    <strong>${rec.message}</strong>
+                    <ul style="margin: 5px 0 0 20px;">
+                        ${rec.suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+
+            document.getElementById('recommendations').innerHTML = recommendationsHtml;
+        }
+
+        // 更新数据表格
+        function updateDataTable() {
+            if (!window.adAnalytics) return;
+
+            const report = window.adAnalytics.getReport();
+            const tbody = document.getElementById('dataTableBody');
+            
+            const data = [
+                { metric: '总展示次数', value: report.summary.totalImpressions, status: 'good', suggestion: '正常' },
+                { metric: '总点击次数', value: report.summary.totalClicks, status: 'good', suggestion: '正常' },
+                { metric: '点击率', value: report.summary.clickRate, status: parseFloat(report.summary.clickRate) > 2 ? 'good' : 'warning', suggestion: parseFloat(report.summary.clickRate) > 2 ? '良好' : '需要优化' },
+                { metric: '填充率', value: `${(100 - parseFloat(report.summary.fallbackRate)).toFixed(1)}%`, status: parseFloat(report.summary.fallbackRate) < 20 ? 'good' : 'warning', suggestion: parseFloat(report.summary.fallbackRate) < 20 ? '良好' : '需要优化' },
+                { metric: '平均加载时间', value: `${report.summary.avgLoadTime}ms`, status: parseFloat(report.summary.avgLoadTime) < 3000 ? 'good' : 'warning', suggestion: parseFloat(report.summary.avgLoadTime) < 3000 ? '良好' : '需要优化' },
+                { metric: '总收益', value: `$${report.summary.totalRevenue.toFixed(2)}`, status: 'good', suggestion: '正常' }
+            ];
+
+            tbody.innerHTML = data.map(row => `
+                <tr>
+                    <td>${row.metric}</td>
+                    <td>${row.value}</td>
+                    <td class="status-${row.status}">${row.status === 'good' ? '✅' : row.status === 'warning' ? '⚠️' : '❌'}</td>
+                    <td>${row.suggestion}</td>
+                </tr>
+            `).join('');
+        }
+
+        // 导出数据
+        function exportData() {
+            if (window.adAnalytics) {
+                window.adAnalytics.exportData();
+            }
+        }
+
+        // 重置数据
+        function resetData() {
+            if (confirm('确定要重置所有数据吗？此操作不可撤销。')) {
+                if (window.adAnalytics) {
+                    window.adAnalytics.reset();
+                    refreshDashboard();
+                }
+            }
+        }
+
+        // 自动优化
+        function autoOptimize() {
+            if (window.adOptimizer) {
+                window.adOptimizer.autoOptimize();
+                alert('自动优化已应用！');
+                refreshDashboard();
+            }
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener('load', () => {
+            setTimeout(refreshDashboard, 1000); // 等待脚本加载
+        });
+
+        // 定期刷新
+        setInterval(refreshDashboard, 30000); // 每30秒刷新一次
+    </script>
+</body>
+</html>

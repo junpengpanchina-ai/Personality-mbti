@@ -202,11 +202,11 @@
                         <p style="margin-bottom: 15px; font-size: 16px;">${q.question}</p>
                         <div class="options">
                             <label class="option" style="display: block; margin-bottom: 10px; cursor: pointer;">
-                                <input type="radio" name="q${index}" value="${q.options[0].charAt(0)}" onchange="updateSubmitButton()" style="margin-right: 8px;">
+                                <input type="radio" name="q${index}" value="${q.options[0].charAt(0)}" onchange="onOptionChange(this)" style="margin-right: 8px;">
                                 ${q.options[0]}
                             </label>
                             <label class="option" style="display: block; margin-bottom: 10px; cursor: pointer;">
-                                <input type="radio" name="q${index}" value="${q.options[1].charAt(0)}" onchange="updateSubmitButton()" style="margin-right: 8px;">
+                                <input type="radio" name="q${index}" value="${q.options[1].charAt(0)}" onchange="onOptionChange(this)" style="margin-right: 8px;">
                                 ${q.options[1]}
                             </label>
                         </div>
@@ -216,13 +216,43 @@
             questionsDiv.innerHTML = questionsHTML;
         }
         
+        function onOptionChange(input) {
+            updateSubmitButton();
+            advanceToNext(input);
+        }
+
+        function advanceToNext(input) {
+            try {
+                const name = input && input.name;
+                if (!name || !name.startsWith('q')) return;
+                const currentIndex = parseInt(name.slice(1), 10);
+                if (Number.isNaN(currentIndex)) return;
+                const nextIndex = currentIndex + 1;
+                const next = document.querySelector(`input[name="q${nextIndex}"]`);
+                if (next) {
+                    const card = next.closest('.question-card');
+                    if (card && typeof card.scrollIntoView === 'function') {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    next.focus();
+                } else {
+                    const submitBtn = document.getElementById('submit-mbti-btn');
+                    if (submitBtn && typeof submitBtn.scrollIntoView === 'function') {
+                        submitBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            } catch (e) {
+                // no-op
+            }
+        }
+
         function updateSubmitButton() {
             const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
             const submitBtn = document.getElementById('submit-mbti-btn');
             submitBtn.disabled = answeredQuestions < mbtiQuestions.length;
         }
         
-        function submitMBTI() {
+        async function submitMBTI() {
             mbtiScores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
             mbtiQuestions.forEach((q, index) => {
                 const selected = document.querySelector(`input[name="q${index}"]:checked`);
@@ -246,6 +276,13 @@
             });
             const mbtiType = determineMBTIType(mbtiScores);
             const result = getZodiacMBTIAnalysis(selectedZodiac, mbtiType, mbtiScores);
+            try {
+                if (window.adManager && window.AD_CONFIG?.googleAdsense?.enabled) {
+                    await window.adManager.createVideoAd();
+                }
+            } catch (e) {
+                // 忽略广告错误，继续展示结果
+            }
             displayResult(result);
         }
         
@@ -601,6 +638,23 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Chinese Zodiac test loaded');
         });
+    </script>
+    <script src="ad-config.js"></script>
+    <script src="ads-manager.js"></script>
+    <script>
+        // 便捷工具：清除同意状态并重新显示同意条
+        window.resetAdConsent = function() {
+            try {
+                localStorage.removeItem('adsConsent');
+                // 重新初始化同意条
+                if (window.adManager) {
+                    // 创建一个轻量提示
+                    console.log('Consent cleared. Reloading banner...');
+                    // 简单重新加载页面以触发 banner
+                    location.reload();
+                }
+            } catch (e) {}
+        };
     </script>
 </body>
 </html>

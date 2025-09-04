@@ -1,9 +1,9 @@
-// 广告配置文件
+// 测试用广告配置 - 使用真实发布商ID但占位符Slot ID
 const AD_CONFIG = {
     // 站点品牌样式与文案
     branding: {
         siteName: 'Personality MBTI',
-        logoUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjQiIGN5PSIyNCIgcj0iMjQiIGZpbGw9IiM2NjdlZWEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+',
+        logoUrl: '/android-chrome-192x192.png',
         colors: {
             primary: '#667eea',
             surface: '#111827',
@@ -21,32 +21,32 @@ const AD_CONFIG = {
     // Google AdSense 配置
     googleAdsense: {
         enabled: true,
-        publisherId: 'ca-pub-4198974976257818', // 你的发布商ID
+        publisherId: 'ca-pub-4198974976257818', // 真实发布商ID
         adSlots: {
             // 侧边栏广告
             sidebar: {
-                slotId: '9310887265',
+                slotId: 'TEST_SIDEBAR_SLOT', // 占位符，会触发fallback
                 format: 'auto',
                 responsive: true,
                 style: { display: 'block' }
             },
             // 测试结果页广告
             resultPage: {
-                slotId: '9310887265',
+                slotId: 'TEST_RESULT_SLOT', // 占位符，会触发fallback
                 format: 'auto',
                 responsive: true,
                 style: { display: 'block' }
             },
             // 信息流广告
             native: {
-                slotId: '9310887265',
+                slotId: 'TEST_NATIVE_SLOT', // 占位符，会触发fallback
                 format: 'fluid',
                 responsive: true,
                 style: { display: 'block' }
             },
             // 视频广告
             video: {
-                slotId: '9310887265',
+                slotId: 'TEST_VIDEO_SLOT', // 占位符，会触发fallback
                 format: 'auto',
                 responsive: true,
                 style: { display: 'block' }
