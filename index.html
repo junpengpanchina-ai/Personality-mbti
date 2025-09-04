@@ -5063,8 +5063,19 @@
 
         // 显示访客状态
         function showGuestState() {
-            document.getElementById('loggedInSection').classList.add('hidden');
-            document.getElementById('userInfoSection').classList.remove('hidden');
+            try {
+                const loggedInSection = document.getElementById('loggedInSection');
+                const userInfoSection = document.getElementById('userInfoSection');
+                
+                if (loggedInSection) {
+                    loggedInSection.classList.add('hidden');
+                }
+                if (userInfoSection) {
+                    userInfoSection.classList.remove('hidden');
+                }
+            } catch (e) {
+                console.error('showGuestState error:', e);
+            }
         }
 
         // 显示登录页面
@@ -5345,10 +5356,10 @@
                 showMainContent();
             }
 
-            loadGoogleIdentityScript(3000)
-                .then(function() {
-                    renderGoogleButtonsIfPossible();
-                    try {
+            // loadGoogleIdentityScript 函数已删除，直接执行后续逻辑
+            setTimeout(function() {
+                renderGoogleButtonsIfPossible();
+                try {
                         var suppressed = sessionStorage.getItem('google_onetap_suppressed') === '1';
                         if (!suppressed && window.google && window.google.accounts && window.google.accounts.id) {
                             ensureGoogleIdInitialized();
@@ -5368,9 +5379,7 @@
                     } catch (e) {
                         // 静默失败
                     }
-                })
-                .catch(function() {
-                    // 保持静默，走现有邮箱/手机号/本地模拟
+                }, 3000);
                 });
         });
 
