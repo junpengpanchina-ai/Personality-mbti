@@ -73,6 +73,10 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/favicon.ico">
     
+    <!-- 广告脚本 -->
+    <script src="ad-config.js"></script>
+    <script src="ads-manager.js"></script>
+    
 </head>
 <body>
     <div class="header">
@@ -2298,6 +2302,51 @@
         async function analyzePersonality() {
             console.log('🧠 Starting personality analysis...');
             
+            // 广告门槛 - 必须先看广告才能开始分析
+            try {
+                // 等待 adManager 初始化
+                if (!window.adManager) {
+                    console.log('Waiting for adManager to initialize...');
+                    await new Promise(resolve => {
+                        const checkAdManager = () => {
+                            if (window.adManager) {
+                                resolve();
+                            } else {
+                                setTimeout(checkAdManager, 100);
+                            }
+                        };
+                        checkAdManager();
+                    });
+                }
+                
+                const consent = localStorage.getItem('adsConsent');
+                if (consent !== 'accepted') {
+                    console.log('User consent not accepted, showing consent banner');
+                    // 显示同意横幅
+                    if (window.adManager) {
+                        window.adManager.setupConsent();
+                    }
+                    return;
+                }
+                
+                if (window.AD_CONFIG?.googleAdsense?.enabled) {
+                    console.log('Showing video ad before analysis...');
+                    await window.adManager.createVideoAd();
+                    window.__adGatePassed = true;
+                } else {
+                    console.log('AdSense disabled, showing fallback ad...');
+                    showFallbackAdBazi();
+                    return;
+                }
+            } catch (e) {
+                console.log('Ad gate fallback in bazi test:', e && e.message);
+                showFallbackAdBazi();
+                return;
+            }
+            
+            // 广告完成后继续分析
+            console.log('✅ Ad gate passed, continuing with analysis...');
+            
             // Check if lunar library is loaded
             if (!window.Solar && !(window.Lunar && window.Lunar.Solar)) {
                 console.log('lunar library not loaded, trying to load...');
@@ -2758,6 +2807,102 @@
                 el.value = '农历2020年闰四月初一';
             }
             el.dispatchEvent(new Event('blur'));
+        }
+        
+        // 回退广告函数 - 当真实广告无法显示时使用
+        function showFallbackAdBazi() {
+            console.log('Showing fallback ad for Bazi test...');
+            
+            // 创建广告覆盖层
+            const adOverlay = document.createElement('div');
+            adOverlay.id = 'fallback-ad-overlay';
+            adOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: Arial, sans-serif;
+            `;
+            
+            adOverlay.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 30px;
+                    border-radius: 12px;
+                    text-align: center;
+                    max-width: 400px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                ">
+                    <div style="font-size: 24px; margin-bottom: 20px;">🧠</div>
+                    <h3 style="margin: 0 0 15px 0; color: #333;">深度性格分析</h3>
+                    <p style="margin: 0 0 20px 0; color: #666; line-height: 1.5;">
+                        为了提供免费的深度性格分析服务，<br>
+                        请观看一个简短的赞助信息。
+                    </p>
+                    <div style="
+                        background: #f0f0f0;
+                        padding: 20px;
+                        border-radius: 8px;
+                        margin: 20px 0;
+                        font-size: 14px;
+                        color: #666;
+                    ">
+                        <div style="font-weight: bold; margin-bottom: 10px;">赞助信息</div>
+                        <div>感谢您的支持，让我们能够继续提供免费的深度分析服务。</div>
+                    </div>
+                    <div id="countdown" style="
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #007bff;
+                        margin: 20px 0;
+                    ">3</div>
+                    <button onclick="closeFallbackAdBazi()" style="
+                        background: #007bff;
+                        color: white;
+                        border: none;
+                        padding: 12px 24px;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        display: none;
+                    " id="continueBtn">继续分析</button>
+                </div>
+            `;
+            
+            document.body.appendChild(adOverlay);
+            
+            // 倒计时
+            let countdown = 3;
+            const countdownEl = document.getElementById('countdown');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            const timer = setInterval(() => {
+                countdown--;
+                countdownEl.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    countdownEl.style.display = 'none';
+                    continueBtn.style.display = 'inline-block';
+                }
+            }, 1000);
+        }
+        
+        // 关闭回退广告并继续分析
+        function closeFallbackAdBazi() {
+            const overlay = document.getElementById('fallback-ad-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+            window.__adGatePassed = true;
+            // 重新调用分析函数
+            analyzePersonality();
         }
     </script>
 </body>
