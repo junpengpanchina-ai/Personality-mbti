@@ -22,6 +22,7 @@ const AD_CONFIG = {
     googleAdsense: {
         enabled: true,
         publisherId: 'ca-pub-4198974976257818', // 你的发布商ID
+        clientId: '3370160467', // 你的客户ID
         adSlots: {
             // 侧边栏广告
             sidebar: {
