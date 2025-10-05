@@ -20,8 +20,9 @@ export default function Home() {
             </div>
             <nav className="hidden md:flex space-x-8">
               <a href="#features" className="text-gray-600 hover:text-indigo-600">Features</a>
+              <a href="/privacy" className="text-gray-600 hover:text-indigo-600">Privacy</a>
+              <a href="/compliance" className="text-gray-600 hover:text-indigo-600">Compliance</a>
               <a href="#about" className="text-gray-600 hover:text-indigo-600">About</a>
-              <a href="#contact" className="text-gray-600 hover:text-indigo-600">Contact</a>
             </nav>
           </div>
         </div>
