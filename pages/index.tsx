@@ -14,10 +14,10 @@ export default function Home() {
       <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-3">
-              <Brain className="h-8 w-8 text-indigo-600" />
-              <h1 className="text-2xl font-bold text-gray-900">MBTI Personality Test</h1>
-            </div>
+                     <div className="flex items-center space-x-3">
+                       <img src="/mbti-logo.svg" alt="MBTI Logo" className="h-8 w-8" />
+                       <h1 className="text-2xl font-bold text-gray-900">MBTI Personality Test</h1>
+                     </div>
                      <nav className="hidden md:flex space-x-8">
                        <a href="#features" className="text-gray-600 hover:text-indigo-600">Features</a>
                        <a href="/about" className="text-gray-600 hover:text-indigo-600">About</a>
@@ -122,10 +122,10 @@ export default function Home() {
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="flex items-center justify-center space-x-3 mb-4">
-              <Brain className="h-6 w-6" />
-              <span className="text-lg font-semibold">MBTI Personality Test</span>
-            </div>
+                     <div className="flex items-center justify-center space-x-3 mb-4">
+                       <img src="/mbti-logo.svg" alt="MBTI Logo" className="h-6 w-6" />
+                       <span className="text-lg font-semibold">MBTI Personality Test</span>
+                     </div>
             <p className="text-gray-400 mb-4">
               Discover your personality type with our professional MBTI assessment
             </p>
