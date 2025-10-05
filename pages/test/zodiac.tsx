@@ -143,7 +143,7 @@ export default function ZodiacTest() {
   const calculateResult = (answers: any[]) => {
     // 获取用户选择的星座
     const zodiacIndex = answers[0];
-    const selectedZodiac = currentQ.zodiacs[zodiacIndex];
+    const selectedZodiac = DIVINATION_QUESTIONS[0].zodiacs[zodiacIndex];
     
     // 获取对应的MBTI类型
     const possibleMBTIs = ZODIAC_MBTI_MAPPING[selectedZodiac as keyof typeof ZODIAC_MBTI_MAPPING];
