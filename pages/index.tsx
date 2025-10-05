@@ -18,12 +18,12 @@ export default function Home() {
               <Brain className="h-8 w-8 text-indigo-600" />
               <h1 className="text-2xl font-bold text-gray-900">MBTI Personality Test</h1>
             </div>
-            <nav className="hidden md:flex space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-indigo-600">Features</a>
-              <a href="/privacy" className="text-gray-600 hover:text-indigo-600">Privacy</a>
-              <a href="/compliance" className="text-gray-600 hover:text-indigo-600">Compliance</a>
-              <a href="#about" className="text-gray-600 hover:text-indigo-600">About</a>
-            </nav>
+                     <nav className="hidden md:flex space-x-8">
+                       <a href="#features" className="text-gray-600 hover:text-indigo-600">Features</a>
+                       <a href="/about" className="text-gray-600 hover:text-indigo-600">About</a>
+                       <a href="/privacy" className="text-gray-600 hover:text-indigo-600">Privacy</a>
+                       <a href="/compliance" className="text-gray-600 hover:text-indigo-600">Compliance</a>
+                     </nav>
           </div>
         </div>
       </header>

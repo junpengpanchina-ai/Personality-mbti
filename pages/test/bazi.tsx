@@ -281,7 +281,7 @@ export default function BaziTest() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/">
-            <a className="flex items-center text-gray-600 hover:text-amber-600 transition-colors">
+            <a className="flex items-center text-gray-700 hover:text-amber-600 transition-colors bg-gray-100 hover:bg-amber-50 px-4 py-2 rounded-lg font-medium">
               <ArrowLeft className="h-5 w-5 mr-2" />
               Back to Home
             </a>
