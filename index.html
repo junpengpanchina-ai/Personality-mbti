@@ -6301,6 +6301,9 @@
                 showQuestionExplanation(question.explanation);
             }
             
+            // 更新导航按钮
+            updateNavigationButtons();
+            
             // 检查是否需要显示广告
             setTimeout(() => {
                 if (shouldShowAd()) {
@@ -6368,8 +6371,22 @@
         }
 
         function nextQuestion() {
-            // 智能选择下一个问题
-                showQuestion();
+            // 检查是否已回答当前问题
+            if (answers[currentQuestion] === undefined) {
+                console.log('请先选择答案');
+                return;
+            }
+            
+            // 检查是否是最后一题
+            if (currentQuestion >= questions.length - 1) {
+                console.log('所有问题已回答，显示结果');
+                showResults();
+                return;
+            }
+            
+            // 移动到下一题
+            currentQuestion++;
+            showQuestion();
         }
 
         function previousQuestion() {
@@ -6471,6 +6488,10 @@
             
             prevBtn.style.display = currentQuestion > 0 ? 'block' : 'none';
             nextBtn.disabled = true;
+            
+            // 检查是否是最后一题
+            const isLastQuestion = currentQuestion >= questions.length - 1;
+            nextBtn.textContent = isLastQuestion ? 'Submit' : 'Next';
             
             // 恢复之前的选择
             if (answers[currentQuestion] !== undefined) {
