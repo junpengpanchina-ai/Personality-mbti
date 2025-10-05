@@ -56,7 +56,7 @@ export default function Home() {
                      </a>
                    </div>
 
-                   {/* 娱乐测试入口 */}
+                   {/* Entertainment Tests Section */}
                    <div className="mb-16">
                      <div className="text-center mb-8">
                        <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -77,7 +77,7 @@ export default function Home() {
                      </div>
                    </div>
 
-          {/* 广告横幅 */}
+          {/* Ad Banner */}
           <div className="mb-16">
             <AdBanner size="leaderboard" />
           </div>

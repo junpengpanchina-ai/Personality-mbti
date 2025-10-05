@@ -1,6 +1,6 @@
-// 现代化的广告管理系统 - Next.js 框架集成
+// Modern ad management system - Next.js framework integration
 
-// 扩展 Window 接口以支持 Google AdSense
+// Extend Window interface to support Google AdSense
 declare global {
   interface Window {
     adsbygoogle: any[];
@@ -27,7 +27,7 @@ export interface AdGateConfig {
   };
 }
 
-// 默认广告配置
+// Default ad configuration
 export const DEFAULT_AD_CONFIG: AdConfig = {
   enabled: true,
   provider: 'google-adsense',
@@ -38,10 +38,10 @@ export const DEFAULT_AD_CONFIG: AdConfig = {
   }
 };
 
-// 广告门槛配置
+// Ad gate configuration
 export const DEFAULT_AD_GATE_CONFIG: AdGateConfig = {
   duration: 10,
-  showSkipButton: false, // 确保广告收入模式
+  showSkipButton: false, // Ensure ad revenue model
   adContent: {
     title: 'Your result unlocks after a brief message',
     description: 'We keep tests free by showing a short sponsorship message.',
@@ -49,7 +49,7 @@ export const DEFAULT_AD_GATE_CONFIG: AdGateConfig = {
   }
 };
 
-// 广告管理器类
+// Ad manager class
 export class AdManager {
   private config: AdConfig;
   private isInitialized: boolean = false;
@@ -58,7 +58,7 @@ export class AdManager {
     this.config = config;
   }
 
-  // 初始化广告系统
+  // Initialize ad system
   async initialize(): Promise<boolean> {
     if (this.isInitialized) return true;
 
@@ -77,7 +77,7 @@ export class AdManager {
     }
   }
 
-  // 加载 Google AdSense
+  // Load Google AdSense
   private async loadGoogleAdSense(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (typeof window === 'undefined') {
@@ -85,7 +85,7 @@ export class AdManager {
         return;
       }
 
-      // 检查是否已加载
+      // Check if already loaded
       if (window.adsbygoogle) {
         resolve();
         return;
@@ -103,7 +103,7 @@ export class AdManager {
     });
   }
 
-  // 显示广告
+  // Show ad
   async showAd(): Promise<void> {
     if (!this.isInitialized) {
       await this.initialize();
@@ -116,12 +116,12 @@ export class AdManager {
     }
   }
 
-  // 显示 Google AdSense 广告
+  // Show Google AdSense ad
   private async showGoogleAd(): Promise<void> {
     if (typeof window === 'undefined') return;
 
     try {
-      // 推送广告到队列
+      // Push ad to queue
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (error) {
       console.warn('Google AdSense failed, falling back:', error);
@@ -129,31 +129,31 @@ export class AdManager {
     }
   }
 
-  // 显示备用广告
+  // Show fallback ad
   private async showFallbackAd(): Promise<void> {
-    // 模拟广告显示时间
+    // Simulate ad display time
     return new Promise(resolve => {
       setTimeout(resolve, 2000);
     });
   }
 
-  // 检查用户同意
+  // Check user consent
   hasUserConsent(): boolean {
     if (typeof window === 'undefined') return false;
     return localStorage.getItem('adsConsent') === 'accepted';
   }
 
-  // 设置用户同意
+  // Set user consent
   setUserConsent(consent: boolean): void {
     if (typeof window === 'undefined') return;
     localStorage.setItem('adsConsent', consent ? 'accepted' : 'declined');
   }
 }
 
-// 全局广告管理器实例
+// Global ad manager instance
 export const adManager = new AdManager();
 
-// 广告门槛 Hook - 需要在 React 组件中使用
+// Ad gate Hook - must be used in React components
 export function useAdGate(config: Partial<AdGateConfig> = {}) {
   const finalConfig = { ...DEFAULT_AD_GATE_CONFIG, ...config };
   
@@ -167,7 +167,7 @@ export function useAdGate(config: Partial<AdGateConfig> = {}) {
   };
 }
 
-// 非 Hook 版本的广告管理函数
+// Non-Hook version of ad management functions
 export const adGateUtils = {
   showAd: async () => {
     await adManager.showAd();

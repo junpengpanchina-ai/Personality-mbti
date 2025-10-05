@@ -3,30 +3,30 @@ import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun } from 'lucide-react';
 import AdBanner from '../../components/AdBanner';
 
-// 星座与MBTI的对应关系
+// Zodiac and MBTI mapping
 const ZODIAC_MBTI_MAPPING = {
-  // 火象星座 - 通常对应外向、直觉、判断
+  // Fire signs - usually correspond to extraversion, intuition, judging
   Aries: ['ENTJ', 'ESTJ', 'ENFJ', 'ESFJ'],
   Leo: ['ENTJ', 'ENFJ', 'ESTJ', 'ESFJ'],
   Sagittarius: ['ENTP', 'ENFP', 'ESTP', 'ESFP'],
   
-  // 土象星座 - 通常对应内向、感觉、判断
+  // Earth signs - usually correspond to introversion, sensing, judging
   Taurus: ['ISFJ', 'ISTJ', 'ESFJ', 'ESTJ'],
   Virgo: ['ISTJ', 'ISFJ', 'ESTJ', 'ESFJ'],
   Capricorn: ['ISTJ', 'INTJ', 'ESTJ', 'ENTJ'],
   
-  // 风象星座 - 通常对应外向、直觉、感知
+  // Air signs - usually correspond to extraversion, intuition, perceiving
   Gemini: ['ENFP', 'ENTP', 'ESFP', 'ESTP'],
   Libra: ['ENFP', 'ENFJ', 'ESFP', 'ESFJ'],
   Aquarius: ['ENTP', 'INTJ', 'ENTJ', 'INTP'],
   
-  // 水象星座 - 通常对应内向、情感、感知
+  // Water signs - usually correspond to introversion, feeling, perceiving
   Cancer: ['ISFJ', 'INFJ', 'ESFJ', 'ENFJ'],
   Scorpio: ['INFJ', 'INTJ', 'ENFJ', 'ENTJ'],
   Pisces: ['INFP', 'ISFP', 'ENFP', 'ESFP']
 };
 
-// 星座信息
+// Zodiac information
 const ZODIAC_INFO = {
   Aries: { name: 'Aries', symbol: '♈', element: 'Fire', quality: 'Cardinal', planet: 'Mars' },
   Taurus: { name: 'Taurus', symbol: '♉', element: 'Earth', quality: 'Fixed', planet: 'Venus' },
@@ -42,7 +42,7 @@ const ZODIAC_INFO = {
   Pisces: { name: 'Pisces', symbol: '♓', element: 'Water', quality: 'Mutable', planet: 'Neptune' }
 };
 
-// MBTI类型描述
+// MBTI type descriptions
 const MBTI_DESCRIPTIONS = {
   INTJ: { name: 'The Architect', traits: ['Strategic', 'Independent', 'Determined', 'Analytical'] },
   INTP: { name: 'The Thinker', traits: ['Innovative', 'Curious', 'Logical', 'Flexible'] },
@@ -62,7 +62,7 @@ const MBTI_DESCRIPTIONS = {
   ESFP: { name: 'The Entertainer', traits: ['Spontaneous', 'Enthusiastic', 'Friendly', 'Generous'] }
 };
 
-// 占卜问题
+// Divination questions
 const DIVINATION_QUESTIONS = [
   {
     id: 1,
@@ -141,19 +141,19 @@ export default function ZodiacTest() {
   };
 
   const calculateResult = (answers: any[]) => {
-    // 获取用户选择的星座
+    // Get user's selected zodiac
     const zodiacIndex = answers[0];
     const selectedZodiac = DIVINATION_QUESTIONS[0].zodiacs[zodiacIndex];
     
-    // 获取对应的MBTI类型
+    // Get corresponding MBTI types
     const possibleMBTIs = ZODIAC_MBTI_MAPPING[selectedZodiac as keyof typeof ZODIAC_MBTI_MAPPING];
     const randomMBTI = possibleMBTIs[Math.floor(Math.random() * possibleMBTIs.length)];
     
-    // 获取星座信息
+    // Get zodiac information
     const zodiacInfo = ZODIAC_INFO[selectedZodiac as keyof typeof ZODIAC_INFO];
     const mbtiInfo = MBTI_DESCRIPTIONS[randomMBTI as keyof typeof MBTI_DESCRIPTIONS];
     
-    // 计算兼容性（随机但基于元素匹配）
+    // Calculate compatibility (random but based on element matching)
     const compatibility = Math.floor(Math.random() * 40) + 60; // 60-100%
     
     const result: DivinationResult = {

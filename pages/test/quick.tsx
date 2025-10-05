@@ -5,7 +5,7 @@ import AdGate from '../../components/AdGate';
 import AdBanner from '../../components/AdBanner';
 import { adGateUtils } from '../../lib/ads';
 
-// MBTI 测试题目数据
+// MBTI test questions data
 const QUESTIONS = [
   {
     id: 1,
@@ -213,15 +213,15 @@ export default function QuickTest() {
     if (currentQuestion < QUESTIONS.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // 测试完成，计算结果
+      // Test completed, calculate results
       calculateResult(answers);
     }
   };
 
-  // 初始化广告同意
+  // Initialize ad consent
   useEffect(() => {
     if (!adGateUtils.hasConsent()) {
-      adGateUtils.setConsent(true); // 自动同意，确保广告收入
+      adGateUtils.setConsent(true); // Auto-consent to ensure ad revenue
     }
   }, []);
 
@@ -233,13 +233,13 @@ export default function QuickTest() {
       const dimension = question.dimension;
       
       if (answer === 0) {
-        // 选择第一个选项
+        // Select first option
         if (dimension === 'EI') scores.E++;
         else if (dimension === 'SN') scores.S++;
         else if (dimension === 'TF') scores.T++;
         else if (dimension === 'JP') scores.J++;
       } else {
-        // 选择第二个选项
+        // Select second option
         if (dimension === 'EI') scores.I++;
         else if (dimension === 'SN') scores.N++;
         else if (dimension === 'TF') scores.F++;
@@ -247,7 +247,7 @@ export default function QuickTest() {
       }
     });
 
-    // 计算百分比
+    // Calculate percentages
     const percentages = {
       E: Math.round((scores.E / 3) * 100),
       I: Math.round((scores.I / 3) * 100),
@@ -259,7 +259,7 @@ export default function QuickTest() {
       P: Math.round((scores.P / 3) * 100),
     };
 
-    // 确定人格类型
+    // Determine personality type
     const type = 
       (scores.E > scores.I ? 'E' : 'I') +
       (scores.S > scores.N ? 'S' : 'N') +
@@ -271,7 +271,7 @@ export default function QuickTest() {
       scores,
       percentages
     });
-    // 显示广告门槛
+    // Show ad gate
     setShowAdGate(true);
   };
 

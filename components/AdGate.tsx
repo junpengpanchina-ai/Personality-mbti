@@ -18,17 +18,17 @@ export default function AdGate({
   const [isAdLoaded, setIsAdLoaded] = useState(false);
 
   useEffect(() => {
-    // 检查用户同意
+    // Check user consent
     if (!adGateUtils.hasConsent()) {
-      adGateUtils.setConsent(true); // 自动同意，确保广告收入
+      adGateUtils.setConsent(true); // Auto-consent to ensure ad revenue
     }
 
-    // 显示广告
+    // Show ad
     adGateUtils.showAd().then(() => {
       setIsAdLoaded(true);
     });
 
-    // 倒计时
+    // Countdown
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
