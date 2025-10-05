@@ -1,23 +1,42 @@
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, Clock, Shield } from 'lucide-react';
+import { useAdGate } from '../lib/ads';
 
 interface AdGateProps {
   onComplete: () => void;
   duration?: number;
+  showSkipButton?: boolean;
 }
 
-export default function AdGate({ onComplete, duration = 10 }: AdGateProps) {
+export default function AdGate({ 
+  onComplete, 
+  duration = 10, 
+  showSkipButton = false 
+}: AdGateProps) {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isVisible, setIsVisible] = useState(true);
+  const [isAdLoaded, setIsAdLoaded] = useState(false);
+  const { showAd, hasConsent, setConsent } = useAdGate();
 
   useEffect(() => {
+    // 检查用户同意
+    if (!hasConsent()) {
+      setConsent(true); // 自动同意，确保广告收入
+    }
+
+    // 显示广告
+    showAd().then(() => {
+      setIsAdLoaded(true);
+    });
+
+    // 倒计时
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
     } else {
       onComplete();
     }
-  }, [timeLeft, onComplete]);
+  }, [timeLeft, onComplete, showAd, hasConsent, setConsent]);
 
   if (!isVisible) return null;
 
@@ -29,19 +48,17 @@ export default function AdGate({ onComplete, duration = 10 }: AdGateProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                <span className="text-sm font-bold">🧠</span>
+                <Shield className="h-4 w-4" />
               </div>
               <div>
-                <h3 className="font-semibold">Personality MBTI</h3>
-                <p className="text-xs opacity-90">Sponsorship</p>
+                <h3 className="font-semibold">MBTI Personality Test</h3>
+                <p className="text-xs opacity-90">Sponsored Content</p>
               </div>
             </div>
-            <button
-              onClick={() => setIsVisible(false)}
-              className="text-white hover:text-gray-200 transition-colors"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            <div className="flex items-center space-x-2">
+              <Clock className="h-4 w-4" />
+              <span className="text-sm">{timeLeft}s</span>
+            </div>
           </div>
         </div>
 
@@ -67,20 +84,21 @@ export default function AdGate({ onComplete, duration = 10 }: AdGateProps) {
             ></div>
           </div>
 
-          {/* Skip Button (Optional) */}
-          {timeLeft > 5 && (
-            <button
-              onClick={() => {
-                setTimeLeft(0);
-                onComplete();
-              }}
-              className="text-sm text-gray-500 hover:text-indigo-600 transition-colors"
-            >
-              Skip to Results
-            </button>
-          )}
+          {/* 广告状态指示器 */}
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className={`w-2 h-2 rounded-full ${isAdLoaded ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+            <span className="text-xs text-gray-500">
+              {isAdLoaded ? 'Ad loaded' : 'Loading ad...'}
+            </span>
+          </div>
+
+          {/* 广告收入模式 - 不允许跳过 */}
+          <p className="text-xs text-gray-500">
+            Please wait for the message to complete to view your results
+          </p>
         </div>
       </div>
     </div>
   );
 }
+

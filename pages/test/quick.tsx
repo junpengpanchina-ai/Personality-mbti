@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import AdGate from '../../components/AdGate';
+import AdBanner from '../../components/AdBanner';
+import { useAdGate } from '../../lib/ads';
 
 // MBTI 测试题目数据
 const QUESTIONS = [
@@ -145,6 +147,7 @@ export default function QuickTest() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<TestResult | null>(null);
   const [showAdGate, setShowAdGate] = useState(false);
+  const { hasConsent, setConsent } = useAdGate();
 
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers];
@@ -161,6 +164,13 @@ export default function QuickTest() {
       }
     }, 500);
   };
+
+  // 初始化广告同意
+  useEffect(() => {
+    if (!hasConsent()) {
+      setConsent(true); // 自动同意，确保广告收入
+    }
+  }, [hasConsent, setConsent]);
 
   const calculateResult = (finalAnswers: number[]) => {
     const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
@@ -320,6 +330,11 @@ export default function QuickTest() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* 广告横幅 */}
+            <div className="my-8">
+              <AdBanner size="banner" />
             </div>
 
             {/* 操作按钮 */}

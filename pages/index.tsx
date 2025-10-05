@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Brain, Users, BarChart3, Star } from 'lucide-react';
+import AdBanner from '../components/AdBanner';
 
 export default function Home() {
   return (
@@ -48,6 +49,11 @@ export default function Home() {
             >
               Full Assessment (93 questions)
             </Link>
+          </div>
+
+          {/* 广告横幅 */}
+          <div className="mb-16">
+            <AdBanner size="leaderboard" />
           </div>
 
           {/* Features Grid */}
