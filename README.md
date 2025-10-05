@@ -1,44 +1,139 @@
-# Personality-mbti
+# MBTI Personality Test - Next.js Version
 
-## Date input and lunar conversion
+A modern, professional MBTI personality test built with Next.js 15, TypeScript, and Tailwind CSS.
 
-The Bazi/MBTI analysis page (`bazi-test.html`) accepts both Gregorian and Chinese lunar-style dates. The input field `bDate` supports the following formats (single-digit month/day allowed):
+## 🚀 Features
 
-- Gregorian formats
-  - YYYY-MM-DD (e.g., 2020-01-01)
-  - YYYY/MM/DD (e.g., 2020/01/01)
-  - MM/DD/YYYY (e.g., 12/25/1990)
-  - YYYYMMDD (e.g., 20200131)
-  - YYYY.M.D (e.g., 2020.1.1)
-  - YYYY年M月D日 (e.g., 2020年1月1日)
-- English month names
-  - Jan 1, 2020 / October 3rd 2020 / Oct. 3, 2020
-- Chinese month words
-  - 一月…十二月（混排亦可，如 一月 1, 2020）
-- Chinese lunar-style expressions (auto-converted to solar/Gregorian)
-  - 农历/阴历 标识：例如 农历2020年十月初三、阴历2020年正月十五
-  - 闰月：例如 农历2020年闰四月初一
-  - 中文日序词：初X、十X、X十Y、廿X(20+)、卅X(30+)、正(=1)
+- **Modern Architecture**: Built with Next.js 15 and React 19
+- **Type Safety**: Full TypeScript support
+- **Responsive Design**: Mobile-first design with Tailwind CSS
+- **Component-Based**: Reusable React components
+- **Performance**: SSR/SSG support for better SEO and performance
+- **Ad Integration**: Built-in ad gate system for monetization
 
-Behavior
-- On blur, the input is validated and normalized. If a lunar/阴历/闰月 expression is detected, the app converts it to a solar date using `lunar-javascript` and shows a toast: “已转换为阳历：YYYY-MM-DD”.
-- If the input is invalid or cannot be converted, a toast explains supported formats and the field retains focus for correction.
+## 📁 Project Structure
 
-Dependencies
-- `lunar-javascript` (loaded from local `./libs/lunar.min.js` with CDN fallbacks: jsDelivr/unpkg). The loader tries multiple sources and shows a toast on failure.
+```
+mbti-nextjs/
+├── src/
+│   ├── app/                 # Next.js App Router
+│   │   ├── page.tsx        # Home page
+│   │   └── test/           # Test pages
+│   │       ├── quick/      # Quick test (12 questions)
+│   │       └── full/       # Full test (93 questions)
+│   └── components/         # Reusable components
+│       └── AdGate.tsx     # Ad gate component
+├── public/                 # Static assets
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+└── vercel.json           # Deployment config
+```
 
-Troubleshooting
-- If the button appears unresponsive, check the browser console for library loading errors. The page will attempt to load `lunar-javascript` automatically on demand.
-- Ensure network is available for CDN fallbacks if the local file is missing.
+## 🛠️ Development
 
-Examples (copy & paste)
-- 2020-01-01
-- 1/1/2020
-- 20200131
-- 2020.1.1
-- 2020年1月1日
-- Jan 1, 2020
-- 农历2020年十月初三
-- 农历2020年闰四月初一
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
+### Installation
+```bash
+cd mbti-nextjs
+npm install
+```
 
+### Development Server
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+### Build for Production
+```bash
+npm run build
+npm start
+```
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+### Manual Deployment
+1. Build the project: `npm run build`
+2. Deploy the `.next` folder to your hosting provider
+
+## 📊 Key Improvements Over Static Version
+
+### 1. **Architecture**
+- ✅ **Component-Based**: Reusable React components
+- ✅ **Type Safety**: TypeScript prevents runtime errors
+- ✅ **State Management**: Proper React state management
+- ✅ **Routing**: Built-in Next.js routing
+
+### 2. **Performance**
+- ✅ **SSR/SSG**: Server-side rendering for better SEO
+- ✅ **Code Splitting**: Automatic code splitting
+- ✅ **Image Optimization**: Next.js Image component
+- ✅ **Caching**: Built-in caching strategies
+
+### 3. **Developer Experience**
+- ✅ **Hot Reload**: Instant development feedback
+- ✅ **Type Checking**: Real-time TypeScript errors
+- ✅ **ESLint**: Code quality enforcement
+- ✅ **Modern Tooling**: Latest development tools
+
+### 4. **Maintainability**
+- ✅ **Single Codebase**: No more duplicate HTML files
+- ✅ **Component Reuse**: Shared components across pages
+- ✅ **Type Safety**: Catch errors at compile time
+- ✅ **Modern Patterns**: React best practices
+
+## 🎯 Test Features
+
+### Quick Test (12 Questions)
+- Fast personality assessment
+- 4 core MBTI dimensions
+- Instant results with detailed analysis
+- Ad gate integration
+
+### Full Test (93 Questions)
+- Comprehensive MBTI assessment
+- All 4 dimensions thoroughly tested
+- Professional-grade accuracy
+- Detailed personality insights
+
+## 🔧 Configuration
+
+### Environment Variables
+Create a `.env.local` file:
+```env
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### Tailwind Configuration
+The project uses Tailwind CSS v4 with custom configuration in `tailwind.config.js`.
+
+## 📱 Responsive Design
+
+- **Mobile First**: Optimized for mobile devices
+- **Tablet Support**: Responsive design for tablets
+- **Desktop**: Full desktop experience
+- **Accessibility**: WCAG compliant design
+
+## 🚀 Future Enhancements
+
+- [ ] User authentication
+- [ ] Test history tracking
+- [ ] Advanced analytics
+- [ ] Multi-language support
+- [ ] API integration
+- [ ] Database integration
+
+## 📄 License
+
+This project is licensed under the MIT License.
