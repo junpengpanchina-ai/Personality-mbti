@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { adGateUtils } from '../lib/ads';
+import { getAdConfig, sanitizeAdUnitId } from '../lib/ads-config';
 
 interface AdBannerProps {
   adUnitId?: string;
@@ -8,7 +9,7 @@ interface AdBannerProps {
 }
 
 export default function AdBanner({ 
-  adUnitId = 'ca-pub-4198974976257818',
+  adUnitId = process.env.NEXT_PUBLIC_ADSENSE_AD_UNIT_ID || 'ca-pub-4198974976257818',
   size = 'banner',
   className = ''
 }: AdBannerProps) {
@@ -27,14 +28,18 @@ export default function AdBanner({
       try {
         await adGateUtils.showAd();
         
-        // 创建广告元素
+        // 创建广告元素 - 生产环境安全版本
         if (adRef.current) {
+          const config = getAdConfig();
+          const safeAdUnitId = sanitizeAdUnitId(adUnitId);
+          
           adRef.current.innerHTML = `
             <div class="ad-container bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
               <div class="text-gray-500 text-sm mb-2">Advertisement</div>
               <div class="text-gray-400 text-xs">
-                AdSense Ad Unit: ${adUnitId}
+                Sponsored Content
               </div>
+              ${config.settings.debugMode ? `<div class="text-gray-300 text-xs mt-2">Debug: ${safeAdUnitId}</div>` : ''}
             </div>
           `;
         }

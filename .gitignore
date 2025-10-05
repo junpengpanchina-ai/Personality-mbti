@@ -18,6 +18,9 @@ out/
 .env.test.local
 .env.production.local
 
+# AdSense sensitive configuration
+.env.adsense
+
 # IDE
 .vscode/
 .idea/

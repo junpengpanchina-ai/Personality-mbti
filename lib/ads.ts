@@ -32,8 +32,8 @@ export const DEFAULT_AD_CONFIG: AdConfig = {
   enabled: true,
   provider: 'google-adsense',
   settings: {
-    adUnitId: 'ca-pub-4198974976257818',
-    publisherId: 'pub-4198974976257818',
+    adUnitId: process.env.NEXT_PUBLIC_ADSENSE_AD_UNIT_ID || 'ca-pub-4198974976257818',
+    publisherId: process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || 'pub-4198974976257818',
     testMode: process.env.NODE_ENV === 'development'
   }
 };
