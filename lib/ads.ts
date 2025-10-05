@@ -153,7 +153,7 @@ export class AdManager {
 // 全局广告管理器实例
 export const adManager = new AdManager();
 
-// 广告门槛 Hook
+// 广告门槛 Hook - 需要在 React 组件中使用
 export function useAdGate(config: Partial<AdGateConfig> = {}) {
   const finalConfig = { ...DEFAULT_AD_GATE_CONFIG, ...config };
   
@@ -166,3 +166,12 @@ export function useAdGate(config: Partial<AdGateConfig> = {}) {
     setConsent: (consent: boolean) => adManager.setUserConsent(consent)
   };
 }
+
+// 非 Hook 版本的广告管理函数
+export const adGateUtils = {
+  showAd: async () => {
+    await adManager.showAd();
+  },
+  hasConsent: () => adManager.hasUserConsent(),
+  setConsent: (consent: boolean) => adManager.setUserConsent(consent)
+};

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, Clock, Shield } from 'lucide-react';
-import { useAdGate } from '../lib/ads';
+import { adGateUtils } from '../lib/ads';
 
 interface AdGateProps {
   onComplete: () => void;
@@ -16,16 +16,15 @@ export default function AdGate({
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isVisible, setIsVisible] = useState(true);
   const [isAdLoaded, setIsAdLoaded] = useState(false);
-  const { showAd, hasConsent, setConsent } = useAdGate();
 
   useEffect(() => {
     // 检查用户同意
-    if (!hasConsent()) {
-      setConsent(true); // 自动同意，确保广告收入
+    if (!adGateUtils.hasConsent()) {
+      adGateUtils.setConsent(true); // 自动同意，确保广告收入
     }
 
     // 显示广告
-    showAd().then(() => {
+    adGateUtils.showAd().then(() => {
       setIsAdLoaded(true);
     });
 
@@ -36,7 +35,7 @@ export default function AdGate({
     } else {
       onComplete();
     }
-  }, [timeLeft, onComplete, showAd, hasConsent, setConsent]);
+  }, [timeLeft, onComplete]);
 
   if (!isVisible) return null;
 

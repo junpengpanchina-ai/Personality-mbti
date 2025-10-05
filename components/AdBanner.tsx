@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { useAdGate } from '../lib/ads';
+import { useEffect, useRef, useState } from 'react';
+import { adGateUtils } from '../lib/ads';
 
 interface AdBannerProps {
   adUnitId?: string;
@@ -13,14 +13,19 @@ export default function AdBanner({
   className = ''
 }: AdBannerProps) {
   const adRef = useRef<HTMLDivElement>(null);
-  const { hasConsent, showAd } = useAdGate();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (!hasConsent()) return;
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+    if (!adGateUtils.hasConsent()) return;
 
     const loadAd = async () => {
       try {
-        await showAd();
+        await adGateUtils.showAd();
         
         // 创建广告元素
         if (adRef.current) {
@@ -39,7 +44,7 @@ export default function AdBanner({
     };
 
     loadAd();
-  }, [hasConsent, showAd, adUnitId]);
+  }, [isClient, adUnitId]);
 
   const getSizeClass = () => {
     switch (size) {
@@ -54,7 +59,7 @@ export default function AdBanner({
     }
   };
 
-  if (!hasConsent()) {
+  if (!isClient || !adGateUtils.hasConsent()) {
     return null;
   }
 

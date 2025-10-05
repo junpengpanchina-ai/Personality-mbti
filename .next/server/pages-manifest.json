@@ -1,10 +1,6 @@
 {
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/ads.txt": "pages/ads.txt.js",
-  "/api/ads.txt": "pages/api/ads.txt.js",
-  "/": "pages/index.html",
-  "/test/quick": "pages/test/quick.html",
   "/_document": "pages/_document.js",
-  "/404": "pages/404.html"
+  "/": "pages/index.js"
 }
