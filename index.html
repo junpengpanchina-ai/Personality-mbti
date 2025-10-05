@@ -6480,49 +6480,42 @@
             }
         }
         async function showResults() {
-            // 优化广告门槛系统，确保用户能正常获取结果
+            // 广告门槛系统 - 用户必须观看广告才能获取结果
             try {
                 console.log('开始显示广告...');
                 
                 // 检查广告管理器是否存在
                 if (!window.adManager) {
-                    console.log('广告管理器不存在，直接显示结果');
-                    // 直接显示结果，不阻塞用户
-                    navigateToPage(PAGE_STATES.RESULT);
-                    showResultsContent();
+                    console.log('广告管理器不存在，显示 fallback');
+                    showFallbackAd();
                     return;
                 }
                 
                 // 检查用户是否已同意
                 const consent = localStorage.getItem('adsConsent');
                 if (consent !== 'accepted') {
-                    console.log('用户未同意，直接显示结果');
-                    // 直接显示结果，不阻塞用户
-                    navigateToPage(PAGE_STATES.RESULT);
-                    showResultsContent();
+                    console.log('用户未同意，显示 fallback');
+                    showFallbackAd();
                     return;
                 }
                 
-                // 尝试显示 AdSense 广告，但不阻塞结果
+                // 尝试显示 AdSense 广告
                 if (window.AD_CONFIG?.googleAdsense?.enabled) {
                     console.log('尝试显示 AdSense 广告...');
-                    try {
-                        await window.adManager.createVideoAd();
-                        // 标记已通过广告门槛
-                        window.__adGatePassed = true;
-                    } catch (adError) {
-                        console.log('广告加载失败，但继续显示结果:', adError);
-                        // 即使广告失败，也继续显示结果
-                    }
+                    await window.adManager.createVideoAd();
+                    // 标记已通过广告门槛
+                    window.__adGatePassed = true;
                 } else {
-                    console.log('AdSense 未启用，直接显示结果');
+                    console.log('AdSense 未启用，显示 fallback');
+                    showFallbackAd();
+                    return;
                 }
             } catch (e) {
-                console.log('广告系统异常，直接显示结果:', e);
-                // 即使出现异常，也继续显示结果
+                console.log('广告加载失败，显示 fallback:', e);
+                showFallbackAd();
+                return;
             }
             
-            // 确保用户能获取结果
             navigateToPage(PAGE_STATES.RESULT);
             
             // 计算性格类型
@@ -6596,7 +6589,6 @@
                         <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Your result unlocks after a brief message</div>
                         <div id="fallback-countdown" style="font-size: 28px; font-weight: 800; color: #10b981;">10</div>
                         <div style="margin-top: 8px; font-size: 13px; opacity: .8;">We keep tests free by showing a short sponsorship message.</div>
-                        <button onclick="showResultsQuickly()" style="margin-top: 12px; padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; opacity: 0.8;">Skip to Results</button>
                     </div>
                 </div>
             `;
@@ -6626,13 +6618,6 @@
                     }, 500);
                 }
             }, 1000);
-        }
-
-        // 快速显示结果（备用方案）
-        function showResultsQuickly() {
-            console.log('使用快速结果显示模式');
-            navigateToPage(PAGE_STATES.RESULT);
-            showResultsContent();
         }
 
         // 显示结果内容
