@@ -6,6 +6,11 @@
       "use": "@vercel/next"
     }
   ],
+  "functions": {
+    "pages/api/ads.txt.ts": {
+      "maxDuration": 10
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",

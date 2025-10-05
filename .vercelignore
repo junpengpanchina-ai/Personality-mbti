@@ -1,0 +1,29 @@
+# 忽略旧版本文件
+*.html
+*.css
+*.js
+!next.config.js
+!tailwind.config.js
+
+# 忽略构建缓存
+.next/
+out/
+build/
+
+# 忽略开发文件
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 忽略测试文件
+test-*.html
+debug-*.html
+basic-test.html
+direct-test.html
+inline-test.html
+minimal-test.html
+ultra-simple.html
+
+# 忽略旧版本目录
+mbti-nextjs/
