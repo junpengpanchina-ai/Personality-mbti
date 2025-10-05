@@ -1,10 +1,15 @@
 import Link from 'next/link';
+import Head from 'next/head';
 import { Brain, Users, BarChart3, Star } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <>
+      <Head>
+        <script src="https://cdn.tailwindcss.com"></script>
+      </Head>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,6 +107,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 }
