@@ -380,16 +380,28 @@
                 P: Math.round(100 * scores.P / countByDim.JP)
             };
 
-            // 广告门槛
+            // 广告门槛 - 添加更好的错误处理
             try {
-                // 等待 adManager 初始化
+                // 检查广告系统是否可用
+                if (!window.adManager || !window.AD_CONFIG) {
+                    console.log('广告系统不可用，直接显示结果');
+                    renderQuickTestResult(type, pct);
+                    return;
+                }
+                
+                // 等待 adManager 初始化（最多等待 2 秒）
                 if (!window.adManager) {
-                    console.log('Waiting for adManager to initialize...');
-                    await new Promise(resolve => {
+                    console.log('等待 adManager 初始化...');
+                    await new Promise((resolve, reject) => {
+                        let attempts = 0;
+                        const maxAttempts = 20; // 2秒超时
                         const checkAdManager = () => {
                             if (window.adManager) {
                                 resolve();
+                            } else if (attempts >= maxAttempts) {
+                                reject(new Error('adManager 初始化超时'));
                             } else {
+                                attempts++;
                                 setTimeout(checkAdManager, 100);
                             }
                         };
@@ -398,15 +410,20 @@
                 }
                 
                 const consent = localStorage.getItem('adsConsent');
-                if (consent !== 'accepted') throw new Error('consent not accepted');
+                if (consent !== 'accepted') {
+                    console.log('用户未同意广告，显示 fallback');
+                    return showFallbackAdQuickTest(type, pct);
+                }
+                
                 if (window.AD_CONFIG?.googleAdsense?.enabled) {
                     await window.adManager.createVideoAd();
                     window.__adGatePassed = true;
                 } else {
+                    console.log('AdSense 未启用，显示 fallback');
                     return showFallbackAdQuickTest(type, pct);
                 }
             } catch (e) {
-                console.log('Ad gate fallback in quick test:', e && e.message);
+                console.log('广告系统错误，使用 fallback:', e && e.message);
                 return showFallbackAdQuickTest(type, pct);
             }
 
@@ -474,8 +491,31 @@
             show('#welcome');
         }
     </script>
-    <script src="ad-config.js"></script>
-    <script src="ads-manager.js"></script>
+    <script src="ad-config.js" onerror="console.log('ad-config.js 加载失败，使用默认配置')"></script>
+    <script src="ads-manager.js" onerror="console.log('ads-manager.js 加载失败，禁用广告功能')"></script>
+    
+    <!-- 备用广告配置 -->
+    <script>
+        // 如果 ad-config.js 加载失败，提供默认配置
+        if (typeof window.AD_CONFIG === 'undefined') {
+            console.log('使用备用广告配置');
+            window.AD_CONFIG = {
+                googleAdsense: {
+                    enabled: false
+                }
+            };
+        }
+        
+        // 如果 ads-manager.js 加载失败，提供默认管理器
+        if (typeof window.adManager === 'undefined') {
+            console.log('使用备用广告管理器');
+            window.adManager = {
+                createVideoAd: function() {
+                    return Promise.reject(new Error('广告管理器不可用'));
+                }
+            };
+        }
+    </script>
     <link rel="icon" href="data:,">
     <meta name="color-scheme" content="light dark">
 </head>
