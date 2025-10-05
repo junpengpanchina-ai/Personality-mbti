@@ -330,11 +330,10 @@ export default function QuickTest() {
               >
                 Take Test Again
               </button>
-              <Link
-                href="/"
-                className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center"
-              >
-                Back to Home
+              <Link href="/">
+                <a className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
+                  Back to Home
+                </a>
               </Link>
             </div>
           </div>
@@ -354,12 +353,11 @@ export default function QuickTest() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Link 
-            href="/"
-            className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Back to Home
+          <Link href="/">
+            <a className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
+              <ArrowLeft className="h-5 w-5 mr-2" />
+              Back to Home
+            </a>
           </Link>
           <div className="text-sm text-gray-600">
             Question {currentQuestion + 1} of {QUESTIONS.length}
