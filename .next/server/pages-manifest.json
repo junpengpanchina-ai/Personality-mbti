@@ -3,7 +3,6 @@
   "/ads.txt": "pages/ads.txt.js",
   "/api/ads.txt": "pages/api/ads.txt.js",
   "/": "pages/index.html",
-  "/showcase": "pages/showcase.html",
   "/test/quick": "pages/test/quick.html",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",

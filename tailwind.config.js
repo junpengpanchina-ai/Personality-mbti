@@ -158,10 +158,10 @@ module.exports = {
         'fade-in-down': 'fadeInDown 0.5s ease-out',
         'slide-in-left': 'slideInLeft 0.5s ease-out',
         'slide-in-right': 'slideInRight 0.5s ease-out',
-        'scale-in': 'scaleIn 0.3s ease-out',
-        'bounce-gentle': 'bounceGentle 2s infinite',
-        'pulse-gentle': 'pulseGentle 2s infinite',
+        'bounce-in': 'bounceIn 0.6s ease-out',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'spin-slow': 'spin 3s linear infinite',
+        'wiggle': 'wiggle 1s ease-in-out infinite',
       },
       
       // 自定义关键帧
@@ -186,17 +186,15 @@ module.exports = {
           '0%': { opacity: '0', transform: 'translateX(20px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
-        scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.9)' },
+        bounceIn: {
+          '0%': { opacity: '0', transform: 'scale(0.3)' },
+          '50%': { opacity: '1', transform: 'scale(1.05)' },
+          '70%': { transform: 'scale(0.9)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
-        bounceGentle: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-5px)' },
-        },
-        pulseGentle: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.8' },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
         },
       },
       
@@ -204,11 +202,11 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-primary': 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-        'gradient-secondary': 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
-        'gradient-accent': 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
-        'gradient-warm': 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)',
-        'gradient-cool': 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
+        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'gradient-secondary': 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        'gradient-accent': 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        'gradient-warm': 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+        'gradient-cool': 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
       },
       
       // 自定义容器
@@ -240,8 +238,20 @@ module.exports = {
     function({ addUtilities, addComponents, theme }) {
       // 自定义工具类
       addUtilities({
-        '.text-balance': {
-          'text-wrap': 'balance',
+        '.text-gradient': {
+          'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          '-webkit-background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent',
+          'background-clip': 'text',
+        },
+        '.text-shadow': {
+          'text-shadow': '0 2px 4px rgba(0,0,0,0.10)',
+        },
+        '.text-shadow-lg': {
+          'text-shadow': '0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)',
+        },
+        '.backdrop-blur-xs': {
+          'backdrop-filter': 'blur(2px)',
         },
         '.scrollbar-hide': {
           '-ms-overflow-style': 'none',
@@ -250,11 +260,17 @@ module.exports = {
             display: 'none',
           },
         },
-        '.scrollbar-default': {
-          '-ms-overflow-style': 'auto',
-          'scrollbar-width': 'auto',
+        '.scrollbar-thin': {
+          'scrollbar-width': 'thin',
           '&::-webkit-scrollbar': {
-            display: 'block',
+            width: '6px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: theme('colors.gray.100'),
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: theme('colors.gray.300'),
+            'border-radius': '3px',
           },
         },
       });
@@ -262,42 +278,79 @@ module.exports = {
       // 自定义组件
       addComponents({
         '.btn': {
-          '@apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200': {},
+          'display': 'inline-flex',
+          'align-items': 'center',
+          'justify-content': 'center',
+          'border-radius': theme('borderRadius.lg'),
+          'font-weight': theme('fontWeight.semibold'),
+          'transition': 'all 0.2s ease-in-out',
+          'cursor': 'pointer',
+          'border': 'none',
+          'outline': 'none',
+          '&:focus': {
+            'outline': 'none',
+            'box-shadow': '0 0 0 3px rgba(99, 102, 241, 0.1)',
+          },
         },
         '.btn-primary': {
-          '@apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500': {},
+          'background-color': theme('colors.primary.600'),
+          'color': theme('colors.white'),
+          'padding': `${theme('spacing.3')} ${theme('spacing.6')}`,
+          '&:hover': {
+            'background-color': theme('colors.primary.700'),
+            'transform': 'translateY(-1px)',
+            'box-shadow': theme('boxShadow.medium'),
+          },
         },
         '.btn-secondary': {
-          '@apply btn bg-white text-gray-700 border-gray-300 hover:bg-gray-50 focus:ring-primary-500': {},
-        },
-        '.btn-success': {
-          '@apply btn bg-success-600 text-white hover:bg-success-700 focus:ring-success-500': {},
-        },
-        '.btn-warning': {
-          '@apply btn bg-warning-600 text-white hover:bg-warning-700 focus:ring-warning-500': {},
-        },
-        '.btn-error': {
-          '@apply btn bg-error-600 text-white hover:bg-error-700 focus:ring-error-500': {},
+          'background-color': theme('colors.neutral.200'),
+          'color': theme('colors.neutral.800'),
+          'padding': `${theme('spacing.3')} ${theme('spacing.6')}`,
+          '&:hover': {
+            'background-color': theme('colors.neutral.300'),
+            'transform': 'translateY(-1px)',
+            'box-shadow': theme('boxShadow.medium'),
+          },
         },
         '.card': {
-          '@apply bg-white rounded-xl shadow-soft border border-gray-100': {},
-        },
-        '.card-hover': {
-          '@apply card hover:shadow-medium transition-shadow duration-300': {},
+          'background-color': theme('colors.white'),
+          'border-radius': theme('borderRadius.2xl'),
+          'box-shadow': theme('boxShadow.soft'),
+          'padding': theme('spacing.8'),
+          'transition': 'all 0.3s ease-in-out',
+          '&:hover': {
+            'transform': 'translateY(-2px)',
+            'box-shadow': theme('boxShadow.medium'),
+          },
         },
         '.input': {
-          '@apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm': {},
-        },
-        '.input-error': {
-          '@apply input border-error-300 focus:ring-error-500 focus:border-error-500': {},
-        },
-        '.label': {
-          '@apply block text-sm font-medium text-gray-700 mb-1': {},
-        },
-        '.label-error': {
-          '@apply label text-error-600': {},
+          'width': '100%',
+          'padding': `${theme('spacing.3')} ${theme('spacing.4')}`,
+          'border': `1px solid ${theme('colors.neutral.300')}`,
+          'border-radius': theme('borderRadius.lg'),
+          'font-size': theme('fontSize.base'),
+          'transition': 'all 0.2s ease-in-out',
+          '&:focus': {
+            'outline': 'none',
+            'border-color': theme('colors.primary.500'),
+            'box-shadow': `0 0 0 3px ${theme('colors.primary.100')}`,
+          },
         },
       });
     },
   ],
-}
+  // JIT 模式配置
+  mode: 'jit',
+  // 安全列表 - 确保动态类名被包含
+  safelist: [
+    'animate-fade-in',
+    'animate-fade-in-up',
+    'animate-fade-in-down',
+    'animate-slide-in-left',
+    'animate-slide-in-right',
+    'animate-bounce-in',
+    'animate-pulse-slow',
+    'animate-spin-slow',
+    'animate-wiggle',
+  ],
+};

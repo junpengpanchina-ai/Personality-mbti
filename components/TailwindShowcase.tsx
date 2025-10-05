@@ -1,237 +1,209 @@
 import React from 'react';
-import { Brain, Star, Zap, Shield, Heart, Sparkles } from 'lucide-react';
+import { Brain, Users, BarChart3, Star, Heart, Zap, Shield, Sparkles } from 'lucide-react';
 
 export default function TailwindShowcase() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 p-8">
-      <div className="max-w-6xl mx-auto space-y-12">
-        
-        {/* 标题部分 */}
-        <div className="text-center space-y-4">
-          <h1 className="text-6xl font-bold text-gradient-primary animate-fade-in">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-accent-50 to-secondary-50 p-8">
+      <div className="container-responsive">
+        {/* 标题区域 */}
+        <div className="text-center mb-16">
+          <h1 className="text-6xl font-bold text-gradient-primary mb-6 animate-fade-in">
             Tailwind CSS 3.3.6
           </h1>
-          <p className="text-xl text-gray-600 animate-fade-in-up">
-            完整的现代化 CSS 框架配置
+          <p className="text-xl text-neutral-600 mb-8 animate-fade-in-up">
+            现代化设计系统展示
           </p>
         </div>
 
         {/* 颜色系统展示 */}
-        <div className="card p-8 animate-fade-in-up">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-secondary">颜色系统</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="space-y-2">
-              <h3 className="font-semibold text-primary-700">Primary</h3>
-              <div className="space-y-1">
-                <div className="h-8 bg-primary-500 rounded"></div>
-                <div className="h-6 bg-primary-400 rounded"></div>
-                <div className="h-4 bg-primary-300 rounded"></div>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-secondary-700">Secondary</h3>
-              <div className="space-y-1">
-                <div className="h-8 bg-secondary-500 rounded"></div>
-                <div className="h-6 bg-secondary-400 rounded"></div>
-                <div className="h-4 bg-secondary-300 rounded"></div>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-accent-700">Accent</h3>
-              <div className="space-y-1">
-                <div className="h-8 bg-accent-500 rounded"></div>
-                <div className="h-6 bg-accent-400 rounded"></div>
-                <div className="h-4 bg-accent-300 rounded"></div>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-success-700">Success</h3>
-              <div className="space-y-1">
-                <div className="h-8 bg-success-500 rounded"></div>
-                <div className="h-6 bg-success-400 rounded"></div>
-                <div className="h-4 bg-success-300 rounded"></div>
-              </div>
-            </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="card animate-fade-in-up">
+            <div className="w-full h-20 bg-primary-500 rounded-lg mb-4"></div>
+            <h3 className="text-lg font-semibold text-primary-800">Primary</h3>
+            <p className="text-sm text-neutral-600">主要品牌色</p>
+          </div>
+          
+          <div className="card animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <div className="w-full h-20 bg-secondary-500 rounded-lg mb-4"></div>
+            <h3 className="text-lg font-semibold text-secondary-800">Secondary</h3>
+            <p className="text-sm text-neutral-600">辅助品牌色</p>
+          </div>
+          
+          <div className="card animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="w-full h-20 bg-accent-500 rounded-lg mb-4"></div>
+            <h3 className="text-lg font-semibold text-accent-800">Accent</h3>
+            <p className="text-sm text-neutral-600">强调色</p>
+          </div>
+          
+          <div className="card animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <div className="w-full h-20 bg-gradient-primary rounded-lg mb-4"></div>
+            <h3 className="text-lg font-semibold text-neutral-800">Gradient</h3>
+            <p className="text-sm text-neutral-600">渐变效果</p>
           </div>
         </div>
 
         {/* 按钮组件展示 */}
-        <div className="card p-8 animate-slide-in-left">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-accent">按钮组件</h2>
-          <div className="flex flex-wrap gap-4">
-            <button className="btn-primary">Primary Button</button>
-            <button className="btn-secondary">Secondary Button</button>
-            <button className="btn-success">Success Button</button>
-            <button className="btn-warning">Warning Button</button>
-            <button className="btn-error">Error Button</button>
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">按钮组件</h2>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button className="btn btn-primary">Primary Button</button>
+            <button className="btn btn-secondary">Secondary Button</button>
+            <button className="btn btn-outline">Outline Button</button>
+            <button className="btn btn-ghost">Ghost Button</button>
+            <button className="btn btn-primary btn-sm">Small Button</button>
+            <button className="btn btn-primary btn-lg">Large Button</button>
           </div>
         </div>
 
         {/* 卡片组件展示 */}
-        <div className="card p-8 animate-slide-in-right">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-warm">卡片组件</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="card-hover p-6">
-              <Brain className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">基础卡片</h3>
-              <p className="text-gray-600">这是一个基础卡片组件，具有悬停效果。</p>
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="card animate-slide-in-left">
+            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+              <Brain className="h-6 w-6 text-primary-600" />
             </div>
-            <div className="card-interactive p-6">
-              <Star className="h-12 w-12 text-secondary-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">交互卡片</h3>
-              <p className="text-gray-600">这是一个交互式卡片，具有缩放效果。</p>
-            </div>
-            <div className="card p-6 shadow-glow">
-              <Zap className="h-12 w-12 text-accent-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">发光卡片</h3>
-              <p className="text-gray-600">这是一个具有发光效果的卡片。</p>
-            </div>
+            <h3 className="text-xl font-semibold mb-2">智能分析</h3>
+            <p className="text-neutral-600">基于先进算法的深度分析</p>
           </div>
-        </div>
-
-        {/* 渐变背景展示 */}
-        <div className="card p-8 animate-scale-in">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-cool">渐变背景</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="gradient-primary p-8 rounded-xl text-white">
-              <h3 className="text-2xl font-bold mb-2">Primary Gradient</h3>
-              <p>主要渐变背景效果</p>
+          
+          <div className="card card-elevated animate-fade-in-up">
+            <div className="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center mb-4">
+              <Users className="h-6 w-6 text-secondary-600" />
             </div>
-            <div className="gradient-secondary p-8 rounded-xl text-white">
-              <h3 className="text-2xl font-bold mb-2">Secondary Gradient</h3>
-              <p>次要渐变背景效果</p>
-            </div>
-            <div className="gradient-warm p-8 rounded-xl text-white">
-              <h3 className="text-2xl font-bold mb-2">Warm Gradient</h3>
-              <p>温暖渐变背景效果</p>
-            </div>
-            <div className="gradient-cool p-8 rounded-xl text-white">
-              <h3 className="text-2xl font-bold mb-2">Cool Gradient</h3>
-              <p>凉爽渐变背景效果</p>
-            </div>
+            <h3 className="text-xl font-semibold mb-2">用户友好</h3>
+            <p className="text-neutral-600">直观易用的界面设计</p>
           </div>
-        </div>
-
-        {/* 动画效果展示 */}
-        <div className="card p-8 animate-fade-in">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-primary">动画效果</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center p-6">
-              <div className="loading-lg mx-auto mb-4"></div>
-              <h3 className="font-semibold mb-2">加载动画</h3>
-              <p className="text-sm text-gray-600">旋转加载效果</p>
+          
+          <div className="card animate-slide-in-right">
+            <div className="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center mb-4">
+              <BarChart3 className="h-6 w-6 text-accent-600" />
             </div>
-            <div className="text-center p-6">
-              <div className="animate-bounce-gentle">
-                <Heart className="h-12 w-12 text-error-500 mx-auto mb-4" />
-              </div>
-              <h3 className="font-semibold mb-2">弹跳动画</h3>
-              <p className="text-sm text-gray-600">温和的弹跳效果</p>
-            </div>
-            <div className="text-center p-6">
-              <div className="animate-pulse-gentle">
-                <Sparkles className="h-12 w-12 text-warning-500 mx-auto mb-4" />
-              </div>
-              <h3 className="font-semibold mb-2">脉冲动画</h3>
-              <p className="text-sm text-gray-600">柔和的脉冲效果</p>
-            </div>
+            <h3 className="text-xl font-semibold mb-2">数据可视化</h3>
+            <p className="text-neutral-600">清晰的数据展示</p>
           </div>
         </div>
 
         {/* 徽章组件展示 */}
-        <div className="card p-8 animate-fade-in-up">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-secondary">徽章组件</h2>
-          <div className="flex flex-wrap gap-4">
-            <span className="badge-primary">Primary</span>
-            <span className="badge-secondary">Secondary</span>
-            <span className="badge-success">Success</span>
-            <span className="badge-warning">Warning</span>
-            <span className="badge-error">Error</span>
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">徽章组件</h2>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <span className="badge badge-primary">Primary</span>
+            <span className="badge badge-secondary">Secondary</span>
+            <span className="badge badge-success">Success</span>
+            <span className="badge badge-warning">Warning</span>
+            <span className="badge badge-error">Error</span>
           </div>
         </div>
 
         {/* 输入框组件展示 */}
-        <div className="card p-8 animate-fade-in">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-accent">输入框组件</h2>
-          <div className="max-w-md space-y-4">
-            <div>
-              <label className="label">普通输入框</label>
-              <input type="text" className="input" placeholder="请输入内容" />
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">输入框组件</h2>
+          <div className="max-w-md mx-auto space-y-4">
+            <input type="text" placeholder="普通输入框" className="input" />
+            <input type="text" placeholder="成功状态" className="input input-success" />
+            <input type="text" placeholder="错误状态" className="input input-error" />
+          </div>
+        </div>
+
+        {/* 动画效果展示 */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">动画效果</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="card text-center animate-bounce-in">
+              <Heart className="h-8 w-8 text-error-500 mx-auto mb-4" />
+              <h3 className="font-semibold">Bounce In</h3>
             </div>
-            <div>
-              <label className="label-success">成功状态</label>
-              <input type="text" className="input-success" placeholder="输入成功" />
+            
+            <div className="card text-center animate-fade-in-up">
+              <Zap className="h-8 w-8 text-warning-500 mx-auto mb-4" />
+              <h3 className="font-semibold">Fade In Up</h3>
             </div>
-            <div>
-              <label className="label-error">错误状态</label>
-              <input type="text" className="input-error" placeholder="输入错误" />
+            
+            <div className="card text-center animate-slide-in-left">
+              <Shield className="h-8 w-8 text-success-500 mx-auto mb-4" />
+              <h3 className="font-semibold">Slide In Left</h3>
+            </div>
+            
+            <div className="card text-center animate-slide-in-right">
+              <Sparkles className="h-8 w-8 text-accent-500 mx-auto mb-4" />
+              <h3 className="font-semibold">Slide In Right</h3>
             </div>
           </div>
         </div>
 
-        {/* 响应式设计展示 */}
-        <div className="card p-8 animate-fade-in-up">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-warm">响应式设计</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-primary-100 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-primary-700">XS</div>
-              <div className="text-sm text-primary-600">475px+</div>
-            </div>
-            <div className="bg-secondary-100 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-secondary-700">SM</div>
-              <div className="text-sm text-secondary-600">640px+</div>
-            </div>
-            <div className="bg-accent-100 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-accent-700">MD</div>
-              <div className="text-sm text-accent-600">768px+</div>
-            </div>
-            <div className="bg-success-100 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-success-700">LG</div>
-              <div className="text-sm text-success-600">1024px+</div>
-            </div>
-          </div>
-        </div>
-
-        {/* 工具类展示 */}
-        <div className="card p-8 animate-fade-in">
-          <h2 className="text-3xl font-bold mb-6 text-gradient-cool">工具类</h2>
-          <div className="space-y-4">
-            <div className="p-4 bg-gray-100 rounded-lg">
-              <h3 className="font-semibold mb-2">滚动条隐藏</h3>
-              <div className="h-20 overflow-y-auto scrollbar-hide bg-white p-4 rounded">
-                <div className="space-y-2">
-                  <div>内容 1</div>
-                  <div>内容 2</div>
-                  <div>内容 3</div>
-                  <div>内容 4</div>
-                  <div>内容 5</div>
-                </div>
+        {/* 玻璃效果展示 */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">玻璃效果</h2>
+          <div className="relative h-64 bg-gradient-primary rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div className="relative z-10 p-8 h-full flex items-center justify-center">
+              <div className="glass rounded-2xl p-8 text-center">
+                <h3 className="text-2xl font-bold text-neutral-900 mb-2">玻璃效果</h3>
+                <p className="text-neutral-600">现代化的毛玻璃效果</p>
               </div>
             </div>
-            <div className="p-4 bg-gray-100 rounded-lg">
-              <h3 className="font-semibold mb-2">文本平衡</h3>
-              <p className="text-balance text-lg">
-                这是一个使用文本平衡工具类的长文本，它会自动调整文本的换行，使每一行的长度更加均匀。
-              </p>
+          </div>
+        </div>
+
+        {/* 加载状态展示 */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">加载状态</h2>
+          <div className="flex justify-center space-x-8">
+            <div className="text-center">
+              <div className="loading-spinner w-8 h-8 mx-auto mb-2"></div>
+              <p className="text-sm text-neutral-600">旋转加载</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="loading-dots mx-auto mb-2">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <p className="text-sm text-neutral-600">点状加载</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 响应式展示 */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">响应式设计</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="card text-center">
+              <div className="text-2xl font-bold text-primary-600 mb-2">1</div>
+              <p className="text-sm text-neutral-600">移动端</p>
+            </div>
+            <div className="card text-center">
+              <div className="text-2xl font-bold text-secondary-600 mb-2">2</div>
+              <p className="text-sm text-neutral-600">平板端</p>
+            </div>
+            <div className="card text-center">
+              <div className="text-2xl font-bold text-accent-600 mb-2">3</div>
+              <p className="text-sm text-neutral-600">桌面端</p>
+            </div>
+            <div className="card text-center">
+              <div className="text-2xl font-bold text-neutral-600 mb-2">4</div>
+              <p className="text-sm text-neutral-600">大屏幕</p>
             </div>
           </div>
         </div>
 
         {/* 总结 */}
-        <div className="text-center card p-8 animate-fade-in">
-          <Shield className="h-16 w-16 text-primary-600 mx-auto mb-4" />
-          <h2 className="text-3xl font-bold mb-4 text-gradient-primary">
-            Tailwind CSS 3.3.6 配置完成
-          </h2>
-          <p className="text-lg text-gray-600 mb-6">
-            完整的现代化 CSS 框架，包含自定义颜色、组件、动画和工具类
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="badge-primary">自定义颜色</span>
-            <span className="badge-secondary">组件系统</span>
-            <span className="badge-success">动画效果</span>
-            <span className="badge-warning">响应式设计</span>
-            <span className="badge-accent">工具类</span>
+        <div className="text-center">
+          <div className="card-elevated max-w-2xl mx-auto">
+            <Star className="h-12 w-12 text-warning-500 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-neutral-900 mb-4">
+              Tailwind CSS 3.3.6 完全匹配
+            </h3>
+            <p className="text-neutral-600 mb-6">
+              现代化的设计系统，包含完整的颜色系统、组件库、动画效果和响应式设计
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              <span className="badge badge-primary">JIT 模式</span>
+              <span className="badge badge-secondary">TypeScript</span>
+              <span className="badge badge-success">响应式</span>
+              <span className="badge badge-warning">动画</span>
+              <span className="badge badge-error">组件化</span>
+            </div>
           </div>
         </div>
       </div>
