@@ -14,7 +14,11 @@ const QUESTIONS = [
       "Spend time with a few close friends",
       "Meet and talk to many new people"
     ],
-    dimension: "EI"
+    dimension: "EI",
+    explanations: [
+      "内向倾向：你更喜欢深度交流，在安静的环境中与亲密朋友相处让你感到舒适和充实。",
+      "外向倾向：你享受社交活动，喜欢结识新朋友，从与他人的互动中获得能量。"
+    ]
   },
   {
     id: 2,
@@ -23,7 +27,11 @@ const QUESTIONS = [
       "Rely on facts and concrete information",
       "Consider possibilities and future implications"
     ],
-    dimension: "SN"
+    dimension: "SN",
+    explanations: [
+      "感觉倾向：你更注重实际和具体的信息，喜欢基于事实和过往经验来做决定。",
+      "直觉倾向：你更关注可能性和未来趋势，喜欢探索新的想法和概念。"
+    ]
   },
   {
     id: 3,
@@ -32,7 +40,11 @@ const QUESTIONS = [
       "Focus on the logical aspects and fairness",
       "Consider people's feelings and relationships"
     ],
-    dimension: "TF"
+    dimension: "TF",
+    explanations: [
+      "思考倾向：你更注重逻辑和公平，倾向于客观分析问题并寻找合理的解决方案。",
+      "情感倾向：你更关注人际关系和情感因素，倾向于考虑他人的感受和和谐。"
+    ]
   },
   {
     id: 4,
@@ -41,7 +53,11 @@ const QUESTIONS = [
       "Have things planned and organized",
       "Keep your options open and flexible"
     ],
-    dimension: "JP"
+    dimension: "JP",
+    explanations: [
+      "判断倾向：你喜欢有计划、有秩序的生活，倾向于提前规划并按时完成任务。",
+      "感知倾向：你更喜欢灵活和开放的生活方式，倾向于保持选择的自由。"
+    ]
   },
   {
     id: 5,
@@ -50,7 +66,11 @@ const QUESTIONS = [
       "Prefer to work alone and think it through",
       "Like to discuss and collaborate with others"
     ],
-    dimension: "EI"
+    dimension: "EI",
+    explanations: [
+      "内向倾向：你更喜欢独立思考，通过内省和深度思考来理解和掌握新知识。",
+      "外向倾向：你通过与他人讨论和合作来学习，从交流中获得新的见解。"
+    ]
   },
   {
     id: 6,
@@ -59,7 +79,11 @@ const QUESTIONS = [
       "What is real and practical",
       "What is possible and theoretical"
     ],
-    dimension: "SN"
+    dimension: "SN",
+    explanations: [
+      "感觉倾向：你更关注现实和实用性，喜欢处理具体的问题和实际的应用。",
+      "直觉倾向：你更感兴趣于理论和可能性，喜欢探索抽象的概念和未来的潜力。"
+    ]
   },
   {
     id: 7,
@@ -68,7 +92,11 @@ const QUESTIONS = [
       "Focus on what needs to be improved",
       "Emphasize positive aspects first"
     ],
-    dimension: "TF"
+    dimension: "TF",
+    explanations: [
+      "思考倾向：你更注重客观的改进建议，倾向于直接指出需要改进的地方。",
+      "情感倾向：你更注重鼓励和支持，倾向于先肯定积极方面再提出建议。"
+    ]
   },
   {
     id: 8,
@@ -77,7 +105,11 @@ const QUESTIONS = [
       "You have clear deadlines and structure",
       "You can work at your own pace"
     ],
-    dimension: "JP"
+    dimension: "JP",
+    explanations: [
+      "判断倾向：你在有明确目标和时间安排的环境中表现更好，喜欢结构化的环境。",
+      "感知倾向：你在灵活自由的环境中表现更好，喜欢能够自主安排工作节奏。"
+    ]
   },
   {
     id: 9,
@@ -86,7 +118,11 @@ const QUESTIONS = [
       "Prefer smaller, intimate gatherings",
       "Enjoy large groups and parties"
     ],
-    dimension: "EI"
+    dimension: "EI",
+    explanations: [
+      "内向倾向：你更喜欢小规模的聚会，在亲密的小群体中感到更舒适和自在。",
+      "外向倾向：你享受大型聚会，喜欢在热闹的环境中与他人互动和交流。"
+    ]
   },
   {
     id: 10,
@@ -95,7 +131,11 @@ const QUESTIONS = [
       "Concrete facts and details",
       "Big picture ideas and concepts"
     ],
-    dimension: "SN"
+    dimension: "SN",
+    explanations: [
+      "感觉倾向：你更关注具体的细节和事实，喜欢处理具体的信息和数据。",
+      "直觉倾向：你更关注整体概念和宏观视角，喜欢思考抽象的理念和可能性。"
+    ]
   },
   {
     id: 11,
@@ -104,7 +144,11 @@ const QUESTIONS = [
       "Try to solve their problem logically",
       "Focus on understanding their feelings"
     ],
-    dimension: "TF"
+    dimension: "TF",
+    explanations: [
+      "思考倾向：你倾向于分析问题的根本原因，提供逻辑性的解决方案和建议。",
+      "情感倾向：你更关注对方的感受，倾向于提供情感支持和理解。"
+    ]
   },
   {
     id: 12,
@@ -113,7 +157,11 @@ const QUESTIONS = [
       "Make decisions quickly and move on",
       "Take time to consider all options"
     ],
-    dimension: "JP"
+    dimension: "JP",
+    explanations: [
+      "判断倾向：你喜欢快速做决定并执行，倾向于尽快解决问题并向前推进。",
+      "感知倾向：你更喜欢花时间考虑各种选择，倾向于收集更多信息再做决定。"
+    ]
   }
 ];
 
@@ -147,21 +195,27 @@ export default function QuickTest() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<TestResult | null>(null);
   const [showAdGate, setShowAdGate] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers];
     newAnswers[currentQuestion] = answerIndex;
     setAnswers(newAnswers);
+    setSelectedAnswer(answerIndex);
+    setShowExplanation(true);
+  };
 
-    // 自动进入下一题
-    setTimeout(() => {
-      if (currentQuestion < QUESTIONS.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-      } else {
-        // 测试完成，计算结果
-        calculateResult(newAnswers);
-      }
-    }, 500);
+  const handleNextQuestion = () => {
+    setShowExplanation(false);
+    setSelectedAnswer(null);
+    
+    if (currentQuestion < QUESTIONS.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      // 测试完成，计算结果
+      calculateResult(answers);
+    }
   };
 
   // 初始化广告同意
@@ -394,22 +448,59 @@ export default function QuickTest() {
             {currentQ.question}
           </h2>
 
-          <div className="space-y-4">
-            {currentQ.options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleAnswer(index)}
-                className="w-full p-6 text-left border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 group"
-              >
-                <div className="flex items-center">
-                  <div className="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 group-hover:border-indigo-500 transition-colors"></div>
-                  <span className="text-lg text-gray-700 group-hover:text-indigo-700">
-                    {option}
+          {!showExplanation ? (
+            <div className="space-y-4">
+              {currentQ.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(index)}
+                  className="w-full p-6 text-left border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 group"
+                >
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 group-hover:border-indigo-500 transition-colors"></div>
+                    <span className="text-lg text-gray-700 group-hover:text-indigo-700">
+                      {option}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* 显示选中的选项 */}
+              <div className="bg-indigo-50 border-2 border-indigo-200 rounded-lg p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-6 h-6 bg-indigo-500 rounded-full mr-4 flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-lg font-semibold text-indigo-800">
+                    你的选择：{currentQ.options[selectedAnswer!]}
                   </span>
                 </div>
-              </button>
-            ))}
-          </div>
+              </div>
+
+              {/* 解析说明 */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  解析说明
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  {currentQ.explanations[selectedAnswer!]}
+                </p>
+              </div>
+
+              {/* 继续按钮 */}
+              <div className="flex justify-center">
+                <button
+                  onClick={handleNextQuestion}
+                  className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                >
+                  {currentQuestion < QUESTIONS.length - 1 ? '下一题' : '查看结果'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
