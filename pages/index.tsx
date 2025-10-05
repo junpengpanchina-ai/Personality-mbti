@@ -41,19 +41,19 @@ export default function Home() {
             strengths, and how you interact with the world around you.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link 
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <a 
               href="/test/quick"
-              className="bg-indigo-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition-colors shadow-lg hover:shadow-xl"
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-indigo-300 inline-block text-center"
             >
-              Start Quick Test (12 questions)
-            </Link>
-            <Link 
+              🚀 Start Quick Test (12 questions)
+            </a>
+            <a 
               href="/test/full"
-              className="bg-white text-indigo-600 px-8 py-4 rounded-lg text-lg font-semibold border-2 border-indigo-600 hover:bg-indigo-50 transition-colors"
+              className="bg-white text-indigo-600 px-10 py-5 rounded-2xl text-xl font-bold border-3 border-indigo-600 hover:bg-indigo-50 hover:border-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 hover:text-indigo-700 inline-block text-center"
             >
-              Full Assessment (93 questions)
-            </Link>
+              📊 Full Assessment (93 questions)
+            </a>
           </div>
 
           {/* 广告横幅 */}
