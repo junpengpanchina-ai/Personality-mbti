@@ -18,6 +18,10 @@ const QUESTIONS = [
     explanations: [
       "Introversion: You prefer deep conversations and feel more comfortable and fulfilled in quiet environments with close friends.",
       "Extraversion: You enjoy social activities, love meeting new people, and gain energy from interacting with others."
+    ],
+    traits: [
+      ["Reflective", "Thoughtful", "Independent", "Reserved"],
+      ["Outgoing", "Energetic", "Social", "Expressive"]
     ]
   },
   {
@@ -31,6 +35,10 @@ const QUESTIONS = [
     explanations: [
       "Sensing: You focus more on practical and concrete information, preferring to make decisions based on facts and past experience.",
       "Intuition: You pay more attention to possibilities and future trends, enjoying exploring new ideas and concepts."
+    ],
+    traits: [
+      ["Practical", "Realistic", "Detail-oriented", "Concrete"],
+      ["Imaginative", "Abstract", "Conceptual", "Innovative"]
     ]
   },
   {
@@ -44,6 +52,10 @@ const QUESTIONS = [
     explanations: [
       "Thinking: You focus more on logic and fairness, tending to analyze problems objectively and seek reasonable solutions.",
       "Feeling: You pay more attention to interpersonal relationships and emotional factors, considering others' feelings and harmony."
+    ],
+    traits: [
+      ["Analytical", "Logical", "Objective", "Fair"],
+      ["Empathetic", "Caring", "Harmonious", "Compassionate"]
     ]
   },
   {
@@ -57,6 +69,10 @@ const QUESTIONS = [
     explanations: [
       "Judging: You prefer a planned and organized life, tending to plan ahead and complete tasks on time.",
       "Perceiving: You prefer a flexible and open lifestyle, tending to maintain freedom of choice."
+    ],
+    traits: [
+      ["Organized", "Structured", "Decisive", "Planned"],
+      ["Flexible", "Adaptable", "Spontaneous", "Open-minded"]
     ]
   },
   {
@@ -70,6 +86,10 @@ const QUESTIONS = [
     explanations: [
       "Introversion: You prefer independent thinking, understanding and mastering new knowledge through introspection and deep thinking.",
       "Extraversion: You learn through discussion and collaboration with others, gaining new insights from communication."
+    ],
+    traits: [
+      ["Independent", "Reflective", "Focused", "Self-directed"],
+      ["Collaborative", "Interactive", "Social", "Communicative"]
     ]
   },
   {
@@ -83,6 +103,10 @@ const QUESTIONS = [
     explanations: [
       "Sensing: You focus more on reality and practicality, enjoying handling specific problems and practical applications.",
       "Intuition: You are more interested in theory and possibilities, enjoying exploring abstract concepts and future potential."
+    ],
+    traits: [
+      ["Realistic", "Practical", "Concrete", "Present-focused"],
+      ["Theoretical", "Imaginative", "Future-oriented", "Conceptual"]
     ]
   },
   {
@@ -96,6 +120,10 @@ const QUESTIONS = [
     explanations: [
       "Thinking: You focus more on objective improvement suggestions, tending to directly point out areas that need improvement.",
       "Feeling: You focus more on encouragement and support, tending to affirm positive aspects before making suggestions."
+    ],
+    traits: [
+      ["Direct", "Objective", "Constructive", "Improvement-focused"],
+      ["Supportive", "Encouraging", "Positive", "Relationship-focused"]
     ]
   },
   {
@@ -109,6 +137,10 @@ const QUESTIONS = [
     explanations: [
       "Judging: You perform better in environments with clear goals and time arrangements, preferring structured environments.",
       "Perceiving: You perform better in flexible and free environments, preferring to arrange your own work pace."
+    ],
+    traits: [
+      ["Structured", "Deadline-driven", "Organized", "Systematic"],
+      ["Flexible", "Self-paced", "Adaptive", "Spontaneous"]
     ]
   },
   {
@@ -122,6 +154,10 @@ const QUESTIONS = [
     explanations: [
       "Introversion: You prefer smaller gatherings and feel more comfortable and at ease in intimate small groups.",
       "Extraversion: You enjoy large parties and love interacting and communicating with others in lively environments."
+    ],
+    traits: [
+      ["Intimate", "Close-knit", "Personal", "Quiet"],
+      ["Energetic", "Large-scale", "Public", "Vibrant"]
     ]
   },
   {
@@ -135,6 +171,10 @@ const QUESTIONS = [
     explanations: [
       "Sensing: You focus more on specific details and facts, enjoying handling specific information and data.",
       "Intuition: You focus more on overall concepts and macro perspectives, enjoying thinking about abstract ideas and possibilities."
+    ],
+    traits: [
+      ["Detail-oriented", "Factual", "Specific", "Precise"],
+      ["Big-picture", "Abstract", "Conceptual", "Visionary"]
     ]
   },
   {
@@ -148,6 +188,10 @@ const QUESTIONS = [
     explanations: [
       "Thinking: You tend to analyze the root cause of problems, providing logical solutions and suggestions.",
       "Feeling: You focus more on the other person's feelings, tending to provide emotional support and understanding."
+    ],
+    traits: [
+      ["Problem-solving", "Logical", "Solution-focused", "Analytical"],
+      ["Emotionally supportive", "Understanding", "Compassionate", "Empathetic"]
     ]
   },
   {
@@ -161,6 +205,10 @@ const QUESTIONS = [
     explanations: [
       "Judging: You like to make decisions quickly and execute them, tending to solve problems and move forward as soon as possible.",
       "Perceiving: You prefer to take time to consider various options, tending to gather more information before making decisions."
+    ],
+    traits: [
+      ["Decisive", "Quick", "Action-oriented", "Final"],
+      ["Deliberate", "Thorough", "Exploratory", "Open-ended"]
     ]
   }
 ];
@@ -197,6 +245,7 @@ export default function QuickTest() {
   const [showAdGate, setShowAdGate] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
 
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers];
@@ -209,6 +258,7 @@ export default function QuickTest() {
   const handleNextQuestion = () => {
     setShowExplanation(false);
     setSelectedAnswer(null);
+    setSelectedTrait(null);
     
     if (currentQuestion < QUESTIONS.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
@@ -482,17 +532,38 @@ export default function QuickTest() {
               {/* 解析说明 */}
               <div 
                 className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 cursor-pointer hover:from-blue-100 hover:to-indigo-100 transition-all duration-300"
-                onDoubleClick={handleNextQuestion}
+                onClick={handleNextQuestion}
               >
                 <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
                   <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
                   Explanation
                 </h3>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   {currentQ.explanations[selectedAnswer!]}
                 </p>
+                
+                {/* Professional Traits Selection */}
+                <div className="mb-4">
+                  <h4 className="text-md font-semibold text-gray-800 mb-3">Choose your professional traits:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {currentQ.traits[selectedAnswer!].map((trait, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedTrait(trait)}
+                        className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                          selectedTrait === trait
+                            ? 'bg-indigo-600 text-white shadow-md'
+                            : 'bg-white border-2 border-indigo-200 text-indigo-700 hover:border-indigo-400 hover:bg-indigo-50'
+                        }`}
+                      >
+                        {trait}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
                 <div className="mt-4 text-sm text-gray-500 text-center">
-                  💡 Double-click to continue
+                  💡 Click to continue
                 </div>
               </div>
 

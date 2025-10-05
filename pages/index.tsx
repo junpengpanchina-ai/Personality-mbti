@@ -68,14 +68,20 @@ export default function Home() {
                        </p>
                      </div>
                      
-                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                       <a 
-                         href="/test/zodiac"
-                         className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-purple-300 inline-block text-center"
-                       >
-                         ✨ MBTI × Zodiac Divination
-                       </a>
-                     </div>
+                   <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                     <a 
+                       href="/test/zodiac"
+                       className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-purple-300 inline-block text-center"
+                     >
+                       ✨ MBTI × Zodiac Divination
+                     </a>
+                     <a 
+                       href="/test/bazi"
+                       className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-amber-300 inline-block text-center"
+                     >
+                       🔮 MBTI × Bazi Fortune Reading
+                     </a>
+                   </div>
                    </div>
 
           {/* Ad Banner */}

@@ -15,7 +15,15 @@ const FULL_QUESTIONS = [
       "Spend time with a few close friends",
       "Meet and talk to many new people"
     ],
-    dimension: "EI"
+    dimension: "EI",
+    explanations: [
+      "Introversion: You prefer deep conversations and feel more comfortable and fulfilled in quiet environments with close friends.",
+      "Extraversion: You enjoy social activities, love meeting new people, and gain energy from interacting with others."
+    ],
+    traits: [
+      ["Reflective", "Thoughtful", "Independent", "Reserved"],
+      ["Outgoing", "Energetic", "Social", "Expressive"]
+    ]
   },
   {
     id: 2,
@@ -24,7 +32,15 @@ const FULL_QUESTIONS = [
       "Work alone and think things through",
       "Collaborate with others and discuss ideas"
     ],
-    dimension: "EI"
+    dimension: "EI",
+    explanations: [
+      "Introversion: You prefer independent work and deep thinking, finding it easier to concentrate and be productive in quiet environments.",
+      "Extraversion: You thrive in collaborative environments and gain energy from discussing ideas with others."
+    ],
+    traits: [
+      ["Independent", "Focused", "Self-directed", "Concentrated"],
+      ["Collaborative", "Interactive", "Team-oriented", "Communicative"]
+    ]
   },
   {
     id: 3,
@@ -881,6 +897,9 @@ export default function FullTest() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<TestResult | null>(null);
   const [showAdGate, setShowAdGate] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
 
   const currentQ = FULL_QUESTIONS[currentQuestion];
   const progress = ((currentQuestion + 1) / FULL_QUESTIONS.length) * 100;
@@ -889,11 +908,19 @@ export default function FullTest() {
     const newAnswers = [...answers];
     newAnswers[currentQuestion] = answerIndex;
     setAnswers(newAnswers);
+    setSelectedAnswer(answerIndex);
+    setShowExplanation(true);
+  };
+
+  const handleNextQuestion = () => {
+    setShowExplanation(false);
+    setSelectedAnswer(null);
+    setSelectedTrait(null);
     
     if (currentQuestion < FULL_QUESTIONS.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      calculateResult(newAnswers);
+      calculateResult(answers);
     }
   };
 
@@ -1140,22 +1167,88 @@ export default function FullTest() {
             {currentQ.question}
           </h2>
 
-          <div className="space-y-4">
-            {currentQ.options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleAnswer(index)}
-                className="w-full p-6 text-left border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 group"
-              >
-                <div className="flex items-center">
-                  <div className="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 group-hover:border-indigo-500 transition-colors"></div>
-                  <span className="text-lg text-gray-700 group-hover:text-indigo-700">
-                    {option}
+          {!showExplanation ? (
+            <div className="space-y-4">
+              {currentQ.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(index)}
+                  className="w-full p-6 text-left border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 group"
+                >
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 group-hover:border-indigo-500 transition-colors"></div>
+                    <span className="text-lg text-gray-700 group-hover:text-indigo-700">
+                      {option}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Display selected option */}
+              <div className="bg-indigo-50 border-2 border-indigo-200 rounded-lg p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-6 h-6 bg-indigo-500 rounded-full mr-4 flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-lg font-semibold text-indigo-800">
+                    Your choice: {currentQ.options[selectedAnswer!]}
                   </span>
                 </div>
-              </button>
-            ))}
-          </div>
+              </div>
+
+              {/* Explanation */}
+              <div 
+                className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 cursor-pointer hover:from-blue-100 hover:to-indigo-100 transition-all duration-300"
+                onClick={handleNextQuestion}
+              >
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  Explanation
+                </h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  {currentQ.explanations?.[selectedAnswer!] || "This question helps determine your personality preferences."}
+                </p>
+                
+                {/* Professional Traits Selection */}
+                {currentQ.traits && currentQ.traits[selectedAnswer!] && (
+                  <div className="mb-4">
+                    <h4 className="text-md font-semibold text-gray-800 mb-3">Choose your professional traits:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {currentQ.traits[selectedAnswer!].map((trait, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSelectedTrait(trait)}
+                          className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                            selectedTrait === trait
+                              ? 'bg-indigo-600 text-white shadow-md'
+                              : 'bg-white border-2 border-indigo-200 text-indigo-700 hover:border-indigo-400 hover:bg-indigo-50'
+                          }`}
+                        >
+                          {trait}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <div className="mt-4 text-sm text-gray-500 text-center">
+                  💡 Click to continue
+                </div>
+              </div>
+
+              {/* Continue button */}
+              <div className="flex justify-center">
+                <button
+                  onClick={handleNextQuestion}
+                  className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  {currentQuestion < FULL_QUESTIONS.length - 1 ? 'Next Question' : 'View Results'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

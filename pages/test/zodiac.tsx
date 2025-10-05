@@ -143,10 +143,19 @@ export default function ZodiacTest() {
   const calculateResult = (answers: any[]) => {
     // Get user's selected zodiac
     const zodiacIndex = answers[0];
-    const selectedZodiac = DIVINATION_QUESTIONS[0].zodiacs[zodiacIndex];
+    const selectedZodiac = DIVINATION_QUESTIONS[0]?.zodiacs?.[zodiacIndex];
+    
+    if (!selectedZodiac) {
+      console.error('Invalid zodiac selection');
+      return;
+    }
     
     // Get corresponding MBTI types
     const possibleMBTIs = ZODIAC_MBTI_MAPPING[selectedZodiac as keyof typeof ZODIAC_MBTI_MAPPING];
+    if (!possibleMBTIs || possibleMBTIs.length === 0) {
+      console.error('No MBTI types found for zodiac:', selectedZodiac);
+      return;
+    }
     const randomMBTI = possibleMBTIs[Math.floor(Math.random() * possibleMBTIs.length)];
     
     // Get zodiac information
