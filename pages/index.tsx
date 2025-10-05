@@ -41,20 +41,41 @@ export default function Home() {
             strengths, and how you interact with the world around you.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <a 
-              href="/test/quick"
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-indigo-300 inline-block text-center"
-            >
-              🚀 Start Quick Test (12 questions)
-            </a>
-            <a 
-              href="/test/full"
-              className="bg-white text-indigo-600 px-10 py-5 rounded-2xl text-xl font-bold border-3 border-indigo-600 hover:bg-indigo-50 hover:border-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 hover:text-indigo-700 inline-block text-center"
-            >
-              📊 Full Assessment (93 questions)
-            </a>
-          </div>
+                   <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                     <a 
+                       href="/test/quick"
+                       className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-indigo-300 inline-block text-center"
+                     >
+                       🚀 Start Quick Test (12 questions)
+                     </a>
+                     <a 
+                       href="/test/full"
+                       className="bg-white text-indigo-600 px-10 py-5 rounded-2xl text-xl font-bold border-3 border-indigo-600 hover:bg-indigo-50 hover:border-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 hover:text-indigo-700 inline-block text-center"
+                     >
+                       📊 Full Assessment (93 questions)
+                     </a>
+                   </div>
+
+                   {/* 娱乐测试入口 */}
+                   <div className="mb-16">
+                     <div className="text-center mb-8">
+                       <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                         🔮 Entertainment Tests
+                       </h2>
+                       <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                         Discover your personality through fun and mystical approaches
+                       </p>
+                     </div>
+                     
+                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                       <a 
+                         href="/test/zodiac"
+                         className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-purple-300 inline-block text-center"
+                       >
+                         ✨ MBTI × Zodiac Divination
+                       </a>
+                     </div>
+                   </div>
 
           {/* 广告横幅 */}
           <div className="mb-16">
