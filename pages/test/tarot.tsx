@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Star, Sparkles, Moon, Sun, Heart } from 'lucide-react';
+import { ArrowLeft, Star, Sparkles, Moon, Sun, Heart, Shuffle, RotateCcw } from 'lucide-react';
 import { translations, Translations } from '../../lib/translations';
 import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
+import TarotCard, { TarotCardGrid } from '../../components/TarotCard';
 
 // Tarot cards and MBTI mapping
 const TAROT_MBTI_MAPPING = {
@@ -290,6 +291,12 @@ export default function TarotTest() {
   const [result, setResult] = useState<TarotResult | null>(null);
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [t, setT] = useState<Translations>(translations.en);
+  
+  // 翻牌功能状态
+  const [flippedCards, setFlippedCards] = useState<string[]>([]);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const [showCards, setShowCards] = useState(false);
+  const [isFlipping, setIsFlipping] = useState(false);
 
   useEffect(() => {
     // 从localStorage获取保存的语言设置
@@ -308,9 +315,56 @@ export default function TarotTest() {
 
     if (currentQuestion < TAROT_QUESTIONS.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
+      // 重置翻牌状态
+      setFlippedCards([]);
+      setSelectedCard(null);
+      setShowCards(false);
     } else {
       calculateResult(newAnswers);
     }
+  };
+
+  // 翻牌功能处理函数
+  const handleCardFlip = (cardName: string) => {
+    if (!flippedCards.includes(cardName)) {
+      setFlippedCards(prev => [...prev, cardName]);
+      setIsFlipping(true);
+      
+      // 添加音效（如果需要）
+      if (typeof window !== 'undefined') {
+        // 可以添加翻牌音效
+        // new Audio('/sounds/card-flip.mp3').play().catch(() => {});
+      }
+      
+      setTimeout(() => {
+        setIsFlipping(false);
+      }, 600);
+    }
+  };
+
+  const handleCardSelect = (cardName: string) => {
+    setSelectedCard(cardName);
+    
+    // 找到对应的选项索引
+    const currentQ = TAROT_QUESTIONS[currentQuestion];
+    const cardIndex = currentQ.tarotCards.indexOf(cardName);
+    if (cardIndex !== -1) {
+      handleAnswer(cardIndex);
+    }
+  };
+
+  const handleShowCards = () => {
+    setShowCards(true);
+  };
+
+  const handleShuffleCards = () => {
+    setFlippedCards([]);
+    setSelectedCard(null);
+    setIsFlipping(true);
+    
+    setTimeout(() => {
+      setIsFlipping(false);
+    }, 300);
   };
 
   const calculateResult = (answers: any[]) => {
@@ -472,6 +526,52 @@ export default function TarotTest() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+      {/* 翻牌动画样式 */}
+      <style jsx global>{`
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        
+        .animate-spin-slow {
+          animation: spin-slow 3s linear infinite;
+        }
+        
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        
+        .rotate-y-180 {
+          transform: rotateY(180deg);
+        }
+        
+        .backface-hidden {
+          backface-visibility: hidden;
+        }
+        
+        .card-flip {
+          transform-style: preserve-3d;
+          transition: transform 0.7s ease-in-out;
+        }
+        
+        .card-flip.flipped {
+          transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+          backface-visibility: hidden;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+        
+        .card-back {
+          transform: rotateY(180deg);
+        }
+      `}</style>
+      
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header Ad */}
         <HeaderAd />
@@ -504,25 +604,99 @@ export default function TarotTest() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">
               {currentQ.question}
             </h2>
-            <p className="text-gray-600">{t.chooseOption}</p>
+            <p className="text-gray-600">
+              {showCards ? '选择一张塔罗牌' : '选择一种方式'}
+            </p>
           </div>
 
-          <div className="space-y-4">
-            {currentQ.options.map((option, index) => (
+          {/* 选择方式按钮 */}
+          {!showCards && (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <button
-                key={index}
-                onClick={() => handleAnswer(index)}
-                className="w-full p-6 text-left border-2 border-gray-200 rounded-xl hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
+                onClick={handleShowCards}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
               >
-                <div className="flex items-center">
-                  <div className="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 group-hover:border-purple-500 transition-colors"></div>
-                  <span className="text-lg text-gray-700 group-hover:text-purple-700">
-                    {option}
-                  </span>
-                </div>
+                <Shuffle className="h-5 w-5 mr-2" />
+                翻牌选择
               </button>
-            ))}
-          </div>
+              <button
+                onClick={() => setShowCards(false)}
+                className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
+              >
+                <RotateCcw className="h-5 w-5 mr-2" />
+                传统选择
+              </button>
+            </div>
+          )}
+
+          {/* 翻牌模式 */}
+          {showCards && (
+            <div className="space-y-6">
+              {/* 控制按钮 */}
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={handleShuffleCards}
+                  disabled={isFlipping}
+                  className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                >
+                  <Shuffle className="h-4 w-4 mr-2" />
+                  {isFlipping ? '洗牌中...' : '重新洗牌'}
+                </button>
+                <button
+                  onClick={() => setShowCards(false)}
+                  className="bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center"
+                >
+                  <RotateCcw className="h-4 w-4 mr-2" />
+                  切换模式
+                </button>
+              </div>
+
+              {/* 塔罗牌网格 */}
+              <div className="mt-8">
+                <TarotCardGrid
+                  cards={currentQ.tarotCards.map(cardName => ({
+                    name: cardName,
+                    symbol: TAROT_INFO[cardName as keyof typeof TAROT_INFO]?.symbol || '🔮',
+                    element: TAROT_INFO[cardName as keyof typeof TAROT_INFO]?.element || 'Mystery',
+                    meaning: TAROT_INFO[cardName as keyof typeof TAROT_INFO]?.meaning || 'Mystical guidance',
+                    traits: TAROT_INFO[cardName as keyof typeof TAROT_INFO]?.traits || ['Mystical', 'Wise']
+                  }))}
+                  selectedCard={selectedCard}
+                  onCardSelect={handleCardSelect}
+                  onCardFlip={handleCardFlip}
+                  flippedCards={flippedCards}
+                  disabled={isFlipping}
+                />
+              </div>
+
+              {/* 翻牌提示 */}
+              {flippedCards.length === 0 && (
+                <div className="text-center text-gray-500 text-sm">
+                  💫 点击任意卡片开始翻牌，感受塔罗牌的神秘力量
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 传统选择模式 */}
+          {!showCards && (
+            <div className="space-y-4">
+              {currentQ.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(index)}
+                  className="w-full p-6 text-left border-2 border-gray-200 rounded-xl hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
+                >
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 group-hover:border-purple-500 transition-colors"></div>
+                    <span className="text-lg text-gray-700 group-hover:text-purple-700">
+                      {option}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
