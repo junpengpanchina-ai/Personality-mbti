@@ -27,3 +27,8 @@ ultra-simple.html
 
 # 忽略旧版本目录
 mbti-nextjs/
+
+# 忽略不必要的node_modules文件
+node_modules/@typescript-eslint/
+node_modules/eslint/
+node_modules/@eslint/
