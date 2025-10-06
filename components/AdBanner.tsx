@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { adGateUtils } from '../lib/ads';
 import { getAdConfig, sanitizeAdUnitId } from '../lib/ads-config';
 
 interface AdBannerProps {
@@ -22,12 +21,9 @@ export default function AdBanner({
 
   useEffect(() => {
     if (!isClient) return;
-    if (!adGateUtils.hasConsent()) return;
 
     const loadAd = async () => {
       try {
-        await adGateUtils.showAd();
-        
         // 创建真实的AdSense广告
         if (adRef.current) {
           const config = getAdConfig();
@@ -80,7 +76,7 @@ export default function AdBanner({
     }
   };
 
-  if (!isClient || !adGateUtils.hasConsent()) {
+  if (!isClient) {
     return null;
   }
 
