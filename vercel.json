@@ -1,10 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "api/ads.txt.ts": {
-      "maxDuration": 10
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
