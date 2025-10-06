@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { getAdConfig } from '../lib/ads-config';
 
 interface AdSenseProps {
   className?: string;
@@ -15,16 +16,33 @@ export default function AdSense({
   format = 'autorelaxed',
   responsive = true
 }: AdSenseProps) {
+  const adConfig = getAdConfig();
+  
   useEffect(() => {
     try {
-      // 确保 adsbygoogle 存在
-      if (typeof window !== 'undefined' && (window as any).adsbygoogle) {
-        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+      // 确保 adsbygoogle 存在且广告已启用
+      if (typeof window !== 'undefined' && (window as any).adsbygoogle && adConfig.enabled) {
+        // 禁用自动广告，只使用手动配置的广告单元
+        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({
+          google_ad_client: "ca-pub-4198974976257818",
+          enable_page_level_ads: false
+        });
       }
     } catch (error) {
       console.error('AdSense error:', error);
     }
-  }, []);
+  }, [adConfig.enabled]);
+
+  // 如果广告未启用，返回占位符
+  if (!adConfig.enabled) {
+    return (
+      <div className={`adsense-container ${className}`} style={{...style, backgroundColor: '#f0f0f0', border: '1px dashed #ccc'}}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#666'}}>
+          {adConfig.settings.debugMode ? 'Ad Placeholder (Ads Disabled)' : ''}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`adsense-container ${className}`}>
