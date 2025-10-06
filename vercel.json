@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "pages/api/ads.txt.ts": {
+    "api/ads.txt.ts": {
       "maxDuration": 10
     }
   },
