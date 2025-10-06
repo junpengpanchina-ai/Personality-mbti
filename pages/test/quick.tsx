@@ -245,6 +245,7 @@ export default function QuickTest() {
   const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [t, setT] = useState<Translations>(translations.en);
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   useEffect(() => {
     // 从localStorage获取保存的语言设置
@@ -254,6 +255,36 @@ export default function QuickTest() {
       setT(translations[savedLanguage] || translations.en);
     }
   }, []);
+
+  // 监听语言变化，确保组件重新渲染
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'preferred-language' && e.newValue) {
+        setCurrentLanguage(e.newValue);
+        setT(translations[e.newValue] || translations.en);
+        setForceUpdate(prev => prev + 1);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorageChange);
+      
+      // 定期检查语言变化（用于同页面内的语言切换）
+      const interval = setInterval(() => {
+        const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+        if (savedLanguage !== currentLanguage) {
+          setCurrentLanguage(savedLanguage);
+          setT(translations[savedLanguage] || translations.en);
+          setForceUpdate(prev => prev + 1);
+        }
+      }, 1000);
+
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+        clearInterval(interval);
+      };
+    }
+  }, [currentLanguage]);
 
   // 获取翻译后的题目
   const getTranslatedQuestion = (questionId: number) => {
