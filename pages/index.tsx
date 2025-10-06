@@ -1,8 +1,27 @@
 import Link from 'next/link';
 import Head from 'next/head';
+import { useState, useEffect } from 'react';
 import { Brain, Users, BarChart3, Star } from 'lucide-react';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { translations, Translations } from '../lib/translations';
 
 export default function Home() {
+  const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [t, setT] = useState<Translations>(translations.en);
+
+  useEffect(() => {
+    // 从localStorage获取保存的语言设置
+    const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+    setCurrentLanguage(savedLanguage);
+    setT(translations[savedLanguage] || translations.en);
+  }, []);
+
+  const handleLanguageChange = (language: string) => {
+    setCurrentLanguage(language);
+    setT(translations[language] || translations.en);
+    localStorage.setItem('preferred-language', language);
+  };
+
   return (
     <>
       <Head>
@@ -15,14 +34,20 @@ export default function Home() {
           <div className="flex justify-between items-center py-6">
                      <div className="flex items-center space-x-3">
                        <img src="/mbti-logo.svg" alt="MBTI Logo" className="h-8 w-8" />
-                       <h1 className="text-2xl font-bold text-gray-900">MBTI Personality Test</h1>
+                       <h1 className="text-2xl font-bold text-gray-900">{t.siteName}</h1>
                      </div>
-                     <nav className="hidden md:flex space-x-8">
-                       <a href="#features" className="text-gray-600 hover:text-indigo-600">Features</a>
-                       <a href="/about" className="text-gray-600 hover:text-indigo-600">About</a>
-                       <a href="/privacy" className="text-gray-600 hover:text-indigo-600">Privacy</a>
-                       <a href="/compliance" className="text-gray-600 hover:text-indigo-600">Compliance</a>
-                     </nav>
+                     <div className="flex items-center space-x-6">
+                       <nav className="hidden md:flex space-x-8">
+                         <a href="#features" className="text-gray-600 hover:text-indigo-600">{t.features}</a>
+                         <a href="/about" className="text-gray-600 hover:text-indigo-600">{t.about}</a>
+                         <a href="/privacy" className="text-gray-600 hover:text-indigo-600">{t.privacy}</a>
+                         <a href="/compliance" className="text-gray-600 hover:text-indigo-600">{t.compliance}</a>
+                       </nav>
+                       <LanguageSwitcher 
+                         currentLanguage={currentLanguage} 
+                         onLanguageChange={handleLanguageChange} 
+                       />
+                     </div>
           </div>
         </div>
       </header>
@@ -31,14 +56,18 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Discover Your
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-              {' '}Personality Type
-            </span>
+            {t.heroTitle.split(' ').map((word, index) => 
+              word === 'Personality' || word === 'Type' ? (
+                <span key={index} className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
+                  {' '}{word}
+                </span>
+              ) : (
+                <span key={index}>{index === 0 ? word : ' ' + word}</span>
+              )
+            )}
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Take our professional MBTI personality test to understand your unique traits, 
-            strengths, and how you interact with the world around you.
+            {t.heroSubtitle}
           </p>
           
                    <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
@@ -46,13 +75,13 @@ export default function Home() {
                        href="/test/quick"
                        className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-indigo-300 inline-block text-center"
                      >
-                       🚀 Start Quick Test (12 questions)
+                       🚀 {t.quickTest}
                      </a>
                      <a 
                        href="/test/full"
                        className="bg-white text-indigo-600 px-10 py-5 rounded-2xl text-xl font-bold border-3 border-indigo-600 hover:bg-indigo-50 hover:border-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 hover:text-indigo-700 inline-block text-center"
                      >
-                       📊 Full Assessment (93 questions)
+                       📊 {t.fullTest}
                      </a>
                    </div>
 
@@ -60,10 +89,10 @@ export default function Home() {
                    <div className="mb-16">
                      <div className="text-center mb-8">
                        <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                         🔮 Entertainment Tests
+                         🔮 {t.entertainmentTests}
                        </h2>
                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                         Discover your personality through fun and mystical approaches
+                         {t.entertainmentSubtitle}
                        </p>
                      </div>
                      
@@ -72,19 +101,19 @@ export default function Home() {
                        href="/test/zodiac"
                        className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-purple-300 inline-block text-center"
                      >
-                       ✨ MBTI × Zodiac Divination
+                       ✨ {t.zodiacTest}
                      </a>
                      <a 
                        href="/test/bazi"
                        className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-amber-300 inline-block text-center"
                      >
-                       🔮 MBTI × Bazi Fortune Reading
+                       🔮 {t.baziTest}
                      </a>
                      <a 
                        href="/test/tarot"
                        className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-indigo-300 inline-block text-center"
                      >
-                       🃏 MBTI × Tarot Card Reading
+                       🃏 {t.tarotTest}
                      </a>
                    </div>
                    </div>
@@ -94,25 +123,25 @@ export default function Home() {
           <div id="features" className="grid md:grid-cols-3 gap-8 mt-16">
             <div className="bg-white p-6 rounded-xl shadow-lg">
               <Users className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Professional Analysis</h3>
+              <h3 className="text-xl font-semibold mb-2">{t.professionalAnalysis}</h3>
               <p className="text-gray-600">
-                Based on Carl Jung's psychological types and the Myers-Briggs framework
+                {t.professionalAnalysisDesc}
               </p>
             </div>
             
             <div className="bg-white p-6 rounded-xl shadow-lg">
               <BarChart3 className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Detailed Insights</h3>
+              <h3 className="text-xl font-semibold mb-2">{t.detailedInsights}</h3>
               <p className="text-gray-600">
-                Comprehensive personality analysis with career and relationship guidance
+                {t.detailedInsightsDesc}
               </p>
             </div>
             
             <div className="bg-white p-6 rounded-xl shadow-lg">
               <Star className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Free & Accurate</h3>
+              <h3 className="text-xl font-semibold mb-2">{t.freeAccurate}</h3>
               <p className="text-gray-600">
-                No registration required. Get instant, scientifically-backed results
+                {t.freeAccurateDesc}
               </p>
             </div>
           </div>
@@ -125,13 +154,13 @@ export default function Home() {
           <div className="text-center">
                      <div className="flex items-center justify-center space-x-3 mb-4">
                        <img src="/mbti-logo.svg" alt="MBTI Logo" className="h-6 w-6" />
-                       <span className="text-lg font-semibold">MBTI Personality Test</span>
+                       <span className="text-lg font-semibold">{t.siteName}</span>
                      </div>
             <p className="text-gray-400 mb-4">
-              Discover your personality type with our professional MBTI assessment
+              {t.copyrightDesc}
             </p>
             <p className="text-sm text-gray-500">
-              © 2024 MBTI Personality Test. All rights reserved.
+              {t.copyright}
             </p>
           </div>
         </div>
