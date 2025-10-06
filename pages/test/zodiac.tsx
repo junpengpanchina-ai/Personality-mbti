@@ -123,7 +123,6 @@ export default function ZodiacTest() {
   const [answers, setAnswers] = useState<any[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<DivinationResult | null>(null);
-  const [showAdGate, setShowAdGate] = useState(false);
 
   const currentQ = DIVINATION_QUESTIONS[currentQuestion];
   const progress = ((currentQuestion + 1) / DIVINATION_QUESTIONS.length) * 100;
@@ -178,19 +177,14 @@ export default function ZodiacTest() {
     
     setResult(result);
     setIsCompleted(true);
-    setShowAdGate(true);
   };
 
-  const handleAdComplete = () => {
-    setShowAdGate(false);
-  };
 
   const resetTest = () => {
     setCurrentQuestion(0);
     setAnswers([]);
     setIsCompleted(false);
     setResult(null);
-    setShowAdGate(false);
   };
 
   if (isCompleted && result) {

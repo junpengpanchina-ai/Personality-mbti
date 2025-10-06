@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
-import AdGate from '../../components/AdGate';
 import AdBanner from '../../components/AdBanner';
-import { adGateUtils } from '../../lib/ads';
 
 // Full MBTI test questions (93 questions)
 const FULL_QUESTIONS = [
@@ -896,7 +894,6 @@ export default function FullTest() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<TestResult | null>(null);
-  const [showAdGate, setShowAdGate] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
@@ -968,8 +965,7 @@ export default function FullTest() {
       scores,
       percentages
     });
-    // Show ad gate - MANDATORY for all results
-    setShowAdGate(true);
+    setIsCompleted(true);
   };
 
   const resetTest = () => {
@@ -977,20 +973,9 @@ export default function FullTest() {
     setAnswers([]);
     setIsCompleted(false);
     setResult(null);
-    setShowAdGate(false);
   };
 
-  const handleAdComplete = () => {
-    setShowAdGate(false);
-    setIsCompleted(true);
-  };
 
-  // Initialize ad consent
-  useEffect(() => {
-    if (!adGateUtils.hasConsent()) {
-      adGateUtils.setConsent(true); // Auto-consent to ensure ad revenue
-    }
-  }, []);
 
   if (isCompleted && result) {
     return (

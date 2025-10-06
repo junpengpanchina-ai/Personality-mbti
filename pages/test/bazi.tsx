@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun, Calendar } from 'lucide-react';
 import AdBanner from '../../components/AdBanner';
-import AdGate from '../../components/AdGate';
-import { adGateUtils } from '../../lib/ads';
 
 // Bazi (Eight Pillars) and MBTI mapping
 const BAZI_MBTI_MAPPING = {
@@ -114,14 +112,7 @@ export default function BaziTest() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<BaziResult | null>(null);
-  const [showAdGate, setShowAdGate] = useState(false);
 
-  useEffect(() => {
-    // Initialize ad consent
-    if (!adGateUtils.hasConsent()) {
-      adGateUtils.setConsent(true); // Auto-consent to ensure ad revenue
-    }
-  }, []);
 
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers];
@@ -170,7 +161,7 @@ export default function BaziTest() {
       description: `Your Bazi element ${baziInfo.name} (${baziInfo.meaning}) combined with your MBTI type ${mbtiInfo.name} reveals a personality that is ${mbtiInfo.traits.join(', ').toLowerCase()}. As a ${baziInfo.nature} ${baziInfo.element} person, you embody the qualities of ${baziInfo.traits.join(', ').toLowerCase()}. This ancient wisdom combined with modern psychology shows your unique path in life.`
     };
     setResult(result);
-    setShowAdGate(true); // Activate ad gate
+    setIsCompleted(true);
   };
 
   const resetTest = () => {
@@ -178,13 +169,8 @@ export default function BaziTest() {
     setAnswers([]);
     setIsCompleted(false);
     setResult(null);
-    setShowAdGate(false);
   };
 
-  const handleAdComplete = () => {
-    setShowAdGate(false);
-    setIsCompleted(true);
-  };
 
   const currentQ = BAZI_QUESTIONS[currentQuestion];
   const progress = ((currentQuestion + 1) / BAZI_QUESTIONS.length) * 100;

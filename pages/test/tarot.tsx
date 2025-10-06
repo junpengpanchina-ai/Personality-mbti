@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun, Heart } from 'lucide-react';
 import AdBanner from '../../components/AdBanner';
-import AdGate from '../../components/AdGate';
-import { adGateUtils } from '../../lib/ads';
 
 // Tarot cards and MBTI mapping
 const TAROT_MBTI_MAPPING = {
@@ -289,14 +287,7 @@ export default function TarotTest() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<TarotResult | null>(null);
-  const [showAdGate, setShowAdGate] = useState(false);
 
-  useEffect(() => {
-    // Initialize ad consent
-    if (!adGateUtils.hasConsent()) {
-      adGateUtils.setConsent(true); // Auto-consent to ensure ad revenue
-    }
-  }, []);
 
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers];
@@ -345,7 +336,7 @@ export default function TarotTest() {
       description: `The ${tarotInfo.name} card reveals your mystical personality profile. As someone guided by ${tarotInfo.meaning.toLowerCase()}, your MBTI type ${mbtiInfo.name} perfectly complements your tarot essence. The cards show that you embody the qualities of ${tarotInfo.traits.join(', ').toLowerCase()}, creating a unique blend of ancient wisdom and modern psychology.`
     };
     setResult(result);
-    setShowAdGate(true); // Activate ad gate
+    setIsCompleted(true);
   };
 
   const resetTest = () => {
@@ -353,20 +344,12 @@ export default function TarotTest() {
     setAnswers([]);
     setIsCompleted(false);
     setResult(null);
-    setShowAdGate(false);
   };
 
-  const handleAdComplete = () => {
-    setShowAdGate(false);
-    setIsCompleted(true);
-  };
 
   const currentQ = TAROT_QUESTIONS[currentQuestion];
   const progress = ((currentQuestion + 1) / TAROT_QUESTIONS.length) * 100;
 
-  if (showAdGate) {
-    return <AdGate onComplete={handleAdComplete} duration={10} />;
-  }
 
   if (isCompleted && result) {
     return (

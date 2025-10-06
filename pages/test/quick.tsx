@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
-import AdGate from '../../components/AdGate';
 import AdBanner from '../../components/AdBanner';
-import { adGateUtils } from '../../lib/ads';
 
 // MBTI test questions data
 const QUESTIONS = [
@@ -242,7 +240,6 @@ export default function QuickTest() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<TestResult | null>(null);
-  const [showAdGate, setShowAdGate] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
@@ -321,8 +318,7 @@ export default function QuickTest() {
       scores,
       percentages
     });
-    // Show ad gate
-    setShowAdGate(true);
+    setIsCompleted(true);
   };
 
   const resetTest = () => {
@@ -330,13 +326,8 @@ export default function QuickTest() {
     setAnswers([]);
     setIsCompleted(false);
     setResult(null);
-    setShowAdGate(false);
   };
 
-  const handleAdComplete = () => {
-    setShowAdGate(false);
-    setIsCompleted(true);
-  };
 
   if (isCompleted && result) {
     return (
@@ -465,9 +456,6 @@ export default function QuickTest() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {showAdGate && (
-        <AdGate onComplete={handleAdComplete} duration={10} />
-      )}
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
              <div className="flex items-center justify-between mb-8">
