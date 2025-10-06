@@ -22,15 +22,15 @@ export default function AdBanner({
   useEffect(() => {
     if (!isClient) return;
 
+    const config = getAdConfig();
+    
+    // 如果广告被禁用，完全阻止任何广告相关的操作
+    if (!config.enabled) {
+      return;
+    }
+
     const loadAd = async () => {
       try {
-        const config = getAdConfig();
-        
-        // 如果广告被禁用，不加载任何广告
-        if (!config.enabled) {
-          return;
-        }
-        
         // 创建真实的AdSense广告
         if (adRef.current) {
           const safeAdUnitId = sanitizeAdUnitId(adUnitId);

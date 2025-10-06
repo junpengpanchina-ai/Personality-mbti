@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "name": "personality-mbti",
+  "alias": ["personalitymbti.com", "www.personalitymbti.com"],
   "headers": [
     {
       "source": "/(.*)",
@@ -41,6 +43,19 @@
     {
       "source": "/ads.txt",
       "destination": "/api/ads.txt"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.personalitymbti.com"
+        }
+      ],
+      "destination": "https://personalitymbti.com/$1",
+      "permanent": true
     }
   ]
 }
