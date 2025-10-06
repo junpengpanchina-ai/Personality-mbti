@@ -81,6 +81,12 @@ export default function Home() {
                      >
                        🔮 MBTI × Bazi Fortune Reading
                      </a>
+                     <a 
+                       href="/test/tarot"
+                       className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-indigo-300 inline-block text-center"
+                     >
+                       🃏 MBTI × Tarot Card Reading
+                     </a>
                    </div>
                    </div>
 
