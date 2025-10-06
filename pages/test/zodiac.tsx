@@ -196,22 +196,6 @@ export default function ZodiacTest() {
   if (isCompleted && result) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-indigo-50 to-pink-50">
-        {showAdGate && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-6 text-center">
-              <div className="text-4xl mb-4">🔮</div>
-              <h3 className="text-xl font-bold mb-4">Cosmic Reading in Progress...</h3>
-              <div className="animate-spin w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full mx-auto"></div>
-              <p className="text-sm text-gray-600 mt-4">The stars are aligning your destiny...</p>
-              <button 
-                onClick={handleAdComplete}
-                className="mt-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
-              >
-                Reveal Your Cosmic Profile
-              </button>
-            </div>
-          </div>
-        )}
         
         <div className="max-w-4xl mx-auto px-4 py-8">
           {/* Header */}

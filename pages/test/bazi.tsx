@@ -189,9 +189,6 @@ export default function BaziTest() {
   const currentQ = BAZI_QUESTIONS[currentQuestion];
   const progress = ((currentQuestion + 1) / BAZI_QUESTIONS.length) * 100;
 
-  if (showAdGate) {
-    return <AdGate onComplete={handleAdComplete} duration={10} />;
-  }
 
   if (isCompleted && result) {
     return (

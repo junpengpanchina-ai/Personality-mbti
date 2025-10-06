@@ -1133,10 +1133,6 @@ export default function FullTest() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {showAdGate && (
-        <AdGate onComplete={handleAdComplete} duration={15} />
-      )}
-      
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
