@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { translations, Translations } from '../../lib/translations';
 
 // MBTI test questions data
 const QUESTIONS = [
@@ -242,6 +243,36 @@ export default function QuickTest() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
+  const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [t, setT] = useState<Translations>(translations.en);
+
+  useEffect(() => {
+    // 从localStorage获取保存的语言设置
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+      setCurrentLanguage(savedLanguage);
+      setT(translations[savedLanguage] || translations.en);
+    }
+  }, []);
+
+  // 获取翻译后的题目
+  const getTranslatedQuestion = (questionId: number) => {
+    const questionMap = {
+      1: { question: t.questions.party, options: t.questions.partyOptions },
+      2: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      3: { question: t.questions.conflict, options: t.questions.conflictOptions },
+      4: { question: t.questions.preference, options: t.questions.preferenceOptions },
+      5: { question: t.questions.learning, options: t.questions.learningOptions },
+      6: { question: t.questions.interests, options: t.questions.interestsOptions },
+      7: { question: t.questions.feedback, options: t.questions.feedbackOptions },
+      8: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      9: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      10: { question: t.questions.drawnTo, options: t.questions.drawnToOptions },
+      11: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
+      12: { question: t.questions.decisions2, options: t.questions.decisions2Options }
+    };
+    return questionMap[questionId as keyof typeof questionMap] || QUESTIONS[questionId - 1];
+  };
 
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers];
@@ -329,10 +360,10 @@ export default function QuickTest() {
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                Your Personality Type: <span className="text-indigo-600">{result.type}</span>
+                {t.personalityType}: <span className="text-indigo-600">{result.type}</span>
               </h1>
               <p className="text-xl text-gray-600">
-                Congratulations! You've completed the MBTI Quick Test.
+                {t.yourResult}
               </p>
             </div>
 
@@ -426,10 +457,10 @@ export default function QuickTest() {
                 onClick={resetTest}
                 className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
               >
-                Take Test Again
+                {t.takeTestAgain}
               </button>
               <Link href="/" className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
-                Back to Home
+                {t.backToHome}
               </Link>
             </div>
           </div>
@@ -438,7 +469,7 @@ export default function QuickTest() {
     );
   }
 
-  const currentQ = QUESTIONS[currentQuestion];
+  const currentQ = getTranslatedQuestion(currentQuestion + 1);
   const progress = ((currentQuestion + 1) / QUESTIONS.length) * 100;
 
   return (
@@ -448,10 +479,10 @@ export default function QuickTest() {
              <div className="flex items-center justify-between mb-8">
                <Link href="/" className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors bg-gray-100 hover:bg-indigo-50 px-4 py-2 rounded-lg font-medium">
                  <ArrowLeft className="h-5 w-5 mr-2" />
-                 Back to Home
+                 {t.backToHome}
                </Link>
           <div className="text-sm text-gray-600">
-            Question {currentQuestion + 1} of {QUESTIONS.length}
+            {t.question} {currentQuestion + 1} {t.of} {QUESTIONS.length}
           </div>
         </div>
 
@@ -546,7 +577,7 @@ export default function QuickTest() {
                   onClick={handleNextQuestion}
                   className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
-                  {currentQuestion < QUESTIONS.length - 1 ? 'Next Question' : 'View Results'}
+                  {currentQuestion < QUESTIONS.length - 1 ? t.next : t.submit}
                 </button>
               </div>
             </div>

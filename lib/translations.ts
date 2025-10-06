@@ -57,6 +57,33 @@ export interface Translations {
   baziCompatibility: string;
   baziElement: string;
   baziNature: string;
+  // Test questions
+  questions: {
+    party: string;
+    partyOptions: string[];
+    decisions: string;
+    decisionsOptions: string[];
+    conflict: string;
+    conflictOptions: string[];
+    preference: string;
+    preferenceOptions: string[];
+    learning: string;
+    learningOptions: string[];
+    interests: string;
+    interestsOptions: string[];
+    feedback: string;
+    feedbackOptions: string[];
+    workStyle: string;
+    workStyleOptions: string[];
+    socialSituations: string;
+    socialSituationsOptions: string[];
+    drawnTo: string;
+    drawnToOptions: string[];
+    someoneUpset: string;
+    someoneUpsetOptions: string[];
+    decisions2: string;
+    decisions2Options: string[];
+  };
 }
 
 export const translations: Record<string, Translations> = {
@@ -118,7 +145,70 @@ export const translations: Record<string, Translations> = {
     baziTraits: "Your Bazi Traits",
     baziCompatibility: "Bazi Compatibility",
     baziElement: "Bazi Element",
-    baziNature: "Bazi Nature"
+    baziNature: "Bazi Nature",
+    // Test questions
+    questions: {
+      party: "At a party, you would rather:",
+      partyOptions: [
+        "Spend time with a few close friends",
+        "Meet and talk to many new people"
+      ],
+      decisions: "When making decisions, you prefer to:",
+      decisionsOptions: [
+        "Rely on facts and concrete information",
+        "Consider possibilities and future implications"
+      ],
+      conflict: "In a conflict, you tend to:",
+      conflictOptions: [
+        "Focus on the logical aspects and fairness",
+        "Consider people's feelings and relationships"
+      ],
+      preference: "You prefer to:",
+      preferenceOptions: [
+        "Have things planned and organized",
+        "Keep your options open and flexible"
+      ],
+      learning: "When learning something new, you:",
+      learningOptions: [
+        "Prefer to work alone and think it through",
+        "Like to discuss and collaborate with others"
+      ],
+      interests: "You are more interested in:",
+      interestsOptions: [
+        "What is real and practical",
+        "What is possible and theoretical"
+      ],
+      feedback: "When giving feedback, you:",
+      feedbackOptions: [
+        "Focus on what needs to be improved",
+        "Emphasize positive aspects first"
+      ],
+      workStyle: "You work better when:",
+      workStyleOptions: [
+        "You have clear deadlines and structure",
+        "You can work at your own pace"
+      ],
+      socialSituations: "In social situations, you:",
+      socialSituationsOptions: [
+        "Prefer smaller, intimate gatherings",
+        "Enjoy large groups and parties"
+      ],
+      drawnTo: "You are more drawn to:",
+      drawnToOptions: [
+        "Concrete facts and details",
+        "Big picture ideas and concepts"
+      ],
+      someoneUpset: "When someone is upset, you:",
+      someoneUpsetOptions: [
+        "Try to solve their problem logically",
+        "Focus on understanding their feelings"
+      ],
+      decisions2: "You prefer to:",
+      decisions2Options: [
+        "Make decisions quickly and move on",
+        "Take time to consider all options"
+      ]
+    }
   },
   zh: {
     siteName: "MBTI性格测试",
@@ -178,7 +268,70 @@ export const translations: Record<string, Translations> = {
     baziTraits: "您的八字特质",
     baziCompatibility: "八字匹配度",
     baziElement: "八字元素",
-    baziNature: "八字性质"
+    baziNature: "八字性质",
+    // Test questions
+    questions: {
+      party: "在聚会上，您更愿意：",
+      partyOptions: [
+        "与几个亲密朋友共度时光",
+        "认识并和许多新朋友交谈"
+      ],
+      decisions: "做决定时，您更喜欢：",
+      decisionsOptions: [
+        "依靠事实和具体信息",
+        "考虑可能性和未来影响"
+      ],
+      conflict: "在冲突中，您倾向于：",
+      conflictOptions: [
+        "关注逻辑方面和公平性",
+        "考虑人们的感受和关系"
+      ],
+      preference: "您更喜欢：",
+      preferenceOptions: [
+        "有计划和组织地做事",
+        "保持选择的开放性和灵活性"
+      ],
+      learning: "学习新事物时，您：",
+      learningOptions: [
+        "喜欢独自思考和学习",
+        "喜欢与他人讨论和合作"
+      ],
+      interests: "您对以下更感兴趣：",
+      interestsOptions: [
+        "真实和实用的东西",
+        "可能性和理论性的东西"
+      ],
+      feedback: "给予反馈时，您：",
+      feedbackOptions: [
+        "专注于需要改进的地方",
+        "首先强调积极方面"
+      ],
+      workStyle: "您在工作时表现更好：",
+      workStyleOptions: [
+        "有明确的截止日期和结构时",
+        "可以按自己的节奏工作时"
+      ],
+      socialSituations: "在社交场合中，您：",
+      socialSituationsOptions: [
+        "更喜欢小型、亲密的聚会",
+        "享受大型聚会和派对"
+      ],
+      drawnTo: "您更被以下吸引：",
+      drawnToOptions: [
+        "具体的事实和细节",
+        "大局观念和概念"
+      ],
+      someoneUpset: "当有人难过时，您：",
+      someoneUpsetOptions: [
+        "尝试用逻辑解决他们的问题",
+        "专注于理解他们的感受"
+      ],
+      decisions2: "您更喜欢：",
+      decisions2Options: [
+        "快速做决定并继续前进",
+        "花时间考虑所有选项"
+      ]
+    }
   },
   ko: {
     siteName: "MBTI 성격 테스트",
@@ -238,7 +391,70 @@ export const translations: Record<string, Translations> = {
     baziTraits: "당신의 사주 특성",
     baziCompatibility: "사주 호환성",
     baziElement: "사주 원소",
-    baziNature: "사주 성질"
+    baziNature: "사주 성질",
+    // Test questions
+    questions: {
+      party: "파티에서 당신은 다음 중 어느 것을 선호하나요?",
+      partyOptions: [
+        "몇 명의 가까운 친구들과 시간을 보내기",
+        "많은 새로운 사람들을 만나고 대화하기"
+      ],
+      decisions: "결정을 내릴 때 당신은 다음 중 어느 것을 선호하나요?",
+      decisionsOptions: [
+        "사실과 구체적인 정보에 의존하기",
+        "가능성과 미래의 영향을 고려하기"
+      ],
+      conflict: "갈등 상황에서 당신은 다음 중 어느 쪽에 더 기울어지나요?",
+      conflictOptions: [
+        "논리적 측면과 공정성에 집중하기",
+        "사람들의 감정과 관계를 고려하기"
+      ],
+      preference: "당신은 다음 중 어느 것을 선호하나요?",
+      preferenceOptions: [
+        "계획적이고 체계적으로 일하기",
+        "선택의 여지를 열어두고 유연하게 대응하기"
+      ],
+      learning: "새로운 것을 배울 때 당신은:",
+      learningOptions: [
+        "혼자서 생각하고 학습하는 것을 선호",
+        "다른 사람들과 논의하고 협력하는 것을 좋아함"
+      ],
+      interests: "당신은 다음 중 어느 것에 더 관심이 있나요?",
+      interestsOptions: [
+        "실제적이고 실용적인 것",
+        "가능성과 이론적인 것"
+      ],
+      feedback: "피드백을 줄 때 당신은:",
+      feedbackOptions: [
+        "개선이 필요한 부분에 집중",
+        "긍정적인 측면을 먼저 강조"
+      ],
+      workStyle: "당신은 다음 상황에서 더 잘 일하나요?",
+      workStyleOptions: [
+        "명확한 마감일과 구조가 있을 때",
+        "자신의 속도로 일할 수 있을 때"
+      ],
+      socialSituations: "사회적 상황에서 당신은:",
+      socialSituationsOptions: [
+        "소규모의 친밀한 모임을 선호",
+        "대규모 그룹과 파티를 즐김"
+      ],
+      drawnTo: "당신은 다음 중 어느 것에 더 끌리나요?",
+      drawnToOptions: [
+        "구체적인 사실과 세부사항",
+        "큰 그림과 개념"
+      ],
+      someoneUpset: "누군가가 화가 났을 때 당신은:",
+      someoneUpsetOptions: [
+        "논리적으로 문제를 해결하려고 시도",
+        "그들의 감정을 이해하는 데 집중"
+      ],
+      decisions2: "당신은 다음 중 어느 것을 선호하나요?",
+      decisions2Options: [
+        "빠르게 결정하고 넘어가기",
+        "모든 옵션을 고려할 시간을 갖기"
+      ]
+    }
   },
   ja: {
     siteName: "MBTI性格テスト",
@@ -298,7 +514,70 @@ export const translations: Record<string, Translations> = {
     baziTraits: "あなたの八字特徴",
     baziCompatibility: "八字相性",
     baziElement: "八字エレメント",
-    baziNature: "八字性質"
+    baziNature: "八字性質",
+    // Test questions
+    questions: {
+      party: "パーティーでは、どちらを選びますか？",
+      partyOptions: [
+        "少数の親しい友人と時間を過ごす",
+        "多くの新しい人と出会い、話す"
+      ],
+      decisions: "決定を下すとき、どちらを好みますか？",
+      decisionsOptions: [
+        "事実と具体的な情報に頼る",
+        "可能性と将来の影響を考慮する"
+      ],
+      conflict: "対立では、どちらに傾きますか？",
+      conflictOptions: [
+        "論理的側面と公平性に焦点を当てる",
+        "人々の感情と関係を考慮する"
+      ],
+      preference: "どちらを好みますか？",
+      preferenceOptions: [
+        "計画を立てて整理された状態にする",
+        "選択肢を開いて柔軟性を保つ"
+      ],
+      learning: "新しいことを学ぶとき、あなたは：",
+      learningOptions: [
+        "一人で考えて学習することを好む",
+        "他の人と議論し、協力することを好む"
+      ],
+      interests: "どちらにより興味がありますか？",
+      interestsOptions: [
+        "現実的で実用的なもの",
+        "可能性と理論的なもの"
+      ],
+      feedback: "フィードバックを与えるとき、あなたは：",
+      feedbackOptions: [
+        "改善が必要な部分に焦点を当てる",
+        "まず積極的な側面を強調する"
+      ],
+      workStyle: "どちらの状況でより良く働けますか？",
+      workStyleOptions: [
+        "明確な締切と構造があるとき",
+        "自分のペースで働けるとき"
+      ],
+      socialSituations: "社会的状況では、あなたは：",
+      socialSituationsOptions: [
+        "小規模で親密な集まりを好む",
+        "大きなグループやパーティーを楽しむ"
+      ],
+      drawnTo: "どちらにより惹かれますか？",
+      drawnToOptions: [
+        "具体的な事実と詳細",
+        "大きな絵と概念"
+      ],
+      someoneUpset: "誰かが動揺しているとき、あなたは：",
+      someoneUpsetOptions: [
+        "論理的に問題を解決しようとする",
+        "彼らの感情を理解することに焦点を当てる"
+      ],
+      decisions2: "どちらを好みますか？",
+      decisions2Options: [
+        "素早く決定して次に進む",
+        "すべての選択肢を考慮する時間を取る"
+      ]
+    }
   },
   de: {
     siteName: "MBTI Persönlichkeitstest",
@@ -358,7 +637,70 @@ export const translations: Record<string, Translations> = {
     baziTraits: "Ihre Bazi-Eigenschaften",
     baziCompatibility: "Bazi-Kompatibilität",
     baziElement: "Bazi-Element",
-    baziNature: "Bazi-Natur"
+    baziNature: "Bazi-Natur",
+    // Test questions
+    questions: {
+      party: "Auf einer Party würden Sie lieber:",
+      partyOptions: [
+        "Zeit mit ein paar engen Freunden verbringen",
+        "Viele neue Leute treffen und mit ihnen sprechen"
+      ],
+      decisions: "Bei Entscheidungen bevorzugen Sie:",
+      decisionsOptions: [
+        "Sich auf Fakten und konkrete Informationen verlassen",
+        "Möglichkeiten und zukünftige Auswirkungen berücksichtigen"
+      ],
+      conflict: "Bei Konflikten tendieren Sie dazu:",
+      conflictOptions: [
+        "Sich auf die logischen Aspekte und Fairness zu konzentrieren",
+        "Die Gefühle und Beziehungen der Menschen zu berücksichtigen"
+      ],
+      preference: "Sie bevorzugen:",
+      preferenceOptions: [
+        "Dinge geplant und organisiert zu haben",
+        "Ihre Optionen offen und flexibel zu halten"
+      ],
+      learning: "Beim Lernen neuer Dinge:",
+      learningOptions: [
+        "Arbeiten Sie lieber allein und denken darüber nach",
+        "Diskutieren und arbeiten Sie gerne mit anderen zusammen"
+      ],
+      interests: "Sie interessieren sich mehr für:",
+      interestsOptions: [
+        "Was real und praktisch ist",
+        "Was möglich und theoretisch ist"
+      ],
+      feedback: "Bei der Rückmeldung:",
+      feedbackOptions: [
+        "Konzentrieren Sie sich auf das, was verbessert werden muss",
+        "Betonen Sie zuerst die positiven Aspekte"
+      ],
+      workStyle: "Sie arbeiten besser, wenn:",
+      workStyleOptions: [
+        "Sie klare Fristen und Struktur haben",
+        "Sie in Ihrem eigenen Tempo arbeiten können"
+      ],
+      socialSituations: "In sozialen Situationen:",
+      socialSituationsOptions: [
+        "Bevorzugen Sie kleinere, intime Treffen",
+        "Genießen Sie große Gruppen und Partys"
+      ],
+      drawnTo: "Sie fühlen sich mehr hingezogen zu:",
+      drawnToOptions: [
+        "Konkreten Fakten und Details",
+        "Großen Ideen und Konzepten"
+      ],
+      someoneUpset: "Wenn jemand verärgert ist:",
+      someoneUpsetOptions: [
+        "Versuchen Sie, ihr Problem logisch zu lösen",
+        "Konzentrieren Sie sich darauf, ihre Gefühle zu verstehen"
+      ],
+      decisions2: "Sie bevorzugen:",
+      decisions2Options: [
+        "Schnell Entscheidungen zu treffen und weiterzumachen",
+        "Sich Zeit zu nehmen, alle Optionen zu berücksichtigen"
+      ]
+    }
   },
   fr: {
     siteName: "Test de Personnalité MBTI",
@@ -418,7 +760,70 @@ export const translations: Record<string, Translations> = {
     baziTraits: "Vos traits Bazi",
     baziCompatibility: "Compatibilité Bazi",
     baziElement: "Élément Bazi",
-    baziNature: "Nature Bazi"
+    baziNature: "Nature Bazi",
+    // Test questions
+    questions: {
+      party: "Lors d'une fête, vous préféreriez :",
+      partyOptions: [
+        "Passer du temps avec quelques amis proches",
+        "Rencontrer et parler avec beaucoup de nouvelles personnes"
+      ],
+      decisions: "Lors de prises de décision, vous préférez :",
+      decisionsOptions: [
+        "S'appuyer sur des faits et des informations concrètes",
+        "Considérer les possibilités et les implications futures"
+      ],
+      conflict: "Dans un conflit, vous tendez à :",
+      conflictOptions: [
+        "Vous concentrer sur les aspects logiques et l'équité",
+        "Considérer les sentiments et les relations des gens"
+      ],
+      preference: "Vous préférez :",
+      preferenceOptions: [
+        "Avoir des choses planifiées et organisées",
+        "Garder vos options ouvertes et flexibles"
+      ],
+      learning: "Lors de l'apprentissage de nouvelles choses :",
+      learningOptions: [
+        "Préférez travailler seul et y réfléchir",
+        "Aimez discuter et collaborer avec d'autres"
+      ],
+      interests: "Vous êtes plus intéressé par :",
+      interestsOptions: [
+        "Ce qui est réel et pratique",
+        "Ce qui est possible et théorique"
+      ],
+      feedback: "Lors de la rétroaction :",
+      feedbackOptions: [
+        "Vous concentrer sur ce qui doit être amélioré",
+        "Mettre l'accent d'abord sur les aspects positifs"
+      ],
+      workStyle: "Vous travaillez mieux quand :",
+      workStyleOptions: [
+        "Vous avez des délais clairs et de la structure",
+        "Vous pouvez travailler à votre propre rythme"
+      ],
+      socialSituations: "Dans les situations sociales :",
+      socialSituationsOptions: [
+        "Préférez les petits rassemblements intimes",
+        "Appréciez les grands groupes et les fêtes"
+      ],
+      drawnTo: "Vous êtes plus attiré par :",
+      drawnToOptions: [
+        "Les faits concrets et les détails",
+        "Les grandes idées et les concepts"
+      ],
+      someoneUpset: "Quand quelqu'un est contrarié :",
+      someoneUpsetOptions: [
+        "Essayez de résoudre leur problème logiquement",
+        "Concentrez-vous sur la compréhension de leurs sentiments"
+      ],
+      decisions2: "Vous préférez :",
+      decisions2Options: [
+        "Prendre des décisions rapidement et passer à autre chose",
+        "Prendre le temps de considérer toutes les options"
+      ]
+    }
   },
   hi: {
     siteName: "MBTI व्यक्तित्व परीक्षण",
@@ -478,6 +883,69 @@ export const translations: Record<string, Translations> = {
     baziTraits: "आपके बाजी गुण",
     baziCompatibility: "बाजी अनुकूलता",
     baziElement: "बाजी तत्व",
-    baziNature: "बाजी प्रकृति"
+    baziNature: "बाजी प्रकृति",
+    // Test questions
+    questions: {
+      party: "एक पार्टी में, आप पसंद करेंगे:",
+      partyOptions: [
+        "कुछ करीबी दोस्तों के साथ समय बिताना",
+        "कई नए लोगों से मिलना और बात करना"
+      ],
+      decisions: "निर्णय लेते समय, आप पसंद करते हैं:",
+      decisionsOptions: [
+        "तथ्यों और ठोस जानकारी पर भरोसा करना",
+        "संभावनाओं और भविष्य के प्रभावों पर विचार करना"
+      ],
+      conflict: "संघर्ष में, आप प्रवृत्त होते हैं:",
+      conflictOptions: [
+        "तार्किक पहलुओं और निष्पक्षता पर ध्यान केंद्रित करना",
+        "लोगों की भावनाओं और रिश्तों पर विचार करना"
+      ],
+      preference: "आप पसंद करते हैं:",
+      preferenceOptions: [
+        "चीजों को योजनाबद्ध और व्यवस्थित रखना",
+        "अपने विकल्पों को खुला और लचीला रखना"
+      ],
+      learning: "नई चीजें सीखते समय, आप:",
+      learningOptions: [
+        "अकेले काम करना और सोचना पसंद करते हैं",
+        "दूसरों के साथ चर्चा और सहयोग करना पसंद करते हैं"
+      ],
+      interests: "आपकी रुचि अधिक है:",
+      interestsOptions: [
+        "जो वास्तविक और व्यावहारिक है",
+        "जो संभव और सैद्धांतिक है"
+      ],
+      feedback: "फीडबैक देते समय, आप:",
+      feedbackOptions: [
+        "जो सुधार की आवश्यकता है उस पर ध्यान केंद्रित करते हैं",
+        "पहले सकारात्मक पहलुओं पर जोर देते हैं"
+      ],
+      workStyle: "आप बेहतर काम करते हैं जब:",
+      workStyleOptions: [
+        "आपके पास स्पष्ट समय सीमा और संरचना होती है",
+        "आप अपनी गति से काम कर सकते हैं"
+      ],
+      socialSituations: "सामाजिक स्थितियों में, आप:",
+      socialSituationsOptions: [
+        "छोटे, घनिष्ठ समारोहों को पसंद करते हैं",
+        "बड़े समूहों और पार्टियों का आनंद लेते हैं"
+      ],
+      drawnTo: "आप अधिक आकर्षित होते हैं:",
+      drawnToOptions: [
+        "ठोस तथ्यों और विवरणों की ओर",
+        "बड़ी तस्वीर और अवधारणाओं की ओर"
+      ],
+      someoneUpset: "जब कोई परेशान होता है, आप:",
+      someoneUpsetOptions: [
+        "तार्किक रूप से उनकी समस्या को हल करने की कोशिश करते हैं",
+        "उनकी भावनाओं को समझने पर ध्यान केंद्रित करते हैं"
+      ],
+      decisions2: "आप पसंद करते हैं:",
+      decisions2Options: [
+        "जल्दी निर्णय लेना और आगे बढ़ना",
+        "सभी विकल्पों पर विचार करने के लिए समय लेना"
+      ]
+    }
   }
 };
