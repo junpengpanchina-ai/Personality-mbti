@@ -21,6 +21,42 @@ export interface Translations {
   freeAccurateDesc: string;
   copyright: string;
   copyrightDesc: string;
+  // Test page translations
+  backToHome: string;
+  question: string;
+  of: string;
+  next: string;
+  previous: string;
+  submit: string;
+  tryAgain: string;
+  takeTestAgain: string;
+  takeMBTITest: string;
+  quickTestShort: string;
+  // Results
+  yourResult: string;
+  personalityType: string;
+  compatibility: string;
+  description: string;
+  traits: string;
+  element: string;
+  meaning: string;
+  // Tarot specific
+  tarotReading: string;
+  tarotTraits: string;
+  currentLifeFocus: string;
+  chooseOption: string;
+  // Zodiac specific
+  cosmicReading: string;
+  cosmicTraits: string;
+  cosmicCompatibility: string;
+  rulingPlanet: string;
+  quality: string;
+  // Bazi specific
+  baziReading: string;
+  baziTraits: string;
+  baziCompatibility: string;
+  baziElement: string;
+  baziNature: string;
 }
 
 export const translations: Record<string, Translations> = {
@@ -46,7 +82,43 @@ export const translations: Record<string, Translations> = {
     freeAccurate: "Free & Accurate",
     freeAccurateDesc: "No registration required. Get instant, scientifically-backed results",
     copyright: "© 2024 MBTI Personality Test. All rights reserved.",
-    copyrightDesc: "Discover your personality type with our professional MBTI assessment"
+    copyrightDesc: "Discover your personality type with our professional MBTI assessment",
+    // Test page translations
+    backToHome: "Back to Home",
+    question: "Question",
+    of: "of",
+    next: "Next",
+    previous: "Previous",
+    submit: "Submit",
+    tryAgain: "Try Again",
+    takeTestAgain: "Take Test Again",
+    takeMBTITest: "Take MBTI Test",
+    quickTestShort: "Quick Test (12 questions)",
+    // Results
+    yourResult: "Your Result",
+    personalityType: "Personality Type",
+    compatibility: "Compatibility",
+    description: "Description",
+    traits: "Traits",
+    element: "Element",
+    meaning: "Meaning",
+    // Tarot specific
+    tarotReading: "Tarot Reading",
+    tarotTraits: "Your Tarot Traits",
+    currentLifeFocus: "What's your current life focus?",
+    chooseOption: "Choose the option that resonates with your mystical energy",
+    // Zodiac specific
+    cosmicReading: "Cosmic Reading",
+    cosmicTraits: "Your Cosmic Traits",
+    cosmicCompatibility: "Cosmic Compatibility",
+    rulingPlanet: "Ruling Planet",
+    quality: "Quality",
+    // Bazi specific
+    baziReading: "Bazi Reading",
+    baziTraits: "Your Bazi Traits",
+    baziCompatibility: "Bazi Compatibility",
+    baziElement: "Bazi Element",
+    baziNature: "Bazi Nature"
   },
   zh: {
     siteName: "MBTI性格测试",
@@ -70,7 +142,43 @@ export const translations: Record<string, Translations> = {
     freeAccurate: "免费且准确",
     freeAccurateDesc: "无需注册。获得即时、科学支持的结果",
     copyright: "© 2024 MBTI性格测试。保留所有权利。",
-    copyrightDesc: "通过我们的专业MBTI评估发现您的性格类型"
+    copyrightDesc: "通过我们的专业MBTI评估发现您的性格类型",
+    // Test page translations
+    backToHome: "返回首页",
+    question: "问题",
+    of: "共",
+    next: "下一步",
+    previous: "上一步",
+    submit: "提交",
+    tryAgain: "重试",
+    takeTestAgain: "重新测试",
+    takeMBTITest: "进行MBTI测试",
+    quickTestShort: "快速测试（12题）",
+    // Results
+    yourResult: "您的结果",
+    personalityType: "性格类型",
+    compatibility: "匹配度",
+    description: "描述",
+    traits: "特质",
+    element: "元素",
+    meaning: "含义",
+    // Tarot specific
+    tarotReading: "塔罗牌解读",
+    tarotTraits: "您的塔罗特质",
+    currentLifeFocus: "您当前的生活重心是什么？",
+    chooseOption: "选择与您的神秘能量产生共鸣的选项",
+    // Zodiac specific
+    cosmicReading: "宇宙解读",
+    cosmicTraits: "您的宇宙特质",
+    cosmicCompatibility: "宇宙匹配度",
+    rulingPlanet: "主宰行星",
+    quality: "性质",
+    // Bazi specific
+    baziReading: "八字解读",
+    baziTraits: "您的八字特质",
+    baziCompatibility: "八字匹配度",
+    baziElement: "八字元素",
+    baziNature: "八字性质"
   },
   ko: {
     siteName: "MBTI 성격 테스트",
@@ -94,7 +202,43 @@ export const translations: Record<string, Translations> = {
     freeAccurate: "무료 및 정확",
     freeAccurateDesc: "등록 불필요. 즉시, 과학적으로 뒷받침되는 결과",
     copyright: "© 2024 MBTI 성격 테스트. 모든 권리 보유.",
-    copyrightDesc: "전문적인 MBTI 평가로 당신의 성격 유형을 발견하세요"
+    copyrightDesc: "전문적인 MBTI 평가로 당신의 성격 유형을 발견하세요",
+    // Test page translations
+    backToHome: "홈으로 돌아가기",
+    question: "문제",
+    of: "중",
+    next: "다음",
+    previous: "이전",
+    submit: "제출",
+    tryAgain: "다시 시도",
+    takeTestAgain: "테스트 다시하기",
+    takeMBTITest: "MBTI 테스트하기",
+    quickTestShort: "빠른 테스트 (12문항)",
+    // Results
+    yourResult: "당신의 결과",
+    personalityType: "성격 유형",
+    compatibility: "호환성",
+    description: "설명",
+    traits: "특성",
+    element: "원소",
+    meaning: "의미",
+    // Tarot specific
+    tarotReading: "타로카드 읽기",
+    tarotTraits: "당신의 타로 특성",
+    currentLifeFocus: "현재 당신의 삶의 초점은 무엇인가요?",
+    chooseOption: "당신의 신비로운 에너지와 공명하는 옵션을 선택하세요",
+    // Zodiac specific
+    cosmicReading: "우주 읽기",
+    cosmicTraits: "당신의 우주 특성",
+    cosmicCompatibility: "우주 호환성",
+    rulingPlanet: "지배 행성",
+    quality: "성질",
+    // Bazi specific
+    baziReading: "사주 읽기",
+    baziTraits: "당신의 사주 특성",
+    baziCompatibility: "사주 호환성",
+    baziElement: "사주 원소",
+    baziNature: "사주 성질"
   },
   ja: {
     siteName: "MBTI性格テスト",
@@ -118,7 +262,43 @@ export const translations: Record<string, Translations> = {
     freeAccurate: "無料で正確",
     freeAccurateDesc: "登録不要。即座に、科学的に裏付けられた結果",
     copyright: "© 2024 MBTI性格テスト。全著作権所有。",
-    copyrightDesc: "プロフェッショナルなMBTI評価で性格タイプを発見"
+    copyrightDesc: "プロフェッショナルなMBTI評価で性格タイプを発見",
+    // Test page translations
+    backToHome: "ホームに戻る",
+    question: "質問",
+    of: "の",
+    next: "次へ",
+    previous: "前へ",
+    submit: "送信",
+    tryAgain: "再試行",
+    takeTestAgain: "テストを再実行",
+    takeMBTITest: "MBTIテストを受ける",
+    quickTestShort: "クイックテスト（12問）",
+    // Results
+    yourResult: "あなたの結果",
+    personalityType: "性格タイプ",
+    compatibility: "相性",
+    description: "説明",
+    traits: "特徴",
+    element: "エレメント",
+    meaning: "意味",
+    // Tarot specific
+    tarotReading: "タロットリーディング",
+    tarotTraits: "あなたのタロット特徴",
+    currentLifeFocus: "現在のあなたの人生の焦点は何ですか？",
+    chooseOption: "あなたの神秘的なエネルギーと共鳴するオプションを選択してください",
+    // Zodiac specific
+    cosmicReading: "コズミックリーディング",
+    cosmicTraits: "あなたのコズミック特徴",
+    cosmicCompatibility: "コズミック相性",
+    rulingPlanet: "支配惑星",
+    quality: "性質",
+    // Bazi specific
+    baziReading: "八字リーディング",
+    baziTraits: "あなたの八字特徴",
+    baziCompatibility: "八字相性",
+    baziElement: "八字エレメント",
+    baziNature: "八字性質"
   },
   de: {
     siteName: "MBTI Persönlichkeitstest",
@@ -142,7 +322,43 @@ export const translations: Record<string, Translations> = {
     freeAccurate: "Kostenlos & Genau",
     freeAccurateDesc: "Keine Registrierung erforderlich. Erhalten Sie sofortige, wissenschaftlich fundierte Ergebnisse",
     copyright: "© 2024 MBTI Persönlichkeitstest. Alle Rechte vorbehalten.",
-    copyrightDesc: "Entdecken Sie Ihren Persönlichkeitstyp mit unserer professionellen MBTI-Bewertung"
+    copyrightDesc: "Entdecken Sie Ihren Persönlichkeitstyp mit unserer professionellen MBTI-Bewertung",
+    // Test page translations
+    backToHome: "Zurück zur Startseite",
+    question: "Frage",
+    of: "von",
+    next: "Weiter",
+    previous: "Zurück",
+    submit: "Absenden",
+    tryAgain: "Erneut versuchen",
+    takeTestAgain: "Test wiederholen",
+    takeMBTITest: "MBTI-Test machen",
+    quickTestShort: "Schnelltest (12 Fragen)",
+    // Results
+    yourResult: "Ihr Ergebnis",
+    personalityType: "Persönlichkeitstyp",
+    compatibility: "Kompatibilität",
+    description: "Beschreibung",
+    traits: "Eigenschaften",
+    element: "Element",
+    meaning: "Bedeutung",
+    // Tarot specific
+    tarotReading: "Tarot-Lesung",
+    tarotTraits: "Ihre Tarot-Eigenschaften",
+    currentLifeFocus: "Was ist Ihr aktueller Lebensfokus?",
+    chooseOption: "Wählen Sie die Option, die mit Ihrer mystischen Energie resonniert",
+    // Zodiac specific
+    cosmicReading: "Kosmische Lesung",
+    cosmicTraits: "Ihre kosmischen Eigenschaften",
+    cosmicCompatibility: "Kosmische Kompatibilität",
+    rulingPlanet: "Herrscherplanet",
+    quality: "Qualität",
+    // Bazi specific
+    baziReading: "Bazi-Lesung",
+    baziTraits: "Ihre Bazi-Eigenschaften",
+    baziCompatibility: "Bazi-Kompatibilität",
+    baziElement: "Bazi-Element",
+    baziNature: "Bazi-Natur"
   },
   fr: {
     siteName: "Test de Personnalité MBTI",
@@ -166,7 +382,43 @@ export const translations: Record<string, Translations> = {
     freeAccurate: "Gratuit et Précis",
     freeAccurateDesc: "Aucune inscription requise. Obtenez des résultats instantanés et scientifiquement étayés",
     copyright: "© 2024 Test de Personnalité MBTI. Tous droits réservés.",
-    copyrightDesc: "Découvrez votre type de personnalité avec notre évaluation MBTI professionnelle"
+    copyrightDesc: "Découvrez votre type de personnalité avec notre évaluation MBTI professionnelle",
+    // Test page translations
+    backToHome: "Retour à l'accueil",
+    question: "Question",
+    of: "sur",
+    next: "Suivant",
+    previous: "Précédent",
+    submit: "Soumettre",
+    tryAgain: "Réessayer",
+    takeTestAgain: "Refaire le test",
+    takeMBTITest: "Passer le test MBTI",
+    quickTestShort: "Test rapide (12 questions)",
+    // Results
+    yourResult: "Votre résultat",
+    personalityType: "Type de personnalité",
+    compatibility: "Compatibilité",
+    description: "Description",
+    traits: "Traits",
+    element: "Élément",
+    meaning: "Signification",
+    // Tarot specific
+    tarotReading: "Lecture de Tarot",
+    tarotTraits: "Vos traits de Tarot",
+    currentLifeFocus: "Quel est votre focus de vie actuel ?",
+    chooseOption: "Choisissez l'option qui résonne avec votre énergie mystique",
+    // Zodiac specific
+    cosmicReading: "Lecture cosmique",
+    cosmicTraits: "Vos traits cosmiques",
+    cosmicCompatibility: "Compatibilité cosmique",
+    rulingPlanet: "Planète dominante",
+    quality: "Qualité",
+    // Bazi specific
+    baziReading: "Lecture Bazi",
+    baziTraits: "Vos traits Bazi",
+    baziCompatibility: "Compatibilité Bazi",
+    baziElement: "Élément Bazi",
+    baziNature: "Nature Bazi"
   },
   hi: {
     siteName: "MBTI व्यक्तित्व परीक्षण",
@@ -190,6 +442,42 @@ export const translations: Record<string, Translations> = {
     freeAccurate: "मुफ्त और सटीक",
     freeAccurateDesc: "कोई पंजीकरण आवश्यक नहीं। तत्काल, वैज्ञानिक रूप से समर्थित परिणाम प्राप्त करें",
     copyright: "© 2024 MBTI व्यक्तित्व परीक्षण। सभी अधिकार सुरक्षित।",
-    copyrightDesc: "हमारे पेशेवर MBTI मूल्यांकन के साथ अपने व्यक्तित्व प्रकार की खोज करें"
+    copyrightDesc: "हमारे पेशेवर MBTI मूल्यांकन के साथ अपने व्यक्तित्व प्रकार की खोज करें",
+    // Test page translations
+    backToHome: "होम पर वापस जाएं",
+    question: "प्रश्न",
+    of: "का",
+    next: "अगला",
+    previous: "पिछला",
+    submit: "जमा करें",
+    tryAgain: "फिर से कोशिश करें",
+    takeTestAgain: "परीक्षण फिर से लें",
+    takeMBTITest: "MBTI परीक्षण लें",
+    quickTestShort: "त्वरित परीक्षण (12 प्रश्न)",
+    // Results
+    yourResult: "आपका परिणाम",
+    personalityType: "व्यक्तित्व प्रकार",
+    compatibility: "अनुकूलता",
+    description: "विवरण",
+    traits: "गुण",
+    element: "तत्व",
+    meaning: "अर्थ",
+    // Tarot specific
+    tarotReading: "टैरो रीडिंग",
+    tarotTraits: "आपके टैरो गुण",
+    currentLifeFocus: "आपका वर्तमान जीवन फोकस क्या है?",
+    chooseOption: "वह विकल्प चुनें जो आपकी रहस्यमय ऊर्जा के साथ प्रतिध्वनित हो",
+    // Zodiac specific
+    cosmicReading: "ब्रह्मांडीय रीडिंग",
+    cosmicTraits: "आपके ब्रह्मांडीय गुण",
+    cosmicCompatibility: "ब्रह्मांडीय अनुकूलता",
+    rulingPlanet: "शासक ग्रह",
+    quality: "गुणवत्ता",
+    // Bazi specific
+    baziReading: "बाजी रीडिंग",
+    baziTraits: "आपके बाजी गुण",
+    baziCompatibility: "बाजी अनुकूलता",
+    baziElement: "बाजी तत्व",
+    baziNature: "बाजी प्रकृति"
   }
 };

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun, Heart } from 'lucide-react';
 import AdBanner from '../../components/AdBanner';
+import { translations, Translations } from '../../lib/translations';
 
 // Tarot cards and MBTI mapping
 const TAROT_MBTI_MAPPING = {
@@ -287,6 +288,17 @@ export default function TarotTest() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<TarotResult | null>(null);
+  const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [t, setT] = useState<Translations>(translations.en);
+
+  useEffect(() => {
+    // 从localStorage获取保存的语言设置
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+      setCurrentLanguage(savedLanguage);
+      setT(translations[savedLanguage] || translations.en);
+    }
+  }, []);
 
 
   const handleAnswer = (answerIndex: number) => {
@@ -359,13 +371,13 @@ export default function TarotTest() {
           <div className="flex items-center justify-between mb-8">
             <Link href="/" className="flex items-center text-gray-600 hover:text-purple-600 transition-colors">
               <ArrowLeft className="h-5 w-5 mr-2" />
-              Back to Home
+              {t.backToHome}
             </Link>
             <button 
               onClick={resetTest}
               className="text-purple-600 hover:text-purple-700 font-semibold"
             >
-              Try Again
+              {t.tryAgain}
             </button>
           </div>
 
@@ -376,13 +388,13 @@ export default function TarotTest() {
               <h1 className="text-4xl font-bold text-gray-900 mb-2">
                 {result.tarot} × {result.mbti}
               </h1>
-              <p className="text-xl text-gray-600">Your Mystical Personality Profile</p>
+              <p className="text-xl text-gray-600">{t.yourResult}</p>
             </div>
 
             {/* Compatibility Score */}
             <div className="bg-white rounded-2xl p-6 mb-6 shadow-lg">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Mystical Compatibility</h3>
+                <h3 className="text-lg font-semibold text-gray-900">{t.compatibility}</h3>
                 <span className="text-2xl font-bold text-purple-600">{result.compatibility}%</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-3">
@@ -397,7 +409,7 @@ export default function TarotTest() {
             <div className="bg-white rounded-2xl p-6 mb-6 shadow-lg">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <Sparkles className="h-5 w-5 mr-2 text-purple-500" />
-                Tarot Reading
+                {t.tarotReading}
               </h3>
               <p className="text-gray-700 leading-relaxed">{result.description}</p>
             </div>
@@ -406,7 +418,7 @@ export default function TarotTest() {
             <div className="bg-white rounded-2xl p-6 mb-6 shadow-lg">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <Star className="h-5 w-5 mr-2 text-purple-500" />
-                Your Tarot Traits
+                {t.tarotTraits}
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {result.traits.map((trait, index) => (
@@ -447,10 +459,10 @@ export default function TarotTest() {
                 onClick={resetTest}
                 className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                🔮 Try Another Reading
+                🔮 {t.tryAgain}
               </button>
               <Link href="/test/quick" className="bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold border-2 border-purple-600 hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center">
-                🧠 Take MBTI Test
+                🧠 {t.takeMBTITest}
               </Link>
             </div>
           </div>
@@ -466,10 +478,10 @@ export default function TarotTest() {
         <div className="flex items-center justify-between mb-8">
           <Link href="/" className="flex items-center text-gray-700 hover:text-purple-600 transition-colors bg-gray-100 hover:bg-purple-50 px-4 py-2 rounded-lg font-medium">
             <ArrowLeft className="h-5 w-5 mr-2" />
-            Back to Home
+            {t.backToHome}
           </Link>
           <div className="text-sm text-gray-600">
-            Question {currentQuestion + 1} of {TAROT_QUESTIONS.length}
+            {t.question} {currentQuestion + 1} {t.of} {TAROT_QUESTIONS.length}
           </div>
         </div>
 
@@ -490,7 +502,7 @@ export default function TarotTest() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">
               {currentQ.question}
             </h2>
-            <p className="text-gray-600">Choose the option that resonates with your mystical energy</p>
+            <p className="text-gray-600">{t.chooseOption}</p>
           </div>
 
           <div className="space-y-4">
