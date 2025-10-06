@@ -8,6 +8,7 @@ import { translations, Translations } from '../lib/translations';
 export default function Home() {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [t, setT] = useState<Translations>(translations.en);
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   useEffect(() => {
     // 从localStorage获取保存的语言设置
@@ -19,11 +20,12 @@ export default function Home() {
   }, []);
 
   const handleLanguageChange = (language: string) => {
-    setCurrentLanguage(language);
-    setT(translations[language] || translations.en);
     if (typeof window !== 'undefined') {
       localStorage.setItem('preferred-language', language);
     }
+    setCurrentLanguage(language);
+    setT(translations[language] || translations.en);
+    setForceUpdate(prev => prev + 1); // 强制重新渲染
   };
 
   return (
