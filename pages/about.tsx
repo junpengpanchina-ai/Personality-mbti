@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import { Brain, Users, BarChart3, Star, Heart, Shield, Globe, Award } from 'lucide-react';
-import AdBanner from '../components/AdBanner';
 
 export default function About() {
   return (
@@ -165,10 +164,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Ad Banner */}
-          <div className="mb-16">
-            <AdBanner size="leaderboard" />
-          </div>
 
           {/* Call to Action */}
           <div className="text-center">
