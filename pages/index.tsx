@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import { Brain, Users, BarChart3, Star } from 'lucide-react';
-import AdBanner from '../components/AdBanner';
 
 export default function Home() {
   return (
@@ -90,10 +89,6 @@ export default function Home() {
                    </div>
                    </div>
 
-          {/* Ad Banner */}
-          <div className="mb-16">
-            <AdBanner size="leaderboard" />
-          </div>
 
           {/* Features Grid */}
           <div id="features" className="grid md:grid-cols-3 gap-8 mt-16">

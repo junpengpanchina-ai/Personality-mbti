@@ -28,20 +28,36 @@ export default function AdBanner({
       try {
         await adGateUtils.showAd();
         
-        // 创建广告元素 - 生产环境安全版本
+        // 创建真实的AdSense广告
         if (adRef.current) {
           const config = getAdConfig();
           const safeAdUnitId = sanitizeAdUnitId(adUnitId);
           
-          adRef.current.innerHTML = `
-            <div class="ad-container bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-              <div class="text-gray-500 text-sm mb-2">Advertisement</div>
-              <div class="text-gray-400 text-xs">
-                Sponsored Content
-              </div>
-              ${config.settings.debugMode ? `<div class="text-gray-300 text-xs mt-2">Debug: ${safeAdUnitId}</div>` : ''}
-            </div>
-          `;
+          // 创建AdSense广告脚本
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+          script.setAttribute('data-ad-client', safeAdUnitId);
+          
+          // 创建广告容器
+          const adContainer = document.createElement('ins');
+          adContainer.className = 'adsbygoogle';
+          adContainer.style.display = 'block';
+          adContainer.setAttribute('data-ad-client', safeAdUnitId);
+          adContainer.setAttribute('data-ad-slot', 'auto');
+          adContainer.setAttribute('data-ad-format', 'auto');
+          adContainer.setAttribute('data-full-width-responsive', 'true');
+          
+          adRef.current.appendChild(adContainer);
+          document.head.appendChild(script);
+          
+          // 初始化广告
+          try {
+            (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+            (window as any).adsbygoogle.push({});
+          } catch (error) {
+            console.warn('AdSense initialization failed:', error);
+          }
         }
       } catch (error) {
         console.warn('Ad loading failed:', error);
