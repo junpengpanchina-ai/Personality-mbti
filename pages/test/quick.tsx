@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
-import AdBanner from '../../components/AdBanner';
 
 // MBTI test questions data
 const QUESTIONS = [
@@ -420,10 +419,6 @@ export default function QuickTest() {
               </div>
             </div>
 
-            {/* 广告横幅 */}
-            <div className="my-8">
-              <AdBanner size="banner" />
-            </div>
 
             {/* 操作按钮 */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

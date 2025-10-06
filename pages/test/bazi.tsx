@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun, Calendar } from 'lucide-react';
-import AdBanner from '../../components/AdBanner';
 
 // Bazi (Eight Pillars) and MBTI mapping
 const BAZI_MBTI_MAPPING = {
@@ -233,10 +232,6 @@ export default function BaziTest() {
               <p className="text-gray-700 leading-relaxed">{result.description}</p>
             </div>
 
-            {/* Ad Banner */}
-            <div className="mb-8">
-              <AdBanner size="leaderboard" />
-            </div>
 
             {/* Action Buttons */}
             <div className="flex justify-center space-x-4">

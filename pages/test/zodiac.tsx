@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun } from 'lucide-react';
-import AdBanner from '../../components/AdBanner';
 
 // Zodiac and MBTI mapping
 const ZODIAC_MBTI_MAPPING = {
@@ -273,10 +272,6 @@ export default function ZodiacTest() {
               </div>
             </div>
 
-            {/* Ad Banner */}
-            <div className="mb-6">
-              <AdBanner size="leaderboard" />
-            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -4,7 +4,7 @@
 export const AD_CONFIG = {
   // Production settings
   production: {
-    enabled: true,
+    enabled: false,
     provider: 'google-adsense',
     settings: {
       testMode: false,
@@ -14,7 +14,7 @@ export const AD_CONFIG = {
   
   // Development settings
   development: {
-    enabled: true,
+    enabled: false,
     provider: 'fallback',
     settings: {
       testMode: true,

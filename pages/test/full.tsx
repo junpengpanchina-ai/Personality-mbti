@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
-import AdBanner from '../../components/AdBanner';
 
 // Full MBTI test questions (93 questions)
 const FULL_QUESTIONS = [
@@ -1089,10 +1088,6 @@ export default function FullTest() {
               </div>
             </div>
 
-            {/* Ad Banner */}
-            <div className="mb-6">
-              <AdBanner size="leaderboard" />
-            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -24,9 +24,15 @@ export default function AdBanner({
 
     const loadAd = async () => {
       try {
+        const config = getAdConfig();
+        
+        // 如果广告被禁用，不加载任何广告
+        if (!config.enabled) {
+          return;
+        }
+        
         // 创建真实的AdSense广告
         if (adRef.current) {
-          const config = getAdConfig();
           const safeAdUnitId = sanitizeAdUnitId(adUnitId);
           
           // 创建AdSense广告脚本
@@ -77,6 +83,12 @@ export default function AdBanner({
   };
 
   if (!isClient) {
+    return null;
+  }
+
+  // 如果广告被禁用，不渲染任何内容
+  const config = getAdConfig();
+  if (!config.enabled) {
     return null;
   }
 

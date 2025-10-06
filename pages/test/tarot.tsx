@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun, Heart } from 'lucide-react';
-import AdBanner from '../../components/AdBanner';
 import { translations, Translations } from '../../lib/translations';
 
 // Tarot cards and MBTI mapping
@@ -448,10 +447,6 @@ export default function TarotTest() {
               </div>
             </div>
 
-            {/* Ad Banner */}
-            <div className="mb-6">
-              <AdBanner size="leaderboard" />
-            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
