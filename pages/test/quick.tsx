@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { translations, Translations } from '../../lib/translations';
+import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
 
 // MBTI test questions data
 const QUESTIONS = [
@@ -302,7 +303,17 @@ export default function QuickTest() {
       11: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
       12: { question: t.questions.decisions2, options: t.questions.decisions2Options }
     };
-    return questionMap[questionId as keyof typeof questionMap] || QUESTIONS[questionId - 1];
+    const translatedQ = questionMap[questionId as keyof typeof questionMap];
+    const originalQ = QUESTIONS[questionId - 1];
+    
+    if (translatedQ) {
+      return {
+        ...originalQ,
+        question: translatedQ.question,
+        options: translatedQ.options
+      };
+    }
+    return originalQ;
   };
 
   const handleAnswer = (answerIndex: number) => {
@@ -388,6 +399,9 @@ export default function QuickTest() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-4xl mx-auto px-4 py-8">
+          {/* Header Ad */}
+          <HeaderAd />
+          <MobileAd />
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -481,6 +495,8 @@ export default function QuickTest() {
               </div>
             </div>
 
+            {/* Inline Ad */}
+            <InlineAd />
 
             {/* 操作按钮 */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -506,6 +522,9 @@ export default function QuickTest() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Header Ad */}
+        <HeaderAd />
+        <MobileAd />
         {/* Header */}
              <div className="flex items-center justify-between mb-8">
                <Link href="/" className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors bg-gray-100 hover:bg-indigo-50 px-4 py-2 rounded-lg font-medium">
@@ -574,7 +593,7 @@ export default function QuickTest() {
                   Explanation
                 </h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  {currentQ.explanations[selectedAnswer!]}
+                  {currentQ.explanations?.[selectedAnswer!] || "This question helps determine your personality preferences."}
                 </p>
                 
                 {/* Professional Traits Selection */}

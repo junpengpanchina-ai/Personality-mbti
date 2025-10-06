@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun, Calendar } from 'lucide-react';
+import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
 
 // Bazi (Eight Pillars) and MBTI mapping
 const BAZI_MBTI_MAPPING = {
@@ -179,6 +180,9 @@ export default function BaziTest() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
         <div className="max-w-4xl mx-auto px-4 py-8">
+          {/* Header Ad */}
+          <HeaderAd />
+          <MobileAd />
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -254,6 +258,9 @@ export default function BaziTest() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Header Ad */}
+        <HeaderAd />
+        <MobileAd />
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/" className="flex items-center text-gray-700 hover:text-amber-600 transition-colors bg-gray-100 hover:bg-amber-50 px-4 py-2 rounded-lg font-medium">

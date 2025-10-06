@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import { Brain, Users, BarChart3, Star, Heart, Shield, Globe, Award } from 'lucide-react';
+import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../components/AdSense';
 
 export default function About() {
   return (
@@ -38,6 +39,10 @@ export default function About() {
         </header>
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          {/* Header Ad */}
+          <HeaderAd />
+          <MobileAd />
+          
           {/* Hero Section */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
@@ -164,6 +169,8 @@ export default function About() {
             </div>
           </div>
 
+          {/* Inline Ad */}
+          <InlineAd />
 
           {/* Call to Action */}
           <div className="text-center">
@@ -190,6 +197,9 @@ export default function About() {
         {/* Footer */}
         <footer className="bg-gray-900 text-white py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Footer Ad */}
+            <FooterAd />
+            
             <div className="text-center">
               <div className="flex items-center justify-center space-x-3 mb-4">
                 <img src="/mbti-logo.svg" alt="MBTI Logo" className="h-6 w-6" />

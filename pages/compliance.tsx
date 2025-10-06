@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { ArrowLeft, CheckCircle, AlertTriangle, XCircle, Shield, FileText, Cookie, Eye } from 'lucide-react';
+import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../components/AdSense';
 
 export default function CompliancePage() {
   const [checks, setChecks] = useState([
@@ -92,6 +93,10 @@ export default function CompliancePage() {
 
         {/* Main Content */}
         <main className="max-w-6xl mx-auto px-4 py-8">
+          {/* Header Ad */}
+          <HeaderAd />
+          <MobileAd />
+          
           {/* Compliance Score */}
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
             <div className="text-center mb-8">
@@ -205,6 +210,9 @@ export default function CompliancePage() {
               </div>
             </div>
           </div>
+
+          {/* Inline Ad */}
+          <InlineAd />
 
           {/* Quick Links */}
           <div className="bg-white rounded-2xl shadow-xl p-8">

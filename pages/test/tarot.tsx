@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun, Heart } from 'lucide-react';
 import { translations, Translations } from '../../lib/translations';
+import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
 
 // Tarot cards and MBTI mapping
 const TAROT_MBTI_MAPPING = {
@@ -366,6 +367,9 @@ export default function TarotTest() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
         <div className="max-w-4xl mx-auto px-4 py-8">
+          {/* Header Ad */}
+          <HeaderAd />
+          <MobileAd />
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <Link href="/" className="flex items-center text-gray-600 hover:text-purple-600 transition-colors">
@@ -469,6 +473,9 @@ export default function TarotTest() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Header Ad */}
+        <HeaderAd />
+        <MobileAd />
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/" className="flex items-center text-gray-700 hover:text-purple-600 transition-colors bg-gray-100 hover:bg-purple-50 px-4 py-2 rounded-lg font-medium">

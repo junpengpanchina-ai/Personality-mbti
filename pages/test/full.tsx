@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
 
 // Full MBTI test questions (93 questions)
 const FULL_QUESTIONS = [
@@ -980,6 +981,9 @@ export default function FullTest() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-4xl mx-auto px-4 py-8">
+          {/* Header Ad */}
+          <HeaderAd />
+          <MobileAd />
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <Link href="/" className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
@@ -1088,6 +1092,8 @@ export default function FullTest() {
               </div>
             </div>
 
+            {/* Inline Ad */}
+            <InlineAd />
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -1110,6 +1116,9 @@ export default function FullTest() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Header Ad */}
+        <HeaderAd />
+        <MobileAd />
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/" className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors bg-gray-100 hover:bg-indigo-50 px-4 py-2 rounded-lg font-medium">

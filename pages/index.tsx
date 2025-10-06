@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Brain, Users, BarChart3, Star } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { translations, Translations } from '../lib/translations';
+import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../components/AdSense';
 
 export default function Home() {
   const [currentLanguage, setCurrentLanguage] = useState('en');
@@ -60,6 +61,10 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Header Ad */}
+        <HeaderAd />
+        <MobileAd />
+        
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
             {t.heroTitle.split(' ').map((word, index) => 
@@ -124,6 +129,8 @@ export default function Home() {
                    </div>
                    </div>
 
+          {/* Inline Ad */}
+          <InlineAd />
 
           {/* Features Grid */}
           <div id="features" className="grid md:grid-cols-3 gap-8 mt-16">
@@ -157,6 +164,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Footer Ad */}
+          <FooterAd />
+          
           <div className="text-center">
                      <div className="flex items-center justify-center space-x-3 mb-4">
                        <img src="/mbti-logo.svg" alt="MBTI Logo" className="h-6 w-6" />

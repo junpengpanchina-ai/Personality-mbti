@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { ArrowLeft, Shield, Cookie, Eye, Database, Users } from 'lucide-react';
+import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../components/AdSense';
 
 export default function PrivacyPolicy() {
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -45,6 +46,10 @@ export default function PrivacyPolicy() {
 
         {/* Main Content */}
         <main className="max-w-4xl mx-auto px-4 py-8">
+          {/* Header Ad */}
+          <HeaderAd />
+          <MobileAd />
+          
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -245,6 +250,9 @@ export default function PrivacyPolicy() {
                 </div>
               </div>
             </section>
+
+            {/* Inline Ad */}
+            <InlineAd />
 
             {/* Contact Information */}
             <section className="mb-8">
