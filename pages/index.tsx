@@ -11,15 +11,19 @@ export default function Home() {
 
   useEffect(() => {
     // 从localStorage获取保存的语言设置
-    const savedLanguage = localStorage.getItem('preferred-language') || 'en';
-    setCurrentLanguage(savedLanguage);
-    setT(translations[savedLanguage] || translations.en);
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+      setCurrentLanguage(savedLanguage);
+      setT(translations[savedLanguage] || translations.en);
+    }
   }, []);
 
   const handleLanguageChange = (language: string) => {
     setCurrentLanguage(language);
     setT(translations[language] || translations.en);
-    localStorage.setItem('preferred-language', language);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferred-language', language);
+    }
   };
 
   return (
