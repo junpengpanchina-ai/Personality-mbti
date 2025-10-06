@@ -374,11 +374,9 @@ export default function TarotTest() {
         <div className="max-w-4xl mx-auto px-4 py-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <Link href="/">
-              <a className="flex items-center text-gray-600 hover:text-purple-600 transition-colors">
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                Back to Home
-              </a>
+            <Link href="/" className="flex items-center text-gray-600 hover:text-purple-600 transition-colors">
+              <ArrowLeft className="h-5 w-5 mr-2" />
+              Back to Home
             </Link>
             <button 
               onClick={resetTest}
@@ -468,10 +466,8 @@ export default function TarotTest() {
               >
                 🔮 Try Another Reading
               </button>
-              <Link href="/test/quick">
-                <a className="bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold border-2 border-purple-600 hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center">
-                  🧠 Take MBTI Test
-                </a>
+              <Link href="/test/quick" className="bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold border-2 border-purple-600 hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center">
+                🧠 Take MBTI Test
               </Link>
             </div>
           </div>
@@ -485,11 +481,9 @@ export default function TarotTest() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Link href="/">
-            <a className="flex items-center text-gray-700 hover:text-purple-600 transition-colors bg-gray-100 hover:bg-purple-50 px-4 py-2 rounded-lg font-medium">
-              <ArrowLeft className="h-5 w-5 mr-2" />
-              Back to Home
-            </a>
+          <Link href="/" className="flex items-center text-gray-700 hover:text-purple-600 transition-colors bg-gray-100 hover:bg-purple-50 px-4 py-2 rounded-lg font-medium">
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            Back to Home
           </Link>
           <div className="text-sm text-gray-600">
             Question {currentQuestion + 1} of {TAROT_QUESTIONS.length}
