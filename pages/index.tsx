@@ -121,16 +121,10 @@ export default function Home() {
                        🔮 {t.baziTest}
                      </a>
                      <a 
-                       href="/test/tarot"
+                       href="/test/tarot-enhanced"
                        className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-indigo-300 inline-block text-center"
                      >
-                       🃏 {t.tarotTest}
-                     </a>
-                     <a 
-                       href="/test/tarot-master"
-                       className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-10 py-5 rounded-2xl text-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 border-2 border-transparent hover:border-purple-300 inline-block text-center"
-                     >
-                       👑 大师塔罗
+                       🃏 MBTI × Tarot Card Reading
                      </a>
                    </div>
                    </div>
