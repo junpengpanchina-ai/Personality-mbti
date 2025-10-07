@@ -233,7 +233,7 @@ export class AdBlockStrategies {
 
   // 策略2: 延迟加载内容
   static delayContentLoading(delay: number = 3000): void {
-    const content = document.querySelector('.main-content');
+    const content = document.querySelector('.main-content') as HTMLElement;
     if (content) {
       content.style.opacity = '0.3';
       content.style.transition = 'opacity 0.3s ease';
