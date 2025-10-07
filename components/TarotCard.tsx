@@ -36,28 +36,17 @@ export default function TarotCard({
       setIsAnimating(true);
       onFlip();
       
-      // 添加翻牌音效
+      // 添加翻牌音效 - 简化版本，避免DOM操作问题
       if (typeof window !== 'undefined') {
         try {
-          // 创建翻牌音效
-          const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-          const oscillator = audioContext.createOscillator();
-          const gainNode = audioContext.createGain();
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(audioContext.destination);
-          
-          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-          oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.3);
-          
-          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-          
-          oscillator.start(audioContext.currentTime);
-          oscillator.stop(audioContext.currentTime + 0.3);
+          // 使用简单的音效，避免复杂的音频上下文操作
+          const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBS13yO/eizEIHWq+8+OWT');
+          audio.volume = 0.1;
+          audio.play().catch(() => {
+            // 静默处理音效错误
+          });
         } catch (error) {
           // 静默处理音效错误
-          console.log('Audio not available');
         }
       }
       
@@ -69,26 +58,17 @@ export default function TarotCard({
     } else if (onSelect && isFlipped) {
       onSelect();
       
-      // 添加选择音效
+      // 添加选择音效 - 简化版本，避免DOM操作问题
       if (typeof window !== 'undefined') {
         try {
-          const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-          const oscillator = audioContext.createOscillator();
-          const gainNode = audioContext.createGain();
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(audioContext.destination);
-          
-          oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
-          oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.2);
-          
-          gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-          
-          oscillator.start(audioContext.currentTime);
-          oscillator.stop(audioContext.currentTime + 0.2);
+          // 使用简单的音效，避免复杂的音频上下文操作
+          const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBS13yO/eizEIHWq+8+OWT');
+          audio.volume = 0.15;
+          audio.play().catch(() => {
+            // 静默处理音效错误
+          });
         } catch (error) {
-          console.log('Audio not available');
+          // 静默处理音效错误
         }
       }
     }
@@ -260,11 +240,9 @@ export function TarotCardGrid({
   flippedCards = [],
   disabled = false 
 }: TarotCardGridProps) {
-  const [flippedCardsState, setFlippedCardsState] = useState<string[]>(flippedCards);
-
+  // 使用父组件传递的 flippedCards 状态，而不是本地状态
   const handleCardFlip = (cardName: string) => {
-    if (!flippedCardsState.includes(cardName)) {
-      setFlippedCardsState(prev => [...prev, cardName]);
+    if (!flippedCards.includes(cardName)) {
       onCardFlip?.(cardName);
     }
   };
@@ -280,7 +258,7 @@ export function TarotCardGrid({
           key={card.name}
           card={card}
           isSelected={selectedCard === card.name}
-          isFlipped={flippedCardsState.includes(card.name)}
+          isFlipped={flippedCards.includes(card.name)}
           onSelect={() => handleCardSelect(card.name)}
           onFlip={() => handleCardFlip(card.name)}
           disabled={disabled}

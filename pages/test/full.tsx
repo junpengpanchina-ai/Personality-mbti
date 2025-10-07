@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { translations, Translations } from '../../lib/translations';
 import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 // Full MBTI test questions (93 questions)
 const FULL_QUESTIONS = [
@@ -897,8 +899,169 @@ export default function FullTest() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
+  const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [t, setT] = useState<Translations>(translations.en);
+  const [forceUpdate, setForceUpdate] = useState(0);
 
-  const currentQ = FULL_QUESTIONS[currentQuestion];
+  useEffect(() => {
+    // 从localStorage获取保存的语言设置
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+      setCurrentLanguage(savedLanguage);
+      setT(translations[savedLanguage] || translations.en);
+    }
+  }, []);
+
+  // 监听语言变化，确保组件重新渲染
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'preferred-language' && e.newValue) {
+        setCurrentLanguage(e.newValue);
+        setT(translations[e.newValue] || translations.en);
+        setForceUpdate(prev => prev + 1);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorageChange);
+      
+      // 定期检查语言变化（用于同页面内的语言切换）
+      const interval = setInterval(() => {
+        const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+        if (savedLanguage !== currentLanguage) {
+          setCurrentLanguage(savedLanguage);
+          setT(translations[savedLanguage] || translations.en);
+          setForceUpdate(prev => prev + 1);
+        }
+      }, 1000);
+
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+        clearInterval(interval);
+      };
+    }
+  }, [currentLanguage]);
+
+  const handleLanguageChange = (language: string) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferred-language', language);
+    }
+    setCurrentLanguage(language);
+    setT(translations[language] || translations.en);
+    setForceUpdate(prev => prev + 1); // 强制重新渲染
+  };
+
+  // 获取翻译后的题目
+  const getTranslatedQuestion = (questionId: number) => {
+    const questionMap = {
+      1: { question: t.questions.party, options: t.questions.partyOptions },
+      2: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      3: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      4: { question: t.questions.learning, options: t.questions.learningOptions },
+      5: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      6: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      7: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      8: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      9: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      10: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      11: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      12: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      13: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      14: { question: t.questions.learning, options: t.questions.learningOptions },
+      15: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      16: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      17: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      18: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      19: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      20: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      21: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      22: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      23: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      24: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      25: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      26: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      27: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      28: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
+      29: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      30: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      31: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
+      32: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      33: { question: t.questions.interests, options: t.questions.interestsOptions },
+      34: { question: t.questions.learning, options: t.questions.learningOptions },
+      35: { question: t.questions.drawnTo, options: t.questions.drawnToOptions },
+      36: { question: t.questions.preference, options: t.questions.preferenceOptions },
+      37: { question: t.questions.interests, options: t.questions.interestsOptions },
+      38: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      39: { question: t.questions.preference, options: t.questions.preferenceOptions },
+      40: { question: t.questions.interests, options: t.questions.interestsOptions },
+      41: { question: t.questions.interests, options: t.questions.interestsOptions },
+      42: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      43: { question: t.questions.drawnTo, options: t.questions.drawnToOptions },
+      44: { question: t.questions.preference, options: t.questions.preferenceOptions },
+      45: { question: t.questions.interests, options: t.questions.interestsOptions },
+      46: { question: t.questions.learning, options: t.questions.learningOptions },
+      47: { question: t.questions.interests, options: t.questions.interestsOptions },
+      48: { question: t.questions.interests, options: t.questions.interestsOptions },
+      49: { question: t.questions.preference, options: t.questions.preferenceOptions },
+      50: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      51: { question: t.questions.interests, options: t.questions.interestsOptions },
+      52: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      53: { question: t.questions.interests, options: t.questions.interestsOptions },
+      54: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      55: { question: t.questions.learning, options: t.questions.learningOptions },
+      56: { question: t.questions.interests, options: t.questions.interestsOptions },
+      57: { question: t.questions.preference, options: t.questions.preferenceOptions },
+      58: { question: t.questions.preference, options: t.questions.preferenceOptions },
+      59: { question: t.questions.interests, options: t.questions.interestsOptions },
+      60: { question: t.questions.learning, options: t.questions.learningOptions },
+      61: { question: t.questions.drawnTo, options: t.questions.drawnToOptions },
+      62: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      63: { question: t.questions.conflict, options: t.questions.conflictOptions },
+      64: { question: t.questions.feedback, options: t.questions.feedbackOptions },
+      65: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
+      66: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      67: { question: t.questions.feedback, options: t.questions.feedbackOptions },
+      68: { question: t.questions.conflict, options: t.questions.conflictOptions },
+      69: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      70: { question: t.questions.feedback, options: t.questions.feedbackOptions },
+      71: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      72: { question: t.questions.feedback, options: t.questions.feedbackOptions },
+      73: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      74: { question: t.questions.interests, options: t.questions.interestsOptions },
+      75: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      76: { question: t.questions.conflict, options: t.questions.conflictOptions },
+      77: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      78: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
+      79: { question: t.questions.feedback, options: t.questions.feedbackOptions },
+      80: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      81: { question: t.questions.conflict, options: t.questions.conflictOptions },
+      82: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
+      83: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      84: { question: t.questions.conflict, options: t.questions.conflictOptions },
+      85: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      86: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      87: { question: t.questions.feedback, options: t.questions.feedbackOptions },
+      88: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      89: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
+      90: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
+      91: { question: t.questions.decisions, options: t.questions.decisionsOptions },
+      92: { question: t.questions.feedback, options: t.questions.feedbackOptions },
+      93: { question: t.questions.conflict, options: t.questions.conflictOptions }
+    };
+    const translatedQ = questionMap[questionId as keyof typeof questionMap];
+    const originalQ = FULL_QUESTIONS[questionId - 1];
+    
+    if (translatedQ) {
+      return {
+        ...originalQ,
+        question: translatedQ.question,
+        options: translatedQ.options
+      };
+    }
+    return originalQ;
+  };
+
+  const currentQ = getTranslatedQuestion(currentQuestion + 1);
   const progress = ((currentQuestion + 1) / FULL_QUESTIONS.length) * 100;
 
   const handleAnswer = (answerIndex: number) => {
@@ -986,26 +1149,32 @@ export default function FullTest() {
           <MobileAd />
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <Link href="/" className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
+            <Link href="/" className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors bg-gray-100 hover:bg-indigo-50 px-4 py-2 rounded-lg font-medium">
               <ArrowLeft className="h-5 w-5 mr-2" />
-              Back to Home
+              {t.backToHome}
             </Link>
-            <button 
-              onClick={resetTest}
-              className="text-indigo-600 hover:text-indigo-700 font-semibold"
-            >
-              Take Test Again
-            </button>
+            <div className="flex items-center space-x-4">
+              <LanguageSwitcher 
+                currentLanguage={currentLanguage} 
+                onLanguageChange={handleLanguageChange} 
+              />
+              <button 
+                onClick={resetTest}
+                className="text-indigo-600 hover:text-indigo-700 font-semibold"
+              >
+                {t.takeTestAgain}
+              </button>
+            </div>
           </div>
 
           {/* Result Card */}
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                Your MBTI Type: {result.type}
+                {t.personalityType}: <span className="text-indigo-600">{result.type}</span>
               </h1>
               <p className="text-xl text-gray-600">
-                Complete Assessment Results
+                {t.yourResult}
               </p>
             </div>
 
@@ -1101,10 +1270,10 @@ export default function FullTest() {
                 onClick={resetTest}
                 className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                🔄 Take Test Again
+                🔄 {t.takeTestAgain}
               </button>
               <Link href="/test/quick" className="bg-white text-indigo-600 px-8 py-4 rounded-xl font-semibold border-2 border-indigo-600 hover:bg-indigo-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center">
-                ⚡ Quick Test (12 questions)
+                ⚡ {t.quickTestShort}
               </Link>
             </div>
           </div>
@@ -1123,10 +1292,16 @@ export default function FullTest() {
         <div className="flex items-center justify-between mb-8">
           <Link href="/" className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors bg-gray-100 hover:bg-indigo-50 px-4 py-2 rounded-lg font-medium">
             <ArrowLeft className="h-5 w-5 mr-2" />
-            Back to Home
+            {t.backToHome}
           </Link>
-          <div className="text-sm text-gray-600">
-            Question {currentQuestion + 1} of {FULL_QUESTIONS.length}
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher 
+              currentLanguage={currentLanguage} 
+              onLanguageChange={handleLanguageChange} 
+            />
+            <div className="text-sm text-gray-600">
+              {t.question} {currentQuestion + 1} {t.of} {FULL_QUESTIONS.length}
+            </div>
           </div>
         </div>
 
@@ -1172,7 +1347,7 @@ export default function FullTest() {
                     <CheckCircle className="h-4 w-4 text-white" />
                   </div>
                   <span className="text-lg font-semibold text-indigo-800">
-                    Your choice: {currentQ.options[selectedAnswer!]}
+                    {t.yourChoice} {currentQ.options[selectedAnswer!]}
                   </span>
                 </div>
               </div>
@@ -1184,16 +1359,16 @@ export default function FullTest() {
               >
                 <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
                   <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                  Explanation
+                  {t.explanation}
                 </h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  {currentQ.explanations?.[selectedAnswer!] || "This question helps determine your personality preferences."}
+                  {currentQ.explanations?.[selectedAnswer!] || t.defaultExplanation}
                 </p>
                 
                 {/* Professional Traits Selection */}
                 {currentQ.traits && currentQ.traits[selectedAnswer!] && (
                   <div className="mb-4">
-                    <h4 className="text-md font-semibold text-gray-800 mb-3">Choose your professional traits:</h4>
+                    <h4 className="text-md font-semibold text-gray-800 mb-3">{t.chooseTraits}</h4>
                     <div className="flex flex-wrap gap-2">
                       {currentQ.traits[selectedAnswer!].map((trait, index) => (
                         <button
@@ -1213,18 +1388,18 @@ export default function FullTest() {
                 )}
                 
                 <div className="mt-4 text-sm text-gray-500 text-center">
-                  💡 Click to continue
+                  {t.clickToContinue}
                 </div>
               </div>
 
               {/* Continue button */}
               <div className="flex justify-center">
-                <button
-                  onClick={handleNextQuestion}
-                  className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  {currentQuestion < FULL_QUESTIONS.length - 1 ? 'Next Question' : 'View Results'}
-                </button>
+              <button
+                onClick={handleNextQuestion}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                {currentQuestion < FULL_QUESTIONS.length - 1 ? t.next : t.submit}
+              </button>
               </div>
             </div>
           )}

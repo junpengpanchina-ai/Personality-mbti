@@ -58,6 +58,11 @@ export interface Translations {
   baziElement: string;
   baziNature: string;
   // Test questions
+  yourChoice: string;
+  explanation: string;
+  chooseTraits: string;
+  clickToContinue: string;
+  defaultExplanation: string;
   questions: {
     party: string;
     partyOptions: string[];
@@ -111,6 +116,11 @@ export const translations: Record<string, Translations> = {
     copyright: "© 2024 MBTI Personality Test. All rights reserved.",
     copyrightDesc: "Discover your personality type with our professional MBTI assessment",
     // Test page translations
+    yourChoice: "Your choice:",
+    explanation: "Explanation",
+    chooseTraits: "Choose your professional traits:",
+    clickToContinue: "💡 Click to continue",
+    defaultExplanation: "This question helps determine your personality preferences.",
     backToHome: "Back to Home",
     question: "Question",
     of: "of",
@@ -234,6 +244,11 @@ export const translations: Record<string, Translations> = {
     copyright: "© 2024 MBTI性格测试。保留所有权利。",
     copyrightDesc: "通过我们的专业MBTI评估发现您的性格类型",
     // Test page translations
+    yourChoice: "您的选择：",
+    explanation: "解析说明",
+    chooseTraits: "选择您的专业特质：",
+    clickToContinue: "💡 点击继续",
+    defaultExplanation: "这个问题有助于确定您的性格偏好。",
     backToHome: "返回首页",
     question: "问题",
     of: "共",
@@ -357,6 +372,11 @@ export const translations: Record<string, Translations> = {
     copyright: "© 2024 MBTI 성격 테스트. 모든 권리 보유.",
     copyrightDesc: "전문적인 MBTI 평가로 당신의 성격 유형을 발견하세요",
     // Test page translations
+    yourChoice: "당신의 선택:",
+    explanation: "설명",
+    chooseTraits: "전문적 특성을 선택하세요:",
+    clickToContinue: "💡 계속하려면 클릭하세요",
+    defaultExplanation: "이 질문은 당신의 성격 선호도를 결정하는 데 도움이 됩니다.",
     backToHome: "홈으로 돌아가기",
     question: "문제",
     of: "중",
@@ -480,6 +500,11 @@ export const translations: Record<string, Translations> = {
     copyright: "© 2024 MBTI性格テスト。全著作権所有。",
     copyrightDesc: "プロフェッショナルなMBTI評価で性格タイプを発見",
     // Test page translations
+    yourChoice: "あなたの選択:",
+    explanation: "説明",
+    chooseTraits: "専門的な特性を選択してください:",
+    clickToContinue: "💡 続行するにはクリック",
+    defaultExplanation: "この質問はあなたの性格の好みを決定するのに役立ちます。",
     backToHome: "ホームに戻る",
     question: "質問",
     of: "の",
@@ -603,6 +628,11 @@ export const translations: Record<string, Translations> = {
     copyright: "© 2024 MBTI Persönlichkeitstest. Alle Rechte vorbehalten.",
     copyrightDesc: "Entdecken Sie Ihren Persönlichkeitstyp mit unserer professionellen MBTI-Bewertung",
     // Test page translations
+    yourChoice: "Ihre Wahl:",
+    explanation: "Erklärung",
+    chooseTraits: "Wählen Sie Ihre professionellen Eigenschaften:",
+    clickToContinue: "💡 Zum Fortfahren klicken",
+    defaultExplanation: "Diese Frage hilft dabei, Ihre Persönlichkeitspräferenzen zu bestimmen.",
     backToHome: "Zurück zur Startseite",
     question: "Frage",
     of: "von",
@@ -726,6 +756,11 @@ export const translations: Record<string, Translations> = {
     copyright: "© 2024 Test de Personnalité MBTI. Tous droits réservés.",
     copyrightDesc: "Découvrez votre type de personnalité avec notre évaluation MBTI professionnelle",
     // Test page translations
+    yourChoice: "Votre choix:",
+    explanation: "Explication",
+    chooseTraits: "Choisissez vos traits professionnels:",
+    clickToContinue: "💡 Cliquez pour continuer",
+    defaultExplanation: "Cette question aide à déterminer vos préférences de personnalité.",
     backToHome: "Retour à l'accueil",
     question: "Question",
     of: "sur",
@@ -849,6 +884,11 @@ export const translations: Record<string, Translations> = {
     copyright: "© 2024 MBTI व्यक्तित्व परीक्षण। सभी अधिकार सुरक्षित।",
     copyrightDesc: "हमारे पेशेवर MBTI मूल्यांकन के साथ अपने व्यक्तित्व प्रकार की खोज करें",
     // Test page translations
+    yourChoice: "आपकी पसंद:",
+    explanation: "व्याख्या",
+    chooseTraits: "अपने पेशेवर गुण चुनें:",
+    clickToContinue: "💡 जारी रखने के लिए क्लिक करें",
+    defaultExplanation: "यह प्रश्न आपकी व्यक्तित्व प्राथमिकताओं को निर्धारित करने में मदद करता है।",
     backToHome: "होम पर वापस जाएं",
     question: "प्रश्न",
     of: "का",

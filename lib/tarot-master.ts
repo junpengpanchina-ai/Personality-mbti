@@ -333,6 +333,530 @@ export const MASTER_TAROT_SYSTEM = {
       ],
       tarotCards: ['The Star', 'The Emperor', 'The Sun', 'The Lovers', 'The Hierophant', 'The Empress', 'The Justice', 'The High Priestess'],
       interpretation: '现代数字身份和在线存在'
+    },
+
+    // 更多韦特系统问题
+    {
+      id: 5,
+      system: 'waite',
+      category: 'Life Challenges',
+      question: "你如何应对生活中的挑战？",
+      options: [
+        "适应变化，顺其自然",
+        "寻求公平和平衡",
+        "投降并等待合适的时机",
+        "拥抱转变和新开始",
+        "在一切中找到平衡和节制",
+        "摆脱限制和束缚",
+        "保持希望和灵感",
+        "信任直觉和内在指导",
+        "在努力中找到快乐和成功",
+        "做出清晰的判断和决定"
+      ],
+      tarotCards: ['Wheel of Fortune', 'Justice', 'The Hanged Man', 'Death', 'Temperance', 'The Devil', 'The Star', 'The Moon', 'The Sun', 'Judgement'],
+      interpretation: '传统塔罗牌挑战和应对方式'
+    },
+
+    {
+      id: 6,
+      system: 'waite',
+      category: 'Relationships',
+      question: "你在关系中最重要的价值是什么？",
+      options: [
+        "真诚和开放",
+        "信任和忠诚",
+        "激情和浪漫",
+        "稳定和安全",
+        "成长和学习",
+        "和谐与平衡",
+        "自由和独立",
+        "支持和关怀"
+      ],
+      tarotCards: ['The Lovers', 'The Star', 'The Sun', 'The World', 'The Temperance', 'The Justice', 'The Fool', 'The Empress'],
+      interpretation: '传统塔罗牌关系指导'
+    },
+
+    {
+      id: 7,
+      system: 'waite',
+      category: 'Career Goals',
+      question: "你的职业目标是什么？",
+      options: [
+        "成为领导者和管理者",
+        "创造和表达艺术",
+        "帮助和服务他人",
+        "探索和研究新领域",
+        "建立稳定的基础",
+        "创新和改变世界",
+        "传授知识和智慧",
+        "建立和谐的工作环境"
+      ],
+      tarotCards: ['The Emperor', 'The Empress', 'The Hierophant', 'The Hermit', 'The World', 'The Magician', 'The High Priestess', 'The Temperance'],
+      interpretation: '传统塔罗牌职业指导'
+    },
+
+    {
+      id: 8,
+      system: 'waite',
+      category: 'Personal Growth',
+      question: "你希望在哪些方面成长？",
+      options: [
+        "发展直觉和内在智慧",
+        "增强意志力和决心",
+        "培养创造力和表达",
+        "建立权威和领导力",
+        "寻求精神指导",
+        "平衡理性和感性",
+        "找到内在力量",
+        "实现完整和成就"
+      ],
+      tarotCards: ['The High Priestess', 'The Magician', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'Strength', 'The World'],
+      interpretation: '传统塔罗牌个人发展'
+    },
+
+    // 更多托特系统问题
+    {
+      id: 9,
+      system: 'thoth',
+      category: 'Spiritual Awakening',
+      question: "你的精神觉醒过程如何？",
+      options: [
+        "通过纯真和开放开始",
+        "运用意志力创造现实",
+        "深化内在知识和直觉",
+        "培养爱和创造力",
+        "建立精神权威",
+        "寻求深奥智慧",
+        "平衡对立面",
+        "实现精神完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '托特塔罗精神觉醒路径'
+    },
+
+    {
+      id: 10,
+      system: 'thoth',
+      category: 'Mystical Knowledge',
+      question: "你寻求什么样的神秘知识？",
+      options: [
+        "宇宙的无限可能性",
+        "意志力的魔法力量",
+        "潜意识的深度智慧",
+        "创造力的丰盛表达",
+        "精神权威的建立",
+        "传统智慧的传承",
+        "对立面的和谐统一",
+        "精神旅程的完成"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '托特塔罗神秘知识体系'
+    },
+
+    // 更多荣格心理学问题
+    {
+      id: 11,
+      system: 'psychological',
+      category: 'Shadow Work',
+      question: "你如何处理内心的阴影面？",
+      options: [
+        "通过直觉探索潜意识",
+        "运用意志力面对挑战",
+        "接受内在的黑暗面",
+        "用爱和创造力转化",
+        "建立内在权威",
+        "寻求传统智慧指导",
+        "平衡内在对立面",
+        "实现心理完整"
+      ],
+      tarotCards: ['The High Priestess', 'The Magician', 'The Devil', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格阴影工作与塔罗牌'
+    },
+
+    {
+      id: 12,
+      system: 'psychological',
+      category: 'Archetypal Development',
+      question: "你正在发展哪个原型？",
+      options: [
+        "纯真的探索者",
+        "强大的魔法师",
+        "智慧的女祭司",
+        "丰盛的母亲",
+        "权威的父亲",
+        "传统的导师",
+        "和谐的爱人",
+        "完整的自我"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格原型发展与塔罗牌'
+    },
+
+    // 更多现代系统问题
+    {
+      id: 13,
+      system: 'modern',
+      category: 'Technology Integration',
+      question: "你如何与技术互动？",
+      options: [
+        "拥抱新技术和创新",
+        "运用技术实现目标",
+        "保持数字隐私和神秘",
+        "用技术创造和表达",
+        "建立技术权威和领导",
+        "学习传统技术知识",
+        "平衡数字和现实生活",
+        "实现技术完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '现代技术与塔罗牌'
+    },
+
+    {
+      id: 14,
+      system: 'modern',
+      category: 'Digital Wellness',
+      question: "你如何保持数字健康？",
+      options: [
+        "保持数字纯真和开放",
+        "运用技术工具增强能力",
+        "信任数字直觉和洞察",
+        "用技术培养创造力",
+        "建立数字权威和影响力",
+        "寻求数字智慧指导",
+        "平衡在线和离线生活",
+        "实现数字完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '现代数字健康与塔罗牌'
+    },
+
+    {
+      id: 15,
+      system: 'modern',
+      category: 'Future Vision',
+      question: "你对未来的愿景是什么？",
+      options: [
+        "探索新的数字可能性",
+        "运用技术创造未来",
+        "深化数字智慧和洞察",
+        "用技术培养未来创造力",
+        "建立数字未来权威",
+        "传承数字传统智慧",
+        "平衡传统和数字未来",
+        "实现数字未来完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '现代数字未来与塔罗牌'
+    },
+
+    // 更多韦特系统问题
+    {
+      id: 16,
+      system: 'waite',
+      category: 'Spiritual Journey',
+      question: "你的精神旅程如何？",
+      options: [
+        "通过纯真开始精神探索",
+        "运用意志力实现精神目标",
+        "深化内在智慧和直觉",
+        "培养精神创造力",
+        "建立精神权威",
+        "寻求传统精神指导",
+        "平衡精神对立面",
+        "实现精神完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '韦特塔罗精神旅程'
+    },
+
+    {
+      id: 17,
+      system: 'waite',
+      category: 'Inner Wisdom',
+      question: "你如何发展内在智慧？",
+      options: [
+        "保持开放和纯真",
+        "运用意志力学习",
+        "深化直觉和洞察",
+        "培养创造力和表达",
+        "建立内在权威",
+        "寻求传统智慧指导",
+        "平衡理性和感性",
+        "实现智慧完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '韦特塔罗内在智慧发展'
+    },
+
+    {
+      id: 18,
+      system: 'waite',
+      category: 'Life Purpose',
+      question: "你的人生目标是什么？",
+      options: [
+        "探索新的可能性",
+        "运用技能实现目标",
+        "深化内在智慧",
+        "培养创造力和丰盛",
+        "建立权威和领导力",
+        "寻求传统指导",
+        "平衡对立面",
+        "实现人生完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '韦特塔罗人生目标'
+    },
+
+    // 更多托特系统问题
+    {
+      id: 19,
+      system: 'thoth',
+      category: 'Magical Practice',
+      question: "你的魔法实践如何？",
+      options: [
+        "通过纯真开始魔法学习",
+        "运用意志力进行魔法实践",
+        "深化魔法直觉和知识",
+        "培养魔法创造力",
+        "建立魔法权威",
+        "寻求传统魔法指导",
+        "平衡魔法对立面",
+        "实现魔法完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '托特塔罗魔法实践'
+    },
+
+    {
+      id: 20,
+      system: 'thoth',
+      category: 'Consciousness Expansion',
+      question: "你如何扩展意识？",
+      options: [
+        "通过纯真探索意识",
+        "运用意志力扩展意识",
+        "深化意识洞察",
+        "培养意识创造力",
+        "建立意识权威",
+        "寻求传统意识指导",
+        "平衡意识对立面",
+        "实现意识完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '托特塔罗意识扩展'
+    },
+
+    // 更多荣格心理学问题
+    {
+      id: 21,
+      system: 'psychological',
+      category: 'Individuation Process',
+      question: "你的个性化过程如何？",
+      options: [
+        "通过纯真开始个性化",
+        "运用意志力进行个性化",
+        "深化个性化洞察",
+        "培养个性化创造力",
+        "建立个性化权威",
+        "寻求传统个性化指导",
+        "平衡个性化对立面",
+        "实现个性化完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格个性化过程与塔罗牌'
+    },
+
+    {
+      id: 22,
+      system: 'psychological',
+      category: 'Anima/Animus Integration',
+      question: "你如何整合内在异性面？",
+      options: [
+        "通过纯真探索内在异性面",
+        "运用意志力整合内在异性面",
+        "深化内在异性面洞察",
+        "培养内在异性面创造力",
+        "建立内在异性面权威",
+        "寻求传统内在异性面指导",
+        "平衡内在异性面对立面",
+        "实现内在异性面完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格内在异性面整合与塔罗牌'
+    },
+
+    {
+      id: 23,
+      system: 'psychological',
+      category: 'Collective Unconscious',
+      question: "你如何连接集体潜意识？",
+      options: [
+        "通过纯真连接集体潜意识",
+        "运用意志力探索集体潜意识",
+        "深化集体潜意识洞察",
+        "培养集体潜意识创造力",
+        "建立集体潜意识权威",
+        "寻求传统集体潜意识指导",
+        "平衡集体潜意识对立面",
+        "实现集体潜意识完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格集体潜意识与塔罗牌'
+    },
+
+    // 更多荣格心理学问题
+    {
+      id: 26,
+      system: 'psychological',
+      category: 'Persona Development',
+      question: "你如何发展人格面具？",
+      options: [
+        "通过纯真探索人格面具",
+        "运用意志力塑造人格面具",
+        "深化人格面具洞察",
+        "培养人格面具创造力",
+        "建立人格面具权威",
+        "寻求传统人格面具指导",
+        "平衡人格面具对立面",
+        "实现人格面具完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格人格面具发展与塔罗牌'
+    },
+
+    {
+      id: 27,
+      system: 'psychological',
+      category: 'Self Realization',
+      question: "你如何实现自我实现？",
+      options: [
+        "通过纯真开始自我实现",
+        "运用意志力进行自我实现",
+        "深化自我实现洞察",
+        "培养自我实现创造力",
+        "建立自我实现权威",
+        "寻求传统自我实现指导",
+        "平衡自我实现对立面",
+        "实现自我实现完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格自我实现与塔罗牌'
+    },
+
+    {
+      id: 28,
+      system: 'psychological',
+      category: 'Transcendence',
+      question: "你如何实现超越？",
+      options: [
+        "通过纯真实现超越",
+        "运用意志力进行超越",
+        "深化超越洞察",
+        "培养超越创造力",
+        "建立超越权威",
+        "寻求传统超越指导",
+        "平衡超越对立面",
+        "实现超越完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格超越与塔罗牌'
+    },
+
+    {
+      id: 29,
+      system: 'psychological',
+      category: 'Integration',
+      question: "你如何实现整合？",
+      options: [
+        "通过纯真实现整合",
+        "运用意志力进行整合",
+        "深化整合洞察",
+        "培养整合创造力",
+        "建立整合权威",
+        "寻求传统整合指导",
+        "平衡整合对立面",
+        "实现整合完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格整合与塔罗牌'
+    },
+
+    {
+      id: 30,
+      system: 'psychological',
+      category: 'Wholeness',
+      question: "你如何实现完整性？",
+      options: [
+        "通过纯真实现完整性",
+        "运用意志力进行完整性",
+        "深化完整性洞察",
+        "培养完整性创造力",
+        "建立完整性权威",
+        "寻求传统完整性指导",
+        "平衡完整性对立面",
+        "实现完整性完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格完整性与塔罗牌'
+    },
+
+    {
+      id: 31,
+      system: 'psychological',
+      category: 'Individuation',
+      question: "你如何实现个体化？",
+      options: [
+        "通过纯真实现个体化",
+        "运用意志力进行个体化",
+        "深化个体化洞察",
+        "培养个体化创造力",
+        "建立个体化权威",
+        "寻求传统个体化指导",
+        "平衡个体化对立面",
+        "实现个体化完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '荣格个体化与塔罗牌'
+    },
+
+    // 更多现代系统问题
+    {
+      id: 24,
+      system: 'modern',
+      category: 'Digital Transformation',
+      question: "你如何进行数字转型？",
+      options: [
+        "通过纯真开始数字转型",
+        "运用意志力进行数字转型",
+        "深化数字转型洞察",
+        "培养数字转型创造力",
+        "建立数字转型权威",
+        "寻求传统数字转型指导",
+        "平衡数字转型对立面",
+        "实现数字转型完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '现代数字转型与塔罗牌'
+    },
+
+    {
+      id: 25,
+      system: 'modern',
+      category: 'Virtual Reality',
+      question: "你如何与虚拟现实互动？",
+      options: [
+        "通过纯真探索虚拟现实",
+        "运用意志力在虚拟现实中创造",
+        "深化虚拟现实洞察",
+        "培养虚拟现实创造力",
+        "建立虚拟现实权威",
+        "寻求传统虚拟现实指导",
+        "平衡虚拟现实对立面",
+        "实现虚拟现实完整"
+      ],
+      tarotCards: ['The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor', 'The Hierophant', 'The Lovers', 'The World'],
+      interpretation: '现代虚拟现实与塔罗牌'
     }
   ],
 
