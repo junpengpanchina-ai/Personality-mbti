@@ -63,6 +63,15 @@ export interface Translations {
   chooseTraits: string;
   clickToContinue: string;
   defaultExplanation: string;
+  // Tarot test specific
+  chooseCard: string;
+  chooseMethod: string;
+  flipCard: string;
+  traditionalChoice: string;
+  shuffleCards: string;
+  shuffling: string;
+  reshuffle: string;
+  clickCardHint: string;
   questions: {
     party: string;
     partyOptions: string[];
@@ -121,6 +130,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "Choose your professional traits:",
     clickToContinue: "💡 Click to continue",
     defaultExplanation: "This question helps determine your personality preferences.",
+    // Tarot test specific
+    chooseCard: "Choose a tarot card",
+    chooseMethod: "Choose a method",
+    flipCard: "Flip Card",
+    traditionalChoice: "Traditional Choice",
+    shuffleCards: "Shuffle Cards",
+    shuffling: "Shuffling...",
+    reshuffle: "Reshuffle",
+    clickCardHint: "💫 Click any card to start flipping and feel the mystical power of tarot",
     backToHome: "Back to Home",
     question: "Question",
     of: "of",
@@ -249,6 +267,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "选择您的专业特质：",
     clickToContinue: "💡 点击继续",
     defaultExplanation: "这个问题有助于确定您的性格偏好。",
+    // Tarot test specific
+    chooseCard: "选择一张塔罗牌",
+    chooseMethod: "选择一种方式",
+    flipCard: "翻牌选择",
+    traditionalChoice: "传统选择",
+    shuffleCards: "重新洗牌",
+    shuffling: "洗牌中...",
+    reshuffle: "重新洗牌",
+    clickCardHint: "💫 点击任意卡片开始翻牌，感受塔罗牌的神秘力量",
     backToHome: "返回首页",
     question: "问题",
     of: "共",
@@ -377,6 +404,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "전문적 특성을 선택하세요:",
     clickToContinue: "💡 계속하려면 클릭하세요",
     defaultExplanation: "이 질문은 당신의 성격 선호도를 결정하는 데 도움이 됩니다.",
+    // Tarot test specific
+    chooseCard: "타로카드 선택",
+    chooseMethod: "방법 선택",
+    flipCard: "카드 뒤집기",
+    traditionalChoice: "전통적 선택",
+    shuffleCards: "카드 섞기",
+    shuffling: "섞는 중...",
+    reshuffle: "다시 섞기",
+    clickCardHint: "💫 카드를 클릭하여 뒤집기를 시작하고 타로의 신비로운 힘을 느껴보세요",
     backToHome: "홈으로 돌아가기",
     question: "문제",
     of: "중",
@@ -505,6 +541,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "専門的な特性を選択してください:",
     clickToContinue: "💡 続行するにはクリック",
     defaultExplanation: "この質問はあなたの性格の好みを決定するのに役立ちます。",
+    // Tarot test specific
+    chooseCard: "タロットカードを選択",
+    chooseMethod: "方法を選択",
+    flipCard: "カードをめくる",
+    traditionalChoice: "伝統的な選択",
+    shuffleCards: "カードをシャッフル",
+    shuffling: "シャッフル中...",
+    reshuffle: "再シャッフル",
+    clickCardHint: "💫 カードをクリックしてめくり始め、タロットの神秘的な力を感じてください",
     backToHome: "ホームに戻る",
     question: "質問",
     of: "の",
@@ -633,6 +678,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "Wählen Sie Ihre professionellen Eigenschaften:",
     clickToContinue: "💡 Zum Fortfahren klicken",
     defaultExplanation: "Diese Frage hilft dabei, Ihre Persönlichkeitspräferenzen zu bestimmen.",
+    // Tarot test specific
+    chooseCard: "Wählen Sie eine Tarotkarte",
+    chooseMethod: "Wählen Sie eine Methode",
+    flipCard: "Karte umdrehen",
+    traditionalChoice: "Traditionelle Wahl",
+    shuffleCards: "Karten mischen",
+    shuffling: "Mischen...",
+    reshuffle: "Neu mischen",
+    clickCardHint: "💫 Klicken Sie auf eine beliebige Karte, um das Umdrehen zu beginnen und die mystische Kraft der Tarotkarten zu spüren",
     backToHome: "Zurück zur Startseite",
     question: "Frage",
     of: "von",
@@ -761,6 +815,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "Choisissez vos traits professionnels:",
     clickToContinue: "💡 Cliquez pour continuer",
     defaultExplanation: "Cette question aide à déterminer vos préférences de personnalité.",
+    // Tarot test specific
+    chooseCard: "Choisissez une carte de tarot",
+    chooseMethod: "Choisissez une méthode",
+    flipCard: "Retourner la carte",
+    traditionalChoice: "Choix traditionnel",
+    shuffleCards: "Mélanger les cartes",
+    shuffling: "Mélange en cours...",
+    reshuffle: "Remélanger",
+    clickCardHint: "💫 Cliquez sur n'importe quelle carte pour commencer à retourner et ressentir le pouvoir mystique du tarot",
     backToHome: "Retour à l'accueil",
     question: "Question",
     of: "sur",
@@ -889,6 +952,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "अपने पेशेवर गुण चुनें:",
     clickToContinue: "💡 जारी रखने के लिए क्लिक करें",
     defaultExplanation: "यह प्रश्न आपकी व्यक्तित्व प्राथमिकताओं को निर्धारित करने में मदद करता है।",
+    // Tarot test specific
+    chooseCard: "एक टैरो कार्ड चुनें",
+    chooseMethod: "एक विधि चुनें",
+    flipCard: "कार्ड फ्लिप करें",
+    traditionalChoice: "पारंपरिक विकल्प",
+    shuffleCards: "कार्ड शफल करें",
+    shuffling: "शफलिंग...",
+    reshuffle: "फिर से शफल करें",
+    clickCardHint: "💫 किसी भी कार्ड पर क्लिक करके फ्लिपिंग शुरू करें और टैरो की रहस्यमय शक्ति को महसूस करें",
     backToHome: "होम पर वापस जाएं",
     question: "प्रश्न",
     of: "का",

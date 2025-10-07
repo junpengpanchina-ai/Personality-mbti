@@ -4,6 +4,7 @@ import { ArrowLeft, Star, Sparkles, Moon, Sun, Heart, Shuffle, RotateCcw } from 
 import { translations, Translations } from '../../lib/translations';
 import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
 import TarotCard, { TarotCardGrid } from '../../components/TarotCard';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 // Tarot cards and MBTI mapping
 const TAROT_MBTI_MAPPING = {
@@ -307,6 +308,42 @@ export default function TarotTest() {
     }
   }, []);
 
+  // 监听语言变化，确保组件重新渲染
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'preferred-language' && e.newValue) {
+        setCurrentLanguage(e.newValue);
+        setT(translations[e.newValue] || translations.en);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorageChange);
+      
+      // 定期检查语言变化（用于同页面内的语言切换）
+      const interval = setInterval(() => {
+        const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+        if (savedLanguage !== currentLanguage) {
+          setCurrentLanguage(savedLanguage);
+          setT(translations[savedLanguage] || translations.en);
+        }
+      }, 1000);
+
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+        clearInterval(interval);
+      };
+    }
+  }, [currentLanguage]);
+
+  const handleLanguageChange = (language: string) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferred-language', language);
+    }
+    setCurrentLanguage(language);
+    setT(translations[language] || translations.en);
+  };
+
 
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers];
@@ -582,8 +619,14 @@ export default function TarotTest() {
             <ArrowLeft className="h-5 w-5 mr-2" />
             {t.backToHome}
           </Link>
-          <div className="text-sm text-gray-600">
-            {t.question} {currentQuestion + 1} {t.of} {TAROT_QUESTIONS.length}
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher 
+              currentLanguage={currentLanguage} 
+              onLanguageChange={handleLanguageChange} 
+            />
+            <div className="text-sm text-gray-600">
+              {t.question} {currentQuestion + 1} {t.of} {TAROT_QUESTIONS.length}
+            </div>
           </div>
         </div>
 
@@ -605,7 +648,7 @@ export default function TarotTest() {
               {currentQ.question}
             </h2>
             <p className="text-gray-600">
-              {showCards ? '选择一张塔罗牌' : '选择一种方式'}
+              {showCards ? t.chooseCard : t.chooseMethod}
             </p>
           </div>
 
@@ -617,14 +660,14 @@ export default function TarotTest() {
                 className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
               >
                 <Shuffle className="h-5 w-5 mr-2" />
-                翻牌选择
+                {t.flipCard}
               </button>
               <button
                 onClick={() => setShowCards(false)}
                 className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
               >
                 <RotateCcw className="h-5 w-5 mr-2" />
-                传统选择
+                {t.traditionalChoice}
               </button>
             </div>
           )}
@@ -640,14 +683,14 @@ export default function TarotTest() {
                   className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 >
                   <Shuffle className="h-4 w-4 mr-2" />
-                  {isFlipping ? '洗牌中...' : '重新洗牌'}
+                  {isFlipping ? t.shuffling : t.reshuffle}
                 </button>
                 <button
                   onClick={() => setShowCards(false)}
                   className="bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center"
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
-                  切换模式
+                  {t.traditionalChoice}
                 </button>
               </div>
 
@@ -672,7 +715,7 @@ export default function TarotTest() {
               {/* 翻牌提示 */}
               {flippedCards.length === 0 && (
                 <div className="text-center text-gray-500 text-sm">
-                  💫 点击任意卡片开始翻牌，感受塔罗牌的神秘力量
+                  {t.clickCardHint}
                 </div>
               )}
             </div>
