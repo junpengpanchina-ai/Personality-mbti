@@ -24,7 +24,7 @@ export default function AdSense({
       if (typeof window !== 'undefined' && (window as any).adsbygoogle && adConfig.enabled) {
         // 禁用自动广告，只使用手动配置的广告单元
         ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({
-          google_ad_client: "ca-pub-4198974976257818",
+          google_ad_client: process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818",
           enable_page_level_ads: false
         });
       }
@@ -49,7 +49,7 @@ export default function AdSense({
       <ins 
         className="adsbygoogle"
         style={style}
-        data-ad-client="ca-pub-4198974976257818"
+        data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818"}
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive ? 'true' : 'false'}

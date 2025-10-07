@@ -9,13 +9,13 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <script 
           async 
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4198974976257818"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818"}`}
           crossOrigin="anonymous"
         />
         <script>
           {`
             (adsbygoogle = window.adsbygoogle || []).push({
-              google_ad_client: "ca-pub-4198974976257818",
+              google_ad_client: "${process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818"}",
               enable_page_level_ads: false
             });
           `}
