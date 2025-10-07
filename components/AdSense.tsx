@@ -27,11 +27,18 @@ export default function AdSense({
           google_ad_client: process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818",
           enable_page_level_ads: false
         });
+        
+        // 调试信息
+        console.log('AdSense initialized:', {
+          enabled: adConfig.enabled,
+          publisherId: process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818",
+          slot: slot
+        });
       }
     } catch (error) {
       console.error('AdSense error:', error);
     }
-  }, [adConfig.enabled]);
+  }, [adConfig.enabled, slot]);
 
   // 如果广告未启用，返回占位符
   if (!adConfig.enabled) {
