@@ -221,7 +221,7 @@ export default function TarotFlowTest() {
                 {Object.entries(result.cardCounts).map(([card, count]) => (
                   <div key={card} className="text-center p-2 bg-purple-100 rounded">
                     <div className="font-medium">{card}</div>
-                    <div className="text-sm text-gray-600">{count} 次</div>
+                    <div className="text-sm text-gray-600">{count as number} 次</div>
                   </div>
                 ))}
               </div>

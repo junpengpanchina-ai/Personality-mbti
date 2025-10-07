@@ -345,6 +345,32 @@ export default function TarotEnhancedTest() {
     setT(translations[language] || translations.en);
   };
 
+  const handleShowCards = () => {
+    setShowCards(true);
+  };
+
+  const handleShuffleCards = () => {
+    setIsFlipping(true);
+    setFlippedCards([]);
+    setSelectedCard(null);
+    
+    setTimeout(() => {
+      setIsFlipping(false);
+    }, 2000);
+  };
+
+  const handleCardSelect = (cardName: string) => {
+    setSelectedCard(cardName);
+  };
+
+  const handleCardFlip = (cardName: string) => {
+    setFlippedCards(prev => 
+      prev.includes(cardName) 
+        ? prev.filter(card => card !== cardName)
+        : [...prev, cardName]
+    );
+  };
+
   const handleSystemSelect = (system: string) => {
     setSelectedSystem(system);
     setCurrentStep('difficulty');

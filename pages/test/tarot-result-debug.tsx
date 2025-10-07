@@ -154,7 +154,7 @@ export default function TarotResultDebug() {
                   {Object.entries(result.cardCounts).map(([card, count]) => (
                     <div key={card} className="flex justify-between">
                       <span className="text-sm">{card}:</span>
-                      <span className="font-bold">{count}</span>
+                      <span className="font-bold">{count as number}</span>
                     </div>
                   ))}
                 </div>
