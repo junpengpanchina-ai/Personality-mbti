@@ -93,7 +93,9 @@ export default function TarotMasterReading({ system, difficulty, result, onReset
   };
 
   const getCardInterpretation = (cardName: string, system: string) => {
-    return detailedInterpretation[cardName as keyof typeof detailedInterpretation]?.[system as keyof typeof detailedInterpretation[typeof cardName]] || null;
+    const cardData = detailedInterpretation[cardName as keyof typeof detailedInterpretation];
+    if (!cardData) return null;
+    return cardData[system as keyof typeof cardData] || null;
   };
 
   const interpretation = getCardInterpretation(result.tarot, system);
