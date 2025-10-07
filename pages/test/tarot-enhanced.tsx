@@ -383,27 +383,263 @@ export default function TarotEnhancedTest() {
     );
   }
 
-  // 测试进行中的界面（简化版）
+  // 获取当前系统的问题
+  const getSystemQuestions = (system: string, difficulty: string) => {
+    const questionCount = TAROT_TEST_CONFIG.difficultyLevels[difficulty as keyof typeof TAROT_TEST_CONFIG.difficultyLevels]?.questionCount || 5;
+    const systemQuestions = MASTER_TAROT_SYSTEM.masterQuestions.filter(q => q.system === system);
+    return systemQuestions.slice(0, questionCount);
+  };
+
+  const currentQuestions = getSystemQuestions(selectedSystem, selectedDifficulty);
+  const currentQ = currentQuestions[currentQuestion];
+  const progress = ((currentQuestion + 1) / currentQuestions.length) * 100;
+
+  // 测试进行中的界面
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <HeaderAd />
         <MobileAd />
         
-        <div className="text-center">
-          <div className="text-6xl mb-6">🔮</div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            大师级塔罗牌测试进行中
-          </h1>
-          <p className="text-xl text-gray-600">
-            基于 {MASTER_TAROT_SYSTEM.systems[selectedSystem as keyof typeof MASTER_TAROT_SYSTEM.systems]?.name} 的深度分析
-          </p>
-          <div className="mt-8">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">正在准备你的专属塔罗牌解读...</p>
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <button 
+            onClick={() => setCurrentStep('difficulty')}
+            className="flex items-center text-gray-700 hover:text-purple-600 transition-colors bg-gray-100 hover:bg-purple-50 px-4 py-2 rounded-lg font-medium"
+          >
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            返回难度选择
+          </button>
+          <div className="text-sm text-gray-600">
+            问题 {currentQuestion + 1} / {currentQuestions.length}
           </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="w-full bg-gray-200 rounded-full h-3">
+            <div 
+              className="bg-gradient-to-r from-indigo-500 to-purple-500 h-3 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Question Card */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8">
+          <div className="text-center mb-8">
+            <div className="text-4xl mb-4">🔮</div>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              {currentQ?.question}
+            </h2>
+            <p className="text-gray-600">
+              选择与你的神秘能量产生共鸣的选项
+            </p>
+          </div>
+
+          {/* 选择方式按钮 */}
+          {!showCards && (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <button
+                onClick={handleShowCards}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
+              >
+                <Shuffle className="h-5 w-5 mr-2" />
+                翻牌选择
+              </button>
+              <button
+                onClick={() => setShowCards(false)}
+                className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
+              >
+                <RotateCcw className="h-5 w-5 mr-2" />
+                传统选择
+              </button>
+            </div>
+          )}
+
+          {/* 翻牌模式 */}
+          {showCards && currentQ && (
+            <div className="space-y-6">
+              {/* 控制按钮 */}
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={handleShuffleCards}
+                  disabled={isFlipping}
+                  className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                >
+                  <Shuffle className="h-4 w-4 mr-2" />
+                  {isFlipping ? '洗牌中...' : '重新洗牌'}
+                </button>
+                <button
+                  onClick={() => setShowCards(false)}
+                  className="bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center"
+                >
+                  <RotateCcw className="h-4 w-4 mr-2" />
+                  切换模式
+                </button>
+              </div>
+
+              {/* 塔罗牌网格 */}
+              <div className="mt-8">
+                <TarotCardGrid
+                  cards={currentQ.tarotCards.map(cardName => ({
+                    name: cardName,
+                    symbol: getCardSymbol(cardName),
+                    element: getCardElement(cardName),
+                    meaning: getCardMeaning(cardName),
+                    traits: getCardTraits(cardName)
+                  }))}
+                  selectedCard={selectedCard}
+                  onCardSelect={handleCardSelect}
+                  onCardFlip={handleCardFlip}
+                  flippedCards={flippedCards}
+                  disabled={isFlipping}
+                />
+              </div>
+
+              {/* 翻牌提示 */}
+              {flippedCards.length === 0 && (
+                <div className="text-center text-gray-500 text-sm">
+                  💫 点击任意卡片开始翻牌，感受塔罗牌的神秘力量
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 传统选择模式 */}
+          {!showCards && currentQ && (
+            <div className="space-y-4">
+              {currentQ.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(index)}
+                  className="w-full p-6 text-left border-2 border-gray-200 rounded-xl hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
+                >
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 border-2 border-gray-300 rounded-full mr-4 group-hover:border-purple-500 transition-colors"></div>
+                    <span className="text-lg text-gray-700 group-hover:text-purple-700">
+                      {option}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
+// 辅助函数：获取塔罗牌信息
+const getCardSymbol = (cardName: string) => {
+  const symbols: { [key: string]: string } = {
+    'The Fool': '🃏',
+    'The Magician': '🪄',
+    'The High Priestess': '🌙',
+    'The Empress': '👑',
+    'The Emperor': '⚔️',
+    'The Hierophant': '⛪',
+    'The Lovers': '💕',
+    'The Chariot': '🏛️',
+    'Strength': '💪',
+    'The Hermit': '🔦',
+    'Wheel of Fortune': '🎡',
+    'Justice': '⚖️',
+    'The Hanged Man': '🙃',
+    'Death': '💀',
+    'Temperance': '🍷',
+    'The Devil': '😈',
+    'The Tower': '🗼',
+    'The Star': '⭐',
+    'The Moon': '🌙',
+    'The Sun': '☀️',
+    'Judgement': '📯',
+    'The World': '🌍'
+  };
+  return symbols[cardName] || '🔮';
+};
+
+const getCardElement = (cardName: string) => {
+  const elements: { [key: string]: string } = {
+    'The Fool': 'Air',
+    'The Magician': 'Fire',
+    'The High Priestess': 'Water',
+    'The Empress': 'Earth',
+    'The Emperor': 'Fire',
+    'The Hierophant': 'Earth',
+    'The Lovers': 'Air',
+    'The Chariot': 'Water',
+    'Strength': 'Fire',
+    'The Hermit': 'Earth',
+    'Wheel of Fortune': 'Fire',
+    'Justice': 'Air',
+    'The Hanged Man': 'Water',
+    'Death': 'Water',
+    'Temperance': 'Fire',
+    'The Devil': 'Earth',
+    'The Tower': 'Fire',
+    'The Star': 'Air',
+    'The Moon': 'Water',
+    'The Sun': 'Fire',
+    'Judgement': 'Fire',
+    'The World': 'Earth'
+  };
+  return elements[cardName] || 'Mystery';
+};
+
+const getCardMeaning = (cardName: string) => {
+  const meanings: { [key: string]: string } = {
+    'The Fool': 'New beginnings, spontaneity, innocence',
+    'The Magician': 'Manifestation, willpower, skill',
+    'The High Priestess': 'Intuition, mystery, subconscious',
+    'The Empress': 'Fertility, abundance, nurturing',
+    'The Emperor': 'Authority, structure, leadership',
+    'The Hierophant': 'Tradition, spirituality, guidance',
+    'The Lovers': 'Love, harmony, choices',
+    'The Chariot': 'Determination, control, victory',
+    'Strength': 'Inner strength, courage, patience',
+    'The Hermit': 'Soul-searching, introspection, guidance',
+    'Wheel of Fortune': 'Change, cycles, destiny',
+    'Justice': 'Fairness, truth, balance',
+    'The Hanged Man': 'Sacrifice, waiting, new perspective',
+    'Death': 'Transformation, endings, rebirth',
+    'Temperance': 'Balance, moderation, patience',
+    'The Devil': 'Temptation, bondage, materialism',
+    'The Tower': 'Sudden change, revelation, liberation',
+    'The Star': 'Hope, inspiration, spirituality',
+    'The Moon': 'Illusion, intuition, subconscious',
+    'The Sun': 'Joy, success, vitality',
+    'Judgement': 'Rebirth, absolution, awakening',
+    'The World': 'Completion, achievement, fulfillment'
+  };
+  return meanings[cardName] || 'Mystical guidance';
+};
+
+const getCardTraits = (cardName: string) => {
+  const traits: { [key: string]: string[] } = {
+    'The Fool': ['Adventurous', 'Spontaneous', 'Optimistic', 'Free-spirited'],
+    'The Magician': ['Confident', 'Resourceful', 'Skilled', 'Determined'],
+    'The High Priestess': ['Intuitive', 'Mysterious', 'Wise', 'Reflective'],
+    'The Empress': ['Nurturing', 'Abundant', 'Creative', 'Caring'],
+    'The Emperor': ['Authoritative', 'Structured', 'Leader', 'Disciplined'],
+    'The Hierophant': ['Traditional', 'Spiritual', 'Wise', 'Guiding'],
+    'The Lovers': ['Loving', 'Harmonious', 'Romantic', 'Balanced'],
+    'The Chariot': ['Determined', 'Controlled', 'Victorious', 'Focused'],
+    'Strength': ['Strong', 'Courageous', 'Patient', 'Resilient'],
+    'The Hermit': ['Introspective', 'Wise', 'Guiding', 'Solitary'],
+    'Wheel of Fortune': ['Adaptable', 'Lucky', 'Cyclical', 'Destined'],
+    'Justice': ['Fair', 'Truthful', 'Balanced', 'Just'],
+    'The Hanged Man': ['Sacrificial', 'Patient', 'Perspective', 'Surrendering'],
+    'Death': ['Transformative', 'Ending', 'Rebirth', 'Change'],
+    'Temperance': ['Balanced', 'Moderate', 'Patient', 'Harmonious'],
+    'The Devil': ['Tempting', 'Materialistic', 'Bonded', 'Seductive'],
+    'The Tower': ['Sudden', 'Revealing', 'Liberating', 'Disruptive'],
+    'The Star': ['Hopeful', 'Inspiring', 'Spiritual', 'Optimistic'],
+    'The Moon': ['Intuitive', 'Mysterious', 'Subconscious', 'Illusory'],
+    'The Sun': ['Joyful', 'Successful', 'Vital', 'Radiant'],
+    'Judgement': ['Reborn', 'Absolved', 'Awakened', 'Judging'],
+    'The World': ['Complete', 'Achieved', 'Fulfilled', 'Accomplished']
+  };
+  return traits[cardName] || ['Mystical', 'Wise'];
+};
