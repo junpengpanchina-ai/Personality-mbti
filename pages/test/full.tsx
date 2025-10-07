@@ -953,111 +953,67 @@ export default function FullTest() {
 
   // 获取翻译后的题目
   const getTranslatedQuestion = (questionId: number) => {
-    const questionMap = {
-      1: { question: t.questions.party, options: t.questions.partyOptions },
-      2: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      3: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      4: { question: t.questions.learning, options: t.questions.learningOptions },
-      5: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      6: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      7: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      8: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      9: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      10: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      11: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      12: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      13: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      14: { question: t.questions.learning, options: t.questions.learningOptions },
-      15: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      16: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      17: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      18: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      19: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      20: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      21: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      22: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      23: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      24: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      25: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      26: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      27: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      28: { question: t.questions.party, options: t.questions.partyOptions }, // 重复使用party翻译
-      29: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      30: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      31: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      32: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      33: { question: t.questions.interests, options: t.questions.interestsOptions },
-      34: { question: t.questions.learning, options: t.questions.learningOptions },
-      35: { question: t.questions.drawnTo, options: t.questions.drawnToOptions },
-      36: { question: t.questions.preference, options: t.questions.preferenceOptions },
-      37: { question: t.questions.interests, options: t.questions.interestsOptions },
-      38: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      39: { question: t.questions.preference, options: t.questions.preferenceOptions },
-      40: { question: t.questions.interests, options: t.questions.interestsOptions },
-      41: { question: t.questions.interests, options: t.questions.interestsOptions },
-      42: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      43: { question: t.questions.drawnTo, options: t.questions.drawnToOptions },
-      44: { question: t.questions.preference, options: t.questions.preferenceOptions },
-      45: { question: t.questions.interests, options: t.questions.interestsOptions },
-      46: { question: t.questions.learning, options: t.questions.learningOptions },
-      47: { question: t.questions.interests, options: t.questions.interestsOptions },
-      48: { question: t.questions.interests, options: t.questions.interestsOptions },
-      49: { question: t.questions.preference, options: t.questions.preferenceOptions },
-      50: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      51: { question: t.questions.interests, options: t.questions.interestsOptions },
-      52: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      53: { question: t.questions.interests, options: t.questions.interestsOptions },
-      54: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      55: { question: t.questions.learning, options: t.questions.learningOptions },
-      56: { question: t.questions.interests, options: t.questions.interestsOptions },
-      57: { question: t.questions.preference, options: t.questions.preferenceOptions },
-      58: { question: t.questions.preference, options: t.questions.preferenceOptions },
-      59: { question: t.questions.interests, options: t.questions.interestsOptions },
-      60: { question: t.questions.learning, options: t.questions.learningOptions },
-      61: { question: t.questions.drawnTo, options: t.questions.drawnToOptions },
-      62: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      63: { question: t.questions.conflict, options: t.questions.conflictOptions },
-      64: { question: t.questions.feedback, options: t.questions.feedbackOptions },
-      65: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
-      66: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      67: { question: t.questions.feedback, options: t.questions.feedbackOptions },
-      68: { question: t.questions.conflict, options: t.questions.conflictOptions },
-      69: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      70: { question: t.questions.feedback, options: t.questions.feedbackOptions },
-      71: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      72: { question: t.questions.feedback, options: t.questions.feedbackOptions },
-      73: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      74: { question: t.questions.interests, options: t.questions.interestsOptions },
-      75: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      76: { question: t.questions.conflict, options: t.questions.conflictOptions },
-      77: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      78: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
-      79: { question: t.questions.feedback, options: t.questions.feedbackOptions },
-      80: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      81: { question: t.questions.conflict, options: t.questions.conflictOptions },
-      82: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
-      83: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      84: { question: t.questions.conflict, options: t.questions.conflictOptions },
-      85: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      86: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      87: { question: t.questions.feedback, options: t.questions.feedbackOptions },
-      88: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      89: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      90: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
-      91: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      92: { question: t.questions.feedback, options: t.questions.feedbackOptions },
-      93: { question: t.questions.conflict, options: t.questions.conflictOptions }
-    };
-    const translatedQ = questionMap[questionId as keyof typeof questionMap];
+    // 动态获取当前语言的翻译
+    const currentTranslations = translations[currentLanguage] || translations.en;
     const originalQ = FULL_QUESTIONS[questionId - 1];
     
-    if (translatedQ) {
+    // 如果当前语言是英文，直接返回原问题
+    if (currentLanguage === 'en') {
+      return originalQ;
+    }
+    
+    // 根据问题内容智能匹配翻译
+    const getTranslationKey = (question: string) => {
+      const lowerQuestion = question.toLowerCase();
+      
+      if (lowerQuestion.includes('party') || lowerQuestion.includes('social gathering')) {
+        return { question: currentTranslations.questions.party, options: currentTranslations.questions.partyOptions };
+      }
+      if (lowerQuestion.includes('decision') || lowerQuestion.includes('choose')) {
+        return { question: currentTranslations.questions.decisions, options: currentTranslations.questions.decisionsOptions };
+      }
+      if (lowerQuestion.includes('conflict') || lowerQuestion.includes('disagreement')) {
+        return { question: currentTranslations.questions.conflict, options: currentTranslations.questions.conflictOptions };
+      }
+      if (lowerQuestion.includes('prefer') || lowerQuestion.includes('rather')) {
+        return { question: currentTranslations.questions.preference, options: currentTranslations.questions.preferenceOptions };
+      }
+      if (lowerQuestion.includes('learn') || lowerQuestion.includes('study')) {
+        return { question: currentTranslations.questions.learning, options: currentTranslations.questions.learningOptions };
+      }
+      if (lowerQuestion.includes('interest') || lowerQuestion.includes('hobby')) {
+        return { question: currentTranslations.questions.interests, options: currentTranslations.questions.interestsOptions };
+      }
+      if (lowerQuestion.includes('feedback') || lowerQuestion.includes('criticism')) {
+        return { question: currentTranslations.questions.feedback, options: currentTranslations.questions.feedbackOptions };
+      }
+      if (lowerQuestion.includes('work') || lowerQuestion.includes('job')) {
+        return { question: currentTranslations.questions.workStyle, options: currentTranslations.questions.workStyleOptions };
+      }
+      if (lowerQuestion.includes('social') || lowerQuestion.includes('people')) {
+        return { question: currentTranslations.questions.socialSituations, options: currentTranslations.questions.socialSituationsOptions };
+      }
+      if (lowerQuestion.includes('drawn') || lowerQuestion.includes('attract')) {
+        return { question: currentTranslations.questions.drawnTo, options: currentTranslations.questions.drawnToOptions };
+      }
+      if (lowerQuestion.includes('upset') || lowerQuestion.includes('sad')) {
+        return { question: currentTranslations.questions.someoneUpset, options: currentTranslations.questions.someoneUpsetOptions };
+      }
+      
+      // 默认返回原问题
+      return null;
+    };
+    
+    const translation = getTranslationKey(originalQ.question);
+    
+    if (translation) {
       return {
         ...originalQ,
-        question: translatedQ.question,
-        options: translatedQ.options
+        question: translation.question,
+        options: translation.options
       };
     }
+    
     return originalQ;
   };
 
