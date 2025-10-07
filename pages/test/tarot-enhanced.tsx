@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, Star, Sparkles, Moon, Sun, Heart, Shuffle, RotateCcw, BookOpen, Brain, Zap, Globe } from 'lucide-react';
 import { translations, Translations } from '../../lib/translations';
 import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 import TarotCard, { TarotCardGrid } from '../../components/TarotCard';
 import TarotMasterReading from '../../components/TarotMasterReading';
 import { MASTER_TAROT_SYSTEM, TAROT_TEST_CONFIG } from '../../lib/tarot-master';
@@ -11,9 +12,11 @@ import { MASTER_TAROT_SYSTEM, TAROT_TEST_CONFIG } from '../../lib/tarot-master';
 interface SystemSelectionProps {
   onSystemSelect: (system: string) => void;
   t: Translations;
+  currentLanguage: string;
+  onLanguageChange: (language: string) => void;
 }
 
-function SystemSelection({ onSystemSelect, t }: SystemSelectionProps) {
+function SystemSelection({ onSystemSelect, t, currentLanguage, onLanguageChange }: SystemSelectionProps) {
   const systems = [
     {
       key: 'waite',
@@ -66,6 +69,10 @@ function SystemSelection({ onSystemSelect, t }: SystemSelectionProps) {
             <ArrowLeft className="h-5 w-5 mr-2" />
             {t.backToHome}
           </Link>
+          <LanguageSwitcher 
+            currentLanguage={currentLanguage} 
+            onLanguageChange={onLanguageChange} 
+          />
         </div>
 
         {/* 系统选择标题 */}
@@ -302,6 +309,42 @@ export default function TarotEnhancedTest() {
     }
   }, []);
 
+  // 监听语言变化，确保组件重新渲染
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'preferred-language' && e.newValue) {
+        setCurrentLanguage(e.newValue);
+        setT(translations[e.newValue] || translations.en);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorageChange);
+      
+      // 定期检查语言变化（用于同页面内的语言切换）
+      const interval = setInterval(() => {
+        const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+        if (savedLanguage !== currentLanguage) {
+          setCurrentLanguage(savedLanguage);
+          setT(translations[savedLanguage] || translations.en);
+        }
+      }, 1000);
+
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+        clearInterval(interval);
+      };
+    }
+  }, [currentLanguage]);
+
+  const handleLanguageChange = (language: string) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferred-language', language);
+    }
+    setCurrentLanguage(language);
+    setT(translations[language] || translations.en);
+  };
+
   const handleSystemSelect = (system: string) => {
     setSelectedSystem(system);
     setCurrentStep('difficulty');
@@ -365,7 +408,7 @@ export default function TarotEnhancedTest() {
 
   // 渲染不同步骤
   if (currentStep === 'system') {
-    return <SystemSelection onSystemSelect={handleSystemSelect} t={t} />;
+    return <SystemSelection onSystemSelect={handleSystemSelect} t={t} currentLanguage={currentLanguage} onLanguageChange={handleLanguageChange} />;
   }
 
   if (currentStep === 'difficulty') {
