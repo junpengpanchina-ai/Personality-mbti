@@ -740,6 +740,12 @@ export default function TarotEnhancedTest() {
   const getSystemQuestions = (system: string, difficulty: string) => {
     const questionCount = TAROT_TEST_CONFIG.difficultyLevels[difficulty as keyof typeof TAROT_TEST_CONFIG.difficultyLevels]?.questionCount || 5;
     const systemQuestions = MASTER_TAROT_SYSTEM.masterQuestions.filter(q => q.system === system);
+    
+    // 如果没有找到系统问题，返回所有问题
+    if (systemQuestions.length === 0) {
+      return MASTER_TAROT_SYSTEM.masterQuestions.slice(0, questionCount);
+    }
+    
     return systemQuestions.slice(0, questionCount);
   };
 
@@ -779,6 +785,29 @@ export default function TarotEnhancedTest() {
 
   // 测试步骤的渲染逻辑
   if (currentStep === 'test') {
+    // 验证是否已选择系统和难度
+    if (!selectedSystem || !selectedDifficulty) {
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+          <div className="max-w-4xl mx-auto px-4 py-8">
+            <HeaderAd />
+            <MobileAd />
+            
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">请先选择塔罗系统和难度</h1>
+              <p className="text-gray-600 mb-8">您需要选择塔罗系统和难度级别才能开始测试</p>
+              <button 
+                onClick={() => setCurrentStep('system')}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                选择塔罗系统
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
     return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
