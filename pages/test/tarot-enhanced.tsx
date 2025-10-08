@@ -911,7 +911,7 @@ export default function TarotEnhancedTest() {
               {/* 翻牌提示 */}
               {flippedCards.length === 0 && (
                 <div className="text-center text-gray-500 text-sm">
-                  <p className="mb-2">🎯 基于你的选择题答案，现在选择一张塔罗牌来获得完整的人格分析结果</p>
+                  <p className="mb-2">{t.cardSelectionHint}</p>
                   <p>{t.clickCardHint}</p>
                 </div>
               )}

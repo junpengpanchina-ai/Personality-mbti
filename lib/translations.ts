@@ -85,6 +85,7 @@ export interface Translations {
   elementAttribute: string;
   retakeTest: string;
   saveResult: string;
+  cardSelectionHint: string;
   // Tarot Enhanced Test
   masterTarotTest: string;
   masterTarotDescription: string;
@@ -213,6 +214,7 @@ export const translations: Record<string, Translations> = {
     elementAttribute: "Element Attribute",
     retakeTest: "🃏 Retake Test",
     saveResult: "📄 Save Result",
+    cardSelectionHint: "🎯 Based on your multiple-choice answers, now select a tarot card to get your complete personality analysis",
     // Tarot Enhanced Test
     masterTarotTest: "Master Tarot Test",
     masterTarotDescription: "Based on authoritative Tarot works, choose your Tarot interpretation method",
@@ -423,6 +425,7 @@ export const translations: Record<string, Translations> = {
     elementAttribute: "元素属性",
     retakeTest: "🔮 重新测试",
     saveResult: "📄 保存结果",
+    cardSelectionHint: "🎯 基于你的选择题答案，现在选择一张塔罗牌来获得完整的人格分析结果",
     // Tarot Enhanced Test
     masterTarotTest: "大师级塔罗牌测试",
     masterTarotDescription: "基于权威塔罗牌著作的深度整合系统，选择适合你的塔罗牌解读方式",
