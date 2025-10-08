@@ -75,6 +75,16 @@ export interface Translations {
   clickCardHint: string;
   tarotCard: string;
   clickToFlip: string;
+  // Tarot Master Reading
+  overview: string;
+  detailedInterpretation: string;
+  divinationMethod: string;
+  lifeGuidance: string;
+  compatibilityAnalysis: string;
+  tarotTraits: string;
+  elementAttribute: string;
+  retakeTest: string;
+  saveResult: string;
   // Tarot Enhanced Test
   masterTarotTest: string;
   masterTarotDescription: string;
@@ -193,6 +203,16 @@ export const translations: Record<string, Translations> = {
     clickCardHint: "💫 Click any card to start flipping and feel the mystical power of tarot",
     tarotCard: "Tarot Card",
     clickToFlip: "Click to flip",
+    // Tarot Master Reading
+    overview: "Overview",
+    detailedInterpretation: "Detailed Interpretation",
+    divinationMethod: "Divination Method",
+    lifeGuidance: "Life Guidance",
+    compatibilityAnalysis: "Compatibility Analysis",
+    tarotTraits: "Tarot Traits",
+    elementAttribute: "Element Attribute",
+    retakeTest: "🃏 Retake Test",
+    saveResult: "📄 Save Result",
     // Tarot Enhanced Test
     masterTarotTest: "Master Tarot Test",
     masterTarotDescription: "Based on authoritative Tarot works, choose your Tarot interpretation method",
@@ -393,6 +413,16 @@ export const translations: Record<string, Translations> = {
     clickCardHint: "💫 点击任意卡片开始翻牌，感受塔罗牌的神秘力量",
     tarotCard: "塔罗牌",
     clickToFlip: "点击翻牌",
+    // Tarot Master Reading
+    overview: "概览",
+    detailedInterpretation: "详细解读",
+    divinationMethod: "占卜方法",
+    lifeGuidance: "生活指导",
+    compatibilityAnalysis: "兼容性分析",
+    tarotTraits: "塔罗牌特质",
+    elementAttribute: "元素属性",
+    retakeTest: "🔮 重新测试",
+    saveResult: "📄 保存结果",
     // Tarot Enhanced Test
     masterTarotTest: "大师级塔罗牌测试",
     masterTarotDescription: "基于权威塔罗牌著作的深度整合系统，选择适合你的塔罗牌解读方式",

@@ -732,6 +732,9 @@ export default function TarotEnhancedTest() {
         difficulty={selectedDifficulty}
         result={result}
         onReset={resetTest}
+        t={t}
+        currentLanguage={currentLanguage}
+        onLanguageChange={handleLanguageChange}
       />
     );
   }

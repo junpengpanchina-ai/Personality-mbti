@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Star, Sparkles, Moon, Sun, Heart, Brain, BookOpen, Globe, Zap, Shield, Target, Users } from 'lucide-react';
+import { Translations } from '../lib/translations';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface TarotMasterReadingProps {
   system: string;
   difficulty: string;
   result: any;
   onReset: () => void;
+  t: Translations;
+  currentLanguage: string;
+  onLanguageChange: (language: string) => void;
 }
 
-export default function TarotMasterReading({ system, difficulty, result, onReset }: TarotMasterReadingProps) {
+export default function TarotMasterReading({ system, difficulty, result, onReset, t, currentLanguage, onLanguageChange }: TarotMasterReadingProps) {
   const [currentView, setCurrentView] = useState<'overview' | 'detailed' | 'spread' | 'guidance'>('overview');
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
@@ -103,13 +108,21 @@ export default function TarotMasterReading({ system, difficulty, result, onReset
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* 语言切换器 */}
+        <div className="flex justify-end mb-4">
+          <LanguageSwitcher 
+            currentLanguage={currentLanguage} 
+            onLanguageChange={onLanguageChange} 
+          />
+        </div>
+        
         {/* 导航标签 */}
         <div className="flex flex-wrap justify-center mb-8">
           {[
-            { key: 'overview', label: '概览', icon: Star },
-            { key: 'detailed', label: '详细解读', icon: Sparkles },
-            { key: 'spread', label: '占卜方法', icon: Moon },
-            { key: 'guidance', label: '生活指导', icon: Sun }
+            { key: 'overview', label: t.overview, icon: Star },
+            { key: 'detailed', label: t.detailedInterpretation, icon: Sparkles },
+            { key: 'spread', label: t.divinationMethod, icon: Moon },
+            { key: 'guidance', label: t.lifeGuidance, icon: Sun }
           ].map(({ key, label, icon: Icon }) => (
             <button
               key={key}
@@ -156,7 +169,7 @@ export default function TarotMasterReading({ system, difficulty, result, onReset
               {/* 兼容性分数 */}
               <div className="bg-white rounded-xl p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">兼容性分析</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">{t.compatibilityAnalysis}</h3>
                   <span className="text-3xl font-bold text-purple-600">{result.compatibility}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-4">
@@ -175,7 +188,7 @@ export default function TarotMasterReading({ system, difficulty, result, onReset
                 <div className="bg-white rounded-xl p-4">
                   <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
                     <Star className="h-5 w-5 mr-2 text-purple-500" />
-                    塔罗牌特质
+                    {t.tarotTraits}
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {result.traits.map((trait: string, index: number) => (
@@ -188,7 +201,7 @@ export default function TarotMasterReading({ system, difficulty, result, onReset
                 <div className="bg-white rounded-xl p-4">
                   <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
                     <Target className="h-5 w-5 mr-2 text-blue-500" />
-                    元素属性
+                    {t.elementAttribute}
                   </h4>
                   <div className="text-center">
                     <div className="text-3xl mb-2">
@@ -387,13 +400,13 @@ export default function TarotMasterReading({ system, difficulty, result, onReset
             onClick={onReset}
             className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
-            🔮 重新测试
+            {t.retakeTest}
           </button>
           <button 
             onClick={() => window.print()}
             className="bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold border-2 border-purple-600 hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
-            📄 保存结果
+            {t.saveResult}
           </button>
         </div>
       </div>
