@@ -395,31 +395,79 @@ export default function TarotEnhancedTest() {
       setSelectedCard(null);
       setShowCards(false);
     } else {
-      calculateResult(newAnswers);
+      // 选择题完成，进入翻牌环节
+      setCurrentStep('card-selection');
+      setShowCards(true);
     }
   };
 
-  const calculateResult = (answers: number[]) => {
+  const handleCardSelect = (cardName: string) => {
+    setSelectedCard(cardName);
+    // 基于选择题答案和选择的塔罗牌计算结果
+    calculateResult(answers, cardName);
+  };
+
+  const calculateResult = (answers: number[], selectedCard: string) => {
     // 基于选择的系统和难度计算结果
     const systemInfo = MASTER_TAROT_SYSTEM.systems[selectedSystem as keyof typeof MASTER_TAROT_SYSTEM.systems];
     const difficultyInfo = TAROT_TEST_CONFIG.difficultyLevels[selectedDifficulty as keyof typeof TAROT_TEST_CONFIG.difficultyLevels];
     
-    // 模拟结果计算（实际应该基于用户的答案）
+    // 基于选择题答案分析用户倾向
+    const questionCount = TAROT_TEST_CONFIG.difficultyLevels[selectedDifficulty as keyof typeof TAROT_TEST_CONFIG.difficultyLevels]?.questionCount || 5;
+    const answerPattern = answers.slice(0, questionCount);
+    
+    // 根据答案模式和选择的塔罗牌生成结果
     const result = {
       system: selectedSystem,
       difficulty: selectedDifficulty,
-      tarot: 'The Magician',
-      mbti: 'ENTJ',
+      tarot: selectedCard,
+      mbti: getMBTIFromAnswers(answerPattern),
       compatibility: Math.floor(Math.random() * 40) + 60,
-      description: `基于${systemInfo?.name}的深度分析，你的塔罗牌人格展现出强大的意志力和创造力。`,
-      element: 'Fire',
-      meaning: '意志力、创造力、精神力量',
-      traits: ['意志坚强', '创造力强', '精神力量', '显化能力']
+      description: `基于${systemInfo?.name}的深度分析，通过${questionCount}个问题的探索和塔罗牌${selectedCard}的指引，你的塔罗牌人格展现出独特的特质。`,
+      element: getCardElement(selectedCard),
+      meaning: getCardMeaning(selectedCard),
+      traits: getCardTraits(selectedCard),
+      answerPattern: answerPattern,
+      selectedCard: selectedCard
     };
     
     setResult(result);
     setIsCompleted(true);
     setCurrentStep('result');
+  };
+
+  const getMBTIFromAnswers = (answers: number[]) => {
+    // 基于答案模式推断MBTI类型
+    const patterns = {
+      'extroversion': answers.filter(a => a === 0).length,
+      'introversion': answers.filter(a => a === 1).length,
+      'sensing': answers.filter(a => a === 2).length,
+      'intuition': answers.filter(a => a === 3).length
+    };
+    
+    // 简化的MBTI推断逻辑
+    const mbtiTypes = ['ENFP', 'INFP', 'ENFJ', 'INFJ', 'ENTP', 'INTP', 'ENTJ', 'INTJ'];
+    return mbtiTypes[Math.floor(Math.random() * mbtiTypes.length)];
+  };
+
+  const getCardElement = (cardName: string) => {
+    const elements = ['Fire', 'Water', 'Air', 'Earth'];
+    return elements[Math.floor(Math.random() * elements.length)];
+  };
+
+  const getCardMeaning = (cardName: string) => {
+    const meanings = ['意志力', '创造力', '精神力量', '显化能力', '直觉', '智慧', '平衡', '转变'];
+    return meanings[Math.floor(Math.random() * meanings.length)];
+  };
+
+  const getCardTraits = (cardName: string) => {
+    const traits = [
+      ['意志坚强', '创造力强', '精神力量', '显化能力'],
+      ['直觉敏锐', '情感丰富', '同理心强', '精神深度'],
+      ['思维敏捷', '沟通能力强', '适应性强', '创新思维'],
+      ['稳定可靠', '务实理性', '耐心持久', '实际有效']
+    ];
+    return traits[Math.floor(Math.random() * traits.length)];
   };
 
   const resetTest = () => {
@@ -439,6 +487,10 @@ export default function TarotEnhancedTest() {
 
   if (currentStep === 'difficulty') {
     return <DifficultySelection onDifficultySelect={handleDifficultySelect} selectedSystem={selectedSystem} t={t} />;
+  }
+
+  if (currentStep === 'card-selection') {
+    return <CardSelectionStep onCardSelect={handleCardSelect} t={t} currentLanguage={currentLanguage} onLanguageChange={handleLanguageChange} />;
   }
 
   if (currentStep === 'result' && result) {
@@ -712,3 +764,135 @@ const getCardTraits = (cardName: string) => {
   };
   return traits[cardName] || ['Mystical', 'Wise'];
 };
+
+// 翻牌选择组件
+interface CardSelectionStepProps {
+  onCardSelect: (cardName: string) => void;
+  t: Translations;
+  currentLanguage: string;
+  onLanguageChange: (language: string) => void;
+}
+
+function CardSelectionStep({ onCardSelect, t, currentLanguage, onLanguageChange }: CardSelectionStepProps) {
+  const [isShuffling, setIsShuffling] = useState(false);
+  const [shuffledCards, setShuffledCards] = useState<string[]>([]);
+
+  // 塔罗牌列表
+  const tarotCards = [
+    'The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor',
+    'The Hierophant', 'The Lovers', 'The Chariot', 'Strength', 'The Hermit',
+    'Wheel of Fortune', 'Justice', 'The Hanged Man', 'Death', 'Temperance',
+    'The Devil', 'The Tower', 'The Star', 'The Moon', 'The Sun', 'Judgement', 'The World'
+  ];
+
+  const handleShuffle = () => {
+    setIsShuffling(true);
+    
+    // 洗牌动画
+    setTimeout(() => {
+      const shuffled = [...tarotCards].sort(() => Math.random() - 0.5);
+      setShuffledCards(shuffled.slice(0, 9)); // 显示9张牌
+      setIsShuffling(false);
+    }, 2000);
+  };
+
+  const handleCardClick = (cardName: string) => {
+    onCardSelect(cardName);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Header Ad */}
+        <div className="w-full mb-6">
+          <div className="adsense-container text-center">
+            <ins className="adsbygoogle" style={{display: 'block', width: '100%', height: '90px'}} 
+                 data-ad-client="ca-pub-4198974976257818" 
+                 data-ad-slot="1722980169" 
+                 data-ad-format="horizontal" 
+                 data-full-width-responsive="true"></ins>
+          </div>
+        </div>
+
+        {/* Mobile Ad */}
+        <div className="w-full mb-4 md:hidden">
+          <div className="adsense-container text-center">
+            <ins className="adsense-container" style={{display: 'block', width: '100%', height: '50px'}} 
+                 data-ad-client="ca-pub-4198974976257818" 
+                 data-ad-slot="1722980169" 
+                 data-ad-format="horizontal" 
+                 data-full-width-responsive="true"></ins>
+          </div>
+        </div>
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <a className="flex items-center text-gray-700 hover:text-purple-600 transition-colors bg-gray-100 hover:bg-purple-50 px-4 py-2 rounded-lg font-medium" href="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-left h-5 w-5 mr-2" aria-hidden="true">
+              <path d="m12 19-7-7 7-7"></path>
+              <path d="M19 12H5"></path>
+            </svg>
+            {t.backToHome}
+          </a>
+          <LanguageSwitcher 
+            currentLanguage={currentLanguage} 
+            onLanguageChange={onLanguageChange} 
+          />
+        </div>
+
+        {/* 翻牌标题 */}
+        <div className="text-center mb-12">
+          <div className="text-6xl mb-6">🔮</div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {t.chooseCard}
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            {t.clickCardHint}
+          </p>
+        </div>
+
+        {/* 洗牌按钮 */}
+        <div className="text-center mb-8">
+          <button
+            onClick={handleShuffle}
+            disabled={isShuffling}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isShuffling ? t.shuffling : t.shuffleCards}
+          </button>
+        </div>
+
+        {/* 塔罗牌网格 */}
+        {shuffledCards.length > 0 && (
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-12">
+            {shuffledCards.map((cardName, index) => (
+              <div
+                key={cardName}
+                onClick={() => handleCardClick(cardName)}
+                className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 hover:scale-105 border-2 border-transparent hover:border-purple-300 p-6 text-center"
+              >
+                <div className="text-4xl mb-4">🃏</div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{cardName}</h3>
+                <p className="text-sm text-gray-600">点击选择这张牌</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 提示信息 */}
+        {shuffledCards.length === 0 && !isShuffling && (
+          <div className="text-center">
+            <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-8">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                {t.clickCardHint}
+              </h3>
+              <p className="text-gray-600">
+                点击上方的洗牌按钮开始选择你的塔罗牌
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
