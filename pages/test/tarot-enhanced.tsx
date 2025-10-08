@@ -591,6 +591,11 @@ export default function TarotEnhancedTest() {
   };
 
   const handleShowCards = () => {
+    // 检查是否已选择系统和难度
+    if (!selectedSystem || !selectedDifficulty) {
+      alert('请先选择塔罗系统和难度级别');
+      return;
+    }
     setShowCards(true);
   };
 
@@ -848,14 +853,14 @@ export default function TarotEnhancedTest() {
                   className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 >
                   <Shuffle className="h-4 w-4 mr-2" />
-                  {isFlipping ? '洗牌中...' : '重新洗牌'}
+                  {isFlipping ? t.shuffling : t.reshuffle}
                 </button>
                 <button
                   onClick={() => setShowCards(false)}
                   className="bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center"
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
-                  切换模式
+                  {t.chooseMethod}
                 </button>
               </div>
 
@@ -880,7 +885,7 @@ export default function TarotEnhancedTest() {
               {/* 翻牌提示 */}
               {flippedCards.length === 0 && (
                 <div className="text-center text-gray-500 text-sm">
-                  💫 点击任意卡片开始翻牌，感受塔罗牌的神秘力量
+                  {t.clickCardHint}
                 </div>
               )}
             </div>
