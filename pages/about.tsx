@@ -21,17 +21,17 @@ export default function About() {
                 <h1 className="text-2xl font-bold text-gray-900">MBTI Personality Test</h1>
               </div>
               <nav className="hidden md:flex space-x-8">
-              <Link href="/">
-                <a className="text-gray-600 hover:text-indigo-600 transition-colors font-medium">Home</a>
+              <Link href="/" className="text-gray-600 hover:text-indigo-600 transition-colors font-medium">
+                Home
               </Link>
-                <Link href="/test/quick">
-                  <a className="text-gray-600 hover:text-indigo-600 transition-colors">Quick Test</a>
+                <Link href="/test/quick" className="text-gray-600 hover:text-indigo-600 transition-colors">
+                  Quick Test
                 </Link>
-                <Link href="/test/full">
-                  <a className="text-gray-600 hover:text-indigo-600 transition-colors">Full Test</a>
+                <Link href="/test/full" className="text-gray-600 hover:text-indigo-600 transition-colors">
+                  Full Test
                 </Link>
-                <Link href="/privacy">
-                  <a className="text-gray-600 hover:text-indigo-600 transition-colors">Privacy</a>
+                <Link href="/privacy" className="text-gray-600 hover:text-indigo-600 transition-colors">
+                  Privacy
                 </Link>
               </nav>
             </div>
@@ -180,15 +180,11 @@ export default function About() {
               strengths, and how you interact with the world.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/test/quick">
-                <a className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                  Start Quick Test
-                </a>
+              <Link href="/test/quick" className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                Start Quick Test
               </Link>
-              <Link href="/test/full">
-                <a className="bg-white text-indigo-600 px-8 py-4 rounded-xl text-lg font-semibold border-2 border-indigo-600 hover:bg-indigo-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                  Take Full Assessment
-                </a>
+              <Link href="/test/full" className="bg-white text-indigo-600 px-8 py-4 rounded-xl text-lg font-semibold border-2 border-indigo-600 hover:bg-indigo-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                Take Full Assessment
               </Link>
             </div>
           </div>
