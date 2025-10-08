@@ -871,6 +871,8 @@ export default function TarotEnhancedTest() {
                   onCardFlip={handleCardFlip}
                   flippedCards={flippedCards}
                   disabled={isFlipping}
+                  tarotCardText={t.tarotCard}
+                  clickToFlipText={t.clickToFlip}
                 />
               </div>
 

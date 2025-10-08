@@ -15,6 +15,8 @@ interface TarotCardProps {
   onFlip?: () => void;
   disabled?: boolean;
   className?: string;
+  tarotCardText?: string;
+  clickToFlipText?: string;
 }
 
 export default function TarotCard({ 
@@ -24,7 +26,9 @@ export default function TarotCard({
   onSelect, 
   onFlip,
   disabled = false,
-  className = ''
+  className = '',
+  tarotCardText = '塔罗牌',
+  clickToFlipText = '点击翻牌'
 }: TarotCardProps) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [showGlow, setShowGlow] = useState(false);
@@ -128,8 +132,8 @@ export default function TarotCard({
           {/* 背面图案 */}
           <div className="text-center">
             <div className="text-6xl mb-4 animate-spin-slow">🔮</div>
-            <div className="text-white text-lg font-bold mb-2">塔罗牌</div>
-            <div className="text-purple-200 text-sm">点击翻牌</div>
+            <div className="text-white text-lg font-bold mb-2">{tarotCardText}</div>
+            <div className="text-purple-200 text-sm">{clickToFlipText}</div>
             <div className="mt-4 flex justify-center space-x-2">
               <Star className="h-4 w-4 text-yellow-400 animate-pulse" />
               <Sparkles className="h-4 w-4 text-pink-400 animate-pulse" />
@@ -230,6 +234,8 @@ interface TarotCardGridProps {
   onCardFlip?: (cardName: string) => void;
   flippedCards?: string[];
   disabled?: boolean;
+  tarotCardText?: string;
+  clickToFlipText?: string;
 }
 
 export function TarotCardGrid({ 
@@ -238,7 +244,9 @@ export function TarotCardGrid({
   onCardSelect, 
   onCardFlip,
   flippedCards = [],
-  disabled = false 
+  disabled = false,
+  tarotCardText = '塔罗牌',
+  clickToFlipText = '点击翻牌'
 }: TarotCardGridProps) {
   // 使用父组件传递的 flippedCards 状态，而不是本地状态
   const handleCardFlip = (cardName: string) => {
@@ -263,6 +271,8 @@ export function TarotCardGrid({
           onFlip={() => handleCardFlip(card.name)}
           disabled={disabled}
           className="transform transition-all duration-300 hover:scale-105"
+          tarotCardText={tarotCardText}
+          clickToFlipText={clickToFlipText}
         />
       ))}
     </div>

@@ -73,6 +73,8 @@ export interface Translations {
   shuffling: string;
   reshuffle: string;
   clickCardHint: string;
+  tarotCard: string;
+  clickToFlip: string;
   // Tarot Enhanced Test
   masterTarotTest: string;
   masterTarotDescription: string;
@@ -189,6 +191,8 @@ export const translations: Record<string, Translations> = {
     shuffling: "Shuffling...",
     reshuffle: "Reshuffle",
     clickCardHint: "💫 Click any card to start flipping and feel the mystical power of tarot",
+    tarotCard: "Tarot Card",
+    clickToFlip: "Click to flip",
     // Tarot Enhanced Test
     masterTarotTest: "Master Tarot Test",
     masterTarotDescription: "Based on authoritative Tarot works, choose your Tarot interpretation method",
@@ -387,6 +391,8 @@ export const translations: Record<string, Translations> = {
     shuffling: "洗牌中...",
     reshuffle: "重新洗牌",
     clickCardHint: "💫 点击任意卡片开始翻牌，感受塔罗牌的神秘力量",
+    tarotCard: "塔罗牌",
+    clickToFlip: "点击翻牌",
     // Tarot Enhanced Test
     masterTarotTest: "大师级塔罗牌测试",
     masterTarotDescription: "基于权威塔罗牌著作的深度整合系统，选择适合你的塔罗牌解读方式",
@@ -585,6 +591,8 @@ export const translations: Record<string, Translations> = {
     shuffling: "섞는 중...",
     reshuffle: "다시 섞기",
     clickCardHint: "💫 카드를 클릭하여 뒤집기를 시작하고 타로의 신비로운 힘을 느껴보세요",
+    tarotCard: "타로카드",
+    clickToFlip: "클릭하여 뒤집기",
     // Tarot Enhanced Test
     masterTarotTest: "마스터 타로 테스트",
     masterTarotDescription: "권위 있는 타로 저작을 기반으로 한 깊이 있는 통합 시스템, 당신에게 맞는 타로 해석 방법을 선택하세요",
@@ -746,6 +754,8 @@ export const translations: Record<string, Translations> = {
     shuffling: "シャッフル中...",
     reshuffle: "再シャッフル",
     clickCardHint: "💫 カードをクリックしてめくり始め、タロットの神秘的な力を感じてください",
+    tarotCard: "タロットカード",
+    clickToFlip: "クリックしてめくる",
     // Tarot Enhanced Test
     masterTarotTest: "マスタータロットテスト",
     masterTarotDescription: "権威あるタロット著作に基づく深い統合システム、あなたに合ったタロット解釈方法を選択してください",
@@ -907,6 +917,8 @@ export const translations: Record<string, Translations> = {
     shuffling: "Mischen...",
     reshuffle: "Neu mischen",
     clickCardHint: "💫 Klicken Sie auf eine beliebige Karte, um das Umdrehen zu beginnen und die mystische Kraft der Tarotkarten zu spüren",
+    tarotCard: "Tarotkarte",
+    clickToFlip: "Klicken zum Umdrehen",
     // Tarot Enhanced Test
     masterTarotTest: "Meister-Tarot-Test",
     masterTarotDescription: "Basierend auf autoritativen Tarot-Werken, wählen Sie Ihre Tarot-Interpretationsmethode",
@@ -1068,6 +1080,8 @@ export const translations: Record<string, Translations> = {
     shuffling: "Mélange en cours...",
     reshuffle: "Remélanger",
     clickCardHint: "💫 Cliquez sur n'importe quelle carte pour commencer à retourner et ressentir le pouvoir mystique du tarot",
+    tarotCard: "Carte de Tarot",
+    clickToFlip: "Cliquer pour retourner",
     // Tarot Enhanced Test
     masterTarotTest: "Test de Tarot Maître",
     masterTarotDescription: "Basé sur des œuvres de tarot autoritaires, choisissez votre méthode d'interprétation du tarot",
@@ -1229,6 +1243,8 @@ export const translations: Record<string, Translations> = {
     shuffling: "शफलिंग...",
     reshuffle: "फिर से शफल करें",
     clickCardHint: "💫 किसी भी कार्ड पर क्लिक करके फ्लिपिंग शुरू करें और टैरो की रहस्यमय शक्ति को महसूस करें",
+    tarotCard: "टैरो कार्ड",
+    clickToFlip: "फ्लिप करने के लिए क्लिक करें",
     // Tarot Enhanced Test
     masterTarotTest: "मास्टर टैरो टेस्ट",
     masterTarotDescription: "प्राधिकृत टैरो कार्यों के आधार पर, अपनी टैरो व्याख्या विधि चुनें",
