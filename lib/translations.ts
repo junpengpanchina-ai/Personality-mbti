@@ -145,6 +145,7 @@ export interface Translations {
     someoneUpsetOptions: string[];
     decisions2: string;
     decisions2Options: string[];
+    backToSystemSelection: string;
   };
 
 export const translations: Record<string, Translations> = {
@@ -341,7 +342,8 @@ export const translations: Record<string, Translations> = {
       decisions2Options: [
         "Make decisions quickly and move on",
         "Take time to consider all options"
-      ]
+      ],
+      backToSystemSelection: "Back to System Selection"
     }
   },
   zh: {
@@ -537,7 +539,8 @@ export const translations: Record<string, Translations> = {
       decisions2Options: [
         "快速做决定并继续前进",
         "花时间考虑所有选项"
-      ]
+      ],
+      backToSystemSelection: "返回系统选择"
     }
   },
   ko: {
@@ -696,7 +699,8 @@ export const translations: Record<string, Translations> = {
       decisions2Options: [
         "빠르게 결정하고 넘어가기",
         "모든 옵션을 고려할 시간을 갖기"
-      ]
+      ],
+      backToSystemSelection: "시스템 선택으로 돌아가기"
     }
   },
   ja: {
@@ -855,7 +859,8 @@ export const translations: Record<string, Translations> = {
       decisions2Options: [
         "素早く決定して次に進む",
         "すべての選択肢を考慮する時間を取る"
-      ]
+      ],
+      backToSystemSelection: "システム選択に戻る"
     }
   },
   de: {
@@ -1014,7 +1019,8 @@ export const translations: Record<string, Translations> = {
       decisions2Options: [
         "Schnell Entscheidungen zu treffen und weiterzumachen",
         "Sich Zeit zu nehmen, alle Optionen zu berücksichtigen"
-      ]
+      ],
+      backToSystemSelection: "Zurück zur Systemauswahl"
     }
   },
   fr: {
@@ -1173,7 +1179,8 @@ export const translations: Record<string, Translations> = {
       decisions2Options: [
         "Prendre des décisions rapidement et passer à autre chose",
         "Prendre le temps de considérer toutes les options"
-      ]
+      ],
+      backToSystemSelection: "Retour à la sélection du système"
     }
   },
   hi: {
@@ -1332,7 +1339,8 @@ export const translations: Record<string, Translations> = {
       decisions2Options: [
         "जल्दी निर्णय लेना और आगे बढ़ना",
         "सभी विकल्पों पर विचार करने के लिए समय लेना"
-      ]
+      ],
+      backToSystemSelection: "सिस्टम चयन पर वापस जाएं"
     }
   }
 };
