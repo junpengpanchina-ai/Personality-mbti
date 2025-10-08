@@ -121,6 +121,138 @@ const getCardTraits = (cardName: string) => {
   return traits[cardName] || ['Mystical', 'Wise'];
 };
 
+// 翻牌选择组件
+interface CardSelectionStepProps {
+  onCardSelect: (cardName: string) => void;
+  t: Translations;
+  currentLanguage: string;
+  onLanguageChange: (language: string) => void;
+}
+
+function CardSelectionStep({ onCardSelect, t, currentLanguage, onLanguageChange }: CardSelectionStepProps) {
+  const [isShuffling, setIsShuffling] = useState(false);
+  const [shuffledCards, setShuffledCards] = useState<string[]>([]);
+
+  // 塔罗牌列表
+  const tarotCards = [
+    'The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor',
+    'The Hierophant', 'The Lovers', 'The Chariot', 'Strength', 'The Hermit',
+    'Wheel of Fortune', 'Justice', 'The Hanged Man', 'Death', 'Temperance',
+    'The Devil', 'The Tower', 'The Star', 'The Moon', 'The Sun', 'Judgement', 'The World'
+  ];
+
+  const handleShuffle = () => {
+    setIsShuffling(true);
+    
+    // 洗牌动画
+    setTimeout(() => {
+      const shuffled = [...tarotCards].sort(() => Math.random() - 0.5);
+      setShuffledCards(shuffled.slice(0, 9)); // 显示9张牌
+      setIsShuffling(false);
+    }, 2000);
+  };
+
+  const handleCardClick = (cardName: string) => {
+    onCardSelect(cardName);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Header Ad */}
+        <div className="w-full mb-6">
+          <div className="adsense-container text-center">
+            <ins className="adsbygoogle" style={{display: 'block', width: '100%', height: '90px'}} 
+                 data-ad-client="ca-pub-4198974976257818" 
+                 data-ad-slot="1722980169" 
+                 data-ad-format="horizontal" 
+                 data-full-width-responsive="true"></ins>
+          </div>
+        </div>
+
+        {/* Mobile Ad */}
+        <div className="w-full mb-4 md:hidden">
+          <div className="adsense-container text-center">
+            <ins className="adsense-container" style={{display: 'block', width: '100%', height: '50px'}} 
+                 data-ad-client="ca-pub-4198974976257818" 
+                 data-ad-slot="1722980169" 
+                 data-ad-format="horizontal" 
+                 data-full-width-responsive="true"></ins>
+          </div>
+        </div>
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <a className="flex items-center text-gray-700 hover:text-purple-600 transition-colors bg-gray-100 hover:bg-purple-50 px-4 py-2 rounded-lg font-medium" href="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-left h-5 w-5 mr-2" aria-hidden="true">
+              <path d="m12 19-7-7 7-7"></path>
+              <path d="M19 12H5"></path>
+            </svg>
+            {t.backToHome}
+          </a>
+          <LanguageSwitcher 
+            currentLanguage={currentLanguage} 
+            onLanguageChange={onLanguageChange} 
+          />
+        </div>
+
+        {/* 翻牌标题 */}
+        <div className="text-center mb-12">
+          <div className="text-6xl mb-6">🔮</div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {t.chooseCard}
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            {t.clickCardHint}
+          </p>
+        </div>
+
+        {/* 洗牌按钮 */}
+        <div className="text-center mb-8">
+          <button
+            onClick={handleShuffle}
+            disabled={isShuffling}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isShuffling ? t.shuffling : t.shuffleCards}
+          </button>
+        </div>
+
+        {/* 塔罗牌网格 */}
+        {shuffledCards.length > 0 && (
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-12">
+            {shuffledCards.map((cardName, index) => (
+              <div
+                key={cardName}
+                onClick={() => handleCardClick(cardName)}
+                className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 hover:scale-105 border-2 border-transparent hover:border-purple-300 p-6 text-center"
+              >
+                <div className="text-4xl mb-4">🃏</div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{cardName}</h3>
+                <p className="text-sm text-gray-600">{t.clickToSelectCard}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 提示信息 */}
+        {shuffledCards.length === 0 && !isShuffling && (
+          <div className="text-center">
+            <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-8">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                {t.clickCardHint}
+              </h3>
+              <p className="text-gray-600">
+                点击上方的洗牌按钮开始选择你的塔罗牌
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // 系统选择界面
 interface SystemSelectionProps {
   onSystemSelect: (system: string) => void;
@@ -693,14 +825,14 @@ export default function TarotEnhancedTest() {
                 className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
               >
                 <Shuffle className="h-5 w-5 mr-2" />
-                翻牌选择
+                {t.cardSelection}
               </button>
               <button
                 onClick={() => setShowCards(false)}
                 className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
               >
                 <RotateCcw className="h-5 w-5 mr-2" />
-                传统选择
+                {t.traditionalChoice}
               </button>
             </div>
           )}

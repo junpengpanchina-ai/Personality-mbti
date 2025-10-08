@@ -68,6 +68,7 @@ export interface Translations {
   chooseMethod: string;
   flipCard: string;
   traditionalChoice: string;
+  cardSelection: string;
   shuffleCards: string;
   shuffling: string;
   reshuffle: string;
@@ -183,6 +184,7 @@ export const translations: Record<string, Translations> = {
     chooseMethod: "Choose a method",
     flipCard: "Flip Card",
     traditionalChoice: "Traditional Choice",
+    cardSelection: "Card Selection",
     shuffleCards: "Shuffle Cards",
     shuffling: "Shuffling...",
     reshuffle: "Reshuffle",
@@ -380,6 +382,7 @@ export const translations: Record<string, Translations> = {
     chooseMethod: "选择一种方式",
     flipCard: "翻牌选择",
     traditionalChoice: "传统选择",
+    cardSelection: "翻牌选择",
     shuffleCards: "重新洗牌",
     shuffling: "洗牌中...",
     reshuffle: "重新洗牌",
@@ -577,6 +580,7 @@ export const translations: Record<string, Translations> = {
     chooseMethod: "방법 선택",
     flipCard: "카드 뒤집기",
     traditionalChoice: "전통적 선택",
+    cardSelection: "카드 선택",
     shuffleCards: "카드 섞기",
     shuffling: "섞는 중...",
     reshuffle: "다시 섞기",
@@ -737,6 +741,7 @@ export const translations: Record<string, Translations> = {
     chooseMethod: "方法を選択",
     flipCard: "カードをめくる",
     traditionalChoice: "伝統的な選択",
+    cardSelection: "カード選択",
     shuffleCards: "カードをシャッフル",
     shuffling: "シャッフル中...",
     reshuffle: "再シャッフル",
@@ -897,6 +902,7 @@ export const translations: Record<string, Translations> = {
     chooseMethod: "Wählen Sie eine Methode",
     flipCard: "Karte umdrehen",
     traditionalChoice: "Traditionelle Wahl",
+    cardSelection: "Kartenauswahl",
     shuffleCards: "Karten mischen",
     shuffling: "Mischen...",
     reshuffle: "Neu mischen",
@@ -1057,6 +1063,7 @@ export const translations: Record<string, Translations> = {
     chooseMethod: "Choisissez une méthode",
     flipCard: "Retourner la carte",
     traditionalChoice: "Choix traditionnel",
+    cardSelection: "Sélection de carte",
     shuffleCards: "Mélanger les cartes",
     shuffling: "Mélange en cours...",
     reshuffle: "Remélanger",
@@ -1217,6 +1224,7 @@ export const translations: Record<string, Translations> = {
     chooseMethod: "एक विधि चुनें",
     flipCard: "कार्ड फ्लिप करें",
     traditionalChoice: "पारंपरिक विकल्प",
+    cardSelection: "कार्ड चयन",
     shuffleCards: "कार्ड शफल करें",
     shuffling: "शफलिंग...",
     reshuffle: "फिर से शफल करें",
