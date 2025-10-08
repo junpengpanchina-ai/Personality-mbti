@@ -361,6 +361,8 @@ export default function TarotEnhancedTest() {
 
   const handleCardSelect = (cardName: string) => {
     setSelectedCard(cardName);
+    // 基于选择题答案和选择的塔罗牌计算结果
+    calculateResult(answers, cardName);
   };
 
   const handleCardFlip = (cardName: string) => {
@@ -448,25 +450,8 @@ export default function TarotEnhancedTest() {
     return mbtiTypes[Math.floor(Math.random() * mbtiTypes.length)];
   };
 
-  const getCardElement = (cardName: string) => {
-    const elements = ['Fire', 'Water', 'Air', 'Earth'];
-    return elements[Math.floor(Math.random() * elements.length)];
-  };
 
-  const getCardMeaning = (cardName: string) => {
-    const meanings = ['意志力', '创造力', '精神力量', '显化能力', '直觉', '智慧', '平衡', '转变'];
-    return meanings[Math.floor(Math.random() * meanings.length)];
-  };
 
-  const getCardTraits = (cardName: string) => {
-    const traits = [
-      ['意志坚强', '创造力强', '精神力量', '显化能力'],
-      ['直觉敏锐', '情感丰富', '同理心强', '精神深度'],
-      ['思维敏捷', '沟通能力强', '适应性强', '创新思维'],
-      ['稳定可靠', '务实理性', '耐心持久', '实际有效']
-    ];
-    return traits[Math.floor(Math.random() * traits.length)];
-  };
 
   const resetTest = () => {
     setCurrentStep('system');
@@ -514,21 +499,38 @@ export default function TarotEnhancedTest() {
     if (!question) return null;
     
     // 根据问题ID或内容进行翻译映射
-    const translatedQuestion = {
+    let translatedQuestion = {
       ...question,
-      question: t.spiritualDevelopmentQuestion,
-      options: t.spiritualDevelopmentOptions
+      tarotCards: question.tarotCards || []
     };
+    
+    // 根据问题ID进行翻译映射
+    switch (question.id) {
+      case 1:
+        translatedQuestion.question = t.spiritualDevelopmentQuestion;
+        translatedQuestion.options = t.spiritualDevelopmentOptions;
+        break;
+      case 2:
+        translatedQuestion.question = t.spiritualDevelopmentQuestion;
+        translatedQuestion.options = t.spiritualDevelopmentOptions;
+        break;
+      default:
+        // 默认使用第一个问题的翻译
+        translatedQuestion.question = t.spiritualDevelopmentQuestion;
+        translatedQuestion.options = t.spiritualDevelopmentOptions;
+        break;
+    }
     
     return translatedQuestion;
   };
 
   const currentQuestions = getSystemQuestions(selectedSystem, selectedDifficulty);
   const currentQ = getTranslatedQuestion(currentQuestions[currentQuestion]);
-  const progress = ((currentQuestion + 1) / currentQuestions.length) * 100;
+  const progress = currentQuestions.length > 0 ? ((currentQuestion + 1) / currentQuestions.length) * 100 : 0;
 
-  // 测试进行中的界面
-  return (
+  // 测试步骤的渲染逻辑
+  if (currentStep === 'test') {
+    return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <HeaderAd />
@@ -615,13 +617,13 @@ export default function TarotEnhancedTest() {
               {/* 塔罗牌网格 */}
               <div className="mt-8">
                 <TarotCardGrid
-                  cards={currentQ.tarotCards.map(cardName => ({
+                  cards={currentQ?.tarotCards?.map(cardName => ({
                     name: cardName,
                     symbol: getCardSymbol(cardName),
                     element: getCardElement(cardName),
                     meaning: getCardMeaning(cardName),
                     traits: getCardTraits(cardName)
-                  }))}
+                  })) || []}
                   selectedCard={selectedCard}
                   onCardSelect={handleCardSelect}
                   onCardFlip={handleCardFlip}
@@ -640,7 +642,7 @@ export default function TarotEnhancedTest() {
           )}
 
           {/* 传统选择模式 */}
-          {!showCards && currentQ && (
+          {!showCards && currentQ && currentQ.options && (
             <div className="space-y-4">
               {currentQ.options.map((option, index) => (
                 <button
@@ -907,4 +909,5 @@ function CardSelectionStep({ onCardSelect, t, currentLanguage, onLanguageChange 
       </div>
     </div>
   );
+}
 }
