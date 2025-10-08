@@ -648,7 +648,6 @@ export default function TarotEnhancedTest() {
       setShowCards(false);
     } else {
       // 选择题完成，进入翻牌环节
-      setCurrentStep('card-selection');
       setShowCards(true);
     }
   };
@@ -822,8 +821,8 @@ export default function TarotEnhancedTest() {
             </p>
           </div>
 
-          {/* 选择方式按钮 */}
-          {!showCards && (
+          {/* 选择题完成后的翻牌选择按钮 */}
+          {!showCards && currentQuestion >= currentQuestions.length - 1 && answers.length === currentQuestions.length && (
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <button
                 onClick={handleShowCards}
@@ -831,13 +830,6 @@ export default function TarotEnhancedTest() {
               >
                 <Shuffle className="h-5 w-5 mr-2" />
                 {t.cardSelection}
-              </button>
-              <button
-                onClick={() => setShowCards(false)}
-                className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
-              >
-                <RotateCcw className="h-5 w-5 mr-2" />
-                {t.traditionalChoice}
               </button>
             </div>
           )}
@@ -885,7 +877,8 @@ export default function TarotEnhancedTest() {
               {/* 翻牌提示 */}
               {flippedCards.length === 0 && (
                 <div className="text-center text-gray-500 text-sm">
-                  {t.clickCardHint}
+                  <p className="mb-2">🎯 基于你的选择题答案，现在选择一张塔罗牌来获得完整的人格分析结果</p>
+                  <p>{t.clickCardHint}</p>
                 </div>
               )}
             </div>
