@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Shield, AlertTriangle, CheckCircle, XCircle, RefreshCw, ExternalLink } from 'lucide-react';
 import { adBlockDetector, AdBlockStrategies } from '../lib/ad-block-strategies';
+import { HeaderAd, MobileAd, InlineAd, FooterAd } from '../components/AdSense';
 
 export default function AdBlockInfo() {
   const [detectionResult, setDetectionResult] = useState<any>(null);
@@ -50,6 +51,10 @@ export default function AdBlockInfo() {
       
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-4xl mx-auto px-4 py-8">
+          {/* Header Ad */}
+          <HeaderAd />
+          <MobileAd />
+          
           <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
             广告屏蔽检测工具
           </h1>
@@ -155,6 +160,9 @@ export default function AdBlockInfo() {
             </div>
           </div>
 
+          {/* Inline Ad */}
+          <InlineAd />
+
           {/* 用户指南 */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-2xl font-semibold mb-4">用户指南</h2>
@@ -195,6 +203,9 @@ export default function AdBlockInfo() {
               </div>
             </div>
           </div>
+
+          {/* Footer Ad */}
+          <FooterAd />
         </div>
       </div>
     </>
