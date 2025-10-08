@@ -20,39 +20,39 @@ function SystemSelection({ onSystemSelect, t, currentLanguage, onLanguageChange 
   const systems = [
     {
       key: 'waite',
-      name: '韦特塔罗系统',
-      description: '基于Arthur Edward Waite的经典韦特塔罗牌系统',
+      name: t.waiteSystem,
+      description: t.waiteSystemDescription,
       icon: BookOpen,
       color: 'from-blue-500 to-indigo-600',
-      difficulty: '初学者',
-      time: '10-15分钟'
+      difficulty: t.beginner,
+      time: `10-15${t.minutes}`
     },
     {
       key: 'thoth',
-      name: '托特塔罗系统',
-      description: '基于Aleister Crowley的托特塔罗牌系统',
+      name: t.thothSystem,
+      description: t.thothSystemDescription,
       icon: Brain,
       color: 'from-purple-500 to-pink-600',
-      difficulty: '进阶者',
-      time: '15-25分钟'
+      difficulty: t.intermediate,
+      time: `15-25${t.minutes}`
     },
     {
       key: 'psychological',
-      name: '荣格心理学塔罗',
-      description: '基于荣格心理学的塔罗牌解读系统',
+      name: t.jungSystem,
+      description: t.jungSystemDescription,
       icon: Heart,
       color: 'from-green-500 to-teal-600',
-      difficulty: '高级',
-      time: '20-30分钟'
+      difficulty: t.advanced,
+      time: `20-30${t.minutes}`
     },
     {
       key: 'modern',
-      name: '现代数字塔罗',
-      description: '适应数字时代的现代塔罗牌解读',
+      name: t.modernSystem,
+      description: t.modernSystemDescription,
       icon: Globe,
       color: 'from-orange-500 to-red-600',
-      difficulty: '中级',
-      time: '15-20分钟'
+      difficulty: t.intermediate,
+      time: `15-20${t.minutes}`
     }
   ];
 
@@ -79,10 +79,10 @@ function SystemSelection({ onSystemSelect, t, currentLanguage, onLanguageChange 
         <div className="text-center mb-12">
           <div className="text-6xl mb-6">🔮</div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            大师级塔罗牌测试
+            {t.masterTarotTest}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            基于权威塔罗牌著作的深度整合系统，选择适合你的塔罗牌解读方式
+            {t.masterTarotDescription}
           </p>
         </div>
 
@@ -110,7 +110,7 @@ function SystemSelection({ onSystemSelect, t, currentLanguage, onLanguageChange 
                   <p className="text-gray-600 text-sm mb-4">{system.description}</p>
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <span>⏱️ {system.time}</span>
-                    <span>📚 权威著作</span>
+                    <span>📚 {t.authoritativeWork}</span>
                   </div>
                 </div>
               </div>
@@ -122,20 +122,20 @@ function SystemSelection({ onSystemSelect, t, currentLanguage, onLanguageChange 
         <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
             <Star className="h-5 w-5 mr-2 text-purple-500" />
-            选择建议
+            {t.selectionAdvice}
           </h3>
           <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
             <div>
-              <strong>初学者：</strong> 选择韦特塔罗系统，经典易懂
+              <strong>{t.beginnerAdvice}</strong>
             </div>
             <div>
-              <strong>进阶者：</strong> 选择托特塔罗系统，深奥哲学
+              <strong>{t.intermediateAdvice}</strong>
             </div>
             <div>
-              <strong>心理爱好者：</strong> 选择荣格心理学塔罗
+              <strong>{t.psychologyAdvice}</strong>
             </div>
             <div>
-              <strong>现代用户：</strong> 选择现代数字塔罗
+              <strong>{t.modernAdvice}</strong>
             </div>
           </div>
         </div>
