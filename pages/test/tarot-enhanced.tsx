@@ -822,7 +822,7 @@ export default function TarotEnhancedTest() {
           </div>
 
           {/* 选择题完成后的翻牌选择按钮 */}
-          {!showCards && currentQuestion >= currentQuestions.length - 1 && answers.length === currentQuestions.length && (
+          {!showCards && currentQuestion >= currentQuestions.length - 1 && (
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <button
                 onClick={handleShowCards}
@@ -835,7 +835,7 @@ export default function TarotEnhancedTest() {
           )}
 
           {/* 翻牌模式 */}
-          {showCards && currentQ && (
+          {showCards && (
             <div className="space-y-6">
               {/* 控制按钮 */}
               <div className="flex justify-center space-x-4">
