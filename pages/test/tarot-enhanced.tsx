@@ -155,8 +155,8 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
   const difficulties = [
     {
       key: 'beginner',
-      name: '初学者',
-      description: '适合塔罗牌初学者',
+      name: t.beginnerName,
+      description: t.beginnerDescription,
       questionCount: 5,
       timeRequired: '10-15分钟',
       icon: BookOpen,
@@ -164,8 +164,8 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
     },
     {
       key: 'intermediate',
-      name: '中级',
-      description: '适合有一定塔罗牌基础的用户',
+      name: t.intermediateName,
+      description: t.intermediateDescription,
       questionCount: 8,
       timeRequired: '15-25分钟',
       icon: Star,
@@ -173,8 +173,8 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
     },
     {
       key: 'advanced',
-      name: '高级',
-      description: '适合塔罗牌进阶者',
+      name: t.advancedName,
+      description: t.advancedDescription,
       questionCount: 12,
       timeRequired: '25-40分钟',
       icon: Brain,
@@ -182,8 +182,8 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
     },
     {
       key: 'expert',
-      name: '专家级',
-      description: '适合塔罗牌专家和深度研究者',
+      name: t.expertName,
+      description: t.expertDescription,
       questionCount: 15,
       timeRequired: '40-60分钟',
       icon: Zap,
@@ -191,7 +191,7 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
     }
   ];
 
-  const systemName = MASTER_TAROT_SYSTEM.systems[selectedSystem as keyof typeof MASTER_TAROT_SYSTEM.systems]?.name || '塔罗牌系统';
+  const systemName = MASTER_TAROT_SYSTEM.systems[selectedSystem as keyof typeof MASTER_TAROT_SYSTEM.systems]?.name || t.defaultSystemName;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
@@ -215,13 +215,13 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
         <div className="text-center mb-12">
           <div className="text-6xl mb-6">🎯</div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            选择测试难度
+            {t.selectDifficulty}
           </h1>
           <p className="text-xl text-gray-600 mb-2">
-            你选择了：<span className="font-semibold text-purple-600">{systemName}</span>
+            {t.youSelected}<span className="font-semibold text-purple-600">{systemName}</span>
           </p>
           <p className="text-gray-600">
-            请选择适合你当前水平的测试难度
+            {t.selectAppropriateDifficulty}
           </p>
         </div>
 
@@ -248,7 +248,7 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
                   </div>
                   <p className="text-gray-600 text-sm mb-4">{difficulty.description}</p>
                   <div className="flex items-center justify-between text-xs text-gray-500">
-                    <span>📝 {difficulty.questionCount} 个问题</span>
+                    <span>📝 {difficulty.questionCount} {t.questionsCount}</span>
                     <span>⏱️ {difficulty.timeRequired}</span>
                   </div>
                 </div>
@@ -261,20 +261,20 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
         <div className="bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
             <Sparkles className="h-5 w-5 mr-2 text-blue-500" />
-            难度说明
+            {t.difficultyExplanation}
           </h3>
           <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
             <div>
-              <strong>初学者：</strong> 基础塔罗牌知识，简单问题
+              <strong>{t.beginnerAdviceDetail}</strong>
             </div>
             <div>
-              <strong>中级：</strong> 中等深度，结合现代应用
+              <strong>{t.intermediateAdviceDetail}</strong>
             </div>
             <div>
-              <strong>高级：</strong> 深度心理学分析，多系统整合
+              <strong>{t.advancedAdviceDetail}</strong>
             </div>
             <div>
-              <strong>专家级：</strong> 大师级解读，权威著作深度整合
+              <strong>{t.expertAdviceDetail}</strong>
             </div>
           </div>
         </div>
@@ -285,7 +285,7 @@ function DifficultySelection({ onDifficultySelect, selectedSystem, t }: Difficul
 
 // 主测试组件
 export default function TarotEnhancedTest() {
-  const [currentStep, setCurrentStep] = useState<'system' | 'difficulty' | 'test' | 'result'>('system');
+  const [currentStep, setCurrentStep] = useState<'system' | 'difficulty' | 'test' | 'card-selection' | 'result'>('system');
   const [selectedSystem, setSelectedSystem] = useState<string>('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -401,11 +401,6 @@ export default function TarotEnhancedTest() {
     }
   };
 
-  const handleCardSelect = (cardName: string) => {
-    setSelectedCard(cardName);
-    // 基于选择题答案和选择的塔罗牌计算结果
-    calculateResult(answers, cardName);
-  };
 
   const calculateResult = (answers: number[], selectedCard: string) => {
     // 基于选择的系统和难度计算结果
@@ -423,7 +418,10 @@ export default function TarotEnhancedTest() {
       tarot: selectedCard,
       mbti: getMBTIFromAnswers(answerPattern),
       compatibility: Math.floor(Math.random() * 40) + 60,
-      description: `基于${systemInfo?.name}的深度分析，通过${questionCount}个问题的探索和塔罗牌${selectedCard}的指引，你的塔罗牌人格展现出独特的特质。`,
+      description: t.resultDescription
+        .replace('{systemName}', systemInfo?.name || '')
+        .replace('{questionCount}', questionCount.toString())
+        .replace('{selectedCard}', selectedCard),
       element: getCardElement(selectedCard),
       meaning: getCardMeaning(selectedCard),
       traits: getCardTraits(selectedCard),
@@ -511,8 +509,22 @@ export default function TarotEnhancedTest() {
     return systemQuestions.slice(0, questionCount);
   };
 
+  // 翻译测试题目
+  const getTranslatedQuestion = (question: any) => {
+    if (!question) return null;
+    
+    // 根据问题ID或内容进行翻译映射
+    const translatedQuestion = {
+      ...question,
+      question: t.spiritualDevelopmentQuestion,
+      options: t.spiritualDevelopmentOptions
+    };
+    
+    return translatedQuestion;
+  };
+
   const currentQuestions = getSystemQuestions(selectedSystem, selectedDifficulty);
-  const currentQ = currentQuestions[currentQuestion];
+  const currentQ = getTranslatedQuestion(currentQuestions[currentQuestion]);
   const progress = ((currentQuestion + 1) / currentQuestions.length) * 100;
 
   // 测试进行中的界面
@@ -873,7 +885,7 @@ function CardSelectionStep({ onCardSelect, t, currentLanguage, onLanguageChange 
               >
                 <div className="text-4xl mb-4">🃏</div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{cardName}</h3>
-                <p className="text-sm text-gray-600">点击选择这张牌</p>
+                <p className="text-sm text-gray-600">{t.clickToSelectCard}</p>
               </div>
             ))}
           </div>

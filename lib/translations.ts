@@ -94,7 +94,33 @@ export interface Translations {
   intermediateAdvice: string;
   psychologyAdvice: string;
   modernAdvice: string;
-  questions: {
+  // Difficulty Selection
+  selectDifficulty: string;
+  youSelected: string;
+  selectAppropriateDifficulty: string;
+  questionsCount: string;
+  resultDescription: string;
+  clickToSelectCard: string;
+  // Difficulty Advice
+  beginnerAdviceDetail: string;
+  intermediateAdviceDetail: string;
+  advancedAdviceDetail: string;
+  expertAdviceDetail: string;
+  difficultyExplanation: string;
+  // Difficulty Options
+  beginnerName: string;
+  beginnerDescription: string;
+  intermediateName: string;
+  intermediateDescription: string;
+  advancedName: string;
+  advancedDescription: string;
+  expertName: string;
+  expertDescription: string;
+  defaultSystemName: string;
+  // Tarot Test Questions
+  spiritualDevelopmentQuestion: string;
+  spiritualDevelopmentOptions: string[];
+  // ... existing questions ...
     party: string;
     partyOptions: string[];
     decisions: string;
@@ -120,7 +146,6 @@ export interface Translations {
     decisions2: string;
     decisions2Options: string[];
   };
-}
 
 export const translations: Record<string, Translations> = {
   en: {
@@ -183,6 +208,43 @@ export const translations: Record<string, Translations> = {
     intermediateAdvice: "Intermediate: Choose Thoth Tarot system, profound philosophy",
     psychologyAdvice: "Psychology enthusiasts: Choose Jung Psychology Tarot",
     modernAdvice: "Modern users: Choose Modern Digital Tarot",
+    // Difficulty Selection
+    selectDifficulty: "Select Test Difficulty",
+    youSelected: "You selected:",
+    selectAppropriateDifficulty: "Please select the test difficulty that matches your current level",
+    questionsCount: "questions",
+    resultDescription: "Based on {systemName}'s in-depth analysis, through the exploration of {questionCount} questions and the guidance of the {selectedCard} tarot card, your tarot personality reveals unique traits.",
+    clickToSelectCard: "Click to select this card",
+    // Difficulty Advice
+    beginnerAdviceDetail: "Beginner: Basic tarot knowledge, simple questions",
+    intermediateAdviceDetail: "Intermediate: Medium depth, combined with modern applications",
+    advancedAdviceDetail: "Advanced: Deep psychological analysis, multi-system integration",
+    expertAdviceDetail: "Expert: Master-level interpretation, deep integration of authoritative works",
+    difficultyExplanation: "Difficulty Explanation",
+    // Difficulty Options
+    beginnerName: "Beginner",
+    beginnerDescription: "Suitable for tarot beginners",
+    intermediateName: "Intermediate",
+    intermediateDescription: "Suitable for users with basic tarot knowledge",
+    advancedName: "Advanced",
+    advancedDescription: "Suitable for tarot enthusiasts",
+    expertName: "Expert",
+    expertDescription: "Suitable for tarot experts and deep researchers",
+    defaultSystemName: "Tarot System",
+    // Tarot Test Questions
+    spiritualDevelopmentQuestion: "What is your focus for spiritual development?",
+    spiritualDevelopmentOptions: [
+      "Explore pure consciousness and infinite potential",
+      "Develop willpower and creativity",
+      "Deepen intuition and mystical knowledge",
+      "Cultivate love and compassion",
+      "Build strength and will",
+      "Seek balance and harmony",
+      "Pursue victory and success",
+      "Establish glory and achievement",
+      "Consolidate foundation and stability",
+      "Realize spiritual goals in the material world"
+    ],
     backToHome: "Back to Home",
     question: "Question",
     of: "of",
@@ -342,6 +404,43 @@ export const translations: Record<string, Translations> = {
     intermediateAdvice: "进阶者：选择托特塔罗系统，深奥哲学",
     psychologyAdvice: "心理爱好者：选择荣格心理学塔罗",
     modernAdvice: "现代用户：选择现代数字塔罗",
+    // Difficulty Selection
+    selectDifficulty: "选择测试难度",
+    youSelected: "你选择了：",
+    selectAppropriateDifficulty: "请选择适合你当前水平的测试难度",
+    questionsCount: "个问题",
+    resultDescription: "基于{systemName}的深度分析，通过{questionCount}个问题的探索和塔罗牌{selectedCard}的指引，你的塔罗牌人格展现出独特的特质。",
+    clickToSelectCard: "点击选择这张牌",
+    // Difficulty Advice
+    beginnerAdviceDetail: "初学者：基础塔罗牌知识，简单问题",
+    intermediateAdviceDetail: "中级：中等深度，结合现代应用",
+    advancedAdviceDetail: "高级：深度心理学分析，多系统整合",
+    expertAdviceDetail: "专家级：大师级解读，权威著作深度整合",
+    difficultyExplanation: "难度说明",
+    // Difficulty Options
+    beginnerName: "初学者",
+    beginnerDescription: "适合塔罗牌初学者",
+    intermediateName: "中级",
+    intermediateDescription: "适合有一定塔罗牌基础的用户",
+    advancedName: "高级",
+    advancedDescription: "适合塔罗牌进阶者",
+    expertName: "专家级",
+    expertDescription: "适合塔罗牌专家和深度研究者",
+    defaultSystemName: "塔罗牌系统",
+    // Tarot Test Questions
+    spiritualDevelopmentQuestion: "你的精神发展重点是什么？",
+    spiritualDevelopmentOptions: [
+      "探索纯粹意识和无限潜力",
+      "发展意志力和创造力",
+      "深化直觉和神秘知识",
+      "培养爱和慈悲",
+      "建立力量和意志",
+      "寻求平衡和和谐",
+      "追求胜利和成功",
+      "建立荣耀和成就",
+      "巩固基础和稳定性",
+      "在物质世界中实现精神目标"
+    ],
     backToHome: "返回首页",
     question: "问题",
     of: "共",
