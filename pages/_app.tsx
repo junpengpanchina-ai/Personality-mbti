@@ -2,10 +2,11 @@ import type { AppProps } from 'next/app'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Head from 'next/head'
 import AdBlockDetector from '../components/AdBlockDetector'
+import { LanguageProvider } from '../contexts/LanguageContext'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <LanguageProvider>
       <Head>
         <script 
           async 
@@ -29,6 +30,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <SpeedInsights />
       <AdBlockDetector />
-    </>
+    </LanguageProvider>
   )
 }

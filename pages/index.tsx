@@ -1,33 +1,12 @@
 import Link from 'next/link';
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
 import { Brain, Users, BarChart3, Star } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { translations, Translations } from '../lib/translations';
+import { useLanguage } from '../contexts/LanguageContext';
 import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../components/AdSense';
 
 export default function Home() {
-  const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [t, setT] = useState<Translations>(translations.en);
-  const [forceUpdate, setForceUpdate] = useState(0);
-
-  useEffect(() => {
-    // 从localStorage获取保存的语言设置
-    if (typeof window !== 'undefined') {
-      const savedLanguage = localStorage.getItem('preferred-language') || 'en';
-      setCurrentLanguage(savedLanguage);
-      setT(translations[savedLanguage] || translations.en);
-    }
-  }, []);
-
-  const handleLanguageChange = (language: string) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('preferred-language', language);
-    }
-    setCurrentLanguage(language);
-    setT(translations[language] || translations.en);
-    setForceUpdate(prev => prev + 1); // 强制重新渲染
-  };
+  const { currentLanguage, t, setLanguage } = useLanguage();
 
   return (
     <>
@@ -52,7 +31,7 @@ export default function Home() {
                        </nav>
                        <LanguageSwitcher 
                          currentLanguage={currentLanguage} 
-                         onLanguageChange={handleLanguageChange} 
+                         onLanguageChange={setLanguage} 
                        />
                      </div>
           </div>

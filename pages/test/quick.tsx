@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
-import { translations, Translations } from '../../lib/translations';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 
@@ -245,56 +245,7 @@ export default function QuickTest() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
-  const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [t, setT] = useState<Translations>(translations.en);
-  const [forceUpdate, setForceUpdate] = useState(0);
-
-  useEffect(() => {
-    // 从localStorage获取保存的语言设置
-    if (typeof window !== 'undefined') {
-      const savedLanguage = localStorage.getItem('preferred-language') || 'en';
-      setCurrentLanguage(savedLanguage);
-      setT(translations[savedLanguage] || translations.en);
-    }
-  }, []);
-
-  // 监听语言变化，确保组件重新渲染
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'preferred-language' && e.newValue) {
-        setCurrentLanguage(e.newValue);
-        setT(translations[e.newValue] || translations.en);
-        setForceUpdate(prev => prev + 1);
-      }
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorageChange);
-      
-      // 定期检查语言变化（用于同页面内的语言切换）
-      const interval = setInterval(() => {
-        const savedLanguage = localStorage.getItem('preferred-language') || 'en';
-        if (savedLanguage !== currentLanguage) {
-          setCurrentLanguage(savedLanguage);
-          setT(translations[savedLanguage] || translations.en);
-          setForceUpdate(prev => prev + 1);
-        }
-      }, 1000);
-
-      return () => {
-        window.removeEventListener('storage', handleStorageChange);
-        clearInterval(interval);
-      };
-    }
-  }, [currentLanguage]);
-
-  const handleLanguageChange = (language: string) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('preferred-language', language);
-    }
-    setCurrentLanguage(language);
-    setT(translations[language] || translations.en);
-  };
+  const { currentLanguage, t, setLanguage } = useLanguage();
 
   // 获取翻译后的特质
   const getTranslatedTrait = (trait: string) => {
@@ -323,6 +274,58 @@ export default function QuickTest() {
       'Precise': t.precise,
       'Big-picture': t.bigPicture,
       'Visionary': t.visionary,
+      // Additional traits for JP dimension
+      'Organized': t.organized || 'Organized',
+      'Structured': t.structured || 'Structured', 
+      'Decisive': t.decisive || 'Decisive',
+      'Planned': t.planned || 'Planned',
+      'Flexible': t.flexible || 'Flexible',
+      'Adaptable': t.adaptable || 'Adaptable',
+      'Spontaneous': t.spontaneous || 'Spontaneous',
+      'Open-minded': t.openMinded || 'Open-minded',
+      // Additional traits for other dimensions
+      'Analytical': t.analytical || 'Analytical',
+      'Logical': t.logical || 'Logical',
+      'Objective': t.objective || 'Objective',
+      'Fair': t.fair || 'Fair',
+      'Independent': t.independent,
+      'Focused': t.focused || 'Focused',
+      'Self-directed': t.selfDirected || 'Self-directed',
+      'Collaborative': t.collaborative || 'Collaborative',
+      'Interactive': t.interactive || 'Interactive',
+      'Communicative': t.communicative || 'Communicative',
+      'Present-focused': t.presentFocused,
+      'Direct': t.direct || 'Direct',
+      'Constructive': t.constructive || 'Constructive',
+      'Improvement-focused': t.improvementFocused || 'Improvement-focused',
+      'Supportive': t.supportive || 'Supportive',
+      'Encouraging': t.encouraging || 'Encouraging',
+      'Positive': t.positive || 'Positive',
+      'Relationship-focused': t.relationshipFocused || 'Relationship-focused',
+      'Deadline-driven': t.deadlineDriven || 'Deadline-driven',
+      'Systematic': t.systematic || 'Systematic',
+      'Self-paced': t.selfPaced || 'Self-paced',
+      'Adaptive': t.adaptive || 'Adaptive',
+      'Intimate': t.intimate || 'Intimate',
+      'Close-knit': t.closeKnit || 'Close-knit',
+      'Personal': t.personal || 'Personal',
+      'Quiet': t.quiet || 'Quiet',
+      'Energetic': t.energetic,
+      'Large-scale': t.largeScale || 'Large-scale',
+      'Public': t.public || 'Public',
+      'Vibrant': t.vibrant || 'Vibrant',
+      'Detail-oriented': t.detailOriented,
+      'Problem-solving': t.problemSolving || 'Problem-solving',
+      'Solution-focused': t.solutionFocused || 'Solution-focused',
+      'Emotionally supportive': t.emotionallySupportive || 'Emotionally supportive',
+      'Understanding': t.understanding || 'Understanding',
+      'Quick': t.quick || 'Quick',
+      'Action-oriented': t.actionOriented || 'Action-oriented',
+      'Final': t.final || 'Final',
+      'Deliberate': t.deliberate || 'Deliberate',
+      'Thorough': t.thorough || 'Thorough',
+      'Exploratory': t.exploratory || 'Exploratory',
+      'Open-ended': t.openEnded || 'Open-ended',
       // Emotional traits
       'Empathetic': t.empathetic,
       'Caring': t.caring,
@@ -335,18 +338,66 @@ export default function QuickTest() {
   // 获取翻译后的题目
   const getTranslatedQuestion = (questionId: number) => {
     const questionMap = {
-      1: { question: t.questions.party, options: t.questions.partyOptions },
-      2: { question: t.questions.decisions, options: t.questions.decisionsOptions },
-      3: { question: t.questions.conflict, options: t.questions.conflictOptions },
-      4: { question: t.questions.preference, options: t.questions.preferenceOptions },
-      5: { question: t.questions.learning, options: t.questions.learningOptions },
-      6: { question: t.questions.interests, options: t.questions.interestsOptions },
-      7: { question: t.questions.feedback, options: t.questions.feedbackOptions },
-      8: { question: t.questions.workStyle, options: t.questions.workStyleOptions },
-      9: { question: t.questions.socialSituations, options: t.questions.socialSituationsOptions },
-      10: { question: t.questions.drawnTo, options: t.questions.drawnToOptions },
-      11: { question: t.questions.someoneUpset, options: t.questions.someoneUpsetOptions },
-      12: { question: t.questions.decisions2, options: t.questions.decisions2Options }
+      1: { 
+        question: t.questions.party, 
+        options: t.questions.partyOptions,
+        explanations: t.explanations.party
+      },
+      2: { 
+        question: t.questions.decisions, 
+        options: t.questions.decisionsOptions,
+        explanations: t.explanations.decisions
+      },
+      3: { 
+        question: t.questions.conflict, 
+        options: t.questions.conflictOptions,
+        explanations: t.explanations.conflict
+      },
+      4: { 
+        question: t.questions.preference, 
+        options: t.questions.preferenceOptions,
+        explanations: t.explanations.preference
+      },
+      5: { 
+        question: t.questions.learning, 
+        options: t.questions.learningOptions,
+        explanations: t.explanations.learning
+      },
+      6: { 
+        question: t.questions.interests, 
+        options: t.questions.interestsOptions,
+        explanations: t.explanations.interests
+      },
+      7: { 
+        question: t.questions.feedback, 
+        options: t.questions.feedbackOptions,
+        explanations: t.explanations.feedback
+      },
+      8: { 
+        question: t.questions.workStyle, 
+        options: t.questions.workStyleOptions,
+        explanations: t.explanations.workStyle
+      },
+      9: { 
+        question: t.questions.socialSituations, 
+        options: t.questions.socialSituationsOptions,
+        explanations: t.explanations.socialSituations
+      },
+      10: { 
+        question: t.questions.drawnTo, 
+        options: t.questions.drawnToOptions,
+        explanations: t.explanations.drawnTo
+      },
+      11: { 
+        question: t.questions.someoneUpset, 
+        options: t.questions.someoneUpsetOptions,
+        explanations: t.explanations.someoneUpset
+      },
+      12: { 
+        question: t.questions.decisions2, 
+        options: t.questions.decisions2Options,
+        explanations: t.explanations.decisions2
+      }
     };
     const translatedQ = questionMap[questionId as keyof typeof questionMap];
     const originalQ = QUESTIONS[questionId - 1];
@@ -355,7 +406,8 @@ export default function QuickTest() {
       return {
         ...originalQ,
         question: translatedQ.question,
-        options: translatedQ.options
+        options: translatedQ.options,
+        explanations: translatedQ.explanations
       };
     }
     return originalQ;
@@ -575,7 +627,7 @@ export default function QuickTest() {
         <div className="flex justify-end mb-4">
           <LanguageSwitcher 
             currentLanguage={currentLanguage} 
-            onLanguageChange={handleLanguageChange} 
+            onLanguageChange={setLanguage} 
           />
         </div>
         
