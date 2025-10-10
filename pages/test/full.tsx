@@ -951,6 +951,21 @@ export default function FullTest() {
     setForceUpdate(prev => prev + 1); // 强制重新渲染
   };
 
+  // 获取翻译后的特质
+  const getTranslatedTrait = (trait: string) => {
+    const traitMap: { [key: string]: string } = {
+      'Reflective': t.reflective,
+      'Thoughtful': t.thoughtful,
+      'Independent': t.independent,
+      'Reserved': t.reserved,
+      'Outgoing': t.outgoing,
+      'Energetic': t.energetic,
+      'Social': t.social,
+      'Expressive': t.expressive
+    };
+    return traitMap[trait] || trait;
+  };
+
   // 获取翻译后的题目
   const getTranslatedQuestion = (questionId: number) => {
     // 动态获取当前语言的翻译
@@ -1336,7 +1351,7 @@ export default function FullTest() {
                               : 'bg-white border-2 border-indigo-200 text-indigo-700 hover:border-indigo-400 hover:bg-indigo-50'
                           }`}
                         >
-                          {trait}
+                          {getTranslatedTrait(trait)}
                         </button>
                       ))}
                     </div>

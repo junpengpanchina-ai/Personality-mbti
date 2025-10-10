@@ -63,6 +63,42 @@ export interface Translations {
   chooseTraits: string;
   clickToContinue: string;
   defaultExplanation: string;
+  // Personality traits
+  reflective: string;
+  thoughtful: string;
+  independent: string;
+  reserved: string;
+  outgoing: string;
+  energetic: string;
+  social: string;
+  expressive: string;
+  // Questions object
+  questions: {
+    party: string;
+    partyOptions: string[];
+    decisions: string;
+    decisionsOptions: string[];
+    conflict: string;
+    conflictOptions: string[];
+    preference: string;
+    preferenceOptions: string[];
+    learning: string;
+    learningOptions: string[];
+    interests: string;
+    interestsOptions: string[];
+    feedback: string;
+    feedbackOptions: string[];
+    workStyle: string;
+    workStyleOptions: string[];
+    socialSituations: string;
+    socialSituationsOptions: string[];
+    drawnTo: string;
+    drawnToOptions: string[];
+    someoneUpset: string;
+    someoneUpsetOptions: string[];
+    decisions2: string;
+    decisions2Options: string[];
+  };
   // Tarot test specific
   chooseCard: string;
   chooseMethod: string;
@@ -192,6 +228,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "Choose your professional traits:",
     clickToContinue: "💡 Click to continue",
     defaultExplanation: "This question helps determine your personality preferences.",
+    // Personality traits
+    reflective: "Reflective",
+    thoughtful: "Thoughtful",
+    independent: "Independent",
+    reserved: "Reserved",
+    outgoing: "Outgoing",
+    energetic: "Energetic",
+    social: "Social",
+    expressive: "Expressive",
     // Tarot test specific
     chooseCard: "Choose a tarot card",
     chooseMethod: "Choose a method",
@@ -403,6 +448,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "选择您的专业特质：",
     clickToContinue: "💡 点击继续",
     defaultExplanation: "这个问题有助于确定您的性格偏好。",
+    // Personality traits
+    reflective: "反思型",
+    thoughtful: "深思型",
+    independent: "独立型",
+    reserved: "内敛型",
+    outgoing: "外向型",
+    energetic: "活力型",
+    social: "社交型",
+    expressive: "表达型",
     // Tarot test specific
     chooseCard: "选择一张塔罗牌",
     chooseMethod: "选择一种方式",
@@ -614,6 +668,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "전문적 특성을 선택하세요:",
     clickToContinue: "💡 계속하려면 클릭하세요",
     defaultExplanation: "이 질문은 당신의 성격 선호도를 결정하는 데 도움이 됩니다.",
+    // Personality traits
+    reflective: "반성적",
+    thoughtful: "사려깊은",
+    independent: "독립적",
+    reserved: "내성적",
+    outgoing: "외향적",
+    energetic: "활력적",
+    social: "사교적",
+    expressive: "표현적",
     // Tarot test specific
     chooseCard: "타로카드 선택",
     chooseMethod: "방법 선택",
@@ -777,6 +840,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "専門的な特性を選択してください:",
     clickToContinue: "💡 続行するにはクリック",
     defaultExplanation: "この質問はあなたの性格の好みを決定するのに役立ちます。",
+    // Personality traits
+    reflective: "反省的",
+    thoughtful: "思慮深い",
+    independent: "独立的",
+    reserved: "控えめ",
+    outgoing: "外向的",
+    energetic: "エネルギッシュ",
+    social: "社交的",
+    expressive: "表現的",
     // Tarot test specific
     chooseCard: "タロットカードを選択",
     chooseMethod: "方法を選択",
@@ -940,6 +1012,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "Wählen Sie Ihre professionellen Eigenschaften:",
     clickToContinue: "💡 Zum Fortfahren klicken",
     defaultExplanation: "Diese Frage hilft dabei, Ihre Persönlichkeitspräferenzen zu bestimmen.",
+    // Personality traits
+    reflective: "Reflektiv",
+    thoughtful: "Nachdenklich",
+    independent: "Unabhängig",
+    reserved: "Zurückhaltend",
+    outgoing: "Gesellig",
+    energetic: "Energisch",
+    social: "Sozial",
+    expressive: "Ausdrucksvoll",
     // Tarot test specific
     chooseCard: "Wählen Sie eine Tarotkarte",
     chooseMethod: "Wählen Sie eine Methode",
@@ -1103,6 +1184,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "Choisissez vos traits professionnels:",
     clickToContinue: "💡 Cliquez pour continuer",
     defaultExplanation: "Cette question aide à déterminer vos préférences de personnalité.",
+    // Personality traits
+    reflective: "Réfléchi",
+    thoughtful: "Réfléchi",
+    independent: "Indépendant",
+    reserved: "Réservé",
+    outgoing: "Extraverti",
+    energetic: "Énergique",
+    social: "Social",
+    expressive: "Expressif",
     // Tarot test specific
     chooseCard: "Choisissez une carte de tarot",
     chooseMethod: "Choisissez une méthode",
@@ -1266,6 +1356,15 @@ export const translations: Record<string, Translations> = {
     chooseTraits: "अपने पेशेवर गुण चुनें:",
     clickToContinue: "💡 जारी रखने के लिए क्लिक करें",
     defaultExplanation: "यह प्रश्न आपकी व्यक्तित्व प्राथमिकताओं को निर्धारित करने में मदद करता है।",
+    // Personality traits
+    reflective: "चिंतनशील",
+    thoughtful: "विचारशील",
+    independent: "स्वतंत्र",
+    reserved: "संयमी",
+    outgoing: "बहिर्मुखी",
+    energetic: "ऊर्जावान",
+    social: "सामाजिक",
+    expressive: "अभिव्यंजक",
     // Tarot test specific
     chooseCard: "एक टैरो कार्ड चुनें",
     chooseMethod: "एक विधि चुनें",

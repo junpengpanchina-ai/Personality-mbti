@@ -296,6 +296,21 @@ export default function QuickTest() {
     setT(translations[language] || translations.en);
   };
 
+  // 获取翻译后的特质
+  const getTranslatedTrait = (trait: string) => {
+    const traitMap: { [key: string]: string } = {
+      'Reflective': t.reflective,
+      'Thoughtful': t.thoughtful,
+      'Independent': t.independent,
+      'Reserved': t.reserved,
+      'Outgoing': t.outgoing,
+      'Energetic': t.energetic,
+      'Social': t.social,
+      'Expressive': t.expressive
+    };
+    return traitMap[trait] || trait;
+  };
+
   // 获取翻译后的题目
   const getTranslatedQuestion = (questionId: number) => {
     const questionMap = {
@@ -628,7 +643,7 @@ export default function QuickTest() {
                             : 'bg-white border-2 border-indigo-200 text-indigo-700 hover:border-indigo-400 hover:bg-indigo-50'
                         }`}
                       >
-                        {trait}
+                        {getTranslatedTrait(trait)}
                       </button>
                     ))}
                   </div>
