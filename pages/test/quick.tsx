@@ -606,9 +606,9 @@ export default function QuickTest() {
                 className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 cursor-pointer hover:from-blue-100 hover:to-indigo-100 transition-all duration-300"
                 onClick={handleNextQuestion}
               >
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
                   <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                  Explanation
+                  {t.explanation}
                 </h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   {currentQ.explanations?.[selectedAnswer!] || "This question helps determine your personality preferences."}
@@ -616,7 +616,7 @@ export default function QuickTest() {
                 
                 {/* Professional Traits Selection */}
                 <div className="mb-4">
-                  <h4 className="text-md font-semibold text-gray-800 mb-3">Choose your professional traits:</h4>
+                  <h4 className="text-md font-semibold text-gray-800 mb-3">{t.chooseTraits}</h4>
                   <div className="flex flex-wrap gap-2">
                     {currentQ.traits[selectedAnswer!].map((trait, index) => (
                       <button
@@ -635,7 +635,7 @@ export default function QuickTest() {
                 </div>
                 
                 <div className="mt-4 text-sm text-gray-500 text-center">
-                  💡 Click to continue
+                  {t.clickToContinue}
                 </div>
               </div>
 
