@@ -168,6 +168,7 @@ export interface Translations {
     someoneUpsetOptions: string[];
     decisions2: string;
     decisions2Options: string[];
+    backToSystemSelection: string;
   };
   // Question explanations
   explanations: {
@@ -202,7 +203,6 @@ export interface Translations {
   divinationMethod: string;
   lifeGuidance: string;
   compatibilityAnalysis: string;
-  tarotTraits: string;
   elementAttribute: string;
   retakeTest: string;
   saveResult: string;
@@ -283,7 +283,7 @@ export interface Translations {
     backToSystemSelection: string;
   };
 
-export const translations: Record<string, Translations> = {
+export const translations: Record<string, Partial<Translations>> = {
   en: {
     siteName: "MBTI Personality Test",
     features: "Features",
@@ -494,7 +494,6 @@ export const translations: Record<string, Translations> = {
     meaning: "Meaning",
     // Tarot specific
     tarotReading: "Tarot Reading",
-    tarotTraits: "Your Tarot Traits",
     currentLifeFocus: "What's your current life focus?",
     chooseOption: "Choose the option that resonates with your mystical energy",
     // Zodiac specific
@@ -835,7 +834,6 @@ export const translations: Record<string, Translations> = {
     meaning: "含义",
     // Tarot specific
     tarotReading: "塔罗牌解读",
-    tarotTraits: "您的塔罗特质",
     currentLifeFocus: "您当前的生活重心是什么？",
     chooseOption: "选择与您的神秘能量产生共鸣的选项",
     // Zodiac specific

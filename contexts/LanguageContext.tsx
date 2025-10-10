@@ -15,14 +15,14 @@ interface LanguageProviderProps {
 
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [t, setT] = useState<Translations>(translations.en);
+  const [t, setT] = useState<Translations>(translations.en as Translations);
 
   useEffect(() => {
     // 从localStorage获取保存的语言设置
     if (typeof window !== 'undefined') {
       const savedLanguage = localStorage.getItem('preferred-language') || 'en';
       setCurrentLanguage(savedLanguage);
-      setT(translations[savedLanguage] || translations.en);
+      setT((translations[savedLanguage] || translations.en) as Translations);
     }
   }, []);
 
@@ -31,7 +31,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'preferred-language' && e.newValue) {
         setCurrentLanguage(e.newValue);
-        setT(translations[e.newValue] || translations.en);
+        setT((translations[e.newValue] || translations.en) as Translations);
       }
     };
 
@@ -43,7 +43,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
         const savedLanguage = localStorage.getItem('preferred-language') || 'en';
         if (savedLanguage !== currentLanguage) {
           setCurrentLanguage(savedLanguage);
-          setT(translations[savedLanguage] || translations.en);
+          setT((translations[savedLanguage] || translations.en) as Translations);
         }
       }, 1000);
 
@@ -59,7 +59,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
       localStorage.setItem('preferred-language', language);
     }
     setCurrentLanguage(language);
-    setT(translations[language] || translations.en);
+    setT((translations[language] || translations.en) as Translations);
   };
 
   return (

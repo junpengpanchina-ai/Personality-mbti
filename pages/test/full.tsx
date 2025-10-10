@@ -900,7 +900,7 @@ export default function FullTest() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [selectedTrait, setSelectedTrait] = useState<string | null>(null);
   const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [t, setT] = useState<Translations>(translations.en);
+  const [t, setT] = useState<Translations>(translations.en as Translations);
   const [forceUpdate, setForceUpdate] = useState(0);
 
   useEffect(() => {
@@ -908,7 +908,7 @@ export default function FullTest() {
     if (typeof window !== 'undefined') {
       const savedLanguage = localStorage.getItem('preferred-language') || 'en';
       setCurrentLanguage(savedLanguage);
-      setT(translations[savedLanguage] || translations.en);
+      setT((translations[savedLanguage] || translations.en) as Translations);
     }
   }, []);
 
@@ -917,7 +917,7 @@ export default function FullTest() {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'preferred-language' && e.newValue) {
         setCurrentLanguage(e.newValue);
-        setT(translations[e.newValue] || translations.en);
+        setT((translations[e.newValue] || translations.en) as Translations);
         setForceUpdate(prev => prev + 1);
       }
     };
@@ -930,7 +930,7 @@ export default function FullTest() {
         const savedLanguage = localStorage.getItem('preferred-language') || 'en';
         if (savedLanguage !== currentLanguage) {
           setCurrentLanguage(savedLanguage);
-          setT(translations[savedLanguage] || translations.en);
+          setT((translations[savedLanguage] || translations.en) as Translations);
           setForceUpdate(prev => prev + 1);
         }
       }, 1000);
@@ -947,7 +947,7 @@ export default function FullTest() {
       localStorage.setItem('preferred-language', language);
     }
     setCurrentLanguage(language);
-    setT(translations[language] || translations.en);
+    setT((translations[language] || translations.en) as Translations);
     setForceUpdate(prev => prev + 1); // 强制重新渲染
   };
 

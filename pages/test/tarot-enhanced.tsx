@@ -538,7 +538,7 @@ export default function TarotEnhancedTest() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [t, setT] = useState<Translations>(translations.en);
+  const [t, setT] = useState<Translations>(translations.en as Translations);
   
   // 翻牌功能状态
   const [flippedCards, setFlippedCards] = useState<string[]>([]);
@@ -550,7 +550,7 @@ export default function TarotEnhancedTest() {
     if (typeof window !== 'undefined') {
       const savedLanguage = localStorage.getItem('preferred-language') || 'en';
       setCurrentLanguage(savedLanguage);
-      setT(translations[savedLanguage] || translations.en);
+      setT((translations[savedLanguage] || translations.en) as Translations);
     }
   }, []);
 
@@ -559,7 +559,7 @@ export default function TarotEnhancedTest() {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'preferred-language' && e.newValue) {
         setCurrentLanguage(e.newValue);
-        setT(translations[e.newValue] || translations.en);
+        setT((translations[e.newValue] || translations.en) as Translations);
       }
     };
 
@@ -571,7 +571,7 @@ export default function TarotEnhancedTest() {
         const savedLanguage = localStorage.getItem('preferred-language') || 'en';
         if (savedLanguage !== currentLanguage) {
           setCurrentLanguage(savedLanguage);
-          setT(translations[savedLanguage] || translations.en);
+          setT((translations[savedLanguage] || translations.en) as Translations);
         }
       }, 1000);
 
@@ -587,7 +587,7 @@ export default function TarotEnhancedTest() {
       localStorage.setItem('preferred-language', language);
     }
     setCurrentLanguage(language);
-    setT(translations[language] || translations.en);
+    setT((translations[language] || translations.en) as Translations);
   };
 
   const handleShowCards = () => {
