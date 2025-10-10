@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { translations, Translations } from '../../lib/translations';
 import { HeaderAd, InlineAd, FooterAd, MobileAd } from '../../components/AdSense';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 // MBTI test questions data
 const QUESTIONS = [
@@ -287,6 +288,14 @@ export default function QuickTest() {
     }
   }, [currentLanguage]);
 
+  const handleLanguageChange = (language: string) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferred-language', language);
+    }
+    setCurrentLanguage(language);
+    setT(translations[language] || translations.en);
+  };
+
   // 获取翻译后的题目
   const getTranslatedQuestion = (questionId: number) => {
     const questionMap = {
@@ -525,6 +534,15 @@ export default function QuickTest() {
         {/* Header Ad */}
         <HeaderAd />
         <MobileAd />
+        
+        {/* Language Switcher */}
+        <div className="flex justify-end mb-4">
+          <LanguageSwitcher 
+            currentLanguage={currentLanguage} 
+            onLanguageChange={handleLanguageChange} 
+          />
+        </div>
+        
         {/* Header */}
              <div className="flex items-center justify-between mb-8">
                <Link href="/" className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors bg-gray-100 hover:bg-indigo-50 px-4 py-2 rounded-lg font-medium">
