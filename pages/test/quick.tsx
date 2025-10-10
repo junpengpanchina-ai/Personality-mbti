@@ -322,7 +322,12 @@ export default function QuickTest() {
       'Specific': t.specific,
       'Precise': t.precise,
       'Big-picture': t.bigPicture,
-      'Visionary': t.visionary
+      'Visionary': t.visionary,
+      // Emotional traits
+      'Empathetic': t.empathetic,
+      'Caring': t.caring,
+      'Harmonious': t.harmonious,
+      'Compassionate': t.compassionate
     };
     return traitMap[trait] || trait;
   };

@@ -89,6 +89,11 @@ export interface Translations {
   precise: string;
   bigPicture: string;
   visionary: string;
+  // Emotional traits
+  empathetic: string;
+  caring: string;
+  harmonious: string;
+  compassionate: string;
   // Questions object
   questions: {
     party: string;
@@ -271,6 +276,11 @@ export const translations: Record<string, Translations> = {
     precise: "Precise",
     bigPicture: "Big-picture",
     visionary: "Visionary",
+    // Emotional traits
+    empathetic: "Empathetic",
+    caring: "Caring",
+    harmonious: "Harmonious",
+    compassionate: "Compassionate",
     // Tarot test specific
     chooseCard: "Choose a tarot card",
     chooseMethod: "Choose a method",
@@ -508,6 +518,11 @@ export const translations: Record<string, Translations> = {
     precise: "精确型",
     bigPicture: "大局型",
     visionary: "愿景型",
+    // Emotional traits
+    empathetic: "共情型",
+    caring: "关怀型",
+    harmonious: "和谐型",
+    compassionate: "慈悲型",
     // Tarot test specific
     chooseCard: "选择一张塔罗牌",
     chooseMethod: "选择一种方式",
@@ -745,6 +760,11 @@ export const translations: Record<string, Translations> = {
     precise: "정확한",
     bigPicture: "큰그림",
     visionary: "비전적",
+    // Emotional traits
+    empathetic: "공감적",
+    caring: "돌봄",
+    harmonious: "조화로운",
+    compassionate: "자비로운",
     // Tarot test specific
     chooseCard: "타로카드 선택",
     chooseMethod: "방법 선택",
@@ -934,6 +954,11 @@ export const translations: Record<string, Translations> = {
     precise: "正確",
     bigPicture: "大局的",
     visionary: "ビジョナリー",
+    // Emotional traits
+    empathetic: "共感的",
+    caring: "思いやり",
+    harmonious: "調和のとれた",
+    compassionate: "慈悲深い",
     // Tarot test specific
     chooseCard: "タロットカードを選択",
     chooseMethod: "方法を選択",
@@ -1123,6 +1148,11 @@ export const translations: Record<string, Translations> = {
     precise: "Präzise",
     bigPicture: "Überblick",
     visionary: "Visionär",
+    // Emotional traits
+    empathetic: "Einfühlsam",
+    caring: "Fürsorglich",
+    harmonious: "Harmonisch",
+    compassionate: "Mitfühlend",
     // Tarot test specific
     chooseCard: "Wählen Sie eine Tarotkarte",
     chooseMethod: "Wählen Sie eine Methode",
@@ -1312,6 +1342,11 @@ export const translations: Record<string, Translations> = {
     precise: "Précis",
     bigPicture: "Vue d'ensemble",
     visionary: "Visionnaire",
+    // Emotional traits
+    empathetic: "Empathique",
+    caring: "Attentionné",
+    harmonious: "Harmonieux",
+    compassionate: "Compassionné",
     // Tarot test specific
     chooseCard: "Choisissez une carte de tarot",
     chooseMethod: "Choisissez une méthode",
@@ -1501,6 +1536,11 @@ export const translations: Record<string, Translations> = {
     precise: "सटीक",
     bigPicture: "बड़ी तस्वीर",
     visionary: "दूरदर्शी",
+    // Emotional traits
+    empathetic: "सहानुभूतिपूर्ण",
+    caring: "देखभाल",
+    harmonious: "सामंजस्यपूर्ण",
+    compassionate: "करुणामय",
     // Tarot test specific
     chooseCard: "एक टैरो कार्ड चुनें",
     chooseMethod: "एक विधि चुनें",
