@@ -72,6 +72,23 @@ export interface Translations {
   energetic: string;
   social: string;
   expressive: string;
+  // Additional traits
+  practical: string;
+  realistic: string;
+  detailOriented: string;
+  concrete: string;
+  imaginative: string;
+  abstract: string;
+  conceptual: string;
+  innovative: string;
+  presentFocused: string;
+  theoretical: string;
+  futureOriented: string;
+  factual: string;
+  specific: string;
+  precise: string;
+  bigPicture: string;
+  visionary: string;
   // Questions object
   questions: {
     party: string;
@@ -237,6 +254,23 @@ export const translations: Record<string, Translations> = {
     energetic: "Energetic",
     social: "Social",
     expressive: "Expressive",
+    // Additional traits
+    practical: "Practical",
+    realistic: "Realistic",
+    detailOriented: "Detail-oriented",
+    concrete: "Concrete",
+    imaginative: "Imaginative",
+    abstract: "Abstract",
+    conceptual: "Conceptual",
+    innovative: "Innovative",
+    presentFocused: "Present-focused",
+    theoretical: "Theoretical",
+    futureOriented: "Future-oriented",
+    factual: "Factual",
+    specific: "Specific",
+    precise: "Precise",
+    bigPicture: "Big-picture",
+    visionary: "Visionary",
     // Tarot test specific
     chooseCard: "Choose a tarot card",
     chooseMethod: "Choose a method",
@@ -457,6 +491,23 @@ export const translations: Record<string, Translations> = {
     energetic: "活力型",
     social: "社交型",
     expressive: "表达型",
+    // Additional traits
+    practical: "实用型",
+    realistic: "现实型",
+    detailOriented: "细节型",
+    concrete: "具体型",
+    imaginative: "想象型",
+    abstract: "抽象型",
+    conceptual: "概念型",
+    innovative: "创新型",
+    presentFocused: "当下型",
+    theoretical: "理论型",
+    futureOriented: "未来型",
+    factual: "事实型",
+    specific: "具体型",
+    precise: "精确型",
+    bigPicture: "大局型",
+    visionary: "愿景型",
     // Tarot test specific
     chooseCard: "选择一张塔罗牌",
     chooseMethod: "选择一种方式",
@@ -677,6 +728,23 @@ export const translations: Record<string, Translations> = {
     energetic: "활력적",
     social: "사교적",
     expressive: "표현적",
+    // Additional traits
+    practical: "실용적",
+    realistic: "현실적",
+    detailOriented: "세부지향적",
+    concrete: "구체적",
+    imaginative: "상상력있는",
+    abstract: "추상적",
+    conceptual: "개념적",
+    innovative: "혁신적",
+    presentFocused: "현재지향적",
+    theoretical: "이론적",
+    futureOriented: "미래지향적",
+    factual: "사실적",
+    specific: "구체적",
+    precise: "정확한",
+    bigPicture: "큰그림",
+    visionary: "비전적",
     // Tarot test specific
     chooseCard: "타로카드 선택",
     chooseMethod: "방법 선택",
@@ -849,6 +917,23 @@ export const translations: Record<string, Translations> = {
     energetic: "エネルギッシュ",
     social: "社交的",
     expressive: "表現的",
+    // Additional traits
+    practical: "実用的",
+    realistic: "現実的",
+    detailOriented: "詳細指向",
+    concrete: "具体的",
+    imaginative: "想像力豊か",
+    abstract: "抽象的",
+    conceptual: "概念的",
+    innovative: "革新的",
+    presentFocused: "現在指向",
+    theoretical: "理論的",
+    futureOriented: "未来指向",
+    factual: "事実的",
+    specific: "具体的",
+    precise: "正確",
+    bigPicture: "大局的",
+    visionary: "ビジョナリー",
     // Tarot test specific
     chooseCard: "タロットカードを選択",
     chooseMethod: "方法を選択",
@@ -1021,6 +1106,23 @@ export const translations: Record<string, Translations> = {
     energetic: "Energisch",
     social: "Sozial",
     expressive: "Ausdrucksvoll",
+    // Additional traits
+    practical: "Praktisch",
+    realistic: "Realistisch",
+    detailOriented: "Detailorientiert",
+    concrete: "Konkret",
+    imaginative: "Phantasievoll",
+    abstract: "Abstrakt",
+    conceptual: "Konzeptionell",
+    innovative: "Innovativ",
+    presentFocused: "Gegenwartsorientiert",
+    theoretical: "Theoretisch",
+    futureOriented: "Zukunftsorientiert",
+    factual: "Faktisch",
+    specific: "Spezifisch",
+    precise: "Präzise",
+    bigPicture: "Überblick",
+    visionary: "Visionär",
     // Tarot test specific
     chooseCard: "Wählen Sie eine Tarotkarte",
     chooseMethod: "Wählen Sie eine Methode",
@@ -1193,6 +1295,23 @@ export const translations: Record<string, Translations> = {
     energetic: "Énergique",
     social: "Social",
     expressive: "Expressif",
+    // Additional traits
+    practical: "Pratique",
+    realistic: "Réaliste",
+    detailOriented: "Orienté détail",
+    concrete: "Concret",
+    imaginative: "Imaginatif",
+    abstract: "Abstrait",
+    conceptual: "Conceptuel",
+    innovative: "Innovant",
+    presentFocused: "Orienté présent",
+    theoretical: "Théorique",
+    futureOriented: "Orienté avenir",
+    factual: "Factuel",
+    specific: "Spécifique",
+    precise: "Précis",
+    bigPicture: "Vue d'ensemble",
+    visionary: "Visionnaire",
     // Tarot test specific
     chooseCard: "Choisissez une carte de tarot",
     chooseMethod: "Choisissez une méthode",
@@ -1365,6 +1484,23 @@ export const translations: Record<string, Translations> = {
     energetic: "ऊर्जावान",
     social: "सामाजिक",
     expressive: "अभिव्यंजक",
+    // Additional traits
+    practical: "व्यावहारिक",
+    realistic: "यथार्थवादी",
+    detailOriented: "विवरण-उन्मुख",
+    concrete: "ठोस",
+    imaginative: "कल्पनाशील",
+    abstract: "अमूर्त",
+    conceptual: "संकल्पनात्मक",
+    innovative: "नवाचारी",
+    presentFocused: "वर्तमान-केंद्रित",
+    theoretical: "सैद्धांतिक",
+    futureOriented: "भविष्य-उन्मुख",
+    factual: "तथ्यात्मक",
+    specific: "विशिष्ट",
+    precise: "सटीक",
+    bigPicture: "बड़ी तस्वीर",
+    visionary: "दूरदर्शी",
     // Tarot test specific
     chooseCard: "एक टैरो कार्ड चुनें",
     chooseMethod: "एक विधि चुनें",

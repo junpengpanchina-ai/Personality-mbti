@@ -306,7 +306,23 @@ export default function QuickTest() {
       'Outgoing': t.outgoing,
       'Energetic': t.energetic,
       'Social': t.social,
-      'Expressive': t.expressive
+      'Expressive': t.expressive,
+      'Practical': t.practical,
+      'Realistic': t.realistic,
+      'Detail-oriented': t.detailOriented,
+      'Concrete': t.concrete,
+      'Imaginative': t.imaginative,
+      'Abstract': t.abstract,
+      'Conceptual': t.conceptual,
+      'Innovative': t.innovative,
+      'Present-focused': t.presentFocused,
+      'Theoretical': t.theoretical,
+      'Future-oriented': t.futureOriented,
+      'Factual': t.factual,
+      'Specific': t.specific,
+      'Precise': t.precise,
+      'Big-picture': t.bigPicture,
+      'Visionary': t.visionary
     };
     return traitMap[trait] || trait;
   };
