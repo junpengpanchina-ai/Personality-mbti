@@ -21,19 +21,31 @@ export default function AdSense({
   useEffect(() => {
     try {
       // 确保 adsbygoogle 存在且广告已启用
-      if (typeof window !== 'undefined' && (window as any).adsbygoogle && adConfig.enabled) {
-        // 禁用自动广告，只使用手动配置的广告单元
-        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({
-          google_ad_client: process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818",
-          enable_page_level_ads: false
-        });
-        
-        // 调试信息
-        console.log('AdSense initialized:', {
-          enabled: adConfig.enabled,
-          publisherId: process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818",
-          slot: slot
-        });
+      if (typeof window !== 'undefined' && adConfig.enabled) {
+        // 等待 AdSense 脚本加载完成
+        const loadAd = () => {
+          try {
+            ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+          } catch (e) {
+            console.error('AdSense push error:', e);
+          }
+        };
+
+        // 如果脚本已加载，立即执行；否则等待
+        if ((window as any).adsbygoogle) {
+          loadAd();
+        } else {
+          // 等待脚本加载
+          const checkInterval = setInterval(() => {
+            if ((window as any).adsbygoogle) {
+              loadAd();
+              clearInterval(checkInterval);
+            }
+          }, 100);
+          
+          // 5秒后停止检查
+          setTimeout(() => clearInterval(checkInterval), 5000);
+        }
       }
     } catch (error) {
       console.error('AdSense error:', error);
@@ -52,10 +64,10 @@ export default function AdSense({
   }
 
   return (
-    <div className={`adsense-container ${className}`}>
+    <div className={`adsense-container ${className}`} style={{ minHeight: style.height || 'auto', minWidth: style.width || 'auto' }}>
       <ins 
         className="adsbygoogle"
-        style={style}
+        style={{...style, display: 'block', textAlign: 'center'}}
         data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || "ca-pub-4198974976257818"}
         data-ad-slot={slot}
         data-ad-format={format}
@@ -68,10 +80,10 @@ export default function AdSense({
 // 预定义的广告位置组件
 export function HeaderAd() {
   return (
-    <div className="w-full mb-6">
+    <div className="w-full mb-6 flex justify-center">
       <AdSense 
         className="text-center"
-        style={{ display: 'block', width: '100%', height: '90px' }}
+        style={{ display: 'block', width: '100%', maxWidth: '728px', minHeight: '90px', height: '90px' }}
         format="horizontal"
       />
     </div>
@@ -95,7 +107,7 @@ export function InlineAd() {
     <div className="w-full my-8 flex justify-center">
       <AdSense 
         className="text-center"
-        style={{ display: 'block', width: '100%', height: '90px' }}
+        style={{ display: 'block', width: '100%', maxWidth: '728px', minHeight: '90px', height: '90px' }}
         format="horizontal"
       />
     </div>
@@ -104,10 +116,10 @@ export function InlineAd() {
 
 export function FooterAd() {
   return (
-    <div className="w-full mt-6">
+    <div className="w-full mt-6 flex justify-center">
       <AdSense 
         className="text-center"
-        style={{ display: 'block', width: '100%', height: '90px' }}
+        style={{ display: 'block', width: '100%', maxWidth: '728px', minHeight: '90px', height: '90px' }}
         format="horizontal"
       />
     </div>
