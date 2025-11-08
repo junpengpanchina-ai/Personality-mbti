@@ -10,9 +10,6 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <script src="https://cdn.tailwindcss.com"></script>
-      </Head>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">

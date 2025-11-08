@@ -25,9 +25,12 @@ export default function AdSense({
         // 等待 AdSense 脚本加载完成
         const loadAd = () => {
           try {
-            ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+            if ((window as any).adsbygoogle) {
+              ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+            }
           } catch (e) {
-            console.error('AdSense push error:', e);
+            // 静默处理广告拦截器或加载错误
+            // ERR_BLOCKED_BY_CLIENT 是正常的，当用户使用广告拦截器时会出现
           }
         };
 
@@ -35,20 +38,24 @@ export default function AdSense({
         if ((window as any).adsbygoogle) {
           loadAd();
         } else {
-          // 等待脚本加载
+          // 等待脚本加载（最多5秒）
+          let attempts = 0;
+          const maxAttempts = 50; // 5秒 = 50 * 100ms
+          
           const checkInterval = setInterval(() => {
+            attempts++;
             if ((window as any).adsbygoogle) {
               loadAd();
               clearInterval(checkInterval);
+            } else if (attempts >= maxAttempts) {
+              // 超时后停止检查（可能是广告拦截器阻止了脚本加载）
+              clearInterval(checkInterval);
             }
           }, 100);
-          
-          // 5秒后停止检查
-          setTimeout(() => clearInterval(checkInterval), 5000);
         }
       }
     } catch (error) {
-      console.error('AdSense error:', error);
+      // 静默处理错误，避免影响用户体验
     }
   }, [adConfig.enabled, slot]);
 

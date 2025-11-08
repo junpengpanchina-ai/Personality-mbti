@@ -22,7 +22,6 @@ export default function PrivacyPolicy() {
       <Head>
         <title>Privacy Policy - MBTI Personality Test</title>
         <meta name="description" content="Privacy policy for MBTI Personality Test website, including data collection, cookies, and Google AdSense compliance." />
-        <script src="https://cdn.tailwindcss.com"></script>
       </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">

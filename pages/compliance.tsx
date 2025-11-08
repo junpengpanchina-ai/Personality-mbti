@@ -71,7 +71,6 @@ export default function CompliancePage() {
       <Head>
         <title>AdSense Compliance - MBTI Personality Test</title>
         <meta name="description" content="Google AdSense compliance status and privacy policy information for MBTI Personality Test website." />
-        <script src="https://cdn.tailwindcss.com"></script>
       </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
